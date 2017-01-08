@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace TeamSnap\Http\Controllers;
 
 
-use App\Http\Requests;
+use TeamSnap\Http\Requests;
 use Auth;
 use Request;
-use App\Createteam;
+use TeamSnap\Createteam;
 use DB;
 
 class CreateteamController extends Controller

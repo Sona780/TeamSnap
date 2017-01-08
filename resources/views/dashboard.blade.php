@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.new')
 
 @section('content')
 <div class="container">
@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                    <a href="{{ url( 'createteam') }} ">Create Your team</a>
-                   
+
                 </div>
             </div>
         </div>

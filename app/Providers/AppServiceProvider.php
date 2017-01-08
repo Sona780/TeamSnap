@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace TeamSnap\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

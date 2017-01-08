@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'TeamSnap',
 
     /*
     |--------------------------------------------------------------------------
@@ -172,11 +172,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        TeamSnap\Providers\AppServiceProvider::class,
+        TeamSnap\Providers\AuthServiceProvider::class,
+        // TeamSnap\Providers\BroadcastServiceProvider::class,
+        TeamSnap\Providers\EventServiceProvider::class,
+        TeamSnap\Providers\RouteServiceProvider::class,
 
     ],
 
