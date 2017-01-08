@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Addmember extends Model
+class Member extends Model
 {
      protected $fillable = [
          'firstname', 'lastname','email','mobile','role','birthday','city','state'
@@ -13,4 +13,3 @@ class Addmember extends Model
 
     public $timestamps = false;
 }
-

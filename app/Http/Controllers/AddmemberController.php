@@ -8,7 +8,7 @@ use App\Http\Requests;
 use Auth;
 
 use DB;
-use App\Addmember;
+use App\Member;
 
 class AddmemberController extends Controller
 {
@@ -20,18 +20,18 @@ class AddmemberController extends Controller
     
     public function store(Request $request)
     {
-    	Addmember::create($request->all());
+    	Member::create($request->all());
     	return redirect('/myhome');
     }
     
     public function show()
     {
-          $memberdetails=DB::table('addmembers')->get();
+          $memberdetails=DB::table('members')->get();
            return view('member',compact('memberdetails'));
     }
     public function api()
     {
-
+         
     }
     
 }
