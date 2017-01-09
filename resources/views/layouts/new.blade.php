@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'TeamSnap') }}</title>
+    <title>abc</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -39,7 +39,7 @@
                     <div class="collapse navbar-collapse" id="myNavbar">
                       <ul class="nav navbar-nav">
                         <li><a href="{{url('myhome')}}" class="active">DASH</a></li>
-                        <li><a href="{{url('members')}}">LOCKER ROOM</a></li> 
+                        <li><a href="{{url('members')}}">LOCKER ROOM</a></li>
 
                         <li><a href="#">SCHEDULE</a></li>
                         <li><a href="#">ASSETS</a></li>

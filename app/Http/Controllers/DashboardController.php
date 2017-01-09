@@ -10,7 +10,7 @@ use Auth;
 
 class DashboardController extends Controller
 {
-   
+
    public function index()
    {
 
@@ -18,10 +18,10 @@ class DashboardController extends Controller
    		$users = Team::where('user_id', $uid)->get();
    	    return view('dashboard',compact('users'));
    }
-   
+
    public function api()
    {
-   	
+
    }
 
 }
