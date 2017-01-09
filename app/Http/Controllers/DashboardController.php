@@ -5,12 +5,12 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
-use App\Team;
+use \TeamSnap\Team;
 use Auth;
 
 class DashboardController extends Controller
 {
-   
+
    public function index()
    {
 
@@ -18,10 +18,10 @@ class DashboardController extends Controller
    		$users = Team::where('user_id', $uid)->get();
    	    return view('dashboard',compact('users'));
    }
-   
+
    public function api()
    {
-   	
+
    }
 
 }

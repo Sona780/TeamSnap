@@ -1,6 +1,6 @@
 @extends('layouts.new')
 
-@section('layout')
+@section('content')
 
             <div class="content container">
 
@@ -41,17 +41,17 @@
 
                             @foreach ($memberdetails as $member)
                             <tr>
-                            
-                   
-                
+
+
+
                               <td>{{$member->id}}</td>
                               <td>{{$member->firstname}}</td>
                               <td>{{$member->lastname}}</td>
                               <td>{{$member->email}}</td>
-                           
+
 
                             </tr>
-                             @endforeach  
+                             @endforeach
                           </tbody>
                         </table>
                   </div>
