@@ -6,8 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Auth;
 use Request;
-use App\Createteam;
+use App\Team;
 use DB;
+
 
 class CreateteamController extends Controller
 {
@@ -18,11 +19,13 @@ class CreateteamController extends Controller
   
       public function store()
     {
-        $input = Request::all();
-        Createteam::create($input);
-        //$item= DB::table('createteams')->latest()->pluck('teamname');
-       // return $item;
-        return redirect('/team_setup');
+      $inputs = new Team(Request::all());
+      Auth::user()->teams()->save($inputs);
+    
+      return redirect('/dashboard');
+           // return $users;
+      
+     // return view('dashboard')->with('users', $users);
     }
    
    
@@ -30,4 +33,5 @@ class CreateteamController extends Controller
    {
     
    }
+   
 }

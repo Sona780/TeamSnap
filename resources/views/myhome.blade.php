@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                    <a href="{{ url( 'createteam') }} ">Create Your team</a>
-                   <a href="{{ url('add_members')}}">Add members</a>
+                   <a href="{{ url('team_setup')}}">Add members</a>
                    <a href="{{ url('members') }}">Members</a>
                    <br/>
                    <br/>

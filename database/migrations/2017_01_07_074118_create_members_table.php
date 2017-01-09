@@ -16,7 +16,7 @@ class CreateMembersTable extends Migration
      Schema::create('members', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('owneremail');
+            $table->integer('team_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
@@ -25,7 +25,8 @@ class CreateMembersTable extends Migration
             $table->string('birthday');
             $table->string('city');
             $table->string('state');
-
+          
+             
 
         });
      }

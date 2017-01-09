@@ -22,10 +22,10 @@
       Route::get('/dashboard','DashboardController@index');
       Route::get('/createteam','CreateteamController@index');  
       Route::post('/store','CreateteamController@store');
-     
       Route::post('/add_members','AddmemberController@store');
       Route::get('/team_setup','AddmemberController@index');
       Route::get('/myhome','HomeController@index');
       Route::get('/members','AddmemberController@show');
+           
      });
 });

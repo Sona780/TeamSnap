@@ -38,14 +38,18 @@
 
                           </thead>
                           <tbody>
-                            
+                            @foreach ($memberdetails as $member)
                             <tr>
-                              <td>87</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-                              
+                            
+                   
+                
+                              <td>{{$member->id}}</td>
+                              <td>{{$member->firstname}}</td>
+                              <td>{{$member->lastname}}</td>
+                              <td>{{$member->email}}</td>
+                           
                             </tr>
+                             @endforeach  
                           </tbody>
                         </table>
                   </div>
