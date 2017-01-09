@@ -21,7 +21,7 @@ class AddmemberController extends Controller
     public function store(Request $request)
     {
     	Member::create($request->all());
-    	return redirect('/myhome');
+    	return redirect('/team_setup');
     }
     
     public function show()

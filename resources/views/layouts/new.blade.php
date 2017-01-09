@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'TeamSnap') }}</title>
 
     <!-- Styles -->
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -39,8 +39,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                       <ul class="nav navbar-nav">
-                        <li><a href="#">DASH</a></li>
-                        <li><a href="#">LOCKER ROOM</a></li> 
+                        <li><a href="{{url('myhome')}}" class="active">DASH</a></li>
+                        <li><a href="{{url('members')}}">LOCKER ROOM</a></li> 
                         <li><a href="#">SCHEDULE</a></li>
                         <li><a href="#">ASSETS</a></li>
                         <li><a href="#">TEAM STORE</a></li> 
@@ -54,7 +54,7 @@
                     </div>
                   </div>
               </nav>
-            </div>
+    </div>
    @yield('layout')
 </div>
     <!-- Scripts -->

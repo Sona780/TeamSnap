@@ -12,10 +12,12 @@
                        <p>create your own team </p>
     <form action="{{url('store')}}" method="POST">
     {!! csrf_field() !!}
-      TeamName:<input type="text" name="teamname" required="required" />
-      Sport:<input type="text" name="sport" required="required" />
-      country:<input type="text" name="country" required="required" />
-      Zipcode:<input type="text" name="zip" required="required" />
+      
+      TeamName:<input type="text" name="teamname" required="required" class="form-control" /><br/>
+      
+      Sport:<input type="text" name="sport" required="required" class="form-control"/><br/>
+      country:<input type="text" name="country" required="required" class="form-control"/><br/>
+      Zipcode:<input type="text" name="zip" required="required" class="form-control"/><br/>
       <input type="submit" value="submit">
 
     </form>

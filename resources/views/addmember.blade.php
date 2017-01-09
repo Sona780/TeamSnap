@@ -13,14 +13,25 @@
                   
     <form action="add_members" method="post">
       {!! csrf_field() !!}
-      FirstNAme:<input type="text" name="firstname"/><br/>
-      Lastname:<input type="text" name="lastname"/><br/>
-      Email<input type="text" name="email" /><br/>
-          <input type="submit" value="submit"/>
+      FirstNAme:<input type="text" name="firstname" class="form-control" /><br/>
+      Lastname:<input type="text" name="lastname" class="form-control"/><br/>
+      Email<input type="text" name="email" class="form-control"/><br/>
+          <input type="submit" value="submit" class="form-control"  />
     </form>
+
                 </div>
             </div>
         </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="container">
+         <div class="col-sm-8">
+         </div>
+         <div class="col-sm-2">
+             <a href="{{url('/myhome')}}">  <button type="button" class="btn btn-info">Save And Continue</button> </a>
+         </div>
+       </div>
     </div>
 </div>
 

@@ -1,28 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.new')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+@section('layout')
 
-                <div class="panel-body">
-                   <a href="{{ url( 'createteam') }} ">Create Your team</a>
-                   <br/><br/><br/>
-                   <h1>Teams:</h1>
-                   <br/>
+<div class="container content">
+       <a href="{{url('createteam')}}"><button type="button" class="btn btn-danger">Create Team</button></a>    
+       <h3>Teams:</h3>
 
-                   @foreach ($users as $item)
-                           <p>{{$item->id}}</p><br/>
-                          <p>{{$item->teamname}}</p><br/>
 
-                   @endforeach
-                
-                </div>
+       @foreach($users as $user )
+      
+       <div class="col-sm-3">
+            <div class="teamcard">
+              <p>{{$user->teamname}}</p>
             </div>
-        </div>
-    </div>
+       </div>
+
+      @endforeach    
+
 </div>
 
+
 @endsection
+
+
+
+<!-- 
+   @foreach ($users as $item)
+                          
+                          <p>{{$item->id}}</p><br/>
+                          <p><a href="{{ url('dashboard/{id}') }}"> {{$item->teamname}} </p></a><br/>
+
+                   @endforeach
+-->

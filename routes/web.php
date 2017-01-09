@@ -26,6 +26,6 @@
       Route::get('/team_setup','AddmemberController@index');
       Route::get('/myhome','HomeController@index');
       Route::get('/members','AddmemberController@show');
-           
+     
      });
 });
