@@ -1,7 +1,7 @@
-@extends('layouts.new')
+@extends('layouts.app')
 
 
-@section('layout')
+@section('content')
 
 <div class="container content">
        <a href="{{url('createteam')}}"><button type="button" class="btn btn-danger">Create Team</button></a>    

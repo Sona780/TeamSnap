@@ -1,6 +1,6 @@
 @extends('layouts.new')
 
-@section('layout')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -8,12 +8,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                   <a href="{{ url( 'createteam') }} ">Create Your team</a>
-                   <a href="{{ url('team_setup')}}">Add members</a>
-                   <a href="{{ url('members') }}">Members</a>
-                   <br/>
-                   <br/>
-
+                    <h1>Welcome!</h1>
                 </div>
             </div>
         </div>

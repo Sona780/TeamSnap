@@ -5,7 +5,7 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
-use App\Team;
+use \TeamSnap\Team;
 use Auth;
 
 class DashboardController extends Controller

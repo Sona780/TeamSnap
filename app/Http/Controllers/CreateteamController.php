@@ -6,7 +6,7 @@ namespace TeamSnap\Http\Controllers;
 use TeamSnap\Http\Requests;
 use Auth;
 use Request;
-use App\Team;
+use TeamSnap\Team;
 use DB;
 
 

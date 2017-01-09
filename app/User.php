@@ -29,6 +29,6 @@ class User extends Authenticatable
 
     public function teams()
     {
-        return $this -> hasMany('App\Team');
+        return $this -> hasMany('TeamSnap\Team');
     }
 }

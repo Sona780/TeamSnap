@@ -55,7 +55,7 @@
                   </div>
               </nav>
     </div>
-   @yield('layout')
+   @yield('content')
 </div>
     <!-- Scripts -->
     <script src="/js/app.js"></script>

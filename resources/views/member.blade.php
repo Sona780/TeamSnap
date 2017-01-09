@@ -1,6 +1,6 @@
 @extends('layouts.new')
 
-@section('layout')
+@section('content')
 
             <div class="content container">
 
