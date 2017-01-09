@@ -1,6 +1,6 @@
 
 
-@extends('layouts.app')
+@extends('layouts.new')
 
 @section('content')
 <div class="container">
@@ -10,7 +10,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                  
+
     <form action="add_members" method="post">
       {!! csrf_field() !!}
       FirstNAme:<input type="text" name="firstname" class="form-control" /><br/>

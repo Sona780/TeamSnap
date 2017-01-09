@@ -1,5 +1,5 @@
 
-@extends('layouts.app')
+@extends('layouts.new')
 
 @section('content')
 <div class="container">
@@ -22,7 +22,7 @@
 
     </form>
     <br/>
-    
+
                 </div>
             </div>
         </div>

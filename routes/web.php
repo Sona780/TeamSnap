@@ -11,21 +11,26 @@
 |
 */
 
- 
+
     Route::group(['middlewareGroups' => ['web']], function () {
-    Route::auth();
-    Route::get('/', function(){
-        return redirect('login');
+
+          Route::auth();
+          Route::get('/', function(){
+              return redirect('login');
+          });
+             
+            Route::group(['middleware' => 'auth'], function () {
+                
+                Route::get('/dashboard','DashboardController@index');
+
+                Route::get('/createteam','CreateteamController@index');  
+                Route::post('/store','CreateteamController@store');
+                
+                Route::get('/members','AddmemberController@show');
+                Route::post('/add_members','AddmemberController@store');
+                Route::get('/team_setup','AddmemberController@index');
+                
+                Route::get('/myhome','HomeController@index');
+                
+            });
     });
-       
-      Route::group(['middleware' => 'auth'], function () {
-      Route::get('/dashboard','DashboardController@index');
-      Route::get('/createteam','CreateteamController@index');  
-      Route::post('/store','CreateteamController@store');
-      Route::post('/add_members','AddmemberController@store');
-      Route::get('/team_setup','AddmemberController@index');
-      Route::get('/myhome','HomeController@index');
-      Route::get('/members','AddmemberController@show');
-     
-     });
-});

@@ -1,5 +1,6 @@
 @extends('layouts.new')
 
+
 @section('layout')
 
 <div class="container content">
@@ -22,13 +23,3 @@
 
 @endsection
 
-
-
-<!-- 
-   @foreach ($users as $item)
-                          
-                          <p>{{$item->id}}</p><br/>
-                          <p><a href="{{ url('dashboard/{id}') }}"> {{$item->teamname}} </p></a><br/>
-
-                   @endforeach
--->

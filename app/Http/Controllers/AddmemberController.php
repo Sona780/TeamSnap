@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use TeamSnap\Http\Requests;
 use Auth;
 
 use DB;
-use App\Member;
+use TeamSnap\Member;
 
 class AddmemberController extends Controller
 {
