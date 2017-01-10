@@ -8,7 +8,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-{{ Form::open(array('url'=>'form-submit','files'=>true)) }}
+{{ Form::open(array('url'=>'add_members','files'=>true)) }}
     
       {!! csrf_field() !!}
       FirstNAme:<input type="text" name="firstname" class="form-control" /><br/>
