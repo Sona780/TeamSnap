@@ -16,11 +16,11 @@ class Team extends Model
 
     public function user()
     {
-    	return $this-> belongsTo('App\User');
+    	return $this-> belongsTo('TeamSnap\User');
     }
 
      public function members()
     {
-        return $this -> hasMany('App\Member');
+        return $this -> hasMany('TeamSnap\Member');
     }
 }

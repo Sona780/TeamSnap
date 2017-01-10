@@ -9,6 +9,7 @@ use Auth;
 
 use DB;
 use TeamSnap\Member;
+use TeamSnap\Team;
 
 class AddmemberController extends Controller
 {
@@ -21,13 +22,16 @@ class AddmemberController extends Controller
     public function store(Request $request)
     {
     	Member::create($request->all());
-    	return redirect('/team_setup');
+        
+    	return view('/addmember');
     }
     
-    public function show()
+    public function show($id)
     {
           $memberdetails=DB::table('members')->get();
-           return view('member',compact('memberdetails'));
+          $teammembers = Member::where('team_id', $id)->get();
+          
+          return view('member',compact('teammembers'));
     }
     public function api()
     {

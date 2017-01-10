@@ -3,16 +3,18 @@
 namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use TeamSnap\Member;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index($id)
     {
     	
-     //   $uid = Auth::user()->id;
-   		// $tables = Member::where('user_id', $uid)->get();
-   	 //    return view('dashboard',compact('users'));
+       return view('myhome'); 
+       
 
-    	return view('myhome');
+
+        
     }
 }

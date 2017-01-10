@@ -15,11 +15,12 @@ class CreateTeamsTable extends Migration
     {
           Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('teamname');
+            $table->string('teamname')->unique();
             $table->string('sport');
             $table->string('country');
             $table->integer('zip');
             $table->integer('user_id')->unsigned();
+            $table->timestamp('created_at'); 
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users')

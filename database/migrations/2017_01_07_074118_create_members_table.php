@@ -16,16 +16,18 @@ class CreateMembersTable extends Migration
      Schema::create('members', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->integer('team_id')->unsigned();
+            $table->string('team_id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('mobile');
             $table->string('role');
             $table->string('birthday');
             $table->string('city');
             $table->string('state');
-          
+            $table->integer('players');
+        
+        
              
 
         });

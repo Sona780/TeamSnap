@@ -39,7 +39,7 @@
                           </thead>
                           <tbody>
 
-                            @foreach ($memberdetails as $member)
+                            @foreach ($teammembers as $member)
                             <tr>
 
 

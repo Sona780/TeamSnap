@@ -15,7 +15,7 @@ class Member extends Model
 
      public function userteam()
     {
-    	return $this-> belongsTo('App\Team'); 
+    	return $this-> belongsTo('TeamSnap\Team'); 
     }
 
 }

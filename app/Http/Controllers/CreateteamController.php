@@ -23,9 +23,7 @@ class CreateteamController extends Controller
       Auth::user()->teams()->save($inputs);
 
       return redirect('/team_setup');
-           // return $users;
-
-     // return view('dashboard')->with('users', $users);
+           
     }
 
 

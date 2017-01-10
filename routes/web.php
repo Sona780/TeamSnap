@@ -21,16 +21,20 @@
              
             Route::group(['middleware' => 'auth'], function () {
                 
-                Route::get('/dashboard','DashboardController@index');
-
-                Route::get('/createteam','CreateteamController@index');  
-                Route::post('/store','CreateteamController@store');
+                Route::get('home','DashboardController@index');
                 
-                Route::get('/members','AddmemberController@show');
-                Route::post('/add_members','AddmemberController@store');
-                Route::get('/team_setup','AddmemberController@index');
+                Route::get('createteam','CreateteamController@index');  
+                Route::post('store','CreateteamController@store');
                 
-                Route::get('/myhome','HomeController@index');
+                Route::post('add_members','AddmemberController@store');
+                Route::get('team_setup','AddmemberController@index');
+                
+                Route::group(['prefix' => '{id}'], function () {
+                 
+                 Route::get('members','AddmemberController@show');
+                 Route::get('dashboard','HomeController@index');
+                
+               });
                 
             });
     });
