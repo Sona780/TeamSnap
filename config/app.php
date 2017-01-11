@@ -164,7 +164,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-         Collective\Html\HtmlServiceProvider::class,   
+         Collective\Html\HtmlServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -179,7 +180,7 @@ return [
         // TeamSnap\Providers\BroadcastServiceProvider::class,
         TeamSnap\Providers\EventServiceProvider::class,
         TeamSnap\Providers\RouteServiceProvider::class,
-
+        TeamSnap\Providers\ComposerServiceProvider::class,
     ],
 
     /*

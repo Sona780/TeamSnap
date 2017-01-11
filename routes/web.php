@@ -21,19 +21,19 @@
 
             Route::group(['middleware' => 'auth'], function () {
 
-                Route::get('home','DashboardController@index');
+                Route::get('home','HomeController@index');
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
 
-                Route::post('add_members','AddmemberController@store');
+                Route::post('team_setup','AddmemberController@store');
                 Route::get('team_setup','AddmemberController@index');
 
                 Route::group(['prefix' => '{id}'], function () {
 
-                     Route::get('members','AddmemberController@show');
-                     Route::get('dashboard','HomeController@index');
-
+                Route::get('members','AddmemberController@show');
+                Route::get('dashboard','DashboardController@index');
+                
                });
 
             });

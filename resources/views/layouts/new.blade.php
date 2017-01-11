@@ -203,17 +203,16 @@
             </ul>
 
             <nav class="ha-menu">
+
                 <ul>
                     <li class="active waves-effect"><a href="index.html">Dashboard</a></li>
                     <li class="waves-effect"><a href="index.html">Locker Room</a></li>
                     <li class="waves-effect"><a href="typography.html">Schedule</a></li>
                     <li class="waves-effect"><a href="index.html">Assets</a></li>
                     <li class="waves-effect"><a href="index.html">Messages</a></li>
-
                     <li class="waves-effect pull-right"><a href="calendar.html">Settings</a></li>
                     <li class="waves-effect pull-right"><a href="index.html">Records</a></li>
                     <li class="waves-effect pull-right"><a href="index.html">Media</a></li>
-
 
                 </ul>
             </nav>
