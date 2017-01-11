@@ -1,24 +1,18 @@
-@extends('layouts.app')
-
+@extends('layouts.new')
 
 @section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
 
-<div class="container content">
-       <a href="{{url('createteam')}}"><button type="button" class="btn btn-danger">Create Team</button></a>
-       <h3>Teams:</h3>
-
- 
-       @foreach($users as $user )
-
-       <div class="col-sm-3">
-            <div class="teamcard">
-              <p>{{$user->teamname}}</p>
+                <div class="panel-body">
+                    <h1>Welcome!</h1>
+                </div>
             </div>
-       </div>
-
-      @endforeach
-
+        </div>
+    </div>
 </div>
-
 
 @endsection

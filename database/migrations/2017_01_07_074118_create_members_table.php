@@ -16,9 +16,9 @@ class CreateMembersTable extends Migration
      Schema::create('members', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('team_id');
             $table->string('firstname');
             $table->string('lastname');
+           $table->boolean('flag');
             $table->string('email');
             $table->string('mobile');
             $table->string('role');
@@ -27,7 +27,7 @@ class CreateMembersTable extends Migration
             $table->string('state');
             $table->integer('players');
         
-        
+          $table->string('team_id');
              
 
         });

@@ -278,15 +278,21 @@
             
             <nav class="ha-menu">
                 <ul >
-                    <li class="waves-effect"><a href="index.html">DASHBOARD</a></li>
+                    <li class="waves-effect">
+                     
+                      <a href="{{$user_id}}"> DASHBOARD</a>
+                           
+                    </li>
                     <li class="active dropdown">
+                   
                         <div class="waves-effect" data-toggle="dropdown">LOCKERROOM</div>
-
+                
                         <ul class="dropdown-menu">
-                            <li><a href="textual-menu.html">Textual menu</a></li>
-                            <li><a href="image-logo.html">Image logo</a></li>
-                            <li><a class="active" href="top-mainmenu.html">Mainmenu on top</a></li>
+                            <li><a href="#">Textual menu</a></li>
+                            <li><a href="#">Image logo</a></li>
+                            <li><a class="active" href="#">Mainmenu on top</a></li>
                         </ul>
+                         
                     </li>
                     <li class="waves-effect"><a href="typography.html">Schedule</a></li>
                     <li class="dropdown">
@@ -388,7 +394,10 @@
 
                 <ul class="main-menu">
                     <li class="active">
-                        <a href="index.html"><i class="zmdi zmdi-home"></i> Home</a>
+               <a href="#">
+                
+
+                  <i class="zmdi zmdi-home"></i> Home</a>
                     </li>
                     <li class="sub-menu">
                         <a href=""><i class="zmdi zmdi-view-compact"></i> Headers</a>

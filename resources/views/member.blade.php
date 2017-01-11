@@ -134,13 +134,24 @@
                           </thead>
                           <tbody>
 
-                            <tr>
-                              <td>68</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
+                                @foreach ($teammembers as $member)
 
+                              
+                     
+                            <tr>
+
+                              @if($member->flag==0)
+
+                              <td>{{$member->id}}</td>
+                              <td>{{$member->firstname}}</td>
+                              <td>{{$member->lastname}}</td>
+                              <td>{{$member->email}}</td>
+
+                               @endif
                             </tr>
+                      
+                              
+                             @endforeach
                           </tbody>
                         </table>
                   </div>
@@ -231,13 +242,25 @@
                           </thead>
                           <tbody>
 
+                                @foreach ($teammembers as $member)
+                               
+                     
                             <tr>
-                              <td>31</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
+
+                               
+
+                              @if($member->flag==1)
+
+                              <td>{{$member->id}}</td>
+                              <td>{{$member->firstname}}</td>
+                              <td>{{$member->lastname}}</td>
+                              <td>{{$member->email}}</td>
+
+                              @endif
 
                             </tr>
+                      
+                             @endforeach
                           </tbody>
                         </table>
                   </div>
