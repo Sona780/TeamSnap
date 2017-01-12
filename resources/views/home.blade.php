@@ -7,12 +7,12 @@
        <a href="{{url('createteam')}}"><button type="button" class="btn btn-danger">Create Team</button></a>
        <h3>Teams:</h3>
 
- 
-       @foreach($users as $user )
+
+       @foreach($teams as $team )
 
        <div class="col-sm-3">
-            <div class="teamcard">
-              <p>{{$user->teamname}}</p>
+            <div class="card">
+              <a class="f-20 f-700" href="{{$team->teamname}}/dashboard">{{$team->teamname}}</a>
             </div>
        </div>
 

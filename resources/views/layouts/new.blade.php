@@ -17,6 +17,7 @@
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
 
+        @yield('header')
     </head>
     <body style="background-color: #FAF6F0">
       <header id="header-2" class="clearfix" data-current-skin="lightblue"> <!-- Make sure to change both class and data-current-skin when switching sking manually -->
@@ -30,7 +31,7 @@
                 </li>
 
                 <li class="logo hidden-xs">
-                    <a href="index.html">Team Name</a>
+                    <a href="index.html">{!! $team_name !!}</a>
                 </li>
 
                 <li class="pull-right">
@@ -205,8 +206,8 @@
             <nav class="ha-menu">
 
                 <ul>
-                    <li class="active waves-effect"><a href="index.html">Dashboard</a></li>
-                    <li class="waves-effect"><a href="index.html">Locker Room</a></li>
+                    <li class="waves-effect" id="a"><a href="dashboard">Dashboard</a></li>
+                    <li class="waves-effect" id="b"><a href="members">Locker Room</a></li>
                     <li class="waves-effect"><a href="typography.html">Schedule</a></li>
                     <li class="waves-effect"><a href="index.html">Assets</a></li>
                     <li class="waves-effect"><a href="index.html">Messages</a></li>
@@ -312,8 +313,8 @@
 
         <script src="{{URL::to('/')}}/js/charts.js"></script>
         <script src="{{URL::to('/')}}/js/functions.js"></script>
-        <script src="{{URL::to('/')}}/js/demo.js"></script>
+        <!-- <script src="{{URL::to('/')}}/js/demo.js"></script> -->
 
-
+        @yield('footer')
     </body>
   </html>

@@ -31,9 +31,9 @@
 
                 Route::group(['prefix' => '{id}'], function () {
 
-                Route::get('members','AddmemberController@show');
-                Route::get('dashboard','DashboardController@index');
-                
+                    Route::get('members','AddmemberController@show');
+                    Route::get('dashboard','DashboardController@index');
+
                });
 
             });

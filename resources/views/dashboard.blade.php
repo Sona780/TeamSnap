@@ -1,6 +1,11 @@
 @extends('layouts.new')
 
+@section('header')
+
+@endsection
+
 @section('content')
+
 <div class="block-header">
 
 </div>
@@ -57,7 +62,6 @@
     </div>
 </div>
 
-
 <div class="dash-widgets">
     <div class="row">
 
@@ -99,27 +103,8 @@
                         <div class="dash-widget-visits"></div>
                     </div>
 
-                    <div class="dash-widget-title">Public URL : http://name.org4teams.com</div>
+                    <div class="dash-widget-title">Public URL : <a href="http://{{$teamname}}.org4teams.com" class="c-white f-400">http://{{$teamname}}.org4teams.com</a></div>
 
-                    <ul class="actions actions-alt">
-                        <li class="dropdown">
-                            <a href="" data-toggle="dropdown">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href="">Refresh</a>
-                                </li>
-                                <li>
-                                    <a href="">Manage Widgets</a>
-                                </li>
-                                <li>
-                                    <a href="">Widgets Settings</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </div>
 
                 <div class="p-20">
@@ -219,4 +204,43 @@
     </div>
 </div>
 
+@endsection
+
+@section('footer')
+<script>
+
+ $(document).ready(function() {
+   $("#a").addClass("active");
+
+   function notify(message, type){
+       $.growl({
+           message: message
+       },{
+           type: type,
+           allow_dismiss: false,
+           label: 'Cancel',
+           className: 'btn-xs btn-inverse',
+           placement: {
+               from: 'top',
+               align: 'right'
+           },
+           delay: 2000,
+           animate: {
+                   enter: 'animated fadeIn',
+                   exit: 'animated fadeOut'
+           },
+           offset: {
+               x: 20,
+               y: 135
+           }
+       });
+   };
+
+   if (!$('.login-content')[0]) {
+       notify('Welcome !', 'inverse');
+   }
+
+ });
+
+</script>
 @endsection

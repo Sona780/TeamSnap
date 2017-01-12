@@ -136,8 +136,8 @@
 
                                 @foreach ($teammembers as $member)
 
-                              
-                     
+
+
                             <tr>
 
                               @if($member->flag==0)
@@ -149,8 +149,8 @@
 
                                @endif
                             </tr>
-                      
-                              
+
+
                              @endforeach
                           </tbody>
                         </table>
@@ -243,11 +243,11 @@
                           <tbody>
 
                                 @foreach ($teammembers as $member)
-                               
-                     
+
+
                             <tr>
 
-                               
+
 
                               @if($member->flag==1)
 
@@ -259,7 +259,7 @@
                               @endif
 
                             </tr>
-                      
+
                              @endforeach
                           </tbody>
                         </table>
@@ -327,4 +327,14 @@
 
         </div>
 
+@endsection
+
+@section('footer')
+<script>
+
+ $(document).ready(function() {
+   $("#b").addClass("active");
+ });
+
+</script>
 @endsection
