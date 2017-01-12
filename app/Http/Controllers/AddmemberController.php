@@ -26,7 +26,7 @@ class AddmemberController extends Controller
     {
     	 
         $data=Input::get('ch');
-            
+        $id= Auth::user()->id;
          if($data==["1"])
                 
             {
@@ -36,7 +36,7 @@ class AddmemberController extends Controller
             'lastname'  => $request->get('lastname'),
             'flag'=>false,                         
             'email'=>$request->get('email'),
-           
+            'user_id'=> $id,
             
              ));
             
@@ -52,9 +52,9 @@ class AddmemberController extends Controller
             $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
-             'flag'=>true,                          
+            'flag'=>true,                          
             'email'=>$request->get('email'),
-           
+            'user_id'=> $id,
             
              ));
             
@@ -70,7 +70,6 @@ class AddmemberController extends Controller
     public function show($id)
     {
           $memberdetails=DB::table('members')->get();
-          DB::table('members')->update(['team_id' => $id]);
           $teammembers = Member::where('team_id', $id)->get();
           return view('member',compact('teammembers'));
     }

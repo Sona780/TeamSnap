@@ -33,8 +33,10 @@
                  
                 Route::get('members','AddmemberController@show');
                 Route::get('dashboard','DashboardController@index');
+                Route::get('profile','ProfileController@index');
                 
                });
                 
+
             });
     });
