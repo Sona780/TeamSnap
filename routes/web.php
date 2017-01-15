@@ -18,25 +18,30 @@
           Route::get('/', function(){
               return redirect('login');
           });
-             
+
             Route::group(['middleware' => 'auth'], function () {
-                
+
                 Route::get('home','HomeController@index');
-                
-                Route::get('createteam','CreateteamController@index');  
+
+                Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
+
                 
-                Route::post('team_setup','AddmemberController@store');
                 Route::get('team_setup','AddmemberController@index');
-                
+
                 Route::group(['prefix' => '{id}'], function () {
-                 
-                Route::get('members','AddmemberController@show');
-                Route::get('dashboard','DashboardController@index');
-                Route::get('profile','ProfileController@index');
-                
+  
+                    Route::post('team_setup','AddmemberController@store');               
+                    Route::get('members','AddmemberController@show');
+                    Route::get('dashboard','DashboardController@index');
+                    Route::get('profile','ProfileController@index');
+                    Route::post('profile','ProfileController@update_avatar');
+                    Route::get('profile/edit','ProfileController@edit');
+                    Route::any('profile/update','ProfileController@update');
+                    Route::get('profile/delete','ProfileController@delete');
                });
                 
+
 
             });
     });

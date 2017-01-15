@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.app')
 
 
 @section('content')
@@ -8,53 +8,33 @@
 	<div class="card">
  	    <div class="row">
 			<div class="col-sm-3">
-				<div id="profile-main">
-                        <div class="pm-overview c-overflow">
-                            <div class="pmo-pic">
-                                <div class="p-relative">
-                                    <a href="#">
-                                        <img class="img-responsive" src="img/profile-pics/profile-pic-2.jpg" alt=""> 
-                                    </a>
-                                    <a href="#" class="pmop-edit">
-                                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
-                                    </a>
-                                </div>
-                                
-                               
-                            </div>
-                            
-                            
-                            
-                        </div>
-
-			</div>
-			</div>
+				<img src ="/uploads/avatars/{{ $avatar->avatar }}" style="width:150px; height:150px; float:left; border-radius: 50%; margin-right: 25px;" />
+                <form enctype="multipart/form-data" action ="/8/profile" method="POST">
+                 {!! csrf_field() !!}
+                <label> Update Profile Picture</label>
+                <input type="file" name="avatar">
+                
+                <input type="submit" class="pull-right">
+                </form> 
+			
+            </div>
 
 			<div class="col-sm-9">
                   
                   <div class="card">
                         <div>
                             <p>Kaushal Pandey</p>
+                           
+                           
+                           
                         </div>
                         
                         <div class="table-responsive">
                             <table class="table table-bordered">
                               
                                 <tbody>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>{!! $name !!}</td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td>Alexandra</td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td>Phone Number</td>
-                                        <td>Alexandra</td>
-                                        
+
+                                    <tr>  
                                     </tr>
                                     <tr>
                                         <td>Gender</td>
@@ -75,7 +55,7 @@
                                         <td>Role</td>
                                         <td>Alexandra</td>
                                         
-                                    </tr>
+                                    </tr> 
                                     
                                 </tbody>
                             </table>

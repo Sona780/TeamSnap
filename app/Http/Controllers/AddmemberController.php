@@ -14,68 +14,71 @@ use Illuminate\Support\Facades\Input;
 
 class AddmemberController extends Controller
 {
-    
+
     public function index()
     {
     	$teams = DB::table('teams')->get();
-    
-      return view('addmember',compact('teams'));
+      $id=Auth::user()->id;
+      $teamname=Team::select('teamname')->get()->first();
+      $q=$teamname->teamname;
+      // dd($q);
+      
+      return view('addmember',compact('teams','q'));
     }
-    
-    public function store(Request $request)
+
+    public function store($id,Request $request)
     {
-    	 
-        $data=Input::get('ch');
-        $id= Auth::user()->id;
-         if($data==["1"])
-                
-            {
           
+        $data=Input::get('ch');
+        $uid= Auth::user()->id;
+        $teamname=$id;
+        
+        if($data==["1"])
+
+            {
+
              $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
-            'flag'=>false,                         
+            'flag'=>false,
             'email'=>$request->get('email'),
-            'user_id'=> $id,
-            
+            'team_name'=>$teamname,
+            'user_id'=>$uid,
              ));
-            
-          $study->save();
-          
-          return redirect('team_setup'); 
-          
+
+       
            }
      else
-                
+
             {
-          
+
             $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
             'flag'=>true,                          
             'email'=>$request->get('email'),
-            'user_id'=> $id,
-            
-             ));
-            
-          $study->save();
-          
-          return redirect('team_setup'); 
+            'team_name'=>$teamname,
+            'user_id'=>$uid,
+            ));
+
           
            }
-
+          
+          $study->save();
+          return redirect('/team_setup');
+          
 
     }
-    
+
     public function show($id)
     {
           $memberdetails=DB::table('members')->get();
-          $teammembers = Member::where('team_id', $id)->get();
+          $teammembers = Member::where('team_name', $id)->get();
           return view('member',compact('teammembers'));
     }
     public function api()
     {
-         
+
     }
-    
+
 }

@@ -11,14 +11,15 @@ class HomeController extends Controller
 {
    public function index()
    {
-    
-             $uid = Auth::user()->id;
-   		    $users = Team::where('user_id', $uid)->get();
-   	       return view('home',compact('users'));
+
+          $uid = Auth::user()->id;
+   		    $teams = Team::where('user_id', $uid)->get();
+   	      return view('home', compact('teams'));
+
    }
 
    public function api()
    {
-       
+
    }
 }

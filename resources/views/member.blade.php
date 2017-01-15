@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.app')
 
 @section('content')
 
@@ -34,6 +34,7 @@
                               <th>Firstname</th>
                               <th>Lastname</th>
                               <th>Email</th>
+                              <th>Edit/Delete</th>
                             </tr>
 
                           </thead>
@@ -45,10 +46,15 @@
 
 
                               <td>{{$member->id}}</td>
-                              <td>{{$member->firstname}}</td>
+                              <td><a href="/{{$member->id}}/profile">
+                                  
+                                  {{$member->firstname}}
+                              </a>
+                              </td>
                               <td>{{$member->lastname}}</td>
                               <td>{{$member->email}}</td>
-
+                              <td><a href="/{{$member->id}}/profile/edit"><img src="/img/edit.png">
+                                  <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png">
 
                             </tr>
                              @endforeach
@@ -136,8 +142,8 @@
 
                                 @foreach ($teammembers as $member)
 
-                              
-                     
+
+
                             <tr>
 
                               @if($member->flag==0)
@@ -149,8 +155,8 @@
 
                                @endif
                             </tr>
-                      
-                              
+
+
                              @endforeach
                           </tbody>
                         </table>
@@ -243,11 +249,11 @@
                           <tbody>
 
                                 @foreach ($teammembers as $member)
-                               
-                     
+
+
                             <tr>
 
-                               
+
 
                               @if($member->flag==1)
 
@@ -259,7 +265,7 @@
                               @endif
 
                             </tr>
-                      
+
                              @endforeach
                           </tbody>
                         </table>
@@ -327,4 +333,14 @@
 
         </div>
 
+@endsection
+
+@section('footer')
+<script>
+
+ $(document).ready(function() {
+   $("#b").addClass("active");
+ });
+
+</script>
 @endsection

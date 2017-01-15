@@ -5,10 +5,10 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Dashboard {!! $q !!}</div>
 
                 <div class="panel-body">
-{{ Form::open(array('url'=>'team_setup','files'=>true)) }}
+{{ Form::open(array('url'=>$q.'/team_setup','files'=>true)) }}
     
       {!! csrf_field() !!}
       FirstNAme:<input type="text" name="firstname" class="form-control" /><br/>
@@ -21,7 +21,7 @@
       {!! Form::label('Non Player') !!}
           <input type="submit" value="submit" class="form-control"  />
     
- {{ Form::close() }}
+{{ Form::close() }}
 
                 </div>
             </div>
@@ -33,12 +33,10 @@
          <div class="col-sm-8">
          </div>
          <div class="col-sm-2">
-             
              @foreach($teams as $team)
              <a href="{{$team->teamname}}/dashboard">  
              @endforeach
              <button type="button" class="btn btn-info">Save And Continue</button> </a>
-           
          </div>
        </div>
     </div>

@@ -1,7 +1,7 @@
-@extends('layouts.new')
+@extends('layouts.app')
 
 @section('content')
-<div class="container">
+<!-- <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -9,9 +9,9 @@
 
                 <div class="panel-body">
                        <p>create your own team </p>
-    <form action="{{url('store')}}" method="POST">
+    
+   <form action="{{url('store')}}" method="POST">
     {!! csrf_field() !!}
-
       TeamName:<input type="text" name="teamname" required="required" class="form-control" /><br/>
       Sport:<input type="text" name="sport" required="required" class="form-control"/><br/>
       country:<input type="text" name="country" required="required" class="form-control"/><br/>
@@ -25,154 +25,150 @@
             </div>
         </div>
     </div>
-</div>
-
-
-<!--  <div class="container">
-    <div class="card">
-                        <div class="card-header">
-                            <h2>Wizard <small>This twitter bootstrap plugin builds a wizard out of a formatter tabbable structure. It allows to build a wizard functionality using buttons to go through the different wizard steps and using events allows to hook into each step individually.</small></h2>
-                        </div>
+</div> -->
+<div class="container">
+        <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+           <div class="wizard-container"> 
+                <div class="card wizard-card ct-wizard-orange" id="wizardProfile">
+                    <form enctype="multipart/form-data" action="{{url('store')}}" method="POST">
+                             {!! csrf_field() !!}
+                
+                      <div class="wizard-header">
+                          <h3>
+                             <b>BUILD</b> YOUR TEAM <br>
+                             <small>This information will let us know more about you.</small>
+                          </h3>
+                      </div>
+                      <ul>
+                            <li><a href="#about" data-toggle="tab">About</a></li>
+                            <li><a href="#address" data-toggle="tab">Address</a></li>
+                        </ul>
                         
-                        <div class="card-body card-padding">
-                            <div class="form-wizard-basic fw-container">
-                                <ul class="tab-nav text-center">
-                                    <li><a href="#tab1" data-toggle="tab">Create Team</a></li>
-                                    <li><a href="#tab2" data-toggle="tab">Add Members</a></li>
-                                    
-                                </ul>
-                                
-                                <div class="tab-content ">
-                                    
-
-                                    <div class="tab-pane active in fade" id="tab1">                                        
-                                         <div class="container">
-                                             <div class="row">
-                                                  <div class="col-sm-4">
-                                                  <p class="f-500 c-black m-b-20">Team Logo</p>
-                            
-                                                            <div class="fileinput fileinput-new" data-provides="fileinput" style="margin-left: 12em">
-                                                                <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
-                                                                <div>
-                                                                    <span class="btn btn-info btn-file">
-                                                                        <span class="fileinput-new">Select image</span>
-                                                                        <span class="fileinput-exists">Change</span>
-                                                                        <input type="file" name="...">
-                                                                    </span>
-                                                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <br/>
-                                                            <br/>
-                                                            
-                                                  </div>
-                                                  <div class="col-sm-8">
-                                                      <div class="container" style="margin-top: 5em">
-                                                            <div class="row">
-                                                              <div class="col-xs-6">
-                                                                <div class="input-group fg-float">
-                                                                      <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                      <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">Team Name</label>
-                                                                      </div>
-                                                                 </div>
-                                                              </div>
-                                                            </div>
-                                                            <br/><br/>
-                                                            <div class="row">
-                                                              <div class="col-xs-6">
-                                                                <div class="input-group fg-float">
-                                                                      <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                      <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">Sport</label>
-                                                                      </div>
-                                                                 </div>
-                                                              </div>
-                                                            </div>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div class="row">
-                                                <br/><br/>
-                                                    <div class="col-sm-10 m-b-25">
-                                                      <p class="f-500 m-b-15 c-black">Serach Option</p>
-                                                      
-                                                      <select class="selectpicker" data-live-search="true">
-                                                          <option>Mustard</option>
-                                                          <option>Ketchup</option>
-                                                          <option>Relish</option>
-                                                          <option>Tent</option>
-                                                          <option>Flashlight</option>
-                                                          <option>Toilet Paper</option>
-                                                      </select>
-                                                  </div>
-
-
-                                             </div>
-                                             <div class="row">
-                                             <br/><br/>
-                                                  <div class="input-group fg-float col-xs-10">
-                                                                      <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                      <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">ZipCode</label>
-                                                                      </div>
-                                                  </div>
-
-                                             </div>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="about">
+                              <div class="row">
+                                  <h4 class="info-text"> Let's start with the basic information</h4>
+                                  <div class="col-sm-4 col-sm-offset-1">
+                                     <div class="picture-container">
+                                          <div class="picture">
+                                              <img src="assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title=""/>
+                                              <input type="file" name="team_logo" id="wizard-picture">
                                           </div>
-                                          <div class="btn-colors btn-demo">
-                                          <a href="#tab2" data-toggle="tab"> <button class="btn bgm-cyan">Next</button></a>
-                                          </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab2">
-                                        <div class="container">
-                                             <div class="row">
-                                                  <div class="col-md-4">
-                                                        <div class="input-group fg-float">
-                                                              <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">Sport</label>
-                                                                </div>
-                                                        </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                        <div class="input-group fg-float">
-                                                              <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">Sport</label>
-                                                                </div>
-                                                        </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                        <div class="input-group fg-float">
-                                                              <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                                                                <div class="fg-line">
-                                                                          <input type="text" class="form-control">
-                                                                          <label class="fg-label">Sport</label>
-                                                                </div>
-                                                        </div>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
+                                          <h6>Choose Picture</h6>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <div class="form-group">
+                                        <label>Team Name <small>(required)</small></label>
                                         
+                                         
+                                            <div class="fg-line form-group">
+                                              <input type="text" class="form-control input-sm" name="teamname" placeholder="Prashushi">
+                                            </div>
+                                         
+
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Sport <small>(required)</small></label>
+                                             <select class="selectpicker" name="sport">
+                                                    <option value="0">Sport</option>
+                                                    <option value="1">Non sport</option>
+                                                    
+                                              </select>
+                                        
+                                      </div>
+                                  </div>
+                                   <div class="col-sm-10 col-sm-offset-1">
+                                      <div class="form-group">
+                                          <label>Country <small>(required)</small></label>
+                                           
+                                                  <select class="selectpicker" data-live-search="true" name="country">
+                                                          <option value="0">Mustard</option>
+                                                          <option value="1">Ketchup</option>
+                                                          <option value="2">Relish</option>
+                                                          <option value="3">Tent</option>
+                                                          <option value="4">Flashlight</option>
+                                                          <option value="5">Toilet Paper</option>
+                                                  </select>
+                                                  
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-10 col-sm-offset-1">
+                                      <div class="form-group">
+                                          <label>Zip Code <small>(required)</small></label>
+                                            <div class="fg-line form-group">
+                                              <input type="text" class="form-control input-sm" placeholder="Zip Code" name="zipcode">
+                                            </div>   
                                     
+                                                
+                                      </div>
+                                  </div>
+                                 
+                              </div>
+                            </div>
+                            <div class="tab-pane" id="address">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="info-text"> Add Members in your team </h4>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-1">
+                                         <div class="form-group">
+                                            <labe>First Name</label>
+                                            <input type="text" class="form-control" placeholder="5h Avenue" name="firstname">
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                         <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" placeholder="242" name="lastname">
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-10 col-sm-offset-1">
+                                         <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" placeholder="New York..." name="email">
+                                          </div>
+                                    </div>
+
+                                    <div class="col-sm-10 col-sm-offset-1">
+                                         <div class="radio m-b-15">
+                                            <label>
+                                                <input type="radio" name="sample" value="1"  name="optradio">
+                                                <i class="input-helper"></i>
+                                                Player
+                                            </label>
+                                        </div>
+                            
+                                    <div class="radio m-b-15">
+                                        <label>
+                                            <input type="radio" name="sample"  value="0" name="optradio1">
+                                            <i class="input-helper"></i>
+                                            Non Player
+                                        </label>
+                                    </div>
+
+                                    </div>
+                                       
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    
-
-
- </div> -->
-
+                        <div class="wizard-footer">
+                            <div class="pull-right">
+                                <input type='button' class='btn btn-next btn-fill btn-warning btn-wd btn-sm' name='next' value='Next' />
+                                <input type='submit' class='btn btn-finish btn-fill btn-warning btn-wd btn-sm' name='finish' value='Finish' />
+        
+                            </div>
+                            
+                            <div class="pull-left">
+                                <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Previous' />
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>  
+                    </form>
+                </div>
+            </div> <!-- wizard container -->
+        </div>
+        </div><!-- end row -->
+    </div>
 @endsection
