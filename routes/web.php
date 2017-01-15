@@ -25,7 +25,6 @@
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
-
                 
                 Route::get('team_setup','AddmemberController@index');
 
@@ -39,8 +38,8 @@
                     Route::get('profile/edit','ProfileController@edit');
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
+
                });
-                
 
 
             });

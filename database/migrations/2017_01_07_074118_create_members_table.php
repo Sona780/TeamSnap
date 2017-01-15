@@ -29,8 +29,6 @@ class CreateMembersTable extends Migration
             $table->string('team_name');
             $table->string('user_id');
             $table->string('avatar')->default('default.jpg');
-           
-             
 
         });
      }

@@ -18,6 +18,7 @@ class AddmemberController extends Controller
     public function index()
     {
     	$teams = DB::table('teams')->get();
+
       $id=Auth::user()->id;
       $teamname=Team::select('teamname')->get()->first();
       $q=$teamname->teamname;
@@ -37,16 +38,15 @@ class AddmemberController extends Controller
 
             {
 
-             $study = new Member(array(
-            'firstname' => $request->get('firstname'),
-            'lastname'  => $request->get('lastname'),
-            'flag'=>false,
-            'email'=>$request->get('email'),
-            'team_name'=>$teamname,
-            'user_id'=>$uid,
-             ));
+               $study = new Member(array(
+              'firstname' => $request->get('firstname'),
+              'lastname'  => $request->get('lastname'),
+              'flag'=>false,
+              'email'=>$request->get('email'),
+              'team_name'=>$teamname,
+              'user_id'=>$uid,
+               ));
 
-       
            }
      else
 
@@ -55,13 +55,12 @@ class AddmemberController extends Controller
             $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
-            'flag'=>true,                          
+            'flag'=>true,
             'email'=>$request->get('email'),
             'team_name'=>$teamname,
             'user_id'=>$uid,
             ));
 
-          
            }
           
           $study->save();
@@ -75,6 +74,7 @@ class AddmemberController extends Controller
           $memberdetails=DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
           return view('member',compact('teammembers'));
+
     }
     public function api()
     {

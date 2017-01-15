@@ -4,6 +4,10 @@
 
 @endsection
 
+@section('header')
+
+@endsection
+
 @section('content')
 
 <div class="block-header">
