@@ -26,9 +26,8 @@ class CreateMembersTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->integer('players');
-
-          $table->string('team_id');
-
+            $table->string('team_name');
+            $table->string('user_id');
 
         });
      }

@@ -26,18 +26,17 @@ class AddmemberController extends Controller
     {
 
         $data=Input::get('ch');
+        $id= Auth::user()->id;
 
          if($data==["1"])
 
             {
-
              $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
             'flag'=>false,
             'email'=>$request->get('email'),
-
-
+            'user_id'=> $id,
              ));
 
           $study->save();
@@ -52,9 +51,9 @@ class AddmemberController extends Controller
             $study = new Member(array(
             'firstname' => $request->get('firstname'),
             'lastname'  => $request->get('lastname'),
-             'flag'=>true,
+            'flag'=>true,
             'email'=>$request->get('email'),
-
+            'user_id'=> $id,
 
              ));
 
@@ -69,10 +68,10 @@ class AddmemberController extends Controller
 
     public function show($id)
     {
+          $memberdetails=DB::table('members')->get();
+          $teammembers = Member::where('team_id', $id)->get();
+          return view('member',compact('teammembers'));
 
-          $teammembers = Member::where('team_name', $id)->get();
-        //  dd($teammembers);
-          return view('member', compact('teammembers'));
     }
     public function api()
     {
