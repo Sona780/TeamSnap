@@ -18,7 +18,7 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->boolean('flag');
+            $table->boolean('flag');   // 0- player 1-nonplayer
             $table->string('email');
             $table->string('mobile');
             $table->string('role');

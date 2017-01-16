@@ -1,8 +1,11 @@
 @extends('layouts.new')
 
+
 @section('header')
 
 @endsection
+
+
 
 @section('content')
 

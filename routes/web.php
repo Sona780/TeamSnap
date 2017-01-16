@@ -32,6 +32,9 @@
 
                     Route::post('team_setup','AddmemberController@store');
                     Route::get('members','AddmemberController@show');
+                    Route::get('addmember','AddmemberController@index');
+                    Route::post('addmember','AddmemberController@store');
+
                     Route::get('dashboard','DashboardController@index');
                     Route::get('profile','ProfileController@index');
                     Route::post('profile','ProfileController@update_avatar');

@@ -1,31 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
-                       <p>create your own team </p>
-
-   <form action="{{url('store')}}" method="POST">
-    {!! csrf_field() !!}
-      TeamName:<input type="text" name="teamname" required="required" class="form-control" /><br/>
-      Sport:<input type="text" name="sport" required="required" class="form-control"/><br/>
-      country:<input type="text" name="country" required="required" class="form-control"/><br/>
-      Zipcode:<input type="text" name="zip" required="required" class="form-control"/><br/>
-      <input type="submit" value="submit">
-
-    </form>
-    <br/>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
         <div class="row" style="margin-top: -6em;">
         <div class="col-sm-8 col-sm-offset-2">
            <div class="wizard-container">
@@ -143,7 +119,7 @@
                                     <div class="col-sm-10 col-sm-offset-1">
                                          <div class="radio m-b-15">
                                             <label>
-                                                <input type="radio" name="sample" value="1"  name="optradio">
+                                                <input type="radio"  value="0"  name="optradio">
                                                 <i class="input-helper"></i>
                                                 Player
                                             </label>
@@ -151,7 +127,7 @@
 
                                     <div class="radio m-b-15">
                                         <label>
-                                            <input type="radio" name="sample"  value="0" name="optradio1">
+                                            <input type="radio"  value="1" name="optradio">
                                             <i class="input-helper"></i>
                                             Non Player
                                         </label>

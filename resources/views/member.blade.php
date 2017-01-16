@@ -3,13 +3,18 @@
 @section('content')
 
             <div class="content container">
+                         <div class="btn-colors btn-demo"> <!-- Optional container for demo porpose only -->
+                              <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
+                            </div>
 
-                  <ul class="nav nav-pills sub_header">
-            <li class="active " ><a data-toggle="pill" href="#all" class="our-tabs">ALL</a></li>
+
+         <ul class="nav nav-pills sub_header">
+            <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
+
             <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
             <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
 
-          </ul>
+        </ul>
 
           <div class="tab-content">
 

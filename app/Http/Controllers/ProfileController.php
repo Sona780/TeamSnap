@@ -41,24 +41,35 @@ class ProfileController extends Controller
     public function edit($id)
     {
       $article = Member::findorFail($id);
-      return view('edit',compact('article'));
+      $mid=$article->id;
+      return view('edit',compact('article','mid'));
     }
 
     public function update($id, Request $request)
     {
      
+        $data=$request->get('playertype');
+        if($data == 1)
+          {
+            $flag1=true;
+          }
+        else
+          {
+            $flag1 = false;
+          }
        $article = Member::findorFail($id);
+       $article->flag=$flag1;
        $article->update($request->all());
-       return redirect($id.'/profile');
+       return redirect($article->team_name.'/members');
        
     }
 
     public function delete($id)
     {
-      $artice = Member::findorFail($id);
-      $artice->where('id',$id)->delete();
+      $article = Member::findorFail($id);
+      $article->where('id',$id)->delete();
       $article->save();
-      return "Hello"; 
+      return redireact($id.'/members');
     }
 
 
