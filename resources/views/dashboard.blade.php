@@ -18,7 +18,7 @@
                     <div class="chart stats-bar"></div>
                     <div class="count">
                         <small>Total Members</small>
-                        <h2>23</h2>
+                        <h2>{{ $noofmembers }}</h2>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
     <div class="row">
 
         <div class="col-md-9 col-sm-12">
-            <div id="pie-charts" class="dash-widget-item bgm-pink" style="min-height: 240px;">
+            <div id="pie-charts" class="dash-widget-item bgm-pink" style="min-height: 260px;">
                 <div class="bgm-pink">
                     <div class="dash-widget-header">
                         <div class="dash-widget-title f-20">Team Info</div>
@@ -76,6 +76,7 @@
 
                     <div class=" p-20 m-t-25" style="color: #fff;">
                       The uniform contians the following:
+
                     </div>
                 </div>
 
@@ -83,10 +84,17 @@
         </div>
 
         <div class="col-md-3 col-sm-12">
-            <div id="site-visits" class="dash-widget-item bgm-teal" style="min-height: 20px;">
-                <div class="dash-widget-header" style="padding-top: 4px; ">
-
-                    <div class="dash-widget-title" >Public URL : <a href="http://{{$teamname}}.org4teams.com" class="c-white f-400">http://{{$teamname}}.org4teams.com</a></div>
+            <div id="site-visits" class="dash-widget-item bgm-teal card" style="min-height: 20px;">
+                <div class="card-header" style="padding-top: 3em;">
+                    <div class="dash-widget-title">Public URL :
+                      <div class="pull-right">
+                        <div class="toggle-switch" data-ts-color="lime" >
+                              <input id="ts2" type="checkbox"  hidden="hidden">
+                              <label for="ts2" class="ts-helper" ></label>
+                          </div>
+                      </div>
+                      <br>
+                       <a href="http://{{$teamname}}.org4teams.com" class="c-white f-400">http://{{$teamname}}.org4teams.com</a></div>
 
                 </div>
 
