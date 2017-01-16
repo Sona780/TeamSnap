@@ -13,10 +13,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer(
-        'layouts.new',
-        'TeamSnap\Http\ViewComposers\LayoutComposer'
-       );
     }
 
     /**
@@ -26,6 +22,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 }

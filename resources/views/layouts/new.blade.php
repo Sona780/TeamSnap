@@ -33,7 +33,7 @@
                 </li>
 
                 <li class="logo hidden-xs">
-                    <a href="/{!! $team_name !!}/dashboard">{!! $team_name !!}</a>
+                    <a href="/{{ $teamname }}/dashboard">{{ $teamname }}</a>
                 </li>
 
                 <li class="pull-right">
