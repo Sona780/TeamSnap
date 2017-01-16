@@ -15,16 +15,13 @@ use Illuminate\Support\Facades\Input;
 class AddmemberController extends Controller
 {
 
-    public function index()
+    public function index($id)
     {
-    	$teams = DB::table('teams')->get();
-
-      $id=Auth::user()->id;
-      $teamname=Team::select('teamname')->get()->first();
-      $q=$teamname->teamname;
-      // dd($q);
-      
-      return view('addmember',compact('teams','q'));
+    	// $teams = DB::table('teams')->get();
+      //  $id=Auth::user()->id;
+     //  $teamname=Team::select('teamname')->get()->first();
+     //  $q=$teamname->teamname;
+      return view('addmember',compact('id'));
     }
 
     public function store($id,Request $request)
