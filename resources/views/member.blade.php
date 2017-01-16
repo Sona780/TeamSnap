@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.new')
 
 @section('content')
 
             <div class="content container">
 
                   <ul class="nav nav-pills sub_header">
-            <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
+            <li class="active " ><a data-toggle="pill" href="#all" class="our-tabs">ALL</a></li>
             <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
             <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
 
@@ -47,7 +47,7 @@
 
                               <td>{{$member->id}}</td>
                               <td><a href="/{{$member->id}}/profile">
-                                  
+
                                   {{$member->firstname}}
                               </a>
                               </td>

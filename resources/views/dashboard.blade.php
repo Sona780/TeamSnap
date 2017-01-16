@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('header')
-
-@endsection
+@extends('layouts.new')
 
 @section('header')
 
@@ -70,30 +66,16 @@
     <div class="row">
 
         <div class="col-md-9 col-sm-12">
-            <div id="pie-charts" class="dash-widget-item">
+            <div id="pie-charts" class="dash-widget-item bgm-pink" style="min-height: 240px;">
                 <div class="bgm-pink">
                     <div class="dash-widget-header">
-                        <div class="dash-widget-title">Email Statistics</div>
+                        <div class="dash-widget-title f-20">Team Info</div>
                     </div>
 
                     <div class="clearfix"></div>
 
-                    <div class="text-center p-20 m-t-25">
-                        <div class="easy-pie main-pie" data-percent="75">
-                            <div class="percent">45</div>
-                            <div class="pie-title">Total Emails Sent</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-t-20 p-b-20 text-center">
-                    <div class="easy-pie sub-pie-1" data-percent="56">
-                        <div class="percent">56</div>
-                        <div class="pie-title">Bounce Rate</div>
-                    </div>
-                    <div class="easy-pie sub-pie-2" data-percent="84">
-                        <div class="percent">84</div>
-                        <div class="pie-title">Total Opened</div>
+                    <div class=" p-20 m-t-25" style="color: #fff;">
+                      The uniform contians the following:
                     </div>
                 </div>
 
@@ -101,25 +83,22 @@
         </div>
 
         <div class="col-md-3 col-sm-12">
-            <div id="site-visits" class="dash-widget-item bgm-teal">
-                <div class="dash-widget-header">
-                    <div class="p-20">
-                        <div class="dash-widget-visits"></div>
-                    </div>
+            <div id="site-visits" class="dash-widget-item bgm-teal" style="min-height: 20px;">
+                <div class="dash-widget-header" style="padding-top: 4px; ">
 
-                    <div class="dash-widget-title">Public URL : <a href="http://{{$teamname}}.org4teams.com" class="c-white f-400">http://{{$teamname}}.org4teams.com</a></div>
+                    <div class="dash-widget-title" >Public URL : <a href="http://{{$teamname}}.org4teams.com" class="c-white f-400">http://{{$teamname}}.org4teams.com</a></div>
 
                 </div>
 
                 <div class="p-20">
 
                     <small>Page Views</small>
-                    <h3 class="m-0 f-400">47,896,536</h3>
+                    <h3 class="m-0 f-400">6,536</h3>
 
                     <br/>
 
                     <small>Site Visitors</small>
-                    <h3 class="m-0 f-400">24,456,799</h3>
+                    <h3 class="m-0 f-400">5,799</h3>
 
                     <br/>
 
@@ -135,69 +114,60 @@
 
 <div class="row">
     <div class="col-sm-6">
-        <!-- Todo Lists -->
-        <div id="todo-lists">
-            <div class="tl-header">
-                <h2>Announcements</h2>
-                <small>Latest announcemnts, tips and fun!</small>
-            </div>
+      <div class="card">
+              <div class="card-header bgm-bluegray m-b-20">
+                  <h2>Announcements <small>Don't miss latest team updates</small></h2>
 
-            <div class="clearfix"></div>
 
-            <div class="tl-body">
-                <div id="add-tl-item">
-                    <i class="add-new-item zmdi zmdi-plus"></i>
+                  <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float"><i class="zmdi zmdi-plus"></i></button>
+              </div>
 
-                    <div class="add-tl-body">
-                        <textarea placeholder="What is the next big thing..."></textarea>
-
-                        <div class="add-tl-actions">
-                            <a href="" data-tl-action="dismiss"><i class="zmdi zmdi-close"></i></a>
-                            <a href="" data-tl-action="save"><i class="zmdi zmdi-check"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="media">
-                    <div class="media-body">
-                        <label>
-                            <span>No Game this weekend !</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="media">
-                    <div class="media-body">
-                        <label>
-                            <span>Kudos! Keep it up!</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="media">
-                    <div class="media-body">
-                        <label>
-                            <span>No Game this weekend !</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-body">
-                        <label>
-                            <span>No Game this weekend !</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="media">
-                    <div class="media-body">
-                        <label>
-                            <span>No Game this weekend !</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+              <div class="card-body">
+                  <div class="listview">
+                      <a class="lv-item" href="">
+                          <div class="media">
+                              <div class="media-body">
+                                  <div class="lv-title">David Belle</div>
+                                  <small class="lv-small">Cum sociis natoque penatibus et magnis dis parturient montes</small>
+                              </div>
+                          </div>
+                      </a>
+                      <a class="lv-item" href="">
+                          <div class="media">
+                              <div class="media-body">
+                                  <div class="lv-title">Jonathan Morris</div>
+                                  <small class="lv-small">Nunc quis diam diamurabitur at dolor elementum, dictum turpis vel</small>
+                              </div>
+                          </div>
+                      </a>
+                      <a class="lv-item" href="">
+                          <div class="media">
+                              <div class="media-body">
+                                  <div class="lv-title">Fredric Mitchell Jr.</div>
+                                  <small class="lv-small">Phasellus a ante et est ornare accumsan at vel magnauis blandit turpis at augue ultricies</small>
+                              </div>
+                          </div>
+                      </a>
+                      <a class="lv-item" href="">
+                          <div class="media">
+                              <div class="media-body">
+                                  <div class="lv-title">Glenn Jecobs</div>
+                                  <small class="lv-small">Ut vitae lacus sem ellentesque maximus, nunc sit amet varius dignissim, dui est consectetur neque</small>
+                              </div>
+                          </div>
+                      </a>
+                      <a class="lv-item" href="">
+                          <div class="media">
+                              <div class="media-body">
+                                  <div class="lv-title">Bill Phillips</div>
+                                  <small class="lv-small">Proin laoreet commodo eros id faucibus. Donec ligula quam, imperdiet vel ante placerat</small>
+                              </div>
+                          </div>
+                      </a>
+                      <a class="lv-footer" href="">View All</a>
+                  </div>
+              </div>
+          </div>
 
     </div>
 
@@ -241,7 +211,7 @@
    };
 
    if (!$('.login-content')[0]) {
-       notify('Welcome !', 'inverse');
+       notify('Welcome to Team : {{$teamname}} dashboard', 'inverse');
    }
 
  });

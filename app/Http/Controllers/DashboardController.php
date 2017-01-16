@@ -17,7 +17,7 @@ class DashboardController extends Controller
         //Get Team name
         $user_id = Auth::user()->id;
         $team_name = Member::where('user_id', $user_id)->select('team_name')->get()->first();
-        return view('dashboard')->with('teamname', $team_name);
+        return view('dashboard')->with('teamname', $team_name->team_name);
 
     }
 }

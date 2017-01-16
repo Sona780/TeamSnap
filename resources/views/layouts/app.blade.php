@@ -21,17 +21,14 @@
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
-        <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet"> 
+        <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
 
 
-    <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
-     <link rel="icon" type="image/png" href="assets/img/favicon.ico">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/css/gsdk-base.css" rel="stylesheet" />
-    
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+        <!-- Styles -->
+        <link href="/css/app.css" rel="stylesheet">
+        <link href="assets/css/gsdk-base.css" rel="stylesheet" />
 
+@yield('header')
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -39,9 +36,8 @@
         ]); ?>
     </script>
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+<body style="background-color: #FAF6F0">
+        <nav class="navbar navbar-default navbar-static-top" style="background-color: #03A9F4;">
             <div class="container">
                 <div class="navbar-header">
 
@@ -54,8 +50,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/') }}" style="color: #fff;">
+                        {{ config('app.name', 'Org4Leagues') }}
                     </a>
                 </div>
 
@@ -66,14 +62,14 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav navbar-right" style="color: #fff;">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -97,8 +93,9 @@
             </div>
         </nav>
 
+        <div class="container">
         @yield('content')
-    </div>
+        </div>
 
         <script src="{{URL::to('/')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -131,16 +128,16 @@
         <script src="{{URL::to('/')}}/js/functions.js"></script>
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    
+
     <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-        
+
     <!--   plugins   -->
     <script src="assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-    
+
     <!--  More information about jquery.validate here: http://jqueryvalidation.org/  -->
     <script src="assets/js/jquery.validate.min.js"></script>
-    
+
     <!--  methods for manipulating the wizard and the validation -->
     <script src="assets/js/wizard.js"></script>
 
