@@ -27,42 +27,32 @@ class AddmemberController extends Controller
     public function store($id,Request $request)
     {
           
-        $data=Input::get('ch');
+        $data=$request->get('playertype');
+        if($data == 1)
+          {
+            $flag1=true;
+          }
+        else
+          {
+            $flag1 = false;
+          } 
         $uid= Auth::user()->id;
         $teamname=$id;
-        
-        if($data==["1"])
-
-            {
-
-               $study = new Member(array(
+        $members = new Member(array(
               'firstname' => $request->get('firstname'),
               'lastname'  => $request->get('lastname'),
-              'flag'=>false,
-              'email'=>$request->get('email'),
-              'team_name'=>$teamname,
-              'user_id'=>$uid,
-               ));
-
-           }
-     else
-
-            {
-
-            $study = new Member(array(
-            'firstname' => $request->get('firstname'),
-            'lastname'  => $request->get('lastname'),
-            'flag'=>true,
-            'email'=>$request->get('email'),
-            'team_name'=>$teamname,
-            'user_id'=>$uid,
-            ));
-
-           }
-          
-          $study->save();
-          return redirect('/team_setup');
-          
+              'flag'      => $flag1,
+              'email'     => $request->get('email'),
+              'mobile'    => $request->get('mobile'),
+              'role'      => $request->get('role'),
+              'birthday'  => $request->get('birthday'),
+              'city'      => $request->get('city'),
+              'state'     => $request->get('state'),
+              'team_name' => $teamname,
+              'user_id'   => $uid,
+        ));
+        $members->save();
+        return redirect($id.'/members');
 
     }
 

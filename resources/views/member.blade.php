@@ -7,8 +7,10 @@
                               <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
                             </div>
 
+
          <ul class="nav nav-pills sub_header">
             <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
+
             <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
             <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
 
@@ -50,7 +52,7 @@
 
                               <td>{{$member->id}}</td>
                               <td><a href="/{{$member->id}}/profile">
-                                  
+
                                   {{$member->firstname}}
                               </a>
                               </td>

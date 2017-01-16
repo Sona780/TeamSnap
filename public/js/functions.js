@@ -254,52 +254,51 @@ $(document).ready(function(){
                     center: 'prev, title, next',
                     left: ''
                 },
-                defaultDate: '2014-06-12',
                 editable: true,
                 events: [
                     {
                         title: 'All Day',
-                        start: '2014-06-01',
+                        start: '2017-01-01',
                         className: 'bgm-cyan'
                     },
                     {
                         title: 'Long Event',
-                        start: '2014-06-07',
-                        end: '2014-06-10',
+                        start: '2017-01-07',
+                        end: '2017-01-10',
                         className: 'bgm-orange'
                     },
                     {
                         id: 999,
                         title: 'Repeat',
-                        start: '2014-06-09',
+                        start: '2017-01-09',
                         className: 'bgm-lightgreen'
                     },
                     {
                         id: 999,
                         title: 'Repeat',
-                        start: '2014-06-16',
+                        start: '2017-01-16',
                         className: 'bgm-lightblue'
                     },
                     {
                         title: 'Meet',
-                        start: '2014-06-12',
-                        end: '2014-06-12',
+                        start: '2017-01-12',
+                        end: '2017-01-12',
                         className: 'bgm-green'
                     },
                     {
                         title: 'Lunch',
-                        start: '2014-06-12',
+                        start: '2017-01-12',
                         className: 'bgm-cyan'
                     },
                     {
                         title: 'Birthday',
-                        start: '2014-06-13',
+                        start: '2017-01-13',
                         className: 'bgm-amber'
                     },
                     {
                         title: 'Google',
                         url: 'http://google.com/',
-                        start: '2014-06-28',
+                        start: '2017-01-28',
                         className: 'bgm-amber'
                     }
                 ]
