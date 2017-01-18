@@ -5,7 +5,8 @@
             <div class="content container">
                          <div class="btn-colors btn-demo"> <!-- Optional container for demo porpose only -->
                               <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
-                            </div>
+                         </div>
+                           
 
 
          <ul class="nav nav-pills sub_header">
@@ -47,12 +48,8 @@
 
                             @foreach ($teammembers as $member)
                             <tr>
-
-
-
                               <td>{{$member->id}}</td>
                               <td><a href="/{{$member->id}}/profile">
-
                                   {{$member->firstname}}
                               </a>
                               </td>
@@ -125,8 +122,8 @@
 
                         <ul class="nav nav-pills">
                     <li class="active"><a data-toggle="pill" href="#playingteam1">PLAYING TEAM</a></li>
-                  <li><a data-toggle="pill" href="#injured1">INJURED</a></li>
-                  <li><a data-toggle="pill" href="#topstar1">TOP STAR</a></li>
+                  <li><a data-toggle="pill" href="#injured1" >INJURED</a></li>
+                  <li><a data-toggle="pill" href="#topstar1" >TOP STAR</a></li>
             </ul>
 
                 <div class="tab-content">
@@ -344,7 +341,7 @@
 <script>
 
  $(document).ready(function() {
-   $("#b").addClass("active");
+
  });
 
 </script>

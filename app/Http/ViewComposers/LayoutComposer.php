@@ -18,7 +18,7 @@ class LayoutComposer
 
     public function __construct()
     {
-          $user_id = Auth::user()->id;;
+          $user_id   = Auth::user()->id;
           $team_name = Team::where('id', $user_id)->select('teamname')->first();
           $user_name = User::where('id', $user_id)->select('name')->first();
           $team_logo = Team::where('teamname', $team_name->team_name)->select('team_logo')->first();
