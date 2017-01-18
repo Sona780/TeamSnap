@@ -1,12 +1,10 @@
 <?php
-
 namespace TeamSnap\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use TeamSnap\Member;
 use Image;
 use TeamSnap\Team;
+
 
 class ProfileController extends Controller
 {
@@ -66,13 +64,10 @@ class ProfileController extends Controller
 
     public function delete($id)
     {
-      $article = Member::findorFail($id);
-      $article->where('id',$id)->delete();
-      $article->save();
-      return redireact($id.'/members');
+
+       $teamname = Member::where('id', $id)->select('team_name')->get()->first();
+       Member::where('id', '=', $id)->delete();
+       return redirect($teamname->team_name.'/members') ;
     }
-
-
-
 
 }

@@ -8,19 +8,23 @@ use DB;
 use \TeamSnap\Team;
 use \TeamSnap\Member;
 use Auth;
+use \TeamSnap\Repositories;
 
 class DashboardController extends Controller
 {
 
-   public function index($id, Request $request)
+   public function index($id)
     {
-        $team_name = \Request::get('team_name');
+
+      $teamname = app('MyRepository')->getTeamName(1);
+      dd($teamname);
+
         $user_id = Auth::user()->id;
 
         //Total Members in Team
-        $noofmembers = Member::where('team_name', $team_name)->count();
+        //$noofmembers = Member::where('team_name', $team_name)->count();
 
-        return view('dashboard', [ 'teamname' => $team_name, 'noofmembers' => $noofmembers ] );
+        return view('dashboard', [ 'teamname' => 'a', 'noofmembers' => 1 ] );
 
     }
 }

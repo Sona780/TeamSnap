@@ -142,6 +142,6 @@
     <!--  methods for manipulating the wizard and the validation -->
     <script src="assets/js/wizard.js"></script>
 
-
+ @yield('footer')
 </body>
 </html>

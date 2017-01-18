@@ -35,6 +35,7 @@
                 </li>
 
                 <li class="logo hidden-xs">
+                    
                     <a href="/{{ $teamname }}/dashboard">{{ $teamname }}</a>
                 </li>
 

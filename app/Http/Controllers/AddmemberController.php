@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Input;
 class AddmemberController extends Controller
 {
 
-    public function index($id)
+    public function index($id, Request $request)
     {
+      $team_name = \Request::get('team_name');
     	// $teams = DB::table('teams')->get();
       //  $id=Auth::user()->id;
      //  $teamname=Team::select('teamname')->get()->first();
@@ -24,9 +25,9 @@ class AddmemberController extends Controller
       return view('addmember',compact('id'));
     }
 
-    public function store($id,Request $request)
+    public function store($id, Request $request)
     {
-          
+
         $data=$request->get('playertype');
         if($data == 1)
           {
@@ -35,7 +36,7 @@ class AddmemberController extends Controller
         else
           {
             $flag1 = false;
-          } 
+          }
         $uid= Auth::user()->id;
         $teamname=$id;
         $members = new Member(array(
@@ -56,8 +57,9 @@ class AddmemberController extends Controller
 
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
+          $team_name = \Request::get('team_name');
           $memberdetails=DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
           return view('member',compact('teammembers'));

@@ -28,7 +28,7 @@
 
                 Route::get('team_setup','AddmemberController@index');
 
-                Route::group(['prefix' => '{id}', 'middleware' => 'common'], function () {
+                Route::group(['prefix' => '{id}'], function () {
 
                     Route::post('team_setup','AddmemberController@store');
                     Route::get('members','AddmemberController@show');
