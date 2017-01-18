@@ -20,6 +20,7 @@ class CreateTeamsTable extends Migration
             $table->string('country');
             $table->integer('zip');
             $table->integer('user_id')->unsigned();
+            $table->string('team_logo')->default('default.jpg');
             $table->timestamp('created_at'); 
             $table->foreign('user_id')
                   ->references('id')

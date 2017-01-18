@@ -20,14 +20,15 @@ class CreateMembersTable extends Migration
             $table->string('lastname');
             $table->boolean('flag');   // 0- player 1-nonplayer
             $table->string('email');
-            $table->string('mobile');
-            $table->string('role');
-            $table->string('birthday');
-            $table->string('city');
-            $table->string('state');
-            $table->integer('players');
-            $table->string('team_name');
-            $table->string('user_id');
+            $table->string('mobile')->nullable();
+            $table->integer('gender')->nullable();
+            $table->string('role')->nullable();
+            $table->string('birthday')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->integer('players')->nullable();
+            $table->string('team_name')->nullable();
+            $table->string('user_id')->nullable();
             $table->string('avatar')->default('default.jpg');
 
         });

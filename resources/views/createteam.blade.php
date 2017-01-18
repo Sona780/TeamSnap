@@ -40,14 +40,10 @@
                                   <div class="col-sm-6">
                                       <div class="form-group">
                                         <label>Team Name <small>(required)</small></label>
-
-
                                             <div class="fg-line form-group">
                                               <input type="text" class="form-control input-sm teamname" name="teamname"  placeholder="Prashushi" >
                                             </div>
-
-
-                                      </div>
+                                       </div>
                                       <div class="form-group" style="padding-top: 0.75em;">
                                         <label>Sport <small>(required)</small></label>
                                              <select class="selectpicker sport" name="sport" >
@@ -66,8 +62,6 @@
                                             <div class="fg-line form-group">
                                               <input type="text" class="form-control input-sm zipcode" placeholder="Zip Code" name="zipcode">
                                             </div>
-
-
                                       </div>
                                   </div>
 
@@ -98,30 +92,31 @@
                                         <h4 class="info-text"> Add Members in your team </h4>
                                         <br>
                                     </div>
-
+                                    <form  method="POST" id="memberform" name="memberform">
+                                      {!! csrf_field() !!}
                                     <div class="col-sm-5 col-sm-offset-1">
                                          <div class="form-group">
                                             <labe>First Name</label>
-                                            <input type="text" class="form-control" placeholder="Mike" name="firstname">
+                                            <input type="text" class="form-control firstname" placeholder="Mike" name="firstname">
                                           </div>
                                     </div>
                                     <div class="col-sm-5" style="margin-top: -0.35em;">
                                          <div class="form-group">
                                             <label>Last Name</label>
-                                            <input type="text" class="form-control" placeholder="Williams" name="lastname">
+                                            <input type="text" class="form-control lastname" placeholder="Williams" name="lastname">
                                           </div>
                                     </div>
                                     <div class="col-sm-10 col-sm-offset-1">
                                          <div class="form-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control" placeholder="mike@mail.com" name="email">
+                                            <input type="text" class="form-control email" placeholder="mike@mail.com" name="email">
                                           </div>
                                     </div>
 
                                     <div class="col-sm-10 col-sm-offset-1">
                                          <div class="radio m-b-15">
                                             <label>
-                                                <input type="radio"  value="0"  name="optradio">
+                                                <input type="radio"  value="1"  name="optradio" class="optradio" checked>
                                                 <i class="input-helper"></i>
                                                 Player
                                             </label>
@@ -129,18 +124,17 @@
 
                                     <div class="radio m-b-15">
                                         <label>
-                                            <input type="radio"  value="1" name="optradio">
+                                            <input type="radio"  value="0" name="optradio" class="optradio">
                                             <i class="input-helper"></i>
                                             Non Player
                                         </label>
                                     </div>
 
-                                    <a href="{{url('createteam')}}">
-                                      <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-plus"></i></button>
-                                    </a>
-
+                                    
+                                      <button class="btn bgm-red btn-float waves-effect addmember" name="addmember"><i class="zmdi zmdi-plus"></i></button>
+                                    </form>
                                     </div>
-
+                                 
                                 </div>
                             </div>
                         </div>
@@ -151,7 +145,7 @@
                         <br>
 
                         <input type='button' class='btn btn-previous waves-effect btn-xs col-md-5 ' name='previous' value='Previous' style="background-color: #03A9F4; color: #fff;" />
-                        <input type='submit' class='btn btn-finish waves-effect btn-xs col-md-5 col-md-offset-2' name='finish' value='Finish' style="background-color: #03A9F4; color: #fff;"/>
+                        <button  class='btn btn-finish waves-effect btn-xs col-md-5 col-md-offset-2 finish'  name='finish' value='Finish' style="background-color: #03A9F4; color: #fff;">tfhgyjhkl</button>
 
                         <div class="clearfix"></div>
                         
@@ -168,7 +162,9 @@
 
 <script>
 $(document).ready(function(){
- 
+  var team_name;
+
+
 $('.submit1').click(function(e){
      e.preventDefault();
      var url = "{{url('store')}}";
@@ -178,7 +174,9 @@ $('.submit1').click(function(e){
       'sport'    : $('.sport').val(),
       'zipcode'  : $('.zipcode').val(),
       'country'  : $('.country').val(),
-     }; 
+      
+     };
+     team_name =$('.teamname').val();
       console.log(data);
       $.ajax({
         type: "POST",
@@ -193,6 +191,39 @@ $('.submit1').click(function(e){
     })
              
     document.getElementById("teamform").reset();       
+  });
+
+  //for adding members
+  $('.addmember').click(function(e){
+     e.preventDefault();
+     
+     var url = "http://teamsnap.dev/"+team_name+"/team_setup";
+     var data1 = {
+      'firstname': $('.firstname').val(),
+      'lastname' : $('.lastname').val(),
+      'email'    : $('.email').val(),
+      'optradio' : $("input[name='optradio']:checked").val(),
+     }; 
+      console.log(data1);
+      
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data1,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success: function(a) {
+            console.log("success");
+            console.log(a);
+            
+        }
+    })
+             
+    document.getElementById("memberform").reset();       
+  });
+
+  $('.finish').click(function(){
+
+     window.location.href = "http://teamsnap.dev/"+team_name+"/dashboard";
   });
 });
  

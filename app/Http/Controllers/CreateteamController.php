@@ -1,5 +1,4 @@
 <?php
-
 namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -30,7 +29,6 @@ class CreateteamController extends Controller
        $inputs->zip     =  $request->get('zipcode');
        if($request->hasFile('team_logo'))
        {
-           
            $teamlogo = $request->file('team_logo');
            $filename = time().'.'.$teamlogo->getClientOriginalExtension();
            Image::make($teamlogo)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
@@ -38,6 +36,7 @@ class CreateteamController extends Controller
         }
         Auth::user()->teams()->save($inputs);
         return $inputs;
+
     //     $uid= Auth::user()->id;
     //     $members = new Member(array(
     //         'firstname' => $request->get('firstname'),
@@ -48,8 +47,6 @@ class CreateteamController extends Controller
     //         'user_id'   => $uid,
     //     ));
     //    $members->save();
-
-
     //    return redirect($inputs->teamname.'/dashboard');
     }
 

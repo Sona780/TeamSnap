@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Input;
 class AddmemberController extends Controller
 {
 
-    public function index($id)
+    public function index()
     {
     	// $teams = DB::table('teams')->get();
       //  $id=Auth::user()->id;
@@ -26,33 +26,24 @@ class AddmemberController extends Controller
 
     public function store($id,Request $request)
     {
-          
-        $data=$request->get('playertype');
-        if($data == 1)
-          {
-            $flag1=true;
-          }
-        else
-          {
-            $flag1 = false;
-          } 
+       
         $uid= Auth::user()->id;
-        $teamname=$id;
         $members = new Member(array(
               'firstname' => $request->get('firstname'),
               'lastname'  => $request->get('lastname'),
-              'flag'      => $flag1,
+              'flag'      => $request->get('optradio'),
               'email'     => $request->get('email'),
               'mobile'    => $request->get('mobile'),
               'role'      => $request->get('role'),
               'birthday'  => $request->get('birthday'),
               'city'      => $request->get('city'),
               'state'     => $request->get('state'),
-              'team_name' => $teamname,
+              'team_name' => $id,
               'user_id'   => $uid,
         ));
         $members->save();
-        return redirect($id.'/members');
+        return $members;
+        //return redirect($id.'/members');
 
     }
 
