@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <?php
 
 namespace TeamSnap\Http\ViewComposers;
@@ -37,3 +39,4 @@ class LayoutComposer
          // $view->with('team_logo',$this->team_logo->team_logo);
     }
 }
+>>>>>>> fabcc66372cb600b783cf5aeac548383b3796da5

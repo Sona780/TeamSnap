@@ -17,16 +17,17 @@ class AddmemberController extends Controller
 
     public function index()
     {
+      //$team_name = \Request::get('team_name');
     	// $teams = DB::table('teams')->get();
       //  $id=Auth::user()->id;
      //  $teamname=Team::select('teamname')->get()->first();
      //  $q=$teamname->teamname;
-      return view('addmember',compact('id'));
+      return view('addmember', [ 'teamname' => $id ] );
     }
 
-    public function store($id,Request $request)
+    public function store($id, Request $request)
     {
-       
+
         $uid= Auth::user()->id;
         $members = new Member(array(
               'firstname' => $request->get('firstname'),
@@ -49,14 +50,10 @@ class AddmemberController extends Controller
 
     public function show($id)
     {
-          $memberdetails=DB::table('members')->get();
+          $memberdetails = DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
-          return view('member',compact('teammembers'));
 
-    }
-    public function api()
-    {
-
+          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ]);
     }
 
 }

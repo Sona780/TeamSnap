@@ -25,12 +25,12 @@
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
-                
+
                 Route::get('team_setup','AddmemberController@index');
 
                 Route::group(['prefix' => '{id}'], function () {
-  
-                    Route::post('team_setup','AddmemberController@store');               
+
+                    Route::post('team_setup','AddmemberController@store');
                     Route::get('members','AddmemberController@show');
                     Route::get('addmember','AddmemberController@index');
                     Route::post('addmember','AddmemberController@store');

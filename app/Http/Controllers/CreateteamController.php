@@ -18,43 +18,24 @@ class CreateteamController extends Controller
     }
 
       public function store(Request $request)
-    { 
-      // $name = $request->input('teamname');
-      // return $name;
+    {
        $userid          =  Auth::user()->id;
        $inputs          =  new Team;
-       $inputs->teamname=  $request->get('teamname');  
+       $inputs->teamname=  $request->get('teamname');
        $inputs->sport   =  Input::get('sport');
        $inputs->country =  Input::get('country');
        $inputs->zip     =  $request->get('zipcode');
        if($request->hasFile('team_logo'))
        {
+
            $teamlogo = $request->file('team_logo');
            $filename = time().'.'.$teamlogo->getClientOriginalExtension();
            Image::make($teamlogo)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
-           $inputs->team_logo= $filename; 
+           $inputs->team_logo= $filename;
         }
         Auth::user()->teams()->save($inputs);
         return $inputs;
 
-    //     $uid= Auth::user()->id;
-    //     $members = new Member(array(
-    //         'firstname' => $request->get('firstname'),
-    //         'lastname'  => $request->get('lastname'),
-    //         'flag'      => Input::get('optradio'),
-    //         'email'     => $request->get('email'),
-    //         'team_name' => $inputs->teamname,
-    //         'user_id'   => $uid,
-    //     ));
-    //    $members->save();
-    //    return redirect($inputs->teamname.'/dashboard');
     }
-
-     
-
-   public function api()
-   {
-
-   }
 
 }
