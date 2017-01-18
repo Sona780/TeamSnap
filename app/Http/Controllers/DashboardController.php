@@ -16,15 +16,12 @@ class DashboardController extends Controller
    public function index($id)
     {
 
-      $teamname = app('MyRepository')->getTeamName(1);
-      dd($teamname);
-
         $user_id = Auth::user()->id;
 
         //Total Members in Team
-        //$noofmembers = Member::where('team_name', $team_name)->count();
+        $noofmembers = Member::where('team_name', $id)->count();
 
-        return view('dashboard', [ 'teamname' => 'a', 'noofmembers' => 1 ] );
+        return view('dashboard', [ 'teamname' => $id, 'noofmembers' => $noofmembers ] );
 
     }
 }

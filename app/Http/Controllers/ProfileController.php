@@ -10,19 +10,19 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-    	$avatar=Member::where('id',$id)->select('avatar')->get()->first();
-    	$members=Member::where('id',$id)->get();
-      $id=Member::where('id',$id)->select('id')->get()->first();
-      return view('profile',compact('avatar','id'));
+    	$avatar = Member::where('id',$id)->select('avatar')->get()->first();
+    	$members = Member::where('id',$id)->get();
+      $vid = Member::where('id',$id)->select('id')->get()->first();
+      return view('profile', [ 'teamname' => $id, 'avatar' => $avatar, 'id' => $vid ]);
     }
 
     public function update_avatar($id,Request $request)
     {
-       
-       
+
+
        if($request->hasFile('avatar'))
        {
-       	   
+
        	   $avatars = $request->file('avatar');
        	   $filename = time().'.'.$avatars->getClientOriginalExtension();
        	   Image::make($avatars)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
@@ -30,9 +30,9 @@ class ProfileController extends Controller
            $avatar->avatar=$filename;
            $avatar->save();
            Member::where('id',$id)->update(['avatar' => $avatar->avatar]);
-          
+
        }
-        
+
        return view('profile',compact('avatar','members'));
     }
 
@@ -40,12 +40,12 @@ class ProfileController extends Controller
     {
       $article = Member::findorFail($id);
       $mid=$article->id;
-      return view('edit',compact('article','mid'));
+      return view('edit', [ 'teamname' => $id, 'article' => $article, 'mid' => $mid ]);
     }
 
     public function update($id, Request $request)
     {
-     
+
         $data=$request->get('playertype');
         if($data == 1)
           {
@@ -59,7 +59,7 @@ class ProfileController extends Controller
        $article->flag=$flag1;
        $article->update($request->all());
        return redirect($article->team_name.'/members');
-       
+
     }
 
     public function delete($id)
