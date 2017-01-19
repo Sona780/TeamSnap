@@ -22,7 +22,7 @@
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
-       
+
 
 
         <!-- Styles -->
@@ -114,12 +114,7 @@
         <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js">
-
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
-            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
-        <![endif]-->
+        <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
 
         <script src="{{URL::to('/')}}/js/flot-charts/curved-line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/flot-charts/line-chart.js"></script>

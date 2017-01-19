@@ -46,7 +46,7 @@
                             <a data-toggle="dropdown" href=""><i class="tm-icon zmdi zmdi-face"></i></a>
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
-                                    <a href=""><i class="zmdi zmdi-settings"></i> My Account</a>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
                                 </li>
                                 <li>
                                       <a href="{{ url('/logout') }}"
@@ -70,12 +70,12 @@
                 <ul>
                     <li class="waves-effect" id="a"><a href="dashboard">Dashboard</a></li>
                     <li class="waves-effect" id="b"><a href="members">Locker Room</a></li>
-                    <li class="waves-effect"><a href="dashboard">Schedule</a></li>
-                    <li class="waves-effect"><a href="dashboard">Assets</a></li>
-                    <li class="waves-effect"><a href="dashboard">Messages</a></li>
-                    <li class="waves-effect pull-right"><a href="dashboard">Settings</a></li>
-                    <li class="waves-effect pull-right"><a href="dashboard">Records</a></li>
-                    <li class="waves-effect pull-right"><a href="dashboard">Media</a></li>
+                    <li class="waves-effect" id="c"><a href="dashboard">Schedule</a></li>
+                    <li class="waves-effect" id="d"><a href="dashboard">Assets</a></li>
+                    <li class="waves-effect" id="e"><a href="dashboard">Messages</a></li>
+                    <li class="waves-effect pull-right" id="f"><a href="dashboard">Settings</a></li>
+                    <li class="waves-effect pull-right" id="g"><a href="dashboard">Records</a></li>
+                    <li class="waves-effect pull-right" id="h"><a href="dashboard">Media</a></li>
 
                 </ul>
             </nav>

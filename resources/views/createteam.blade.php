@@ -6,7 +6,7 @@
         <div class="col-sm-8 col-sm-offset-2">
            <div class="wizard-container">
                 <div class="card wizard-card ct-wizard-azzure" id="wizardProfile">
-                    
+
 
                       <div class="wizard-header">
                           <h3>
@@ -81,9 +81,9 @@
 
                                      </div>
                                  </div>
-                                 
+
                               </div>
-                             
+
                               </form>
                             </div>
                             <div class="tab-pane" id="address">
@@ -130,11 +130,11 @@
                                         </label>
                                     </div>
 
-                                    
+
                                       <button class="btn bgm-red btn-float waves-effect addmember" name="addmember"><i class="zmdi zmdi-plus"></i></button>
                                     </form>
                                     </div>
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -145,10 +145,10 @@
                         <br>
 
                         <input type='button' class='btn btn-previous waves-effect btn-xs col-md-5 ' name='previous' value='Previous' style="background-color: #03A9F4; color: #fff;" />
-                        <button  class='btn btn-finish waves-effect btn-xs col-md-5 col-md-offset-2 finish'  name='finish' value='Finish' style="background-color: #03A9F4; color: #fff;">tfhgyjhkl</button>
+                        <button  class='btn btn-finish waves-effect btn-xs col-md-5 col-md-offset-2 finish'  name='finish' value='Finish' style="background-color: #03A9F4; color: #fff;">FINISH</button>
 
                         <div class="clearfix"></div>
-                        
+
                         </div>
                     </form>
                 </div>
@@ -159,7 +159,7 @@
 @endsection
 
 @section('footer')
-
+<script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
 <script>
 $(document).ready(function(){
   var team_name;
@@ -174,7 +174,7 @@ $('.submit1').click(function(e){
       'sport'    : $('.sport').val(),
       'zipcode'  : $('.zipcode').val(),
       'country'  : $('.country').val(),
-      
+
      };
      team_name =$('.teamname').val();
       console.log(data);
@@ -186,26 +186,53 @@ $('.submit1').click(function(e){
         success: function(a) {
             console.log("success");
             console.log(a);
-            
+
         }
     })
-             
-    document.getElementById("teamform").reset();       
+
+    document.getElementById("teamform").reset();
   });
+
+
+//For notification
+
+function notify(message, type){
+    $.growl({
+        message: message
+    },{
+        type: type,
+        allow_dismiss: false,
+        label: 'Cancel',
+        className: 'btn-xs btn-inverse',
+        placement: {
+            from: 'top',
+            align: 'right'
+        },
+        delay: 2000,
+        animate: {
+                enter: 'animated fadeIn',
+                exit: 'animated fadeOut'
+        },
+        offset: {
+            x: 20,
+            y: 135
+        }
+    });
+};
 
   //for adding members
   $('.addmember').click(function(e){
      e.preventDefault();
-     
-     var url = "http://teamsnap.dev/"+team_name+"/team_setup";
+
+     var url = "{{ URL::to('/') }}/"+team_name+"/team_setup";
      var data1 = {
       'firstname': $('.firstname').val(),
       'lastname' : $('.lastname').val(),
       'email'    : $('.email').val(),
       'optradio' : $("input[name='optradio']:checked").val(),
-     }; 
+     };
       console.log(data1);
-      
+
       $.ajax({
         type: "POST",
         url: url,
@@ -214,19 +241,26 @@ $('.submit1').click(function(e){
         success: function(a) {
             console.log("success");
             console.log(a);
-            
+            notify('Member added.', 'success');
+
+        },
+        error: function(b) {
+            notify('Sorry, member coudnt be added !', 'inverse');
         }
     })
-             
-    document.getElementById("memberform").reset();       
+
+    document.getElementById("memberform").reset();
   });
+
+
 
   $('.finish').click(function(){
 
-     window.location.href = "http://teamsnap.dev/"+team_name+"/dashboard";
+     window.location.href = "{{ URL::to('/') }}/"+team_name+"/dashboard";
+
   });
 });
- 
+
 
 </script>
 @endsection
