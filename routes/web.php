@@ -15,7 +15,7 @@
     Route::group(['middlewareGroups' => ['web']], function () {
 
           Route::auth();
-          Route::get('/', function(){
+          Route::get('/', function() {
               return redirect('login');
           });
 
@@ -34,14 +34,14 @@
                     Route::get('members','AddmemberController@show');
                     Route::get('addmember','AddmemberController@index');
                     Route::post('addmember','AddmemberController@store');
-                    
+
                     Route::get('dashboard','DashboardController@index');
                     Route::get('profile','ProfileController@index');
                     Route::post('profile','ProfileController@update_avatar');
                     Route::get('profile/edit','ProfileController@edit');
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
-                    Route::get('media','MediaController@index');
+
                });
 
 

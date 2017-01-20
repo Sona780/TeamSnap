@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Input;
 class AddmemberController extends Controller
 {
 
-    public function index()
+    public function index($id)
     {
-      //$team_name = \Request::get('team_name');
     	// $teams = DB::table('teams')->get();
       //  $id=Auth::user()->id;
      //  $teamname=Team::select('teamname')->get()->first();

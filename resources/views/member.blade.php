@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="content container">
    <div class="btn-colors btn-demo"> <!-- Optional container for demo porpose only -->
       <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
@@ -25,6 +26,40 @@
 
                    <div id="playingteam" class="tab-pane active">
                      <div class="table-responsive">
+
+            <div class="content container">
+
+                         <div class=" pull-right">
+
+                         </div>
+
+
+
+         <ul class="nav nav-pills sub_header">
+            <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
+
+            <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
+            <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
+
+        </ul>
+
+          <div class="tab-content">
+
+            <div id="all" class="tab-pane  active card tablehead">
+
+                <div class="tab-content">
+
+                  <div class="pull-right" style="z-index: 9999; position: relative; margin-right: 6em; margin-top: -3.5em;">
+                  <a href="addmember">
+                      <button class="btn bgm-red btn-float waves-effect">
+                        <i class="zmdi zmdi-plus"></i>
+                      </button>
+                  </a>
+                  </div>
+
+                  <div id="playingteam" class="tab-pane active">
+                    <div class="table-responsive">
+
                         <table class="table table-striped">
                           <thead>
                             <tr>
@@ -361,6 +396,7 @@
 <script>
 
  $(document).ready(function() {
+
     $('.submitinfo').click(function(e){
        e.preventDefault();
      var url = '{{url($memberid.'/profile/update')}}' ;
@@ -389,6 +425,11 @@
              
     document.getElementById("editform").reset();
     });
+     
+
+$("#b").addClass("active");
+
+
  });
 
 </script>
