@@ -30,7 +30,7 @@
 
                 Route::group(['prefix' => '{id}'], function () {
 
-                    Route::post('team_setup','AddmemberController@store');
+                    Route::any('team_setup','AddmemberController@store');
                     Route::get('members','AddmemberController@show');
                     Route::get('addmember','AddmemberController@index');
                     Route::post('addmember','AddmemberController@store');
@@ -41,7 +41,7 @@
                     Route::get('profile/edit','ProfileController@edit');
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
-                    
+                    Route::get('media','MediaController@index');
                });
 
 

@@ -45,20 +45,9 @@ class ProfileController extends Controller
 
     public function update($id, Request $request)
     {
-
-        $data=$request->get('playertype');
-        if($data == 1)
-          {
-            $flag1=true;
-          }
-        else
-          {
-            $flag1 = false;
-          }
-       $article = Member::findorFail($id);
-       $article->flag=$flag1;
-       $article->update($request->all());
-       return redirect($article->team_name.'/members');
+       $members = Member::findorFail($id);
+       $members->update($request->all());
+       return $members;
 
     }
 

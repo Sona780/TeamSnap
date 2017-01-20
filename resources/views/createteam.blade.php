@@ -17,7 +17,7 @@
                       <ul>
                             <li><a href="#about" data-toggle="tab">BASICS</a></li>
                             <li><a href="#address" data-toggle="tab">PLAYERS</a></li>
-                        </ul>
+                      </ul>
 
                         <div class="tab-content">
                             <div class="tab-pane" id="about">
@@ -222,7 +222,6 @@ $('.submit1').click(function(e){
   });
 
   $('.finish').click(function(){
-
      window.location.href = "http://teamsnap.dev/"+team_name+"/dashboard";
   });
 });

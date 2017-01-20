@@ -1,12 +1,9 @@
 <?php
 
 namespace TeamSnap\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use TeamSnap\Http\Requests;
 use Auth;
-
 use DB;
 use TeamSnap\Member;
 use TeamSnap\Team;
@@ -44,16 +41,14 @@ class AddmemberController extends Controller
         ));
         $members->save();
         return $members;
-        //return redirect($id.'/members');
-
     }
 
     public function show($id)
     {
           $memberdetails = DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
-
-          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ]);
+          $memberid = Member::where('team_name', $id)->select('id')->get()->first();
+          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers , 'memberid' => $memberid->id]);
     }
 
 }

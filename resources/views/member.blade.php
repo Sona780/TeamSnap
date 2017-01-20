@@ -2,66 +2,86 @@
 
 @section('content')
 
-            <div class="content container">
-                         <div class="btn-colors btn-demo"> <!-- Optional container for demo porpose only -->
-                              <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
-                         </div>
-                           
+<div class="content container">
+   <div class="btn-colors btn-demo"> <!-- Optional container for demo porpose only -->
+      <a href="addmember">  <button class="btn bgm-cyan">Add Members</button></a>
+    </div>
+         
+    <ul class="nav nav-pills sub_header">
+          <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
+          <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
+          <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
+    </ul>
 
-
-         <ul class="nav nav-pills sub_header">
-            <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
-
-            <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
-            <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
-
-        </ul>
-
-          <div class="tab-content">
-
-            <div id="all" class="tab-pane  active card tablehead">
-
-                        <ul class="nav nav-pills">
-
+    <div class="tab-content">
+         <div id="all" class="tab-pane  active card tablehead">
+              <ul class="nav nav-pills">
                   <li class="active"><a data-toggle="pill" href="#playingteam">PLAYING TEAM</a></li>
                   <li><a data-toggle="pill" href="#injured">INJURED</a></li>
                   <li><a data-toggle="pill" href="#topstar">TOP STAR</a></li>
-
-              </ul>
+               </ul>
 
                 <div class="tab-content">
 
-                  <div id="playingteam" class="tab-pane active">
-                    <div class="table-responsive">
+                   <div id="playingteam" class="tab-pane active">
+                     <div class="table-responsive">
                         <table class="table table-striped">
                           <thead>
                             <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                              <th>Edit/Delete</th>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Lastname</th>
+                                <th>Email</th>
+                                <th>Edit/Delete</th>
                             </tr>
-
                           </thead>
-                          <tbody>
-
-                            @foreach ($teammembers as $member)
-                            <tr>
-                              <td>{{$member->id}}</td>
-                              <td><a href="/{{$member->id}}/profile">
-                                  {{$member->firstname}}
-                              </a>
+                           <tbody>
+                           @foreach ($teammembers as $item)
+                            <tr class="item{{$item->id}}">
+                              <td>{{$item->id}}</td>
+                              <td><a href="/{{$item->id}}/profile">
+                                  {{$item->firstname}}
+                                  </a>
                               </td>
-                              <td>{{$member->lastname}}</td>
-                              <td>{{$member->email}}</td>
-                              <td><a href="/{{$member->id}}/profile/edit"><img src="/img/edit.png">
-                                  <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png">
-
+                              <td>{{$item->lastname}}</td>
+                              <td>{{$item->email}}</td>
+                              <td>
+                              <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">edit</button>
+                                  <a href="/{{$item->id}}/profile/delete"><img src="/img/delete.png">
+                              </td>
                             </tr>
                              @endforeach
                           </tbody>
                         </table>
+                          
+
+                      
+                       <!-- Modal -->
+                      
+                        <div class="modal fade" id="myModal" role="dialog">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                              </div>
+                                 {{ Form::open(array('method' => 'PATCH', 'id' => 'editform', 'name' => 'editform'))  }} 
+                              <div class="modal-body">
+                             
+                              
+                                      @include('partials.memberform')
+                             
+                              </div>
+                               <div class="modal-footer">
+                                  <button type="button" class="btn btn-default submitinfo" >Close</button>
+                               </div>
+                              {{ Form::close() }}
+                              
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- end od modal -->
                   </div>
                   </div>
                   <div id="injured" class="tab-pane">
@@ -341,7 +361,34 @@
 <script>
 
  $(document).ready(function() {
-
+    $('.submitinfo').click(function(e){
+       e.preventDefault();
+     var url = '{{url($memberid.'/profile/update')}}' ;
+     var data = {
+      'firstname': $('.firstname').val(),
+      'lastname' : $('.lastname').val(),
+      'email'    : $('.email').val(),
+      'optradio' : $("input[name='optradio']:checked").val(),
+      'mobile'   : $('.mobile').val(),
+      'birthday' : $('.birthday').val(),
+      'role'     : $('.role').val(),
+      'city'     : $('.city').val(),
+      'state'    : $('.state').val(),
+     };
+     
+     console.log(data);
+     $.ajax({
+        type: "PATCH",
+        url: url,
+        data: data,
+        headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+        success: function(data) {
+                $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.firstname + "</td><td>" + data.lastname "+</td></tr>");
+            }
+    })
+             
+    document.getElementById("editform").reset();
+    });
  });
 
 </script>
