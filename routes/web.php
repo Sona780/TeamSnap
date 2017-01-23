@@ -27,10 +27,8 @@
                 Route::post('store','CreateteamController@store');
 
                 Route::get('team_setup','AddmemberController@index');
-                Route::get('welcome',function(){
-                     return view('welcome');            
-                });
                
+                Route::resource('account','AccountController');
 
                 Route::group(['prefix' => '{id}'], function () {
 
@@ -50,12 +48,15 @@
                     Route::post('image-upload','MediaController@multiple_upload');
                     
                     Route::get('messages','MessageController@index');
-                    Route::post('sendmail','MessageController@sendmail');    
+                    Route::post('sendmail','MessageController@sendmail');  
+
+                   
+
                       
 
                });
                     
-
+                     
 
             });
     });
