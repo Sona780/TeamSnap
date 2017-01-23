@@ -40,19 +40,46 @@
             </div>
         </div>
         <div class="row">
+          <div class="col-sm-4">
+              <h4>Type:</h4>
+          </div>
+          <div class="col-sm-8"> 
              <div class="radio m-b-15">
                 <label>
                     <input type="radio"  value="1"  name="optradio" class="optradio" checked>
                     <i class="input-helper"></i>
                     Player
                 </label>
-             </div>
-            <div class="radio m-b-15">
+            
                 <label>
                     <input type="radio"  value="0" name="optradio" class="optradio">
                     <i class="input-helper"></i>
                     Non Player
                 </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+             <h4> ctg:</h4>
+            </div>
+            <div class="col-sm-8">
+                <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" value="1" name="playing" id="playing" >
+                    <i class="input-helper"></i>    
+                   Playing Team
+                 </label>
+                <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" value="1" name="injured" id="injured">
+                    <i class="input-helper"></i>    
+                    Injured
+                </label>
+                <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" value="1" name="topstar" id="topstar">
+                    <i class="input-helper"></i>    
+                    Top Star
+                </label>
+
             </div>
         </div>
         <div class="row">

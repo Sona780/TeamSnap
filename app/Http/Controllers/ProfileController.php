@@ -10,15 +10,16 @@ class ProfileController extends Controller
 {
     public function index($id)
     {
-    	$avatar = Member::where('id',$id)->select('avatar')->get()->first();
+      $avatar = Member::where('id',$id)->select('avatar')->get()->first();
     	$members = Member::where('id',$id)->get();
       $vid = Member::where('id',$id)->select('id')->get()->first();
-      return view('profile', [ 'teamname' => $id, 'avatar' => $avatar, 'id' => $vid ]);
+       $avatar = Member::where('id',$id)->select('avatar')->get()->first();
+      return view('profile', [ 'teamname' => $id, 'avatar' => $avatar, 'id' => $vid, 'avatar' => $avatar ]);
     }
 
     public function update_avatar($id,Request $request)
     {
-
+        
 
        if($request->hasFile('avatar'))
        {
@@ -30,10 +31,9 @@ class ProfileController extends Controller
            $avatar->avatar=$filename;
            $avatar->save();
            Member::where('id',$id)->update(['avatar' => $avatar->avatar]);
-
+          
        }
-
-       return view('profile',compact('avatar','members'));
+       return redirect($id.'/profile');
     }
 
     public function edit($id)

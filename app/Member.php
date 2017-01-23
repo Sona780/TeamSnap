@@ -13,9 +13,4 @@ class Member extends Model
 
     public $timestamps = false;
 
-     public function userteam()
-    {
-    	return $this-> belongsTo('TeamSnap\Team'); 
-    }
-
 }

@@ -27,6 +27,10 @@
                 Route::post('store','CreateteamController@store');
 
                 Route::get('team_setup','AddmemberController@index');
+                Route::get('welcome',function(){
+                     return view('welcome');            
+                });
+               
 
                 Route::group(['prefix' => '{id}'], function () {
 
@@ -41,8 +45,16 @@
                     Route::get('profile/edit','ProfileController@edit');
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
+                    Route::get('files','MediaController@index');
+                    Route::get('files/upload_url','MediaController@upload_url');
+                    Route::post('image-upload','MediaController@multiple_upload');
+                    
+                    Route::get('messages','MessageController@index');
+                    Route::post('sendmail','MessageController@sendmail');    
+                      
 
                });
+                    
 
 
             });

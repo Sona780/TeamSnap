@@ -37,7 +37,6 @@
 
                 <li class="logo hidden-xs">
 
-                    <a href="/{{ $teamname }}/dashboard">{{ $teamname }}</a>
                 </li>
 
                 <li class="pull-right">
@@ -72,7 +71,7 @@
                     <li class="waves-effect" id="a"><a href="dashboard">Dashboard</a></li>
                     <li class="waves-effect" id="b"><a href="members">Locker Room</a></li>
                     <li class="waves-effect" id="c"><a href="dashboard">Schedule</a></li>
-                    <li class="waves-effect" id="d"><a href="dashboard">Assets</a></li>
+                    <li class="waves-effect" id="d"><a href="files">Assets</a></li>
                     <li class="waves-effect" id="e"><a href="dashboard">Messages</a></li>
                     <li class="waves-effect pull-right" id="f"><a href="dashboard">Settings</a></li>
                     <li class="waves-effect pull-right" id="g"><a href="dashboard">Records</a></li>

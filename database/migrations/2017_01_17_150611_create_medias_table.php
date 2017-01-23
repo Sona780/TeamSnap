@@ -13,7 +13,16 @@ class CreateMediasTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('medias', function (Blueprint $table) {
+            $table->increments('id'); 
+            $table->string('video_url');
+            $table->string('video_title');
+            $table->integer('team_id')->unsigned();
+            $table->foreign('team_id')
+                  ->references('id')
+                  ->on('teams')
+                  ->onDelete('cascade'); 
+        });
     }
 
     /**
@@ -23,6 +32,6 @@ class CreateMediasTable extends Migration
      */
     public function down()
     {
-        //
+       Schema::drop('medias');
     }
 }

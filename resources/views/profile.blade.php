@@ -6,10 +6,12 @@
 <div class="container">
  <h2>Member Profile for Kaushal Pandey</h2>
 	<div class="card">
+    <a href="/{{$id->id}}/profiel/edit"> Edit </a> 
  	    <div class="row">
 			<div class="col-sm-3">
 				<img src ="/uploads/avatars/{{ $avatar->avatar }}" style="width:150px; height:150px; float:left; border-radius: 50%; margin-right: 25px;" />
-                <form enctype="multipart/form-data" action ="/8/profile" method="POST">
+
+                <form enctype="multipart/form-data" action ="/{{ $id->id }}/profile" method="POST">
                  {!! csrf_field() !!}
                 <label> Update Profile Picture</label>
                 <input type="file" name="avatar">

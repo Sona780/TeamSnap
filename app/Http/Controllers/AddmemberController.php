@@ -47,7 +47,8 @@ class AddmemberController extends Controller
           $memberdetails = DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
           $memberid = Member::where('team_name', $id)->select('id')->get()->first();
-          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers , 'memberid' => $memberid->id]);
+
+          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id]);
     }
 
 }
