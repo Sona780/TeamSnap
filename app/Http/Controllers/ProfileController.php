@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use TeamSnap\Member;
 use Image;
 use TeamSnap\Team;
+use TeamSnap\PlayerCtg;
 
 
 class ProfileController extends Controller
@@ -47,7 +48,18 @@ class ProfileController extends Controller
     {
        $members = Member::findorFail($id);
        $members->update($request->all());
-       return $members;
+       
+       //ctgs
+       $team = Member::where('id',$id)->select('team_name')->get()->first();
+       $teamname= $team->team_name;
+       $ctgs = new PlayerCtg;
+       $ctgs->playing   = $request->get('playing');
+       $ctgs->injured   = $request->get('injured');
+       $ctgs->topstar   = $request->get('topstar');
+       $ctgs->team_name = $teamname;
+       $ctgs->member_id   =  $id; 
+       $ctgs->save(); 
+       return $ctgs;
 
     }
 

@@ -21,6 +21,7 @@
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
         @yield('header')
     </head>

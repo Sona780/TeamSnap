@@ -71,7 +71,7 @@
                  </label>
                 <label class="checkbox checkbox-inline m-r-20">
                     <input type="checkbox" value="1" name="injured" id="injured">
-                    <i class="input-helper"></i>    
+                   <i class="input-helper"></i>    
                     Injured
                 </label>
                 <label class="checkbox checkbox-inline m-r-20">
@@ -79,8 +79,7 @@
                     <i class="input-helper"></i>    
                     Top Star
                 </label>
-
-            </div>
+             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">

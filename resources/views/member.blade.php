@@ -45,6 +45,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                              @if($p_id == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -57,6 +58,7 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>
@@ -77,6 +79,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                              @if($i_id == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -89,6 +92,7 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>
@@ -109,6 +113,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                             @if($t_id == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -121,6 +126,7 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>
@@ -155,6 +161,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                            @if( ($member->flag == 1) &&  ($p_id == 1))
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -167,6 +174,7 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>
@@ -187,6 +195,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                             @if( ($member->flag == 1) &&  ($i_id == 1))
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -199,6 +208,7 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>                  </div>
@@ -216,14 +226,22 @@
 
                           </thead>
                           <tbody>
-                            
+                            @foreach($teammembers as $member)
+                             @if( ($member->flag == 1) &&  ($t_id == 1))
                             <tr>
-                              <td>49</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-                              
+                                  <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
+                                  <td>{{$member->firstname}} {{$member->lastname}} <br/>
+                                      {{$member->email}}
+                                  </td>
+                                  <td>{{$member->mobile}}</td>
+                                  <td></td>
+                                   <td>
+                                      <img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                      <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                  </td>
                             </tr>
+                            @endif
+                           @endforeach
                           </tbody>
                         </table>
                   </div>
@@ -234,12 +252,11 @@
             </div>
             <div id="nonplayers" class="tab-pane card tablehead">
                                            
-                        <ul class="nav nav-pills">
-                  <li class="active"><a data-toggle="pill" href="#playingteam2">PLAYING TEAM</a></li>
-                  <li><a data-toggle="pill" href="#injured2">INJURED</a></li>
-                  <li><a data-toggle="pill" href="#topstar2">TOP STAR</a></li>
-                  
-              </ul>
+               <ul class="nav nav-pills">
+                <li></li>
+                <li></li>
+                <li></li>
+               </ul>
                 
                 <div class="tab-content">
                   
@@ -258,6 +275,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
+                            @if( $member->flag == 0)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -270,80 +288,17 @@
                                       <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
                                   </td>
                             </tr>
+                            @endif
                            @endforeach
                           </tbody>
                         </table>
+                    </div>
                   </div>
-                  </div>
-                  <div id="injured2" class="tab-pane">
-                      
-                      <div class="table-responsive">          
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>Photo</th>
-                              <th>Name</th>
-                              <th>Contact</th>
-                              <th>Position</th>
-                              <th>Manager</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-                            @foreach($teammembers as $member)
-                            <tr>
-                                  <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
-                                  <td>{{$member->firstname}} {{$member->lastname}} <br/>
-                                      {{$member->email}}
-                                  </td>
-                                  <td>{{$member->mobile}}</td>
-                                  <td></td>
-                                   <td>
-                                      <img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                      <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
-                                  </td>
-                            </tr>
-                           @endforeach
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="topstar2" class="tab-pane">
-                      <div class="table-responsive">          
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>Photo</th>
-                              <th>Name</th>
-                              <th>Contact</th>
-                              <th>Position</th>
-                              <th>Manager</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-                            @foreach($teammembers as $member)
-                            <tr>
-                                  <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
-                                  <td>{{$member->firstname}} {{$member->lastname}} <br/>
-                                      {{$member->email}}
-                                  </td>
-                                  <td>{{$member->mobile}}</td>
-                                  <td></td>
-                                   <td>
-                                      <img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                      <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
-                                  </td>
-                            </tr>
-                           @endforeach
-                          </tbody>
-                        </table>
-                  </div>
-               
-                   </div>
+                              
+   
                   
                 </div>
-            </div>
+          </div>
             
           </div>
            <div class="modal fade" id="myModal" role="dialog">
@@ -390,9 +345,10 @@
       'role'     : $('.role').val(),
       'city'     : $('.city').val(),
       'state'    : $('.state').val(),
-      'injured'  : $('#injured').val(),
-      'topstar'  : $('#topstar').val(),
-      'playing'  : $('#playing').val(),
+      'injured'  : $( "input[type=checkbox][name=injured]:checked" ).val() ? 1 : 0,
+      'playing'  : $( "input[type=checkbox][name=playing]:checked" ).val() ? 1 : 0,
+      'topstar'  : $( "input[type=checkbox][name=topstar]:checked" ).val() ? 1 : 0,
+      
      
      };
       
@@ -402,8 +358,8 @@
         url: url,
         data: data,
         headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-        success: function(data) {
-                  console.log(data);
+        success: function(data1) {
+                  console.log(data1);
             }
     });
              

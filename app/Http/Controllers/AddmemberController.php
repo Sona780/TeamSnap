@@ -8,6 +8,7 @@ use DB;
 use TeamSnap\Member;
 use TeamSnap\Team;
 use Illuminate\Support\Facades\Input;
+use TeamSnap\PlayerCtg;
 
 class AddmemberController extends Controller
 {
@@ -47,8 +48,9 @@ class AddmemberController extends Controller
           $memberdetails = DB::table('members')->get();
           $teammembers = Member::where('team_name', $id)->get();
           $memberid = Member::where('team_name', $id)->select('id')->get()->first();
+          $ctgs = PlayerCtg::where('member_id', $memberid->id)->get()->first();
 
-          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id]);
+          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id,'p_id'=> $ctgs->playing,'i_id'=>$ctgs->injured,'t_id'=>$ctgs->topstar]);
     }
 
 }
