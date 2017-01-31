@@ -4,6 +4,7 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailer;
 use TeamSnap\Member;
+use Illuminate\Support\Facades\Input;
 
 class MessageController extends Controller
 {
@@ -13,13 +14,14 @@ class MessageController extends Controller
    }
    public function sendmail($id,Request $request,Mailer $mailer)
    {
-   	 $mails= Member::where('team_name',$id)->select('email')->get();
+    $select_all = Input::get('select_all');
+    dd($select_all);
+   	$mails= Member::where('team_name',$id)->where('message_chk',1)->select('email')->get();
      
-   	 $mail='pandey12@gmail.com';
-   	 foreach($mails as $mail){
+   	 foreach($mails as $mail)
+     {
      $email=$mail->email;
-
-   	 $mailer->to($email)
+     $mailer->to($email)
             ->queue(new \TeamSnap\Mail\Mymail($request->input('title')));
       }          
      

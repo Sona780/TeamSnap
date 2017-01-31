@@ -45,7 +45,10 @@
                 </li>
                  <li class="pull-right">
                     <ul class="top-menu">
-
+                        @if (Auth::guest())
+                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
+                         @else
                         <li class="dropdown">
                             <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
                             <ul class="dropdown-menu dm-icon pull-right">
@@ -69,6 +72,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                     </ul>
                 </li>
             </ul>
