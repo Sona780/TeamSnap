@@ -20,7 +20,7 @@
                 <div class="clearfix">
                     <div class="chart stats-bar"></div>
                     <div class="count">
-                        <small>Total Members</small>
+                        <small>Total Members </small>
                         <h2>{{ $noofmembers }}</h2>
                     </div>
                 </div>
@@ -79,7 +79,8 @@
 
                     <div class=" p-20 m-t-25" style="color: #fff;">
                       The uniform contians the following:
-
+             {{Request::url() }}
+             {{$team_name}}
                     </div>
                 </div>
 

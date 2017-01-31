@@ -31,7 +31,10 @@
                 Route::resource('account','AccountController');
 
                 Route::group(['prefix' => '{id}'], function () {
-
+                   
+                    Route::get('userprofile','UserController@index');
+                    Route::post('userprofile','UserController@store');
+                    
                     Route::any('team_setup','AddmemberController@store');
                     Route::get('members','AddmemberController@show');
                     Route::get('addmember','AddmemberController@index');

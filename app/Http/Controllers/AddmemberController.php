@@ -50,7 +50,7 @@ class AddmemberController extends Controller
           $memberid = Member::where('team_name', $id)->select('id')->get()->first();
           $ctgs = PlayerCtg::where('member_id', $memberid->id)->get()->first();
 
-          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id,'p_id'=> $ctgs->playing,'i_id'=>$ctgs->injured,'t_id'=>$ctgs->topstar]);
+          return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id]);
     }
 
 }

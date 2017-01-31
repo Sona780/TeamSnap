@@ -27,7 +27,7 @@
 
         <!-- Styles -->
         <link href="/css/app.css" rel="stylesheet">
-        <link href="assets/css/gsdk-base.css" rel="stylesheet" />
+       
 
 @yield('header')
     <!-- Scripts -->
@@ -38,45 +38,26 @@
     </script>
 </head>
 <body style="background-color: #FAF6F0">
-        <nav class="navbar navbar-default navbar-static-top" style="background-color: #03A9F4;">
-            <div class="container">
-                <div class="navbar-header">
+         <header id="header" class="clearfix" data-current-skin="blue">
+            <ul class="header-inner">
+                <li class="logo ">
+                    <a href="/">Org4leagues</a>
+                </li>
+                 <li class="pull-right">
+                    <ul class="top-menu">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
+                            <ul class="dropdown-menu dm-icon pull-right">
+                                <li>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                </li>
+                                <li>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}" style="color: #fff;">
-                        {{ config('app.name', 'Org4Leagues') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right" style="color: #fff;">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
+                                </li>
+                                <li>
+                                      <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -85,18 +66,21 @@
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
+                </li>
+            </ul>
+     </header>
 
-        <div class="container">
-        @yield('content')
-        </div>
+        <section id="main" data-layout="layout-1">
+           <section id="content">
+                <div class="container">
+                     @yield('content')
+                </div>
+           </section>
+        </section>
 
         <script src="{{URL::to('/')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -125,17 +109,7 @@
     <!-- Scripts -->
     <script src="/js/app.js"></script>
 
-    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-    <!--   plugins   -->
-    <script src="assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-
-    <!--  More information about jquery.validate here: http://jqueryvalidation.org/  -->
-    <script src="assets/js/jquery.validate.min.js"></script>
-
-    <!--  methods for manipulating the wizard and the validation -->
-    <script src="assets/js/wizard.js"></script>
+  
 
  @yield('footer')
 </body>

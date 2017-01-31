@@ -3,7 +3,7 @@
 @section('content')
 
  <div role="tabpanel">
-       <ul class="tab-nav tab-nav-right" role="tablist">
+       <ul class="tab-nav tab-nav" role="tablist">
                 <li class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
                 <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Vedio Link</a></li>
                 <li role="presentation"><a href="#messages1" aria-controls="messages1" role="tab" data-toggle="tab">Files</a></li>
@@ -13,7 +13,12 @@
                 <div role="tabpanel" class="tab-pane active" id="home1">
                        <div class="row">
                            
-                           <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">upload img</button>
+                          <!--  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">upload img</button> -->
+                             <div class="pull-right">
+                             <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#myModal">
+                               <i class="zmdi zmdi-plus"></i>
+                             </button>
+                             </div>
                             <!--Modal-->
                             <div class="modal fade" id="myModal" role="dialog">
               							    <div class="modal-dialog modal-lg">
@@ -33,24 +38,36 @@
               							          </div>
               							        </div>
               							        <div class="modal-footer">
-              							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              							          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
               							        </div>
               							      </div>
               							    </div>
 							               </div>
 
 							           </div>
-                         <div class="row">
-                            @foreach($images as $img)
-                            <div class="col-sm-3">
-                                 <img src="/images/{{$img->img_name}}" class="img-circle img-responsive">     
-                            </div>
-                            @endforeach
-                        </div>
+                        
+                        <div class="card-body card-padding">                     
+                             <div class="lightbox photos">
+                                @foreach($images as $img)
+                                 <div data-src="/images/{{$img->img_name}}" class="col-md-2 col-sm-4 col-xs-6">
+                                     <div class="lightbox-item p-item">
+                                         <img src="/images/{{$img->img_name}}" alt="" width="180px" height="160px" />
+                                     </div>
+                                 </div>
+                                @endforeach  
+                              </div>
+                         </div>        
+
                   </div>
 
                  <div role="tabpanel" class="tab-pane" id="profile1">
-                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">upload vedio url</button>
+                     <!--     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal1">upload video url</button> -->
+                           <div class="pull-right">
+                             <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float " data-toggle="modal" data-target="#myModal1">
+                               <i class="zmdi zmdi-plus"></i>
+                             </button>
+                            </div> 
+                          
                             <!--Modal-->
                             <div class="modal fade" id="myModal1" role="dialog">
                 							    <div class="modal-dialog modal-sm">
@@ -68,7 +85,7 @@
                 							          </form>
                 							        </div>
                 							        <div class="modal-footer">
-                							          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                							          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
                 							        </div>
                 							      </div>
                 							    </div>
@@ -90,7 +107,12 @@
                   </div>
                   <div role="tabpanel" class="tab-pane" id="messages1">
                       <div class="row">
-                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">upload files</button>
+                         <!--  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal2">upload files</button> -->
+                            <div class="pull-right">
+                             <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float " data-toggle="modal" data-target="#myModal2">
+                               <i class="zmdi zmdi-plus"></i>
+                             </button>
+                            </div> 
                             <!--Modal-->
                             <div class="modal fade" id="myModal2" role="dialog">
                                 <div class="modal-dialog modal-lg">
@@ -110,7 +132,7 @@
                                       </div>
                                     </div>
                                     <div class="modal-footer">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
                                     </div>
                                   </div>
                                 </div>
@@ -140,5 +162,10 @@
             maxFilesize         :       1,
             acceptedFiles: ".jpeg,.jpg,.png,.gif"
         };
+        $(document).ready(function(){
+           $('.close_btn').click(function(){
+              window.location.reload();
+           });
+        });
    </script>
 @endsection

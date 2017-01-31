@@ -9,6 +9,7 @@ use \TeamSnap\Team;
 use \TeamSnap\Member;
 use Auth;
 use \TeamSnap\Repositories;
+use TeamSnap\User;
 
 class DashboardController extends Controller
 {
