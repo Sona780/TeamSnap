@@ -75,16 +75,16 @@
             <nav class="ha-menu">
 
                 <ul>
-                    <li class="waves-effect" id="a"><a href="dashboard">Dashboard</a></li>
-                    <li class="waves-effect" id="b"><a href="members">Members</a></li>
-                    <li class="waves-effect" id="c"><a href="schedule">Schedule</a></li>
-                    <li class="waves-effect" id="g"><a href="records">Records</a></li>
-                    <li class="waves-effect" id="h"><a href="files">Media</a></li>
-                    <li class="waves-effect" id="e"><a href="messages">Messages</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="settings">Settings</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="assets">Assets</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="settings">Settings</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="assets">Assets</a></li>
+                    <li class="waves-effect" id="a"><a href="/{{$teamname}}/dashboard">Dashboard</a></li>
+                    <li class="waves-effect" id="b"><a href="/{{$teamname}}/members">Members</a></li>
+                    <li class="waves-effect" id="c"><a href="/{{$teamname}}/schedule">Schedule</a></li>
+                    <li class="waves-effect" id="g"><a href="/{{$teamname}}/records">Records</a></li>
+                    <li class="waves-effect" id="h"><a href="/{{$teamname}}/files">Media</a></li>
+                    <li class="waves-effect" id="e"><a href="/{{$teamname}}/messages">Messages</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="/{{$teamname}}/settings">Settings</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="/{{$teamname}}/assets">Assets</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="/{{$teamname}}/settings">Settings</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="/{{$teamname}}/assets">Assets</a></li>
 
                 </ul>
             </nav>

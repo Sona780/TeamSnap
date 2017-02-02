@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use TeamSnap\User;
+use TeamSnap\Team;
 
 class Controller extends BaseController
 {
@@ -14,7 +15,11 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $user = User::all();
-        \View::share('team_name',\Request::url());
+        $url = \Request::url();
+        $String = substr("$url",7);
+        $teamname = explode('/', $String)[1];
+        $team_logo = Team::where('teamname', $teamname)->select('team_logo')->get()->first();
+        \View::share('team_name',$teamname);
+        \View::share('team_logo',$team_logo);
     }
 }

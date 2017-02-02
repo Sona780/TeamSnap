@@ -45,7 +45,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                              @if($p_id == 1)
+                              @if($member->playing == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -79,7 +79,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                              @if($i_id == 1)
+                              @if($member->injured == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -113,7 +113,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                             @if($t_id == 1)
+                             @if($member->topstar == 1)
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -161,7 +161,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                            @if( ($member->flag == 1) &&  ($p_id == 1))
+                            @if( ($member->flag == 1) &&  ($member->playing == 1))
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -195,7 +195,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                             @if( ($member->flag == 1) &&  ($i_id == 1))
+                             @if( ($member->flag == 1) &&  ($member->injured == 1))
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>
@@ -227,7 +227,7 @@
                           </thead>
                           <tbody>
                             @foreach($teammembers as $member)
-                             @if( ($member->flag == 1) &&  ($t_id == 1))
+                             @if( ($member->flag == 1) &&  ($member->topstar == 1))
                             <tr>
                                   <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                   <td>{{$member->firstname}} {{$member->lastname}} <br/>

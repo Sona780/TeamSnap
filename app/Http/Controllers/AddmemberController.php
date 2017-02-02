@@ -46,10 +46,13 @@ class AddmemberController extends Controller
     public function show($id)
     {
           $memberdetails = DB::table('members')->get();
-          $teammembers = Member::where('team_name', $id)->get();
+          // $teammembers = Member::where('team_name', $id)->get();
           $memberid = Member::where('team_name', $id)->select('id')->get()->first();
           $ctgs = PlayerCtg::where('member_id', $memberid->id)->get()->first();
-
+          $teammembers = DB::table('members')
+                     ->leftJoin('player_ctgs', 'team_name', '=', 'team_name1')
+                     ->get();
+                     
           return view('member', [ 'teamname' => $id, 'teammembers' => $teammembers ,'memberid' => $memberid->id]);
     }
 

@@ -10,20 +10,23 @@ class MessageController extends Controller
 {
    public function index($id)
    {
-   	  return view('message',["id"=>$id]);
+   	  $members = Member::where('team_name',$id)->get();
+      return view('message',["id"=>$id,'members'=>$members]);
    }
    public function sendmail($id,Request $request,Mailer $mailer)
    {
-    $select_all = Input::get('select_all');
-    dd($select_all);
-   	$mails= Member::where('team_name',$id)->where('message_chk',1)->select('email')->get();
-     
+     $members = Member::where('team_name',$id)->get();
+     $select_all = $request->get('select_all');
+     $mails= Member::where('team_name',$id)->select('email')->get();  
+    
+    
    	 foreach($mails as $mail)
      {
      $email=$mail->email;
      $mailer->to($email)
             ->queue(new \TeamSnap\Mail\Mymail($request->input('title')));
-      }          
+     }      
+
      
      return redirect($id.'/messages');        
    }

@@ -79,8 +79,9 @@
 
                     <div class=" p-20 m-t-25" style="color: #fff;">
                       The uniform contians the following:
-             {{Request::url() }}
+             
              {{$team_name}}
+             {{$team_logo}}
                     </div>
                 </div>
 
