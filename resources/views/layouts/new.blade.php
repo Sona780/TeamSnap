@@ -18,12 +18,14 @@
 
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
 
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
          <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+
 
         @yield('header')
     </head>
@@ -75,16 +77,16 @@
             <nav class="ha-menu">
 
                 <ul>
-                    <li class="waves-effect" id="a"><a href="/{{$teamname}}/dashboard">Dashboard</a></li>
-                    <li class="waves-effect" id="b"><a href="/{{$teamname}}/members">Members</a></li>
-                    <li class="waves-effect" id="c"><a href="/{{$teamname}}/schedule">Schedule</a></li>
-                    <li class="waves-effect" id="g"><a href="/{{$teamname}}/records">Records</a></li>
-                    <li class="waves-effect" id="h"><a href="/{{$teamname}}/files">Media</a></li>
-                    <li class="waves-effect" id="e"><a href="/{{$teamname}}/messages">Messages</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="/{{$teamname}}/settings">Settings</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="/{{$teamname}}/assets">Assets</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="/{{$teamname}}/settings">Settings</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="/{{$teamname}}/assets">Assets</a></li>
+                    <li class="waves-effect" id="a"><a href="/{{$team_name}}/dashboard">Dashboard</a></li>
+                    <li class="waves-effect" id="b"><a href="/{{$team_name}}/members">Members</a></li>
+                    <li class="waves-effect" id="c"><a href="/{{$team_name}}/schedule">Schedule</a></li>
+                    <li class="waves-effect" id="g"><a href="/{{$team_name}}/records">Records</a></li>
+                    <li class="waves-effect" id="h"><a href="/{{$team_name}}/files">Media</a></li>
+                    <li class="waves-effect" id="e"><a href="/{{$team_name}}/messages">Messages</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
 
                 </ul>
             </nav>
@@ -175,6 +177,8 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+
 
 
 
