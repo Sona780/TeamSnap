@@ -30,7 +30,7 @@ class MessageController extends Controller
         //      for reuse the data
         //       $raw_data = // query to get the data from the DB
         //       $data = unserialize( $raw_data );
-     $i = 0; 
+    $i = 0; 
     foreach($mails as $mail)
     {
     $m = Member::where('id', $mail)->select('email')->get()->first();
