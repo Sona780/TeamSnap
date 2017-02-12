@@ -4,21 +4,23 @@ use Illuminate\Http\Request;
 use TeamSnap\Member;
 use Image;
 use TeamSnap\Team;
+use TeamSnap\PlayerCtg;
 
 
 class ProfileController extends Controller
 {
     public function index($id)
     {
-    	$avatar = Member::where('id',$id)->select('avatar')->get()->first();
+      $avatar = Member::where('id',$id)->select('avatar')->get()->first();
     	$members = Member::where('id',$id)->get();
       $vid = Member::where('id',$id)->select('id')->get()->first();
-      return view('profile', [ 'teamname' => $id, 'avatar' => $avatar, 'id' => $vid ]);
+       $avatar = Member::where('id',$id)->select('avatar')->get()->first();
+      return view('profile', [ 'teamname' => $id, 'avatar' => $avatar, 'id' => $vid, 'avatar' => $avatar ]);
     }
 
     public function update_avatar($id,Request $request)
     {
-
+        
 
        if($request->hasFile('avatar'))
        {
@@ -30,10 +32,9 @@ class ProfileController extends Controller
            $avatar->avatar=$filename;
            $avatar->save();
            Member::where('id',$id)->update(['avatar' => $avatar->avatar]);
-
+          
        }
-
-       return view('profile',compact('avatar','members'));
+       return redirect($id.'/profile');
     }
 
     public function edit($id)
@@ -45,20 +46,20 @@ class ProfileController extends Controller
 
     public function update($id, Request $request)
     {
-
-        $data=$request->get('playertype');
-        if($data == 1)
-          {
-            $flag1=true;
-          }
-        else
-          {
-            $flag1 = false;
-          }
-       $article = Member::findorFail($id);
-       $article->flag=$flag1;
-       $article->update($request->all());
-       return redirect($article->team_name.'/members');
+       $members = Member::findorFail($id);
+       $members->update($request->all());
+       
+       //ctgs
+       $team = Member::where('id',$id)->select('team_name')->get()->first();
+       $teamname= $team->team_name;
+       $ctgs = new PlayerCtg;
+       $ctgs->playing   = $request->get('playing');
+       $ctgs->injured   = $request->get('injured');
+       $ctgs->topstar   = $request->get('topstar');
+       $ctgs->team_name = $teamname;
+       $ctgs->member_id   =  $id; 
+       $ctgs->save(); 
+       return $ctgs;
 
     }
 

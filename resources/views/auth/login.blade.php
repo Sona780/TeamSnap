@@ -56,10 +56,12 @@
 
             </form>
 
-              <ul class="login-navigation">
+              <ul class="login-navigation"><!-- 
                   <li data-block="/register" class="bgm-red"><a href="{{ url('/register') }}">Register</a></li>
-                  <!--<li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li>
-              -->
+                  <li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li> -->
+                  <div class="btn-demo">
+                    <a href="{{ url('/password/reset') }}"><button class="btn btn-warning btn-xs" style="border-radius:50px ">Forgot Password</button></a>
+                  </div>  
               </ul>
 
           </div>

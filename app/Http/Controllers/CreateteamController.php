@@ -14,6 +14,7 @@ class CreateteamController extends Controller
 {
     public function index()
     {
+      
     	return view('createteam');
     }
 
@@ -34,7 +35,7 @@ class CreateteamController extends Controller
            $inputs->team_logo= $filename;
         }
         Auth::user()->teams()->save($inputs);
-        return $inputs;
+        return redirect($inputs->teamname.'/dashboard');
 
     }
 

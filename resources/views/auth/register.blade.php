@@ -66,11 +66,7 @@
 
               </form>
 
-                <ul class="login-navigation">
-                    <li data-block="/login" class="bgm-red"><a href="{{ url('/login') }}">Login</a></li>
-                    <!--<li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li>
-                -->
-                </ul>
+               
 
             </div>
           </div>

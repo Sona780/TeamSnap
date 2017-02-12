@@ -7,15 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
      protected $fillable = [
-         'firstname', 'lastname','flag','email','mobile','role','birthday','city','state','team_name','user_id','avatar',
+         'firstname', 'lastname','flag','email','mobile','role','birthday','city','state','team_name','user_id','avatar','message_chk',
     ];
 
 
     public $timestamps = false;
-
-     public function userteam()
-    {
-    	return $this-> belongsTo('TeamSnap\Team'); 
-    }
 
 }

@@ -19,8 +19,5 @@ class Team extends Model
     	return $this-> belongsTo('TeamSnap\User');
     }
 
-     public function members()
-    {
-        return $this -> hasMany('TeamSnap\Member');
-    }
+   
 }

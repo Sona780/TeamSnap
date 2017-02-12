@@ -1,350 +1,82 @@
 @extends('layouts.new')
+@section('header')
+<link href="{{URL::to('/')}}/css/membertable.css" rel="stylesheet">
+@endsection
 
 @section('content')
-
-            <div class="content container">
-
-                         <div class=" pull-right">
-
-                         </div>
-
-
-
-         <ul class="nav nav-pills sub_header">
-            <li class="active " ><a data-toggle="pill" href="#all">ALL</a></li>
-
-            <li><a data-toggle="pill" href="#players">PLAYERS</a></li>
-            <li><a data-toggle="pill" href="#nonplayers">NON PLAYERS</a></li>
-
-        </ul>
-
-          <div class="tab-content">
-
-            <div id="all" class="tab-pane  active card tablehead">
-
-                <div class="tab-content">
-
-                  <div class="pull-right" style="z-index: 9999; position: relative; margin-right: 6em; margin-top: -3.5em;">
-                  <a href="addmember">
-                      <button class="btn bgm-red btn-float waves-effect">
-                        <i class="zmdi zmdi-plus"></i>
-                      </button>
-                  </a>
-                  </div>
-
-                  <div id="playingteam" class="tab-pane active">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                              <th>Edit/Delete</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            @foreach ($teammembers as $member)
-                            <tr>
-                              <td>{{$member->id}}</td>
-                              <td><a href="/{{$member->id}}/profile">
-                                  {{$member->firstname}}
-                              </a>
-                              </td>
-                              <td>{{$member->lastname}}</td>
-                              <td>{{$member->email}}</td>
-                              <td><a href="/{{$member->id}}/profile/edit"><img src="/img/edit.png">
-                                  <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png">
-
-                            </tr>
-                             @endforeach
-                          </tbody>
+  
+   <div class="card">
+                        <div class="card-header">
+                            <h2>MEMBER LIST </h2>
+                        </div>
+                        
+                        <table id="data-table-command" class="table table-striped table-vmiddle">
+                            <thead>
+                                <tr>
+                                    <th data-column-id="id" data-type="numeric">ID</th>
+                                    <th data-column-id="sender">Name</th>
+                                    <th data-column-id="received" data-order="desc">Contact</th>
+                                    <th data-column-id="commands" data-formatter="commands" data-sortable="false">Commands</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10238</td>
+                                    <td>eduardo@pingpong.com</td>
+                                    <td>14.10.2013</td>
+                                </tr>
+                                
+                            </tbody>
                         </table>
-                  </div>
-                  </div>
-                  <div id="injured" class="tab-pane">
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>84</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="topstar" class="tab-pane">
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>70</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-
-                   </div>
-
-                </div>
-                   </div>
-            <div id="players" class="tab-pane  card tablehead">
-
-                        <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="pill" href="#playingteam1">PLAYING TEAM</a></li>
-                  <li><a data-toggle="pill" href="#injured1" >INJURED</a></li>
-                  <li><a data-toggle="pill" href="#topstar1" >TOP STAR</a></li>
-            </ul>
-
-                <div class="tab-content">
-
-                  <div id="playingteam1" class="tab-pane  active">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                                @foreach ($teammembers as $member)
-
-
-
-                            <tr>
-
-                              @if($member->flag==0)
-
-                              <td>{{$member->id}}</td>
-                              <td>{{$member->firstname}}</td>
-                              <td>{{$member->lastname}}</td>
-                              <td>{{$member->email}}</td>
-
-                               @endif
-                            </tr>
-
-
-                             @endforeach
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="injured1" class="tab-pane">
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>58</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-
-                            </tr>
-                            <tr>
-                              <td>58</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="topstar1" class="tab-pane">
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>49</td>
-                              <td>Anna</td>
-                              <td>Pitt</td>
-                              <td>35</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-
-                   </div>
-
-                </div>
-            </div>
-            <div id="nonplayers" class="tab-pane card tablehead">
-
-                        <ul class="nav nav-pills">
-                  <li class="active"><a data-toggle="pill" href="#playingteam2">PLAYING TEAM</a></li>
-                  <li><a data-toggle="pill" href="#injured2">INJURED</a></li>
-                  <li><a data-toggle="pill" href="#topstar2">TOP STAR</a></li>
-
-              </ul>
-
-                <div class="tab-content">
-
-                  <div id="playingteam2" class="tab-pane active">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                                @foreach ($teammembers as $member)
-
-
-                            <tr>
-
-
-
-                              @if($member->flag==1)
-
-                              <td>{{$member->id}}</td>
-                              <td>{{$member->firstname}}</td>
-                              <td>{{$member->lastname}}</td>
-                              <td>{{$member->email}}</td>
-
-                              @endif
-
-                            </tr>
-
-                             @endforeach
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="injured2" class="tab-pane">
-
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-
-                              <td>22</td>
-                              <td>Anffffffna</td>
-                              <td>Pitefwet</td>
-                              <td>3efe5</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-                  </div>
-                  <div id="topstar2" class="tab-pane">
-                      <div class="table-responsive">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Firstname</th>
-                              <th>Lastname</th>
-                              <th>Email</th>
-                            </tr>
-
-                          </thead>
-                          <tbody>
-
-                            <tr>
-                              <td>18</td>
-                              <td>Annaefw</td>
-                              <td>Pitewfwfwet</td>
-                              <td>35ewfw</td>
-
-                            </tr>
-                          </tbody>
-                        </table>
-                  </div>
-
-                   </div>
-
-                </div>
-            </div>
-
-          </div>
-
-        </div>
-
+                    </div>
 @endsection
 
-@section('footer')
-<script>
+ @section('footer')
+  <script type="text/javascript">
+            $(document).ready(function(){
+                //Basic Example
+                $("#data-table-basic").bootgrid({
+                    css: {
+                        icon: 'zmdi icon',
+                        iconColumns: 'zmdi-view-module',
+                        iconDown: 'zmdi-expand-more',
+                        iconRefresh: 'zmdi-refresh',
+                        iconUp: 'zmdi-expand-less'
+                    },
+                });
+                
+                //Selection
+                $("#data-table-selection").bootgrid({
+                    css: {
+                        icon: 'zmdi icon',
+                        iconColumns: 'zmdi-view-module',
+                        iconDown: 'zmdi-expand-more',
+                        iconRefresh: 'zmdi-refresh',
+                        iconUp: 'zmdi-expand-less'
+                    },
+                    selection: true,
+                    multiSelect: true,
+                    rowSelect: true,
+                    keepSelection: true
+                });
+                
+                //Command Buttons
+                $("#data-table-command").bootgrid({
+                    css: {
+                        icon: 'zmdi icon',
+                        iconColumns: 'zmdi-view-module',
+                        iconDown: 'zmdi-expand-more',
+                        iconRefresh: 'zmdi-refresh',
+                        iconUp: 'zmdi-expand-less'
+                    },
+                    formatters: {
+                        "commands": function(column, row) {
+                            return "<button type=\"button\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-edit\"></span></button> " + 
+                                "<button type=\"button\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\"><span class=\"zmdi zmdi-delete\"></span></button>";
+                        }
+                    }
+                });
+            });
+        </script>
 
- $(document).ready(function() {
-     $("#b").addClass("active");
-
- });
-
-</script>
-@endsection
+ @endsection

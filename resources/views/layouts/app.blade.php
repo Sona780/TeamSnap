@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-      <title>Org4Leagues</title>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+   <html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>Org4Leagues</title>
 
         <!-- Vendor CSS -->
         <link href="{{URL::to('/')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
@@ -17,66 +14,43 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
 
         <link href="{{URL::to('/')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
-
-
-
-        <!-- Styles -->
-        <link href="/css/app.css" rel="stylesheet">
-        <link href="assets/css/gsdk-base.css" rel="stylesheet" />
-
-@yield('header')
-    <!-- Scripts -->
-    <script>
-        window.Laravel = <?php echo json_encode([
-            'csrfToken' => csrf_token(),
-        ]); ?>
-    </script>
-</head>
-<body style="background-color: #FAF6F0">
-        <nav class="navbar navbar-default navbar-static-top" style="background-color: #03A9F4;">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}" style="color: #fff;">
-                        {{ config('app.name', 'Org4Leagues') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right" style="color: #fff;">
-                        <!-- Authentication Links -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+        
+        @yield('header')
+    </head>
+    <body style="background-color: #FAF6F0">
+       <header id="header" class="clearfix" data-current-skin="blue">
+            <ul class="header-inner">
+                <li class="logo ">
+                    <a href="/">Org4leagues</a>
+                </li>
+                 <li class="pull-right">
+                    <ul class="top-menu">
                         @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #fff;">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
+                         @else
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
+                            <ul class="dropdown-menu dm-icon pull-right">
+                                <li>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                </li>
+                                <li>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
+                                </li>
+                                <li>
+                                      <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
@@ -85,19 +59,80 @@
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                    </li>
-                                </ul>
-                            </li>
+                                </li>
+                            </ul>
+                        </li>
                         @endif
                     </ul>
+                </li>
+            </ul>
+      </header>
+
+
+        <section id="main" data-layout="layout-1">
+
+            <section id="content">
+                <div class="container">
+                    @yield('content')
                 </div>
+            </section>
+        </section>
+
+        <footer id="footer">
+            Copyright &copy; 2017 Kilobyte Technology Partners
+
+            <ul class="f-menu">
+                <li><a href="">Home</a></li>
+                <li><a href="">Dashboard</a></li>
+                <li><a href="">Support</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </footer>
+
+        <!-- Older IE warning message -->
+        <!--[if lt IE 9]>
+            <div class="ie-warning">
+                <h1 class="c-white">Warning!!</h1>
+                <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+                <div class="iew-container">
+                    <ul class="iew-download">
+                        <li>
+                            <a href="http://www.google.com/chrome/">
+                                <img src="img/browsers/chrome.png" alt="">
+                                <div>Chrome</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.mozilla.org/en-US/firefox/new/">
+                                <img src="img/browsers/firefox.png" alt="">
+                                <div>Firefox</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.opera.com">
+                                <img src="img/browsers/opera.png" alt="">
+                                <div>Opera</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.apple.com/safari/">
+                                <img src="img/browsers/safari.png" alt="">
+                                <div>Safari</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                                <img src="img/browsers/ie.png" alt="">
+                                <div>IE (New)</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Sorry for the inconvenience!</p>
             </div>
-        </nav>
+        <![endif]-->
 
-        <div class="container">
-        @yield('content')
-        </div>
-
+        <!-- Javascript Libraries -->
         <script src="{{URL::to('/')}}/vendors/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -115,28 +150,22 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+        <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+       
+        <!-- Placeholder for IE9 -->
+        <!--[if IE 9 ]>
+            <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+        <![endif]-->
 
         <script src="{{URL::to('/')}}/js/flot-charts/curved-line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/flot-charts/line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/charts.js"></script>
 
-        <script src="{{URL::to('/')}}/js/charts.js"></script>
         <script src="{{URL::to('/')}}/js/functions.js"></script>
-    <!-- Scripts -->
-    <script src="/js/app.js"></script>
+        <!-- <script src="{{URL::to('/')}}/js/demo.js"></script> -->
 
-    <script src="assets/js/jquery-1.10.2.js" type="text/javascript"></script>
-    <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-    <!--   plugins   -->
-    <script src="assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-
-    <!--  More information about jquery.validate here: http://jqueryvalidation.org/  -->
-    <script src="assets/js/jquery.validate.min.js"></script>
-
-    <!--  methods for manipulating the wizard and the validation -->
-    <script src="assets/js/wizard.js"></script>
-
- @yield('footer')
-</body>
-</html>
+        @yield('footer')
+    </body>
+  </html>

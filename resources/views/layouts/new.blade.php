@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Org4Leagues</title>
 
         <!-- Vendor CSS -->
@@ -16,10 +17,15 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+
 
         @yield('header')
     </head>
@@ -36,17 +42,20 @@
 
                 <li class="logo hidden-xs">
 
-                    <a href="/{{ $teamname }}/dashboard">{{ $teamname }}</a>
                 </li>
 
                 <li class="pull-right">
                     <ul class="top-menu">
 
                         <li class="dropdown">
-                            <a data-toggle="dropdown" href=""><i class="tm-icon zmdi zmdi-face"></i></a>
+                            <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
                                     <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                </li>
+                                <li>
+
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
                                 </li>
                                 <li>
                                       <a href="{{ url('/logout') }}"
@@ -68,14 +77,16 @@
             <nav class="ha-menu">
 
                 <ul>
-                    <li class="waves-effect" id="a"><a href="dashboard">Dashboard</a></li>
-                    <li class="waves-effect" id="b"><a href="members">Locker Room</a></li>
-                    <li class="waves-effect" id="c"><a href="dashboard">Schedule</a></li>
-                    <li class="waves-effect" id="d"><a href="dashboard">Assets</a></li>
-                    <li class="waves-effect" id="e"><a href="dashboard">Messages</a></li>
-                    <li class="waves-effect pull-right" id="f"><a href="dashboard">Settings</a></li>
-                    <li class="waves-effect pull-right" id="g"><a href="dashboard">Records</a></li>
-                    <li class="waves-effect pull-right" id="h"><a href="dashboard">Media</a></li>
+                    <li class="waves-effect" id="a"><a href="/{{$team_name}}/dashboard">Dashboard</a></li>
+                    <li class="waves-effect" id="b"><a href="/{{$team_name}}/members">Members</a></li>
+                    <li class="waves-effect" id="c"><a href="/{{$team_name}}/schedule">Schedule</a></li>
+                    <li class="waves-effect" id="g"><a href="/{{$team_name}}/records">Records</a></li>
+                    <li class="waves-effect" id="h"><a href="/{{$team_name}}/files">Media</a></li>
+                    <li class="waves-effect" id="e"><a href="/{{$team_name}}/messages">Messages</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
+                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
 
                 </ul>
             </nav>
@@ -165,6 +176,11 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+
 
 
         <!-- Placeholder for IE9 -->
