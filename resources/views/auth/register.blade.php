@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
-        <div class="lc-block toggled" id="l-login">
+        <div class="lc-block toggled" id="l-login" style="width: 95%;">
 
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
               {{ csrf_field() }}
@@ -65,7 +65,11 @@
 
 
               </form>
-
+            <ul class="login-navigation">
+                  <div class="btn-demo">
+                  <a href="{{ url('/login') }}"><button class="btn btn-success btn-xs pills-auth">Login</button></a>
+                  </div>  
+              </ul>
                
 
             </div>

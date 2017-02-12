@@ -28,9 +28,10 @@
        <div class="card bgm-teal">
             <div class="card-header">
                     <a href="{{$team->teamname}}/dashboard">
-                      <h2 style="color: #fff;">{{$team->teamname}} <small>Team motto</small></h2>
+                      <h2 style="color: #fff;">{{$team->teamname}} <!-- <small>Team motto</small> --></h2>
                     </a>
 
+                    <!--
                     <ul class="actions">
                         <li class="dropdown">
                             <a href="" data-toggle="dropdown" aria-expanded="false">
@@ -44,11 +45,15 @@
                             </ul>
                         </li>
                     </ul>
+                    -->
                 </div>
 
                 <div class="card-body card-padding">
                   <a href="{{$team->teamname}}/dashboard " style="color: #fff;">
-                    Team About/Logo
+                  Team Logo
+                    <!-- <div style="border: solid 2px #fff;">
+                    <img src="{{URL::to('/')}}/uploads/avatars/{{$team->team_logo}}" style="width: 100%;" />
+                    </div> -->
                   </a>
                 </div>
             </div>
