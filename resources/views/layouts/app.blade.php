@@ -19,6 +19,7 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/farbtastic/farbtastic.css" rel="stylesheet">
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
@@ -155,7 +156,7 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
-       
+       <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>

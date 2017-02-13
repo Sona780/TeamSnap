@@ -4,30 +4,41 @@
   
   <div class="card">
      <div class="card-header">
-       <h2>Create Team <small>Extend form controls by adding text or buttons before, after, or on both sides of any text-based inputs.</small></h2>
+       <h2>Create Team <small></small></h2>
      </div>
     <div class="card-body card-padding">
        <form enctype="multipart/form-data" action="{{url('/store')}}" method="POST" id="teamform" name="teamform">
          {!! csrf_field() !!}
         <div class="row">
-            <div class="col-sm-6 ">                       
+            <div class="col-sm-6 ">  
+                <div class="form-group">
+                <label>Team Name <small>(required)</small></label>                     
                 <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
                              <input type="text" class="form-control" placeholder="Full Name" name="teamname">
                         </div>
                 </div>
+                </div>
                 <br/><br/>
                  <div class="form-group" style="padding-top: 0.75em;">
                         <label>Sport <small>(required)</small></label>
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="zmdi zmdi-star-circle"></i></span>
+                            <div class="fg-line">
                             <select class="selectpicker sport" name="sport" >
                                   <option value="0">Sport</option>
                                   <option value="1">Non sport</option>
                             </select>
+                            </div>
+                         </div>   
                   </div>
                   <br/><br/>
                    <div class="form-group">
                       <label>Country <small>(required)</small></label>
+                      <div class="input-group">
+                      <span class="input-group-addon"><i class="zmdi zmdi-pin-drop"></i></span>
+                          <div class="fg-line">
                           <select class="selectpicker country" data-live-search="true" name="country"  >
                                 <option value="0">United States</option>
                                 <option value="1">Canada</option>
@@ -36,33 +47,88 @@
                                 <option value="4">China</option>
                                 <option value="5">South Africa</option>
                            </select>
+                           </div>
+                       </div>
                     </div>
                     <br/><br/>
-
+                <div class="form-group">
+                <label>Zip Code <small>(required)</small></label>
                 <div class="input-group">                      
-                   <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                   <span class="input-group-addon"><i class="zmdi zmdi-info"></i></span>
                          <div class="fg-line">
                              <input type="text" class="form-control" placeholder="Zip Code" name="zipcode">
                          </div>
                 </div>
+                </div>
              </div>
-             <div class="col-sm-2">
-             </div>
-             <div class="col-sm-4">
-                   <div class="row ">
-                    <img src ="/uploads/avatars/default.jpg" id="blah" style="width:150px; height:150px; float:left; border-radius: 50%; margin-right: 25px;" />
-                   </div>
-                  <div class="row">
-                    <label>Team Logo</label>
-                    <!-- <input type="file" name="team_logo"> -->
-                    <input type="file" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" name="team_logo">
-                  </div> 
+             
+             <div class="col-sm-5 col-sm-offset-1">
+                    
+                <div class="form-group">
+                <label>Team Logo </label>                     
+                <div class="input-group">
+                       <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                                <div>
+                                    <span class="btn btn-info btn-file">
+                                        <span class="fileinput-new">Select image</span>
+                                        <span class="fileinput-exists">Change</span>
+                                        <input type="file" name="team_logo">
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                        </div>
+                </div>
+                </div>
+                  
+                
+                    <div class="form-group">
+                    <label>Team Color </label>             
+                    <div class="cp-container">
+                          <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
+                                            <div class="fg-line dropdown">
+                                                <input type="text" class="form-control cp-value" value="#03A9F4" data-toggle="dropdown" name="team_color_first">
+                                                    
+                                                <div class="dropdown-menu">
+                                                    <div class="color-picker" data-cp-default="#03A9F4"></div>
+                                                </div>
+                                                
+                                                <i class="cp-value"></i>
+                                            </div>
+                            </div>
+                      </div>
+                               
+                                  <br/><br/>
+                                
+                                    <div class="cp-container">
+                                        <div class="input-group form-group">
+                                            <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
+                                            <div class="fg-line dropdown">
+                                                <input type="text" class="form-control cp-value" value="#8BC34A" data-toggle="dropdown" name="team_color_second">
+                                                    
+                                                <div class="dropdown-menu">
+                                                    <div class="color-picker" data-cp-default="#8BC34A"></div>
+                                                </div>
+                                                
+                                                <i class="cp-value"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                                
+                                
+                            
+
+
                     
              </div>
 
         </div>  
         <div class="row">
-           <br/><br/> <input type="submit" name="submit">
+           <br/><br/> 
+          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
         </div>      
      </form>
     
@@ -75,6 +141,8 @@
 
 @section('footer')
 <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+<script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
+
 <script>
 // $(document).ready(function(){
 //   var team_name;

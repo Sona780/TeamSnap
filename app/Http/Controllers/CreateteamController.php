@@ -26,6 +26,8 @@ class CreateteamController extends Controller
        $inputs->sport   =  Input::get('sport');
        $inputs->country =  Input::get('country');
        $inputs->zip     =  $request->get('zipcode');
+       $inputs->team_color_first = $request->get('team_color_first');
+       $inputs->team_color_second = $request->get('team_color_second');
        if($request->hasFile('team_logo'))
        {
 
