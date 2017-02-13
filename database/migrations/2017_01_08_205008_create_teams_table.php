@@ -21,6 +21,9 @@ class CreateTeamsTable extends Migration
             $table->integer('zip');
             $table->integer('user_id')->unsigned();
             $table->string('team_logo')->default('default.jpg');
+            $table->string('team_logo')
+            $table->string('team_color_first');
+            $table->string('team_color_second');
             $table->timestamp('created_at'); 
             $table->foreign('user_id')
                   ->references('id')
