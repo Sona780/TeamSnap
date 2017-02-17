@@ -17,7 +17,12 @@ class CreateMediasTable extends Migration
             $table->increments('id'); 
             $table->string('video_url');
             $table->string('video_title');
-            $table->string('team_name');
+            $table->integer('team_id')->unsigned();
+            $table->foreign('team_id')
+                  ->references('id')
+                  ->on('teams')
+                  ->onDelete('cascade');
+
         });
     }
 
