@@ -20,6 +20,16 @@
           });
 
             Route::group(['middleware' => 'auth'], function () {
+            /*    Route::group(['domain' => '{account}.myapp.com'], function () {
+                    Route::get('user/{account}', function ($account, $id) {
+                        //
+                    });
+                    });
+                    */
+                    /**
+                    insert here for sub domains
+                    $account conatains the value of subdomain use accordingly
+                    */
 
                 Route::get('home','HomeController@index')->name('home');;
 
