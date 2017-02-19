@@ -82,50 +82,6 @@
 
         <div class="tab-content">
            <div role="tabpanel" class="tab-pane active" id="home11">
-             <div class="card">
-                       <div class="table-responsive ">
-                        <table class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>Hello</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                             </tbody>
-                        </table>
-                      </div>
-                    </div>
-            @foreach($users as $user)
-                @if($ctgs == '' || $ctgs == NULL)
-                
-                   <div class="card">
-                       <div class="table-responsive ">
-                        <table class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                             </tbody>
-                        </table>
-                      </div>
-                    </div>
-                @else
                 <ul class="tab-nav" role="tablist">
                    <?php $i=0 ?>
                    @foreach($ctgs as $ctg)
@@ -142,10 +98,9 @@
                         <?php $i += 1  ?>
                     @endforeach
                  </ul>
-               
                  
                 <div class="tab-content">
-                   
+                   @if($ctgs !='')
                    @foreach($ctgs as $ctg)
                    <div role="tabpanel" class="tab-pane active" id="all{{$ctg->id}}">
                      <div class="card">
@@ -161,7 +116,7 @@
                              <tbody>
                                 <tr>
                                     <td>10238</td>
-                                    <td>{{$user->name}}</td>
+                                    <td>{{$ctg->name}}1</td>
                                     <td>14.10.2013</td>
                                 </tr>
                              </tbody>
@@ -171,60 +126,22 @@
                    </div>
                    
                    @endforeach
-                  
+                  @endif
                 </div>
-
-                @endif
-                  @endforeach 
             </div>
             <div role="tabpanel" class="tab-pane" id="profile11">
-               @foreach($users as $user)
-                @if($ctgs == '' || $ctgs == NULL )
-                   <div class="card">
-                       <div class="table-responsive ">
-                        <table class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                              @if($user->flag == 1)
-                                <tr>
-                                    <td>10238</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                              @endif  
-                             </tbody>
-                        </table>
-                      </div>
-                    </div>
-                @else
                 <ul class="tab-nav" role="tablist">
-                  
-                   <?php $i=0 ?>
+                   @if($ctgs != '')
                    @foreach($ctgs as $ctg)
-                     
-                      @if($i == 0)
-                        <li class="active">
-                          <a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}} </a>
-                        </li>
-                        @else
-                        <li>
+                        <li >
                           <a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a>
                         </li>
-                        @endif
-                        <?php $i += 1  ?>
                     @endforeach
-                   
+                    @endif
                  </ul>
-               
                  
                 <div class="tab-content">
-                  
+                   @if($ctgs != '')
                    @foreach($ctgs as $ctg)
                    <div role="tabpanel" class="tab-pane active" id="player{{$ctg->id}}">
                      <div class="card">
@@ -240,7 +157,7 @@
                              <tbody>
                                 <tr>
                                     <td>10238</td>
-                                    <td>{{$user->name}}</td>
+                                    <td>{{$ctg->name}}</td>
                                     <td>14.10.2013</td>
                                 </tr>
                              </tbody>
@@ -249,15 +166,12 @@
                      </div>
                    </div>
                    @endforeach
-                 
+                   @endif
                 
                   
                 </div>
-                 @endif 
-                 @endforeach
             </div>
             <div role="tabpanel" class="tab-pane" id="messages11">
-
                 <ul class="tab-nav" role="tablist">
                    <li>
                       <a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab"></a>
@@ -267,9 +181,8 @@
                  
                 <div class="tab-content">
                   
-                   <div role="tabpanel" class="tab-pane active" id="nonplayer">
-                   <div class="card">
-                  
+                   <div role="tabpanel" class="tab-pane active" id="nonplayer{{$ctg->id}}">
+                     <div class="card">
                    <div class="table-responsive ">
                         <table  class="table table-striped data-table-basic">
                             <thead>
@@ -280,19 +193,14 @@
                                 </tr>
                              </thead>
                              <tbody>
-                              @foreach($users as $user)
-                                 @if($user->flag == 0)
                                 <tr>
                                     <td>10238</td>
-                                    <td>{{$user->name}}</td>
+                                    <td>eduardo@pingpong.com</td>
                                     <td>14.10.2013</td>
                                 </tr>
-                                @endif
-                                  @endforeach
                              </tbody>
                         </table>
                     </div>
-                  
                 </div>
                    </div>
 

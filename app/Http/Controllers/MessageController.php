@@ -4,16 +4,18 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailer;
-use TeamSnap\Member;
+use TeamSnap\Userdetail;
 use TeamSnap\Email;
 use Auth;
+use TeamSnap\Team;
 
 
 class MessageController extends Controller
 {
    public function index($id)
    {
-   	  $members = Member::where('team_name',$id)->get();
+      $teamid = Team::where('teamname',$id)->select('id')->get()->first();
+   	  $members = Userdetail::where('team_id',$teamid->id)->get();
       $authid = Auth::user()->id;
       $emails = Email::where('sender_id', $authid)->select('receiver_id')->get();
       return view('message',["id"=>$id,'members'=>$members,'emails'=>$emails]);
