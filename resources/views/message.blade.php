@@ -86,10 +86,20 @@ label img {
                    <div class="modal-body">
                         <div class="row">
                             <form action="{{ url($id.'/sendmail') }}" method="post" name="message_form" id="message_form">
-                                  <input type="text" name="title" placeholder="title" id="title"><br/>
-                                  <input type="text" name="body" placeholder="body" id="body"><br/>
+                                                      <div class="input-group input-group-sm">
+                                <span class="input-group-addon"><i class="zmdi zmdi-sun"></i></span>
+                                <div class="fg-line">
+                                    <input type="text" id="title" name="title" class="form-control input-sm" placeholder="Title"><br/>
+                                </div>
+                            </div>
+
+                        <br/>    Body:<br/><input class="form-control input-sm" type="text" id="body" name="body">
+
+	<br/>To:<br/>
+
+
+                <br/>
                                   {{csrf_field()}}
-                                  <button type='button' id='selectall'>Select All</button>
                                   <br/>
                                   <?php $count = 1; ?>
                                   <ul id="example">
@@ -100,7 +110,8 @@ label img {
                                     </li>
                                     <?php $count += 1; ?>
                                    @endforeach
-                                   </ul>
+                                   </ul>     <button type='button' id='selectall'>Select All</button>
+
                                     <input type="button" value="submit" class="submit">
                              </form>
                           </div>
@@ -113,24 +124,47 @@ label img {
        </div>  
        <div class="card">
             <div class="card-header">
-                            <h2>MEMBER LIST </h2>
+                            <h2>INBOX </h2>
              </div>
                         
                         <table id="data-table-selecti" class="table table-striped table-vmiddle">
                             <thead>
                                 <tr>
                                     <th data-column-id="id" data-type="numeric">Subject</th>
-                                    <th data-column-id="sender">Sent To</th>
+                                    <th data-column-id="sender">Sender</th>
                                     <th data-column-id="date" data-order="desc">Send Date</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
                               @foreach($emails as $email)
-                                <tr>
-                                    <td>{{$email->title}}</td>
-                                    <td>{{$email->sender_id}}</td>
-                                    <td>14.10.2013</td>
+                                <tr class='parent'  >
+                                   <td> {{$email->title}}</td>
+                                    <td>{{$email->email}}</td>
+                                    <td>{{$email->send_at}}</td>
+                                    <td>
+                            <a href="#">
+                                <i class="tm-icon zmdi zmdi-email"></i>
+
+                                        </a>
+                        </td>
+
+                                </tr>
+                                <tr class='give'>
+                                    <td colspan='4'>
+                                        <div class="row">
+        <div class="col s12 m6">
+
+        <span class="card-title"> {{$email->title}}</span>
+
+        <p><br/>{{$email->body}}</p>
+
+        </div>
+            <div class="card-action"><div class="col-sm-4" data-toggle="modal" data-target="#myModal" tooltip="f193"><a href="#"><i class="zmdi zmdi-mail-reply zmdi-hc-fw"></i>reply</a></div>
+            </div>
+                                        </div>
+
+                                    </td>
                                 </tr>
                               @endforeach  
                             </tbody>
@@ -143,8 +177,10 @@ label img {
 @section('footer')
  
 <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+
 <script type="text/javascript">
-  $(document).ready(function(){
+
+    $(document).ready(function(){
                 //Basic Example
                 $("#data-table-basic").bootgrid({
                     css: {
@@ -198,6 +234,13 @@ label img {
     }
     $(this).toggleClass('allChecked');
   })
+ var child=$("tr.give"),parent=$("tr.parent");
+      console.log("aa");
+    child.hide();
+     parent.click(function(){
+
+        $(this).next().slideToggle();
+    });
 });
 
    $('.submit').click(function(e){
@@ -229,6 +272,7 @@ label img {
     });
      
      
+
     document.getElementById("message_form").reset();
       });
         </script>
