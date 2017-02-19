@@ -13,7 +13,7 @@ class HomeController extends Controller
    {
 
           $uid = Auth::user()->id;
-   		    $teams = Team::where('user_id', $uid)->get();
+   		  $teams = Team::where('user_id', $uid)->get();
    	      return view('home', compact('teams'));
 
    }

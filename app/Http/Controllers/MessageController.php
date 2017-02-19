@@ -16,6 +16,7 @@ class MessageController extends Controller
    {
       $teamid = Team::where('teamname',$id)->select('id')->get()->first();
    	  $members = Userdetail::where('team_id',$teamid->id)->get();
+      dd($members);
       $authid = Auth::user()->id;
       $emails = Email::where('sender_id', $authid)->select('receiver_id')->get();
       return view('message',["id"=>$id,'members'=>$members,'emails'=>$emails]);

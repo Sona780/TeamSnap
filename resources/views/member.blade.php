@@ -181,7 +181,7 @@
                  
                 <div class="tab-content">
                   
-                   <div role="tabpanel" class="tab-pane active" id="nonplayer{{$ctg->id}}">
+                   <div role="tabpanel" class="tab-pane active" id="nonplayer">
                      <div class="card">
                    <div class="table-responsive ">
                         <table  class="table table-striped data-table-basic">
