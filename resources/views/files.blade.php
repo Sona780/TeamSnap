@@ -1,9 +1,11 @@
 @extends('layouts.new')
+@section('header')
 
+@endsection
 @section('content')
 
  <div role="tabpanel">
-       <ul class="tab-nav tab-nav" role="tablist">
+       <ul class="tab-nav tab-nav" role="tablist" id="myTab">
                 <li class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
                 <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Vedio Link</a></li>
                 <li role="presentation"><a href="#messages1" aria-controls="messages1" role="tab" data-toggle="tab">Files</a></li>
@@ -166,6 +168,8 @@
            $('.close_btn').click(function(){
               window.location.reload();
            });
+           
         });
+
    </script>
 @endsection

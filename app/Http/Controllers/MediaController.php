@@ -9,14 +9,16 @@ use TeamSnap\Media;
 use DB;
 use TeamSnap\Img;
 use TeamSnap\File;
+use TeamSnap\Team;
 
 class MediaController extends Controller
 {
     public function index($id)
     {
-    	$videos = Media::where('team_name',$id)->get();
-      $images = Img::where('team_name',$id)->get();
-      $files  = File::where('team_name',$id)->get();
+    	$teamid = Team::where('teamname',$id)->select('id')->get()->first();
+      $videos = Media::where('team_id',$teamid->id)->get();
+      $images = Img::where('team_id',$teamid->id)->get();
+      $files  = File::where('team_id',$teamid->id)->get();
       return view('files',['id'=>$id,'videos'=>$videos,'images'=>$images,'files'=>$files]);
     }
 
@@ -39,17 +41,18 @@ class MediaController extends Controller
         $file =  $request->file('file');
         $filename = uniqid().$file->getClientOriginalName();
         $file->move('images', $filename);
-       
+        $teamid = Team::where('teamname',$id)->select('id')->get()->first(); 
         //store img
         $images = new Img;
         $images-> img_name = $filename;
-        $images-> team_name = $id; 
+        $images-> team_id = $teamid->id; 
         $images->save();
         return $images;
     }
  
  public function file_store($id,Request $request)
     {
+        $teamid = Team::where('teamname',$id)->select('id')->get()->first();
         $file =  $request->file('file');
         $filename = uniqid().$file->getClientOriginalName();
         $file->move('files', $filename);
@@ -57,7 +60,7 @@ class MediaController extends Controller
         //store file
         $files = new File;
         $files -> file_name = $filename;
-        $files -> team_name = $id; 
+        $files -> team_id = $teamid->id; 
         $files->save();
         return $files;
     }

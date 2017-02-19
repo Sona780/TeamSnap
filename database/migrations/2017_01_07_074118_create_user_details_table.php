@@ -18,8 +18,8 @@ class CreateUserDetailsTable extends Migration
             $table->increments('id');
             $table->string('firstname');
             $table->string('lastname');
-            $table->boolean('flag');   // 0- player 1-nonplayer
-            $table->string('email');
+            $table->boolean('flag');   // 1- player 0-nonplayer
+            $table->boolean('manager_access'); //1-manager 
             $table->string('mobile')->nullable();
             $table->integer('gender')->nullable();
             $table->string('role')->nullable();
@@ -27,11 +27,13 @@ class CreateUserDetailsTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->integer('user_id')->unsigned();
+            $table->integer('team_id')->unsigned();
             $table->string('avatar')->default('default.jpg');
-                $table->foreign('user_id')
+            $table->foreign('user_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
+     
 
         });
      }

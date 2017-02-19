@@ -1,14 +1,14 @@
    {!! csrf_field() !!}
-    <div class="row">
-            <div class="col-sm-4">
-             <h4> First Name:</h4>
-            </div>
-            <div class="col-sm-8">
-                <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm firstname" name="firstname" placeholder="Prashushi">
+        <div class="row">
+                <div class="col-sm-4">
+                 <h4> First Name:</h4>
                 </div>
-            </div>
-    </div>
+                <div class="col-sm-8">
+                    <div class="fg-line form-group">
+                        <input type="text" class="form-control input-sm firstname" name="firstname" placeholder="Prashushi">
+                    </div>
+                </div>
+        </div>
         <div class="row">
             <div class="col-sm-4">
               <h4> Last Name:</h4>
@@ -64,21 +64,14 @@
              <h4> ctg:</h4>
             </div>
             <div class="col-sm-8">
+                @foreach($ctgs as $ctg)
                 <label class="checkbox checkbox-inline m-r-20">
-                    <input type="checkbox" value="1" name="playing" id="playing" >
+                    <input type="checkbox" value="{{$ctg->id}}" name="ctg{{$ctg->id}}" id="ctg{{$ctg->id}}">
                     <i class="input-helper"></i>    
-                   Playing Team
+                   {{$ctg->name}}
                  </label>
-                <label class="checkbox checkbox-inline m-r-20">
-                    <input type="checkbox" value="1" name="injured" id="injured">
-                   <i class="input-helper"></i>    
-                    Injured
-                </label>
-                <label class="checkbox checkbox-inline m-r-20">
-                    <input type="checkbox" value="1" name="topstar" id="topstar">
-                    <i class="input-helper"></i>    
-                    Top Star
-                </label>
+                 @endforeach
+                
              </div>
         </div>
         <div class="row">

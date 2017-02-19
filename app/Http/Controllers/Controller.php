@@ -18,7 +18,6 @@ class Controller extends BaseController
         $url = \Request::url();
         $String = substr("$url",7);
         $teamname = explode('/', $String)[1];
-
         $team_logo = Team::where('teamname', $teamname)->select('team_logo')->get()->first();
         \View::share('team_name',$teamname);
         if($team_logo != '' ){

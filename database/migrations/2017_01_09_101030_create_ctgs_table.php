@@ -15,8 +15,8 @@ class CreateCtgsTable extends Migration
     {
        Schema::create('ctgs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('name');
-           $table->integer('team_id')->unsigned();
+            $table->string('name');
+            $table->integer('team_id')->unsigned();
             $table->foreign('team_id')
                   ->references('id')
                   ->on('teams')

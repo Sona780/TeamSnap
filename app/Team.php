@@ -19,5 +19,10 @@ class Team extends Model
     	return $this-> belongsTo('TeamSnap\User');
     }
 
+    public function ctgs()
+    {
+    	return $this -> hasMany('TeamSnap\Ctg');
+    }
+
    
 }
