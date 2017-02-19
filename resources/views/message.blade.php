@@ -86,10 +86,20 @@ label img {
                    <div class="modal-body">
                         <div class="row">
                             <form action="{{ url($id.'/sendmail') }}" method="post" name="message_form" id="message_form">
-                                  <input type="text" name="title" placeholder="title" id="title"><br/>
-                                  <input type="text" name="body" placeholder="body" id="body"><br/>
+                                                      <div class="input-group input-group-sm">
+                                <span class="input-group-addon"><i class="zmdi zmdi-sun"></i></span>
+                                <div class="fg-line">
+                                    <input type="text" id="title" name="title" class="form-control input-sm" placeholder="Title"><br/>
+                                </div>
+                            </div>
+
+                        <br/>    Body:<br/><input class="form-control input-sm" type="text" id="body" name="body">
+
+	<br/>To:<br/>
+
+
+                <br/>
                                   {{csrf_field()}}
-                                  <button type='button' id='selectall'>Select All</button>
                                   <br/>
                                   <?php $count = 1; ?>
                                   <ul id="example">
@@ -100,7 +110,8 @@ label img {
                                     </li>
                                     <?php $count += 1; ?>
                                    @endforeach
-                                   </ul>
+                                   </ul>     <button type='button' id='selectall'>Select All</button>
+
                                     <input type="button" value="submit" class="submit">
                              </form>
                           </div>
@@ -120,35 +131,39 @@ label img {
                             <thead>
                                 <tr>
                                     <th data-column-id="id" data-type="numeric">Subject</th>
-                                    <th data-column-id="sender">Sent To</th>
+                                    <th data-column-id="sender">Sender</th>
                                     <th data-column-id="date" data-order="desc">Send Date</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
                               @foreach($emails as $email)
-                                <tr class='parent'>
-                                    <td>{{$email->title}}</td>
-                                    <td>{{$email->sender_id}}</td>
-                                    <td>14.10.2013</td>
+                                <tr class='parent'  >
+                                   <td> {{$email->title}}</td>
+                                    <td>{{$email->email}}</td>
+                                    <td>{{$email->send_at}}</td>
+                                    <td>
+                            <a href="#">
+                                <i class="tm-icon zmdi zmdi-email"></i>
+
+                                        </a>
+                        </td>
+
                                 </tr>
                                 <tr class='give'>
                                     <td colspan='4'>
                                         <div class="row">
         <div class="col s12 m6">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">Card Title</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
-            </div>
-          </div>
+
+        <span class="card-title"> {{$email->title}}</span>
+
+        <p><br/>{{$email->body}}</p>
+
         </div>
-      </div>
+            <div class="card-action"><div class="col-sm-4" data-toggle="modal" data-target="#myModal" tooltip="f193"><a href="#"><i class="zmdi zmdi-mail-reply zmdi-hc-fw"></i>reply</a></div>
+            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
                               @endforeach  
@@ -224,7 +239,7 @@ label img {
     child.hide();
      parent.click(function(){
 
-        $(this).next().slideToggle("slow");
+        $(this).next().slideToggle();
     });
 });
 
