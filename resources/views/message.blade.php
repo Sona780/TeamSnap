@@ -113,7 +113,7 @@ label img {
        </div>  
        <div class="card">
             <div class="card-header">
-                            <h2>MEMBER LIST </h2>
+                            <h2>INBOX </h2>
              </div>
                         
                         <table id="data-table-selecti" class="table table-striped table-vmiddle">
@@ -127,10 +127,29 @@ label img {
                             </thead>
                             <tbody>
                               @foreach($emails as $email)
-                                <tr>
+                                <tr class='parent'>
                                     <td>{{$email->title}}</td>
                                     <td>{{$email->sender_id}}</td>
                                     <td>14.10.2013</td>
+                                </tr>
+                                <tr class='give'>
+                                    <td colspan='4'>
+                                        <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Card Title</span>
+              <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+              <a href="#">This is a link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+                                    </td>
                                 </tr>
                               @endforeach  
                             </tbody>
@@ -143,8 +162,10 @@ label img {
 @section('footer')
  
 <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+
 <script type="text/javascript">
-  $(document).ready(function(){
+
+    $(document).ready(function(){
                 //Basic Example
                 $("#data-table-basic").bootgrid({
                     css: {
@@ -198,6 +219,13 @@ label img {
     }
     $(this).toggleClass('allChecked');
   })
+ var child=$("tr.give"),parent=$("tr.parent");
+      console.log("aa");
+    child.hide();
+     parent.click(function(){
+
+        $(this).next().slideToggle("slow");
+    });
 });
 
    $('.submit').click(function(e){
@@ -229,6 +257,7 @@ label img {
     });
      
      
+
     document.getElementById("message_form").reset();
       });
         </script>

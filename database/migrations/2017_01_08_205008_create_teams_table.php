@@ -19,7 +19,7 @@ class CreateTeamsTable extends Migration
             $table->string('sport');   //0 for sport 1 for non-sport
             $table->string('country');
             $table->integer('zip');
-            $table->integer('user_id')->unsigned();
+            $table->integer('team_owner_id')->unsigned();
             $table->string('team_logo')->default('default.jpg');
             $table->string('team_color_first');
             $table->string('team_color_second');

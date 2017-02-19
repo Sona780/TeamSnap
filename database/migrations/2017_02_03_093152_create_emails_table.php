@@ -18,6 +18,7 @@ class CreateEmailsTable extends Migration
             $table->string('title');
             $table->string('body');
             $table->integer('sender_id');
+            $table->integer('team_id');
             $table->integer('receiver_id')->unsigned();
             $table->foreign('receiver_id')
                   ->references('id')

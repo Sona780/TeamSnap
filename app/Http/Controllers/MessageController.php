@@ -8,16 +8,17 @@ use TeamSnap\Userdetail;
 use TeamSnap\Email;
 use Auth;
 use TeamSnap\Team;
+use TeamSnap\TeamUser;
 
 
 class MessageController extends Controller
 {
    public function index($id)
    {
-      $teamid = Team::where('teamname',$id)->select('id')->get()->first();
-   	  $members = Userdetail::where('team_id',$teamid->id)->get();
+      $teamid = Team::where('teamname',$id)->value('id');
+   	  $members = TeamUser::where('team_id',$teamid)->get();
       $authid = Auth::user()->id;
-      $emails = Email::where('sender_id', $authid)->select('receiver_id')->get();
+      $emails = Email::leftJoin('')where('receiver_id', $authid)->where('team_id',$teamid)->get();
       return view('message',["id"=>$id,'members'=>$members,'emails'=>$emails]);
    }
    public function sendmail($id,Request $request,Mailer $mailer)
