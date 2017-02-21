@@ -241,7 +241,8 @@ label img {
 
         $(this).next().slideToggle();
     });
-});
+
+
 
    $('.submit').click(function(e){
      e.preventDefault();
@@ -267,7 +268,7 @@ label img {
         success: function(data) {
                   console.log('hello');
                   console.log(data);
-                  alert('mail sent');
+                  swal("Message sent")
             }
     });
      
@@ -275,6 +276,7 @@ label img {
 
     document.getElementById("message_form").reset();
       });
+ });
         </script>
 
 <!-- <script>

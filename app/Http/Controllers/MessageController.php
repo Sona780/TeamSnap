@@ -9,6 +9,7 @@ use TeamSnap\Email;
 use Auth;
 use TeamSnap\Team;
 use TeamSnap\TeamUser;
+use TeamSnap\User;
 
 
 class MessageController extends Controller
@@ -26,24 +27,24 @@ class MessageController extends Controller
    }
    public function sendmail($id,Request $request,Mailer $mailer)
    {
-            $mails = Input::get('val');
-     $emailinfo = new Email;
-     $emailinfo->title = $request->input('title');
-     $emailinfo->body  = $request->input('body');
-     $emailinfo->sender_id = Auth::user()->id;
-      foreach($mails as $mail)
+            $mail = Input::get('val');
+
+
+       for($i=0;$i<sizeof($mail);$i++)
      {
-          $emailinfo->receiver_id =  $mail ;
-     $emailinfo->save();
-
-
-
+           $emailinfo[$i]= new Email;
+     $emailinfo[$i]->title = $request->input('title');
+     $emailinfo[$i]->body  = $request->input('body');
+     $emailinfo[$i]->sender_id = Auth::user()->id;
+     $emailinfo[$i]->receiver_id = $mail[$i];
+      $emailinfo[$i]->save();
      $m = User::where('id', $mail)->select('email')->get()->first();
      $email=$m->email;
      $mailer->to($email)
             ->queue(new \TeamSnap\Mail\Mymail($request->input('title'),$request->input('body')));
-      $i++;
+
     }
+
     
 
    }
