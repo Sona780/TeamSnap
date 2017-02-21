@@ -31,7 +31,7 @@
                     $account conatains the value of subdomain use accordingly
                     */
 
-                Route::get('home','HomeController@index')->name('home');;
+                Route::get('home','HomeController@index')->name('home');
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');

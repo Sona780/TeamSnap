@@ -4,14 +4,13 @@ namespace TeamSnap;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TeamUser extends Model
+class TeamCtg extends Model
 {
-    protected $table = 'team_users';
+    protected $table = 'team_ctgs';
     protected $fillable = [
-        'team_id','user_id'
+         'team_id','ctg_id',
     ];
-
+    
 
     public $timestamps = false;
-
 }

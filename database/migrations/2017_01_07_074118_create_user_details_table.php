@@ -27,7 +27,6 @@ class CreateUserDetailsTable extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->integer('team_id')->unsigned();
             $table->string('avatar')->default('default.jpg');
             $table->foreign('user_id')
                   ->references('id')
