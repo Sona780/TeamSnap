@@ -86,7 +86,7 @@ label img {
                    <div class="modal-body">
                         <div class="row">
                             <form action="{{ url($id.'/sendmail') }}" method="post" name="message_form" id="message_form">
-                                                      <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm">
                                 <span class="input-group-addon"><i class="zmdi zmdi-sun"></i></span>
                                 <div class="fg-line">
                                     <input type="text" id="title" name="title" class="form-control input-sm" placeholder="Title"><br/>
@@ -95,10 +95,8 @@ label img {
 
                         <br/>    Body:<br/><input class="form-control input-sm" type="text" id="body" name="body">
 
-	<br/>To:<br/>
-
-
-                <br/>
+	                         <br/>To:<br/>
+                           <br/>
                                   {{csrf_field()}}
                                   <br/>
                                   <?php $count = 1; ?>
@@ -204,7 +202,7 @@ label img {
                     selection: true,
                     multiSelect: true,
                     rowSelect: true,
-                    keepSelection: true
+                    keepSelection: true,
                 });
                 
                 //Command Buttons

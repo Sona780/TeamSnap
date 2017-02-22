@@ -15,11 +15,19 @@ class MediaController extends Controller
 {
     public function index($id)
     {
-    	$teamid = Team::where('teamname',$id)->select('id')->get()->first();
+    	$user_id = Auth::user()->id;
+       $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
+       if($team_name == '' || $team_name== NULL)
+       {
+        return view('errors/404');
+       }
+       else{
+      $teamid = Team::where('teamname',$id)->select('id')->get()->first();
       $videos = Media::where('team_id',$teamid->id)->get();
       $images = Img::where('team_id',$teamid->id)->get();
       $files  = File::where('team_id',$teamid->id)->get();
       return view('files',['id'=>$id,'videos'=>$videos,'images'=>$images,'files'=>$files]);
+     }
     }
 
   
