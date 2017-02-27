@@ -8,7 +8,7 @@ class PlayerCtg extends Model
 {
     protected $table = 'player_ctgs';
     protected $fillable = [
-         'playing','injured','topstar','team_name','member_id'
+         'team_id','user_id','ctg_id',
     ];
     
 

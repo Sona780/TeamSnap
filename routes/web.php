@@ -20,8 +20,18 @@
           });
 
             Route::group(['middleware' => 'auth'], function () {
+            /*    Route::group(['domain' => '{account}.myapp.com'], function () {
+                    Route::get('user/{account}', function ($account, $id) {
+                        //
+                    });
+                    });
+                    */
+                    /**
+                    insert here for sub domains
+                    $account conatains the value of subdomain use accordingly
+                    */
 
-                Route::get('home','HomeController@index');
+                Route::get('home','HomeController@index')->name('home');
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
@@ -36,9 +46,13 @@
                     Route::post('userprofile','UserController@store');
                     
                     Route::any('team_setup','AddmemberController@store');
-                    Route::get('members','AddmemberController@show');
                     Route::get('addmember','AddmemberController@index');
                     Route::post('addmember','AddmemberController@store');
+
+                    Route::get('members','MemberController@index');
+
+                    Route::post('create_ctg','CategoryController@store');
+
 
                     Route::get('dashboard','DashboardController@index');
                     Route::get('profile','ProfileController@index');
@@ -56,13 +70,15 @@
                     Route::get('messages','MessageController@index');
                     Route::post('sendmail','MessageController@sendmail');  
 
-                   
-
-                      
 
                });
                      
-                     
 
+                Route::get('schedule','ScheduleController@get');
+                Route::get('game/validate','GameController@vali');
+                Route::post('new/game','GameController@store');
+
+                Route::get('event/validate','EventController@vali');
+                Route::post('new/event','EventController@store');
             });
     });

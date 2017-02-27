@@ -26,6 +26,9 @@ class CreateteamController extends Controller
        $inputs->sport   =  Input::get('sport');
        $inputs->country =  Input::get('country');
        $inputs->zip     =  $request->get('zipcode');
+       $inputs->team_color_first = $request->get('team_color_first');
+       $inputs->team_color_second = $request->get('team_color_second');
+       $inputs->team_owner_id = Auth::user()->id;
        if($request->hasFile('team_logo'))
        {
 
@@ -34,7 +37,7 @@ class CreateteamController extends Controller
            Image::make($teamlogo)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
            $inputs->team_logo= $filename;
         }
-        Auth::user()->teams()->save($inputs);
+        $inputs->save();
         return redirect($inputs->teamname.'/dashboard');
 
     }

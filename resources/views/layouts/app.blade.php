@@ -19,12 +19,17 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/farbtastic/farbtastic.css" rel="stylesheet">
 
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-        
+        <style type="text/css">
+            .pills-auth {
+                    border-radius: 50px;
+            }
+        </style>
         @yield('header')
     </head>
     <body style="background-color: #FAF6F0">
@@ -36,8 +41,8 @@
                  <li class="pull-right">
                     <ul class="top-menu">
                         @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li class="logo"><a href="{{ url('/login') }}" style="font-size: 15px;">Login</a></li>
+                        <li class="logo"><a href="{{ url('/register') }}" style="font-size: 15px;">Register</a></li>
                          @else
                         <li class="dropdown">
                             <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
@@ -82,9 +87,7 @@
             Copyright &copy; 2017 Kilobyte Technology Partners
 
             <ul class="f-menu">
-                <li><a href="">Home</a></li>
-                <li><a href="">Dashboard</a></li>
-                <li><a href="">Support</a></li>
+                <li><a href="{{URL::to('home')}}">Home</a></li>
                 <li><a href="">Contact</a></li>
             </ul>
         </footer>
@@ -153,7 +156,7 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
-       
+       <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>

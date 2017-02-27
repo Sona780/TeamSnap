@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCtgsTable extends Migration
+class CreateTeamUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateCtgsTable extends Migration
      */
     public function up()
     {
-       Schema::create('ctgs', function (Blueprint $table) {
+        Schema::create('team_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('name');
-            $table->integer('team_id');
+            $table->integer('team_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
         });
     }
 
-   
+
     public function down()
     {
-         Schema::drop('ctgs');
+         Schema::drop('team_users');
     }
 }

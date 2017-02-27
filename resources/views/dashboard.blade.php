@@ -5,8 +5,6 @@
 
 @endsection
 
-
-
 @section('content')
 
 <div class="block-header">
@@ -21,7 +19,7 @@
                     <div class="chart stats-bar"></div>
                     <div class="count">
                         <small>Total Members </small>
-                        <h2>{{ $noofmembers }}</h2>
+                        <h2>25</h2>
                     </div>
                 </div>
             </div>

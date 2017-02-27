@@ -17,8 +17,15 @@ class CreateEmailsTable extends Migration
             $table->increments('id'); 
             $table->string('title');
             $table->string('body');
-            $table->string('sender_id');
-            $table->string('receiver_id');
+            $table->integer('sender_id');
+            $table->integer('team_id');
+            $table->timestamp('send_at');
+            $table->integer('receiver_id')->unsigned();
+            $table->foreign('receiver_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
+
              
         });
     }

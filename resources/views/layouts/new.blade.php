@@ -21,11 +21,81 @@
         <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
 
 
+
+
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
          <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
+         <style type="text/css">
+            .padd-left {
+                padding: 0px 10px;
+            }
+
+            .bottom-bord {
+                border-bottom: 1px solid grey;
+            }
+
+            .top-bord {
+                border-top: 1px solid grey;
+            }
+
+            .first-col {
+                width: 35%;
+            }
+
+            .adjust {
+                margin-top: 20px;
+            }
+
+            .dropdown-basic-demo {
+                display: inline-block;
+                margin: 0 15px 20px 0;
+            }
+
+            .dropdown-basic-demo .dropdown-menu {
+                display: block;
+                position: relative;
+                transform: scale(1);
+                opacity: 1;
+                filter: alpha(opacity=1);
+                z-index: 0;
+            }
+
+            .dropdown-btn-demo .dropdown, .dropdown-btn-demo .btn-group, .btn-demo .btn {
+                display: inline-block;
+                margin: 0 5px 7px 0;
+            }
+
+            .modal-preview-demo .modal {
+                position: relative;
+                display: block;
+                z-index: 0;
+                background: rgba(0,0,0,0.1);
+            }
+
+            .margin-bottom > *{
+                margin-bottom: 20px;
+            }
+
+            .popover-demo .popover {
+                position: relative;
+                display: inline-block;
+                opacity: 1;
+                margin: 0 10px 30px;
+                z-index: 0;
+            }
+
+            .preloader {
+                margin-right: 30px;
+            }
+
+            .strong-error {
+                color: red;
+                font-size: 12px
+            }
+         </style>
 
         @yield('header')
     </head>
@@ -79,7 +149,7 @@
                 <ul>
                     <li class="waves-effect" id="a"><a href="/{{$team_name}}/dashboard">Dashboard</a></li>
                     <li class="waves-effect" id="b"><a href="/{{$team_name}}/members">Members</a></li>
-                    <li class="waves-effect" id="c"><a href="/{{$team_name}}/schedule">Schedule</a></li>
+                    <li class="waves-effect" id="c"><a href="{{url('/schedule')}}">Schedule</a></li>
                     <li class="waves-effect" id="g"><a href="/{{$team_name}}/records">Records</a></li>
                     <li class="waves-effect" id="h"><a href="/{{$team_name}}/files">Media</a></li>
                     <li class="waves-effect" id="e"><a href="/{{$team_name}}/messages">Messages</a></li>
@@ -178,6 +248,8 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+
+
          <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
 
@@ -193,7 +265,8 @@
         <script src="{{URL::to('/')}}/js/charts.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
-        <!-- <script src="{{URL::to('/')}}/js/demo.js"></script> -->
+
+        <script src="{{URL::to('/')}}/js/demo.js"></script>
 
         @yield('footer')
     </body>

@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="lc-block toggled" id="l-login">
+    <div class="col-md-6 col-md-offset-3 col-xs-12">
+      <div class="lc-block toggled" id="l-login" style="width: 95%;">
 
           <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
@@ -49,7 +48,7 @@
               </div>
             </div>
 
-              <button type="submit" class="btn btn-login btn-danger btn-float waves-effect waves-circle waves-float">
+              <button type="submit" class="btn btn-login btn-danger btn-float waves-effect waves-circle waves-float" >
                 <i class="zmdi zmdi-arrow-forward"></i>
               </button>
 
@@ -59,13 +58,16 @@
               <ul class="login-navigation"><!-- 
                   <li data-block="/register" class="bgm-red"><a href="{{ url('/register') }}">Register</a></li>
                   <li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li> -->
+
                   <div class="btn-demo">
-                    <a href="{{ url('/password/reset') }}"><button class="btn btn-warning btn-xs" style="border-radius:50px ">Forgot Password</button></a>
+                  &nbsp;&nbsp;
+                  <a href="{{ url('/register') }}"><button class="btn btn-danger btn-xs pills-auth">Register</button></a>
+                  &nbsp; &nbsp;
+                    <a href="{{ url('/password/reset') }}"><button class="btn btn-warning btn-xs pills-auth">Forgot Password</button></a>
                   </div>  
               </ul>
 
           </div>
         </div>
   </div>
-</div>
 @endsection
