@@ -31,6 +31,7 @@ class MemberController extends Controller
                         ->leftJoin('player_ctgs', 'users.id', '=', 'player_ctgs.user_id')
                         ->where('team_users.team_id', $team_id)
                         ->get();
+             
                     
              return view('member',compact('id','ctgs','users'));
       }

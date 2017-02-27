@@ -321,14 +321,14 @@
                                 @foreach($users as $user)
                                   @if($user->flag == 0)
                                   <tr>
-                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:40px; border-radius: 50%;"/></td>
                                       <td>{{$user->name}}</td>
                                       <td>
                                          <p>{{$user->email}}</p>
                                          <p>{{$user->mobile}}</p>
                                       </td>
                                       <td>P</td>
-                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal2"/>
                                           <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
                                       </td>
                                   </tr>

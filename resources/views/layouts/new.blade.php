@@ -19,17 +19,17 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
-        
-
-
-
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
          <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-
-
         @yield('header')
+        <style type="text/css">
+            .zmdi-face
+            {
+                font-size: 1.8em;
+            }
+        </style>
     </head>
     <body style="background-color: #FAF6F0">
       <header id="header-2" class="clearfix" data-current-skin="lightblue"> <!-- Make sure to change both class and data-current-skin when switching sking manually -->
@@ -50,19 +50,22 @@
                     <ul class="top-menu">
 
                         <li class="dropdown">
-                            <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
+                           <a data-toggle="dropdown" href="">
+                                <span class="tm-label"><i class="zmdi zmdi-face"></i></span>
+                            </a>
+
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-home"></i> My Home</a>
                                 </li>
                                 <li>
 
-                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-account"></i> Profile</a>
                                 </li>
                                 <li>
                                       <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').submit();"><i class="zmdi zmdi-assignment-return"></i>
                                             Logout
                                         </a>
 
@@ -97,7 +100,6 @@
 
 
         <section id="main" data-layout="layout-1">
-
             <section id="content">
                 <div class="container">
                     @yield('content')

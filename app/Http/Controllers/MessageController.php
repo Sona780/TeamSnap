@@ -29,8 +29,8 @@ class MessageController extends Controller
 
           $authid = Auth::user()->id;
           $emails = Email::leftJoin('users','emails.sender_id','=','users.id')
-                         // ->where('emails.receiver_id', $authid)
-                         // ->where('emails.team_id',$teamid)
+                         ->where('emails.receiver_id', $authid)
+                         ->where('emails.team_id',$teamid)
                          ->get();
            
           return view('message',["id"=>$id,'members'=>$members,'emails'=>$emails]);
@@ -41,7 +41,7 @@ class MessageController extends Controller
     
     $mail = Input::get('val');
 
-    dd($mail);
+    
     for($i=0;$i<sizeof($mail);$i++)
      {
            $emailinfo[$i]= new Email;
@@ -50,7 +50,7 @@ class MessageController extends Controller
            $emailinfo[$i]->sender_id = Auth::user()->id;
            $emailinfo[$i]->receiver_id = $mail[$i];
            $emailinfo[$i]->save();
-           $m = User::where('id', $mail)->select('email')->get()->first();
+           $m = User::where('id', $mail[$i])->select('email')->get()->first();
            $email=$m->email;
            $mailer->to($email)
                   ->queue(new \TeamSnap\Mail\Mymail($request->input('title'),$request->input('body')));

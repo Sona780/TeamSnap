@@ -29,6 +29,10 @@
             .pills-auth {
                     border-radius: 50px;
             }
+            .zmdi-face
+            {
+                font-size: 1.8em;
+            }
         </style>
         @yield('header')
     </head>
@@ -45,19 +49,21 @@
                         <li class="logo"><a href="{{ url('/register') }}" style="font-size: 15px;">Register</a></li>
                          @else
                         <li class="dropdown">
-                            <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
+                            <a data-toggle="dropdown" href="">
+                                <span class="tm-label"><i class="zmdi zmdi-face"></i></span>
+                            </a>
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-home"></i> My Home</a>
                                 </li>
                                 <li>
 
-                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-account"></i> Profile</a>
                                 </li>
                                 <li>
-                                      <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                      <a href="{{ url('/logout') }}" 
+                                              onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();"><i class="zmdi zmdi-assignment-return"></i>
                                             Logout
                                         </a>
 
@@ -154,9 +160,9 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-         <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
-         <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
-       <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
+        <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
+        <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+        <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>

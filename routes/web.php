@@ -53,7 +53,6 @@
 
                     Route::post('create_ctg','CategoryController@store');
                    
-
                     Route::get('dashboard','DashboardController@index');
                     Route::get('profile','ProfileController@index');
                     Route::post('profile','ProfileController@update_avatar');
@@ -66,14 +65,13 @@
                     Route::post('files/img-upload', 'MediaController@img_store');
                     Route::post('files/file-upload', 'MediaController@file_store');
                     
-                    
                     Route::get('messages','MessageController@index');
                     Route::post('sendmail','MessageController@sendmail');  
-
-                   
-
-                      
-
+                
+                    Route::get('records','RecordsController@index');
+                    Route::get('records/list_stats','RecordsController@list_stats');
+                    Route::post('records/list_stats/store','RecordsController@store_stats');
+                    
                });
                      
                      
