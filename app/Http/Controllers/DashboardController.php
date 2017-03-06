@@ -18,11 +18,11 @@ class DashboardController extends Controller
     {
 
         $user_id = Auth::user()->id;
-
+        $team_logo = Team::where('teamname', $id)->first()->team_logo;
         //Total Members in Team
         // $noofmembers = User::where('team_name', $id)->count();
 
-        return view('dashboard', [ 'teamname' => $id, ] );
+        return view('dashboard', [ 'teamname' => $id, 'team_logo' => $team_logo] );
 
     }
 }
