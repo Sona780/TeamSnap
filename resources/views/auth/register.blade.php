@@ -68,7 +68,7 @@
             <ul class="login-navigation">
                   <div class="btn-demo">
                   <a href="{{ url('/login') }}"><button class="btn btn-success btn-xs pills-auth">Login</button></a>
-                  </div>  
+                  </div>
               </ul>
                
 

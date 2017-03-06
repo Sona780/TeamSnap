@@ -15,6 +15,7 @@ class LayoutComposer
     public $user_name;
     public $team_name;
     public $team_logo;
+    public $demo;
 
     public function __construct()
     {
@@ -27,13 +28,18 @@ class LayoutComposer
           $this->user_id   = $user_id;
           $this->user_name = $user_name;
           $this->team_logo = $team_logo;
+          $demo = 'ljk';
+
+          $this->demo = $demo;
     }
 
     public function compose(View $view)
     {
-          $view->with('team_name',$this->team_name->teamname);
-          $view->with('user_id',$this->user_id);
-          $view->with('user_name',$this->user_name->name);
+          $view->with('user_id', $this->user_id);
+          /*$view->with('user_id',);
+          $view->with('user_name',$this->user_name->name);*/
+          //$view->with('demo',$this->demo);
+
          // $view->with('team_logo',$this->team_logo->team_logo);
     }
 }

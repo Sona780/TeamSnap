@@ -22,40 +22,13 @@
                 <div class="tab-content">
                   
                   <div id="playingteam" class="tab-pane active">
-                    <div class="table-responsive">          
-                        <table class="table">
-                          <thead>
-                            
-                            <tr>
-                              <th>Photo</th>
-                              <th>Name</th>
-                              <th>Contact</th>
-                              <th>Position</th>
-                              <th>Manager</th>
-                            </tr>
 
-                          </thead>
-                          <tbody>
-                            @foreach($teammembers as $member)
-                              @if($member->playing == 1)
-                            <tr>
-                                  <td><img src ="/uploads/avatars/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
-                                  <td>{{$member->firstname}} {{$member->lastname}} <br/>
-                                      {{$member->email}}
-                                  </td>
-                                  <td>{{$member->mobile}}</td>
-                                  <td></td>
-                                   <td>
-                                      <img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                      <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
-                                  </td>
-                            </tr>
-                            @endif
-                           @endforeach
-                          </tbody>
-                        </table>
                   </div>
-                  </div>
+
+                  </div><!--div class tabb content-->
+
+
+
                   <div id="injured" class="tab-pane">
                       <div class="table-responsive">          
                         <table class="table">

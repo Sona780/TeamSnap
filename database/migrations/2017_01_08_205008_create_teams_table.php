@@ -24,12 +24,7 @@ class CreateTeamsTable extends Migration
             $table->string('team_color_first');
             $table->string('team_color_second');
             $table->timestamp('created_at'); 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
-        
+      
         });
     }
 

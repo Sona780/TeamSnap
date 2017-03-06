@@ -10,9 +10,9 @@
        <form enctype="multipart/form-data" action="{{url('/store')}}" method="POST" id="teamform" name="teamform">
          {!! csrf_field() !!}
         <div class="row">
-            <div class="col-sm-6 ">  
+            <div class="col-sm-6 ">
                 <div class="form-group">
-                <label>Team Name <small>(required)</small></label>                     
+                <label>Team Name <small>(required)</small></label>
                 <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
                         <div class="fg-line">
@@ -31,7 +31,7 @@
                                   <option value="1">Non sport</option>
                             </select>
                             </div>
-                         </div>   
+                         </div>
                   </div>
                   <br/><br/>
                    <div class="form-group">
@@ -61,11 +61,11 @@
                 </div>
                 </div>
              </div>
-             
+
              <div class="col-sm-5 col-sm-offset-1">
-                    
+
                 <div class="form-group">
-                <label>Team Logo </label>                     
+                <label>Team Logo </label>
                 <div class="input-group">
                        <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
@@ -80,45 +80,45 @@
                         </div>
                 </div>
                 </div>
-                  
-                
+
+
                     <div class="form-group">
-                    <label>Team Color </label>             
+                    <label>Team Color </label>
                     <div class="cp-container">
                           <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                                             <div class="fg-line dropdown">
                                                 <input type="text" class="form-control cp-value" value="#03A9F4" data-toggle="dropdown" name="team_color_first">
-                                                    
+
                                                 <div class="dropdown-menu">
                                                     <div class="color-picker" data-cp-default="#03A9F4"></div>
                                                 </div>
-                                                
+
                                                 <i class="cp-value"></i>
                                             </div>
                             </div>
                       </div>
-                               
+
                                   <br/><br/>
-                                
+
                                     <div class="cp-container">
                                         <div class="input-group form-group">
                                             <span class="input-group-addon"><i class="zmdi zmdi-invert-colors"></i></span>
                                             <div class="fg-line dropdown">
                                                 <input type="text" class="form-control cp-value" value="#8BC34A" data-toggle="dropdown" name="team_color_second">
-                                                    
+
                                                 <div class="dropdown-menu">
                                                     <div class="color-picker" data-cp-default="#8BC34A"></div>
                                                 </div>
-                                                
+
                                                 <i class="cp-value"></i>
                                             </div>
                                         </div>
                                     </div>
                         </div>
-                                
-                                
-                            
+
+
+
 
 
                     
@@ -126,7 +126,7 @@
 
         </div>  
         <div class="row">
-           <br/><br/> 
+           <br/><br/>
           <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
         </div>      

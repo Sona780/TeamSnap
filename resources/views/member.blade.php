@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.new', ['team' => $id, 'active' => 'members'])
 @section('header')
 <link href="{{URL::to('/')}}/css/membertable.css" rel="stylesheet">
 <style type="text/css">
@@ -7,37 +7,76 @@
        text-align: right !important;
        padding: 10px;
      }
-     .tab-nav 
+     .tab-nav
      {
-       box-shadow: inset 0 0px 0 0 ; 
+       box-shadow: inset 0 0px 0 0 ;
      }
+     .table-card
+     {
+      margin-top: 20px;
+     }
+    .ctg
+    {
+      background-color:#4E4C4D;
+      margin-top: -1.5em;
+      min-height: 4em;
+
+    }
+    .ctg > li> a
+    {
+      color: #fff;
+    }
+     .ctg > li> a:hover
+    {
+      color: #FFF;
+    }
+     .ctg > li.active > a
+    {
+      color: #FFFF00;
+    }
+    .ctg > li > a:after
+     {
+     background: #fff !important;
+     height: 0px !important;
+    }
+    .main_tab >li >a
+    {
+     font-style: bold;
+     font-size: 15px;
+     color: #000;
+    }
+
+    .main_tab > li > a:after
+     {
+     background: #ffff00 !important;
+     height: 3px !important;
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="pull-right">
-   <button class="btn bgm-red waves-effect" data-toggle="modal" data-target="#myModal1">Add New Member </button>
-    <div id="myModal1" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-         <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Add Member</h4>
-          </div>
-          <div class="modal-body">
-           <form action="{{url($id.'/addmember')}}" method="post">
-             @include ('partials.memberform')
-             <button type="submit" class="btn btn-info">Submit</button>
-            </form>
-           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+  <button class="btn bgm-red waves-effect" data-toggle="modal" data-target="#myModal1">Add New Member </button>
+  <div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Member</h4>
         </div>
-
+        <div class="modal-body">
+          <form action="{{url($id.'/addmember')}}" method="post">
+            @include ('partials.memberform')
+            <button type="submit" class="btn btn-info">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
-   </div>
+    </div>
+  </div>
 
    <button class="btn bgm-red  waves-effect" data-toggle="modal" data-target="#myModal">Create Ctg </button>
    <div id="myModal" class="modal fade" role="dialog">
@@ -67,192 +106,246 @@
 
       </div>
    </div>
-
-
 </div>
   
 <div>
- 
+
   <div role="tabpanel">
-        <ul class="tab-nav" role="tablist">
-            <li class="active"><a href="#home11" aria-controls="home11" role="tab" data-toggle="tab">All</a></li>
-            <li><a href="#profile11" aria-controls="profile11" role="tab" data-toggle="tab">Player</a></li>
-            <li><a href="#messages11" aria-controls="messages11" role="tab" data-toggle="tab">Non Player</a></li>
+        <ul class="tab-nav main_tab" role="tablist">
+            <li class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
+            <li><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
+            <li><a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab">Non Player</a></li>
         </ul>
-
+  <div class="card table-card">
         <div class="tab-content">
-           <div role="tabpanel" class="tab-pane active" id="home11">
-                <ul class="tab-nav" role="tablist">
-                   <?php $i=0 ?>
-                   @foreach($ctgs as $ctg)
-                     
-                      @if($i == 0)
-                        <li class="active">
-                          <a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}} </a>
-                        </li>
-                        @else
-                        <li>
-                          <a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a>
-                        </li>
-                        @endif
-                        <?php $i += 1  ?>
-                    @endforeach
-                 </ul>
-                 
-                <div class="tab-content">
-                   @if($ctgs !='')
-                   @foreach($ctgs as $ctg)
-                   <div role="tabpanel" class="tab-pane active" id="all{{$ctg->id}}">
-                     <div class="card">
-                       <div class="table-responsive ">
-                        <table class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>{{$ctg->name}}1</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                             </tbody>
-                        </table>
-                      </div>
-                     </div>
-                   </div>
-                   
-                   @endforeach
-                  @endif
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="profile11">
-                <ul class="tab-nav" role="tablist">
-                   @if($ctgs != '')
-                   @foreach($ctgs as $ctg)
-                        <li >
-                          <a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a>
-                        </li>
-                    @endforeach
-                    @endif
-                 </ul>
-                 
-                <div class="tab-content">
-                   @if($ctgs != '')
-                   @foreach($ctgs as $ctg)
-                   <div role="tabpanel" class="tab-pane active" id="player{{$ctg->id}}">
-                     <div class="card">
-                      <div class="table-responsive ">
-                        <table class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>{{$ctg->name}}</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                             </tbody>
-                        </table>
-                      </div>
-                     </div>
-                   </div>
-                   @endforeach
-                   @endif
-                
-                  
-                </div>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="messages11">
-                <ul class="tab-nav" role="tablist">
-                   <li>
-                      <a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab"></a>
-                    </li>
-                    
-                 </ul>
-                 
-                <div class="tab-content">
-                  
-                   <div role="tabpanel" class="tab-pane active" id="nonplayer">
-                     <div class="card">
-                   <div class="table-responsive ">
+           <div role="tabpanel" class="tab-pane active" id="all">
+               @if($ctgs == '[]')
+               <div class="table-responsive ">
                         <table  class="table table-striped data-table-basic">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id3" data-type="numeric">ID</th>
-                                    <th data-column-id="sender4">Sender</th>
-                                    <th data-column-id="received5" data-order="desc">Received</th>
-                                </tr>
+                             <thead>
+                                  <tr>
+                                      <th data-column-id="id" data-type="numeric">Photo</th>
+                                      <th data-column-id="sender">Name</th>
+                                      <th data-column-id="received" data-order="desc">Contact</th>
+                                      <th data-column-id="received" data-order="desc">Position</th>
+                                      <th data-column-id="received" data-order="desc">Manager</th>
+                                  </tr>
                              </thead>
                              <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>eduardo@pingpong.com</td>
-                                    <td>14.10.2013</td>
-                                </tr>
+                                @foreach($members as $user)
+                                  <tr>
+                                      <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
+                                      <td>{{$user->name}}</td>
+                                      <td>
+                                         <p>{{$user->email}}</p>
+                                         <p>{{$user->mobile}}
+                                      </td>
+                                      <td>P</td>
+                                      <td><img src="{{url('/')}}/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="{{url('/')}}/{{$user->id}}/profile/delete"><img src='{{url("/")}}/img/delete.png'></a>
+                                      </td>
+                                  </tr>
+                                 @endforeach
                              </tbody>
                         </table>
-                    </div>
                 </div>
-                   </div>
+                @else
+                   <ul class="tab-nav ctg" role="tablist" >
+                      <?php $i=0 ?>
+                      @foreach($ctgs as $ctg)
+                          @if($i==0)
+                          <li class="active"><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
+                          @else
+                          <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
 
-                  
+                          @endif
+                          <?php $i=1?>
+                      @endforeach
+                   </ul>
+                    <div class="tab-content">
+                        <?php $i=0 ?>
+                        @foreach($ctgs as $ctg)
+
+                         <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="all{{$ctg->id}}" >
+                          <?php $i=1?>
+                           <div class="table-responsive ">
+                                <table  class="table table-striped data-table-basic">
+                                    <thead>
+                                        <tr>
+                                            <th data-column-id="id" data-type="numeric">Photo</th>
+                                            <th data-column-id="sender">Name</th>
+                                            <th data-column-id="received" data-order="desc">Contact</th>
+                                            <th data-column-id="received" data-order="desc">Position</th>
+                                            <th data-column-id="received" data-order="desc">Manager</th>
+                                        </tr>
+                                     </thead>
+                                     <tbody>
+                                        @foreach($members as $user)
+
+                                         @if($user->team_ctgs_id==$ctg->id )
+
+                                          <tr>
+
+                                      <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td>{{$user->name}}</td>
+                                      <td>
+                                         <p>{{$user->email}}</p>
+                                         <p>{{$user->mobile}}</p>
+                                      </td>
+                                      <td>P</td>
+                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                      </td>
+                                  </tr>
+                                        @endif
+                                        @endforeach
+                                     </tbody>
+                                </table>
+                            </div>
+                         </div>
+                         @endforeach
+                    </div><!--div class tabb content-->
+
+
+                @endif
+           </div>
+            <div role="tabpanel" class="tab-pane" id="player">
+                @if($ctgs == '[]')
+                <div class="table-responsive ">
+                        <table  class="table table-striped data-table-basic">
+                             <thead>
+                                  <tr>
+                                      <th data-column-id="id" data-type="numeric">Photo</th>
+                                      <th data-column-id="sender">Name</th>
+                                      <th data-column-id="received" data-order="desc">Contact</th>
+                                      <th data-column-id="received" data-order="desc">Position</th>
+                                      <th data-column-id="received" data-order="desc">Manager</th>
+                                  </tr>
+                             </thead>
+                             <tbody>
+                                @foreach($members as $user)
+                                  @if($user->flag == 1 )
+                                  <tr>
+                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td>{{$user->name}}</td>
+                                      <td>
+                                         <p>{{$user->email}}</p>
+                                         <p>{{$user->mobile}}</p>
+                                      </td>
+                                      <td>P</td>
+                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                      </td>
+                                  </tr>
+                                  @endif
+                                 @endforeach
+                             </tbody>
+                        </table>
                 </div>
+                @else
+                   <ul class="tab-nav ctg" role="tablist">
+                    <?php $i=0?>
+                      @foreach($ctgs as $ctg)
+                          @if($i==0)
+                          <li class="active"><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a></li>
+                          @else
+                          <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a></li>
+                          @endif
+                           <?php $i=1?>
+                      @endforeach
+                   </ul>
+                    <div class="tab-content">
+                       <?php $i=0?>
+                        @foreach($ctgs as $ctg)
+                         @if($i==0)
+                         <div role="tabpanel" class="tab-pane active" id="player{{$ctg->id}}">
+                         @else
+                         <div role="tabpanel" class="tab-pane" id="player{{$ctg->id}}">
+                         @endif
+                          <?php $i=1?>
+                           <div class="table-responsive ">
+                                <table  class="table table-striped data-table-basic">
+                                    <thead>
+                                        <tr>
+                                            <th data-column-id="id" data-type="numeric">Photo</th>
+                                            <th data-column-id="sender">Name</th>
+                                            <th data-column-id="received" data-order="desc">Contact</th>
+                                            <th data-column-id="received" data-order="desc">Position</th>
+                                            <th data-column-id="received" data-order="desc">Manager</th>
+                                        </tr>
+                                     </thead>
+                                     <tbody>
+                                        @foreach($members as $user)
+                                         @if(($user->flag == 1) && ($user->ctg_id== $ctg->id))
+                                        <tr>
+                                              <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td>{{$user->name}}</td>
+                                      <td>
+                                         <p>{{$user->email}}</p>
+                                         <p>{{$user->mobile}}</p>
+                                      </td>
+                                      <td>P</td>
+                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                      </td>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                     </tbody>
+                                </table>
+                            </div>
+                         </div>
+                         @endforeach
+                    </div><!--div class tabb content-->
+
+
+                @endif
+            </div>
+            <div role="tabpanel" class="tab-pane" id="nonplayer">
+               <ul class="ctg"></ul>
+               <div class="table-responsive ">
+                        <table  class="table table-striped data-table-basic">
+                             <thead>
+                                  <tr>
+                                     <th data-column-id="id" data-type="numeric">Photo</th>
+                                      <th data-column-id="sender">Name</th>
+                                      <th data-column-id="received" data-order="desc">Contact</th>
+                                      <th data-column-id="received" data-order="desc">Position</th>
+                                      <th data-column-id="received" data-order="desc">Manager</th>
+                                  </tr>
+                             </thead>
+                             <tbody>
+                                @foreach($members as $user)
+                                  @if($user->flag == 0)
+                                  <tr>
+                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td>{{$user->name}}</td>
+                                      <td>
+                                         <p>{{$user->email}}</p>
+                                         <p>{{$user->mobile}}</p>
+                                      </td>
+                                      <td>P</td>
+                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                      </td>
+                                  </tr>
+                                  @endif
+                                 @endforeach
+                             </tbody>
+                        </table>
+                </div>
+
             </div>
         </div>
   </div>
-</div>  
-                            
-                          
- 
+</div>
+
+
+
 @endsection
 
 @section('footer')
- <script type="text/javascript">
-    $(document).ready(function(){
-    //Basic Example
-        $(".data-table-basic").bootgrid({
-           css: {
-                  icon: 'zmdi icon',
-                  iconColumns: 'zmdi-view-module',
-                  iconDown: 'zmdi-expand-more',
-                  iconRefresh: 'zmdi-refresh',
-                  iconUp: 'zmdi-expand-less'
-                },
-        });
-             
-   });
-    </script>
+  <script type="text/javascript">
 
- @endsection
-<!-- 
-
- //datatable
-  <div class="card">
-                   <div class="table-responsive ">
-                        <table id="data-table-basic" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th data-column-id="id" data-type="numeric">ID</th>
-                                    <th data-column-id="sender">Sender</th>
-                                    <th data-column-id="received" data-order="desc">Received</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr>
-                                    <td>10238</td>
-                                    <td>eduardo@pingpong.com</td>
-                                    <td>14.10.2013</td>
-                                </tr>
-                             </tbody>
-                        </table>
-                    </div>
-                </div> -->
+  </script>
+@endsection

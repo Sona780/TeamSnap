@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.new', ['team' => $id, 'active' => 'messages'])
 @section('header')
 <style type="text/css">
  ul {
@@ -70,11 +70,6 @@ label img {
 </style>
 @endsection
 @section('content')
-  <div class="pull-right">
-      <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#myModal">
-       <i class="zmdi zmdi-plus"></i>
-      </button>
-   </div>
    <!--Modal -->
       <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog modal-lg">
@@ -86,7 +81,7 @@ label img {
                    <div class="modal-body">
                         <div class="row">
                             <form action="{{ url($id.'/sendmail') }}" method="post" name="message_form" id="message_form">
-                                                      <div class="input-group input-group-sm">
+                            <div class="input-group input-group-sm">
                                 <span class="input-group-addon"><i class="zmdi zmdi-sun"></i></span>
                                 <div class="fg-line">
                                     <input type="text" id="title" name="title" class="form-control input-sm" placeholder="Title"><br/>
@@ -95,10 +90,8 @@ label img {
 
                         <br/>    Body:<br/><input class="form-control input-sm" type="text" id="body" name="body">
 
-	<br/>To:<br/>
-
-
-                <br/>
+	                         <br/>To:<br/>
+                           <br/>
                                   {{csrf_field()}}
                                   <br/>
                                   <?php $count = 1; ?>
@@ -121,19 +114,24 @@ label img {
                       </div>
                   </div>
             </div>
-       </div>  
-       <div class="card">
-            <div class="card-header">
-                            <h2>INBOX </h2>
-             </div>
-                        
+       </div>
+
+
+            <div class="card" style="height:500px;">
+
+                <div class="card-header  bgm-blue m-b-20">
+                    <h2>INBOX</h2>
+                    <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#myModal"><i class="zmdi zmdi-plus"></i></button>
+                </div>
+                <div class="pm-overview c-overflow">
+                    <div class="card-body m-t-0">
                         <table id="data-table-selecti" class="table table-striped table-vmiddle">
+                          @if( $emails->count() > 0 )
                             <thead>
                                 <tr>
                                     <th data-column-id="id" data-type="numeric">Subject</th>
                                     <th data-column-id="sender">Sender</th>
                                     <th data-column-id="date" data-order="desc">Send Date</th>
-                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,33 +141,33 @@ label img {
                                     <td>{{$email->email}}</td>
                                     <td>{{$email->send_at}}</td>
                                     <td>
-                            <a href="#">
-                                <i class="tm-icon zmdi zmdi-email"></i>
-
-                                        </a>
-                        </td>
-
+                                      <a href="#"><i class="tm-icon zmdi zmdi-email"></i></a>
+                                    </td>
                                 </tr>
                                 <tr class='give'>
                                     <td colspan='4'>
                                         <div class="row">
-        <div class="col s12 m6">
-
-        <span class="card-title"> {{$email->title}}</span>
-
-        <p><br/>{{$email->body}}</p>
-
-        </div>
-            <div class="card-action"><div class="col-sm-4" data-toggle="modal" data-target="#myModal" tooltip="f193"><a href="#"><i class="zmdi zmdi-mail-reply zmdi-hc-fw"></i>reply</a></div>
-            </div>
+                                          <div class="col s12 m6">
+                                            <span class="card-title"> {{$email->title}}</span>
+                                            <p><br/>{{$email->body}}</p>
+                                          </div>
+                                          <div class="card-action">
+                                            <div class="col-sm-4" data-toggle="modal" data-target="#myModal" tooltip="f193">
+                                              <a href="#"><i class="zmdi zmdi-mail-reply zmdi-hc-fw"></i>reply</a>
+                                            </div>
+                                          </div>
                                         </div>
-
                                     </td>
                                 </tr>
-                              @endforeach  
                             </tbody>
+                          @endforeach
+                          @else
+                            <h4 style="text-align: center">No record found.</h4>
+                          @endif
                         </table>
-           </div>
+                    </div>
+                </div>
+            </div>
      <!--end  modal-->                          
    
 
@@ -204,7 +202,7 @@ label img {
                     selection: true,
                     multiSelect: true,
                     rowSelect: true,
-                    keepSelection: true
+                    keepSelection: true,
                 });
                 
                 //Command Buttons
@@ -241,7 +239,8 @@ label img {
 
         $(this).next().slideToggle();
     });
-});
+
+
 
    $('.submit').click(function(e){
      e.preventDefault();
@@ -267,7 +266,7 @@ label img {
         success: function(data) {
                   console.log('hello');
                   console.log(data);
-                  alert('mail sent');
+                  swal("Message sent")
             }
     });
      
@@ -275,6 +274,7 @@ label img {
 
     document.getElementById("message_form").reset();
       });
+ });
         </script>
 
 <!-- <script>

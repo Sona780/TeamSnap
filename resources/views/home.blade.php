@@ -27,7 +27,7 @@
        <div class="col-sm-3">
        <div class="card bgm-teal">
             <div class="card-header">
-                    <a href="{{$team->teamname}}/dashboard">
+                    <a href="{{$team->id}}/dashboard">
                       <h2 style="color: #fff;">{{$team->teamname}} <!-- <small>Team motto</small> --></h2>
                     </a>
 

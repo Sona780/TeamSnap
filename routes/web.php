@@ -20,23 +20,13 @@
           });
 
             Route::group(['middleware' => 'auth'], function () {
-            /*    Route::group(['domain' => '{account}.myapp.com'], function () {
-                    Route::get('user/{account}', function ($account, $id) {
-                        //
-                    });
-                    });
-                    */
-                    /**
-                    insert here for sub domains
-                    $account conatains the value of subdomain use accordingly
-                    */
 
-                Route::get('home','HomeController@index')->name('home');;
+                Route::get('home','HomeController@index')->name('home');
 
                 Route::get('createteam','CreateteamController@index');
                 Route::post('store','CreateteamController@store');
 
-                Route::get('team_setup','AddmemberController@index');
+                //Route::get('team_setup','AddmemberController@index');
                
                 Route::resource('account','AccountController');
 
@@ -45,14 +35,14 @@
                     Route::get('userprofile','UserController@index');
                     Route::post('userprofile','UserController@store');
                     
-                    Route::any('team_setup','AddmemberController@store');
-                    Route::get('addmember','AddmemberController@index');
-                    Route::post('addmember','AddmemberController@store');
-
+                    //Route::any('team_setup','AddmemberController@store');
+                    //Route::get('addmember','AddmemberController@index');
+                    Route::post('addmember','MemberController@store');
                     Route::get('members','MemberController@index');
+                    Route::post('member/edit','MemberController@update');
+                    Route::get('{p_ctg}/profile/delete','MemberController@delete');
 
                     Route::post('create_ctg','CategoryController@store');
-                   
 
                     Route::get('dashboard','DashboardController@index');
                     Route::get('profile','ProfileController@index');
@@ -61,6 +51,7 @@
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
                     
+
                     Route::get('files','MediaController@index');
                     Route::post('files/upload_url','MediaController@upload_url');
                     Route::post('files/img-upload', 'MediaController@img_store');
@@ -70,13 +61,25 @@
                     Route::get('messages','MessageController@index');
                     Route::post('sendmail','MessageController@sendmail');  
 
-                   
+                    Route::get('schedule','ScheduleController@get');
 
-                      
+                    Route::post('new/game','GameController@store');
+                    Route::post('edit/game','GameController@editStore');
+                    Route::get('game/delete/{game_id}','GameController@delete');
 
-               });
-                     
-                     
+                    Route::post('new/event','EventController@store');
+                    Route::post('edit/event','EventController@editStore');
+                    Route::get('event/delete/{event_id}','EventController@delete');
+                });
 
-            });
+            Route::get('get/teams','TeamController@getAll');
+
+            Route::get('game/data/{game_id}','GameController@getData');
+            Route::get('game/validate','GameController@vali');
+
+            Route::get('event/data/{event_id}','EventController@getData');
+            Route::get('event/validate','EventController@vali');
+
+            Route::get('edit/get/{id}','MemberController@get');
+        });
     });

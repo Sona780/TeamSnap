@@ -58,7 +58,7 @@
               <ul class="login-navigation"><!-- 
                   <li data-block="/register" class="bgm-red"><a href="{{ url('/register') }}">Register</a></li>
                   <li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li> -->
-                    
+
                   <div class="btn-demo">
                   &nbsp;&nbsp;
                   <a href="{{ url('/register') }}"><button class="btn btn-danger btn-xs pills-auth">Register</button></a>

@@ -19,7 +19,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->boolean('flag');   // 1- player 0-nonplayer
-            $table->boolean('manager_access'); //1-manager 
+            $table->boolean('manager_access'); //1-manager
             $table->string('mobile')->nullable();
             $table->integer('gender')->nullable();
             $table->string('role')->nullable();
@@ -32,7 +32,7 @@ class CreateUserDetailsTable extends Migration
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-     
+
 
         });
      }
