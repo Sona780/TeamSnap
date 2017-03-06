@@ -8,6 +8,6 @@ class Game extends Model
 {
     //
     protected $fillable = [
-         'date', 'time','opponent','location','location_detail',
+         'user_id', 'team_id', 'date', 'hour', 'minute', 'time','opponent_id', 'results', 'location_id', 'uniform', 'duration_hour', 'duration_minute', 'place',
     ];
 }

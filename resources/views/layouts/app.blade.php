@@ -44,6 +44,7 @@
                         <li class="logo"><a href="{{ url('/login') }}" style="font-size: 15px;">Login</a></li>
                         <li class="logo"><a href="{{ url('/register') }}" style="font-size: 15px;">Register</a></li>
                          @else
+
                         <li class="dropdown">
                             <a data-toggle="dropdown" href=""><img src ="/uploads/avatars/{{ Auth::user()->avatar }}" style="width:40px; height:40px;  border-radius: 50%;" />{{Auth::user()->name}}</a>
                             <ul class="dropdown-menu dm-icon pull-right">

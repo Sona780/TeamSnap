@@ -8,7 +8,7 @@ class TeamCtg extends Model
 {
     protected $table = 'team_ctgs';
     protected $fillable = [
-         'team_id','ctg_id',
+         'team_id','name',
     ];
 
 

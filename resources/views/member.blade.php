@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.new', ['team' => $id, 'active' => 'members'])
 @section('header')
 <link href="{{URL::to('/')}}/css/membertable.css" rel="stylesheet">
 <style type="text/css">
@@ -56,28 +56,27 @@
 
 @section('content')
 <div class="pull-right">
-   <button class="btn bgm-red waves-effect" data-toggle="modal" data-target="#myModal1">Add New Member </button>
-    <div id="myModal1" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-         <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Add Member</h4>
-          </div>
-          <div class="modal-body">
-           <form action="{{url($id.'/addmember')}}" method="post">
-             @include ('partials.memberform')
-             <button type="submit" class="btn btn-info">Submit</button>
-            </form>
-           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+  <button class="btn bgm-red waves-effect" data-toggle="modal" data-target="#myModal1">Add New Member </button>
+  <div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Member</h4>
         </div>
-
+        <div class="modal-body">
+          <form action="{{url($id.'/addmember')}}" method="post">
+            @include ('partials.memberform')
+            <button type="submit" class="btn btn-info">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
-   </div>
+    </div>
+  </div>
 
    <button class="btn bgm-red  waves-effect" data-toggle="modal" data-target="#myModal">Create Ctg </button>
    <div id="myModal" class="modal fade" role="dialog">
@@ -133,7 +132,7 @@
                                   </tr>
                              </thead>
                              <tbody>
-                                @foreach($users as $user)
+                                @foreach($members as $user)
                                   <tr>
                                       <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/></td>
                                       <td>{{$user->name}}</td>
@@ -142,8 +141,8 @@
                                          <p>{{$user->mobile}}
                                       </td>
                                       <td>P</td>
-                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                          <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                      <td><img src="{{url('/')}}/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                          <a href="{{url('/')}}/{{$user->id}}/profile/delete"><img src='{{url("/")}}/img/delete.png'></a>
                                       </td>
                                   </tr>
                                  @endforeach
@@ -162,17 +161,12 @@
                           @endif
                           <?php $i=1?>
                       @endforeach
-
                    </ul>
                     <div class="tab-content">
                         <?php $i=0 ?>
                         @foreach($ctgs as $ctg)
-                        
-                         @if($i==0)
-                         <div role="tabpanel" class="tab-pane active" id="all{{$ctg->id}}" >
-                         @else
-                         <div role="tabpanel" class="tab-pane" id="all{{$ctg->id}}" >
-                         @endif
+
+                         <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="all{{$ctg->id}}" >
                           <?php $i=1?>
                            <div class="table-responsive ">
                                 <table  class="table table-striped data-table-basic">
@@ -186,9 +180,12 @@
                                         </tr>
                                      </thead>
                                      <tbody>
-                                        @foreach($users as $user)
-                                         @if($user->ctg_id==$ctg->id )
+                                        @foreach($members as $user)
+
+                                         @if($user->team_ctgs_id==$ctg->id )
+
                                           <tr>
+
                                       <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
                                       <td>{{$user->name}}</td>
                                       <td>
@@ -226,7 +223,7 @@
                                   </tr>
                              </thead>
                              <tbody>
-                                @foreach($users as $user)
+                                @foreach($members as $user)
                                   @if($user->flag == 1 )
                                   <tr>
                                          <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
@@ -278,7 +275,7 @@
                                         </tr>
                                      </thead>
                                      <tbody>
-                                        @foreach($users as $user)
+                                        @foreach($members as $user)
                                          @if(($user->flag == 1) && ($user->ctg_id== $ctg->id))
                                         <tr>
                                               <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
@@ -318,7 +315,7 @@
                                   </tr>
                              </thead>
                              <tbody>
-                                @foreach($users as $user)
+                                @foreach($members as $user)
                                   @if($user->flag == 0)
                                   <tr>
                                          <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
@@ -348,35 +345,7 @@
 @endsection
 
 @section('footer')
- <script type="text/javascript">
-    $(document).ready(function(){
-    //Basic Example
+  <script type="text/javascript">
 
-
-   });
-    </script>
-
- @endsection
-<!--
-
- //datatable
-  <div class="card">
-     <div class="table-responsive ">
-        <table id="data-table-basic" class="table table-striped">
-            <thead>
-                <tr>
-                    <th data-column-id="id" data-type="numeric">ID</th>
-                    <th data-column-id="sender">Sender</th>
-                    <th data-column-id="received" data-order="desc">Received</th>
-                </tr>
-             </thead>
-             <tbody>
-                <tr>
-                    <td>10238</td>
-                    <td>eduardo@pingpong.com</td>
-                    <td>14.10.2013</td>
-                </tr>
-             </tbody>
-        </table>
-      </div>
-  </div> -->
+  </script>
+@endsection

@@ -5,7 +5,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="fg-line form-group">
-                        <input type="text" class="form-control input-sm firstname" name="firstname" placeholder="Prashushi">
+                        <input type="text" id="f-ip" class="form-control input-sm firstname" name="firstname" placeholder="Prashushi">
                     </div>
                 </div>
         </div>
@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm lastname" name="lastname" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm lastname" name="lastname" placeholder="Prashushi">
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm email" name="email" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm email" name="email" placeholder="Prashushi">
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm mobile" name="mobile" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm mobile" name="mobile" placeholder="Prashushi">
                 </div>
             </div>
         </div>
@@ -61,17 +61,14 @@
         </div>
         <div class="row">
             <div class="col-sm-4">
-             <h4> ctg:</h4>
+             <h4>Categories:</h4>
             </div>
             <div class="col-sm-8">
-                @foreach($ctgs as $ctg)
-                <label class="checkbox checkbox-inline m-r-20">
-                    <input type="checkbox" value="{{$ctg->id}}" name="ctg{{$ctg->id}}" id="ctg{{$ctg->id}}">
-                    <i class="input-helper"></i>    
-                   {{$ctg->name}}
-                 </label>
-                 @endforeach
-
+                <select class="selectpicker" id="f-ip" name="categories"  multiple data-max-options="{{$ctgs->count()}}" title='Choose Categories..'>
+                    @foreach($ctgs as $ctg)
+                        <option value="{{$ctg->id}}">{{$ctg->name}}</option>
+                    @endforeach
+                </select>
              </div>
         </div>
         <div class="row">
@@ -80,9 +77,8 @@
             </div>
             <div class="col-sm-8">
                 <div class="input-group form-group">
-                  <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                     <div class="dtp-container fg-line">
-                       <input type='text' class="form-control date-picker birthday" name="birthday" placeholder="Click here...">
+                       <input type='text' id="f-ip" class="form-control date-picker birthday" name="birthday" placeholder="Click here...">
                     </div>
                 </div>
             </div>
@@ -93,7 +89,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm role" name="role" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm role" name="role" placeholder="Prashushi">
                 </div>
             </div>
         </div>
@@ -103,7 +99,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm city" name="city" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm city" name="city" placeholder="Prashushi">
                 </div>
             </div>
         </div>
@@ -113,7 +109,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm state" name="state" placeholder="Prashushi">
+                    <input type="text" id="f-ip" class="form-control input-sm state" name="state" placeholder="Prashushi">
                 </div>
             </div>
         </div>

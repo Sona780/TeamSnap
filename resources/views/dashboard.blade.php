@@ -1,4 +1,4 @@
-@extends('layouts.new')
+@extends('layouts.new', ['team' => $teamname, 'active' => 'dashboard'])
 
 
 @section('header')
@@ -79,7 +79,7 @@
                       The uniform contians the following:
              
              {{$team_name}}
-             {{$team_logo}}
+
                     </div>
                 </div>
 

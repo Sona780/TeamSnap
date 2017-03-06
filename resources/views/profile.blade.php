@@ -1,6 +1,3 @@
-@extends('layouts.new')
-
-
 @section('content')
 
 <div class="container">

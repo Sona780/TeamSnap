@@ -38,7 +38,7 @@ class CreateteamController extends Controller
            $inputs->team_logo= $filename;
         }
         $inputs->save();
-        return redirect($inputs->teamname.'/dashboard');
+        return redirect($inputs->id.'/dashboard');
 
     }
 

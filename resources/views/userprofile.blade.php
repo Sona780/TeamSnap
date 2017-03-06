@@ -1,11 +1,11 @@
-@extends('layouts.new')
+@extends('layouts.new', ['team' => '0', 'active' => '0'])
 
 
 @section('content')
 
 <div class="card">
  
-<h2>Member Profile for Kaushal Pandey</h2>
+<h2>Member Profile for {{Auth::user()->name}}</h2>
     <div class="row">
 			<div class="col-sm-3">
 				<img src ="/uploads/avatars/{{ $user->avatar }}" style="width:150px; height:150px; float:left; border-radius: 50%; margin-right: 25px;" />
@@ -24,7 +24,7 @@
 
                   <div class="card">
                         <div>
-                            <p>Kaushal Pandey</p>
+                            <p>{{Auth::user()->name}}</p>
 
 
 

@@ -10,6 +10,7 @@ use DB;
 use TeamSnap\Img;
 use TeamSnap\File;
 use TeamSnap\Team;
+use Auth;
 
 class MediaController extends Controller
 {
@@ -26,7 +27,8 @@ class MediaController extends Controller
       $videos = Media::where('team_id',$teamid->id)->get();
       $images = Img::where('team_id',$teamid->id)->get();
       $files  = File::where('team_id',$teamid->id)->get();
-      return view('files',['id'=>$id,'videos'=>$videos,'images'=>$images,'files'=>$files]);
+
+      return view('pages.media', compact('id', 'videos', 'images', 'files'));
      }
     }
 

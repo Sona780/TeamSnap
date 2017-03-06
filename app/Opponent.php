@@ -4,10 +4,10 @@ namespace TeamSnap;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Opponent extends Model
 {
     //
     protected $fillable = [
-         'name', 'label', 'date', 'time','repeat','location_id',
+         'name', 'team_id', 'contact_person', 'phone_no','email',
     ];
 }

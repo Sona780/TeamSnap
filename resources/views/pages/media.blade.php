@@ -1,4 +1,4 @@
-@extends('layouts.new', )
+@extends('layouts.new', ['team' => $id, 'active' => 'media'])
 @section('header')
 <style type="text/css">
   .bootgrid-footer .infoBar, .bootgrid-header .actionBar
@@ -16,7 +16,7 @@
                 <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Video Link</a></li>
                 <li role="presentation"><a href="#messages1" aria-controls="messages1" role="tab" data-toggle="tab">Files</a></li>
        </ul>
-                              
+
         <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="home1">
                        <div class="row">
@@ -59,7 +59,7 @@
                                          <img src="/images/{{$img->img_name}}" alt="" width="180px" height="160px" />
                                      </div>
                                  </div>
-                                @endforeach  
+                                @endforeach
                               </div>
                         </div>
 
@@ -71,8 +71,8 @@
                                <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float " data-toggle="modal" data-target="#myModal1">
                                  <i class="zmdi zmdi-plus"></i>
                                </button>
-                            </div> 
-                          
+                            </div>
+
                             <!--Modal-->
                             <div class="modal fade" id="myModal1" role="dialog">
                 							    <div class="modal-dialog ">
@@ -114,7 +114,7 @@
                 							      </div>
                 							    </div>
 							               </div>
-                    
+
                     <!-- showing vedio -->
                      <div class="card-body card-padding">
                             <div class="row">
@@ -127,7 +127,7 @@
                                 </div>
                               @endforeach
                             </div>
-                      </div>      
+                      </div>
                   </div>
                   <div role="tabpanel" class="tab-pane" id="messages1">
                       <div class="row">
@@ -136,7 +136,7 @@
                              <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float " data-toggle="modal" data-target="#myModal2">
                                <i class="zmdi zmdi-plus"></i>
                              </button>
-                            </div> 
+                            </div>
                             <!--Modal-->
                             <div class="modal fade" id="myModal2" role="dialog">
                                 <div class="modal-dialog modal-lg">
@@ -161,7 +161,7 @@
                                   </div>
                                 </div>
                              </div>
-                       </div> 
+                       </div>
                        <div class="row">
                             <?php $i=1 ?>
 
@@ -189,9 +189,9 @@
                                   </div>
                             </div>
 
-                        </div>      
+                        </div>
                    </div>
-                                   
+
         </div>
   </div>
 

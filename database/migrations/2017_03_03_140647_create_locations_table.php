@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTeamUsersTable extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,27 @@ class CreateTeamUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('team_users', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('team_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('type'); // 0 for games, 1 for events
+            $table->string('detail');
+            $table->string('name');
+            $table->string('address');
+            $table->string('link');
+            $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-         Schema::drop('team_users');
+        Schema::dropIfExists('locations');
     }
 }

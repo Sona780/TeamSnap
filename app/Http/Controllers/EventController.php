@@ -4,6 +4,7 @@ namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TeamSnap\Event;
+use TeamSnap\Location;
 use Validator;
 use Auth;
 
@@ -14,37 +15,106 @@ class EventController extends Controller
     {
     	$v = Validator::make($request->all(), [
     		'name' => 'required|string',
-            'date' => 'required|date',
+            'date' => 'required',
             'hour' => 'required|between:1,12|numeric',
             'minute' => 'required | numeric | between: 0, 59',
-            'location' => 'required | string',
-            'location_detail' => 'required | string'
+
+            'location' => 'required',
+            'loc_name' => ($request->location == 0) ? 'required|string' : 'string',
+            'location_detail' => 'string',
+            'address' => 'string',
+            'link' => 'URL',
         ]);
 
     	$e['name'] = ( $v->errors()->has('name') ) ? $v->errors()->first('name') : '';
     	$e['date'] = ( $v->errors()->has('date') ) ? $v->errors()->first('date') : '';
     	$e['hour'] = ( $v->errors()->has('hour') ) ? $v->errors()->first('hour') : '';
     	$e['minute'] = ( $v->errors()->has('minute') ) ? $v->errors()->first('minute') : '';
-    	$e['location'] = ( $v->errors()->has('location') ) ? $v->errors()->first('location') : '';
-    	$e['location_detail'] = ( $v->errors()->has('location_detail') ) ? $v->errors()->first('location_detail') : '';
+
+        $e['location'] = ( $v->errors()->has('location') ) ? $v->errors()->first('location') : '';
+        $e['loc_name'] = ( $v->errors()->has('loc_name') ) ? $v->errors()->first('loc_name') : '';
+        $e['location_detail'] = ( $v->errors()->has('location_detail') ) ? $v->errors()->first('location_detail') : '';
+        $e['address'] = ( $v->errors()->has('address') ) ? $v->errors()->first('address') : '';
+        $e['link'] = ( $v->errors()->has('link') ) ? $v->errors()->first('link') : '';
 
     	return $e;
     }
 
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
 
-    	//return $request->time;
+    	if( $request->location == 0 )
+            $loc = $this->newLocation($id, $request);
+
     	$i = new Event();
-    	$i->user_id = Auth::user()->id;
-    	$i->name = $request->name;
+        $i->user_id = Auth::user()->id;
+    	$i->team_id = $id;
+        $i->name = $request->name;
+    	$i->label = $request->label;
     	$i->date = $request->date;
-    	$i->time = $request->hour.":".( ($request->minute < 10) ? '0'.$request->minute : $request->minute )." ".$request->time;
+        $i->hour = $request->hour;
+        $i->minute = $request->minute;
+        $i->time = $request->time;
     	$i->repeat = $request->repeat;
-    	$i->location = $request->location;
-    	$i->location_detail = $request->location_detail;
+    	$i->location_id = ($request->location == 0) ? $loc->id : $request->location;
     	$i->save();
 
-    	return redirect('schedule');
+    	return redirect($id.'/schedule');
+    }
+
+    public function editStore($id, Request $request)
+    {
+        $event = Event::find($request->id);
+
+        if( $request->location == 0 )
+            $loc = $this->newLocation($id, $request);
+        $loc_id = ( $request->location == 0 ) ? $loc->id : $request->location;
+
+        $event->update([
+                'name' => $request->name,
+                'label' => $request->label,
+                'date' => $request->date,
+                'hour' => $request->hour,
+                'minute' => $request->minute,
+                'time' => $request->time,
+                'repeat' => $request->repeat,
+                'location_id' => $loc_id,
+            ]);
+
+        return redirect($id.'/schedule');
+    }
+
+    public function getData($event_id)
+    {
+        $data = Event::find($event_id);
+        $loc = Location::find($data->location_id);
+
+        $data->loc_id = $loc->id;
+        $data->loc_name = $loc->name;
+        $data->loc_detail = $loc->detail;
+        $data->address = $loc->address;
+        $data->link = $loc->link;
+
+        return $data;
+    }
+
+    public function delete($id, $event_id)
+    {
+        Event::find($event_id)->delete();
+        return redirect($id.'/schedule');
+    }
+
+    public function newLocation($id, $request)
+    {
+        $loc = new Location();
+        $loc->team_id = $id;
+        $loc->type = 1;
+        $loc->name = $request->loc_name;
+        $loc->detail = $request->location_detail;
+        $loc->address = $request->address;
+        $loc->link = $request->link;
+        $loc->save();
+
+        return $loc;
     }
 }
