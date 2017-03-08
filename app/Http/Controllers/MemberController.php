@@ -14,8 +14,9 @@ use Auth;
 
 class MemberController extends Controller
 {
-   public function index($id)
-   {
+    //show existing members
+    public function index($id)
+    {
         $team = Team::find($id);
 
         if($team == NULL)
@@ -24,48 +25,31 @@ class MemberController extends Controller
         {
             $owner = User::find($team->team_owner_id);
 
-            $members = TeamUser::leftJoin('users', 'users.id', '=', 'team_users.user_id')
-                       ->leftJoin('user_details', 'users.id', '=', 'user_details.user_id')
-                       ->leftJoin('player_ctgs', 'users.id', '=', 'player_ctgs.user_id')
-                       ->where('team_users.team_id', $id)->get();
+            $members = TeamUser::members($id)->get();
+            $distinct_members = TeamUser::members($id)->groupBy('player_ctgs.user_id')->get();
 
             $ctgs = TeamCtg::where('team_id', $id)->get();
-            return view('pages.members',compact('id','ctgs','members'));
-            return $members;
+
+            return view('pages.members',compact('id','ctgs','members', 'distinct_members'));
+            //return $distinct_members;
         }
-
-
-
-      $user_id = Auth::user()->id;
-       $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
-       if($team_name == '' || $team_name== NULL)
-       {
-
-       }
-       else{
-             $team_id = Team::where('teamname',$id)->value('id');
-
-             $ctgs =  DB::table('ctgs')
-                     ->get();
-
-             $users = DB::table('users')
-                        ->leftJoin('user_details', 'users.id', '=', 'user_details.user_id')
-                        ->leftJoin('team_users', 'users.id', '=', 'team_users.user_id' )
-                        ->leftJoin('player_ctgs', 'users.id', '=', 'player_ctgs.user_id')
-                        ->where('team_users.team_id', $team_id)
-                        ->get();
-
-             return view('member',compact('id','ctgs','users'));
-      }
    }
+   //end show existing members
 
+   //save new member
    public function store($id, Request $request)
     {
+        //get selected categoeries of new member
+        $c = $this->selectedCat($request->categories);
+
+        //create new user
         $user = new User();
         $user->name = $request->firstname;
         $user->email = $request->email;
         $user->save();
+        //end create new user
 
+        //save new user details
         $members = new Userdetail(array(
               'firstname' => $request->get('firstname'),
               'lastname'  => $request->get('lastname'),
@@ -79,62 +63,61 @@ class MemberController extends Controller
               'team_id'   => $id,
         ));
         $members->save();
+        //end save new user details
 
+        //link member with team
         $team_users = new TeamUser(array(
               'team_id' => $id,
               'user_id' => $user->id,
         ));
         $team_users->save();
+        //end link member with team
 
-        $ctg = new PlayerCtg();
-        $ctg->team_id = $id;
-        $ctg->user_id = $user->id;
-        $ctg->team_ctgs_id = $request->categories;
-        $ctg->save();
+        //specify member categories
+        $this->saveCat($id, $user->id, $c);
+        //end specify member categories
 
-        /*$ctgs =  DB::table('ctgs')->get();
-
-        foreach($ctgs as $ctg)
-        {
-            $player_ctgs = new PlayerCtg(array(
-                'team_id' => $id,
-                'ctg_id'  => (Input::has('ctg'.$ctg->id)) ? 1 : 0,
-                'user_id' => $users->id,
-            ));
-            if($player_ctgs->ctg_id != '' || $player_ctgs->ctg_id != NULL )
-            {
-              $player_ctgs->ctg_id = $ctg->id;
-              $player_ctgs->save();
-            }
-        }*/
         return redirect($id.'/members');
     }
+    //end save new member
 
+    //fetch data of existing member
     public function get($id)
     {
       $user_id = PlayerCtg::find($id)->user_id;
-      //return $user_id;
       $data = User::find($user_id);
       $data['details'] = UserDetail::where('user_id', $user_id)->first();
-      $data['cts'] = PlayerCtg::where('user_id', $user_id)->first();
+      $data['ctg'] = PlayerCtg::where('user_id', $user_id)->get();
 
       return $data;
     }
+    //end fetch data of existing member
 
+    //delete a member
     public function delete($id, $p_ctg)
     {
       User::find(PlayerCtg::find($p_ctg)->user_id)->delete();
       return redirect($id.'/members');
     }
+    //end delete a member
 
+    //update existing member info
     public function update($id, Request $request)
     {
+      //get selected categoeries of new member
+      $c = $this->selectedCat($request->categories);
+
+      //get member id
       $user_id = PlayerCtg::find($request->id)->user_id;
+
+      //update user
       User::find($user_id)->update([
             'name' => $request->firstname,
             'email' => $request->email
         ]);
+      //end update user
 
+      //update user details
       Userdetail::where('user_id', $user_id)->update([
             'firstname' => $request->firstname,
             'lastname'  => $request->lastname,
@@ -145,9 +128,39 @@ class MemberController extends Controller
             'city'      => $request->city,
             'state'     => $request->state,
         ]);
+      //end update user details
 
-       PlayerCtg::where('user_id', $user_id)->update(['team_ctgs_id' => $request->categories]);
+      //update member categories
+      PlayerCtg::where('user_id', $user_id)->delete();
+      $this->saveCat($id, $user_id, $c);
+      //end update member categories
 
       return redirect($id.'/members');
     }
+    //end update existing member info
+
+    //get selected categoeries of new member
+   public function selectedCat($cats)
+   {
+    $c = [];
+    $i = 0;
+    foreach($cats as $cat)
+      $c[$i++] = $cat;
+    return $c;
+   }
+   //end get selected categoeries of new member
+
+   //save memeber categories
+   public function saveCat($t_id, $u_id, $c)
+   {
+    foreach ($c as $cat)
+    {
+      $ctg = new PlayerCtg();
+      $ctg->team_id = $t_id;
+      $ctg->user_id = $u_id;
+      $ctg->team_ctgs_id = $cat;
+      $ctg->save();
+    }
+   }
+   //end save memeber categories
 }

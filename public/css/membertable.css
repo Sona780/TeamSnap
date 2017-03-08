@@ -1,0 +1,58 @@
+.bootgrid-footer .infoBar, .bootgrid-header .actionBar
+     {
+       text-align: right !important;
+       padding: 10px;
+     }
+     .tab-nav
+     {
+       box-shadow: inset 0 0px 0 0 ;
+     }
+     .table-card
+     {
+      margin-top: 20px;
+     }
+    .ctg
+    {
+      background-color:#4E4C4D;
+      margin-top: -1.5em;
+      min-height: 4em;
+
+    }
+    .ctg > li> a
+    {
+      color: #fff;
+    }
+     .ctg > li> a:hover
+    {
+      color: #FFF;
+    }
+     .ctg > li.active > a
+    {
+      color: #FFFF00;
+    }
+    .ctg > li > a:after
+     {
+     background: #fff !important;
+     height: 0px !important;
+    }
+    .main_tab >li >a
+    {
+     font-style: bold;
+     font-size: 15px;
+     color: #000;
+    }
+
+    .main_tab > li > a:after
+     {
+     background: #ffff00 !important;
+     height: 3px !important;
+    }
+
+    .icon-style {
+      width: 40px;
+      padding-left: 10px;
+    }
+
+    .mem-tab {
+      font-size: 13px
+    }

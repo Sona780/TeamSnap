@@ -1,3 +1,4 @@
+
    {!! csrf_field() !!}
         <div class="row">
                 <div class="col-sm-4">
@@ -44,7 +45,7 @@
               <h4>Type:</h4>
           </div>
           <div class="col-sm-8"> 
-             <div class="radio m-b-15">
+             <div class="radio m-b-15" id="member-type">
                 <label>
                     <input type="radio"  value="1"  name="optradio" class="optradio" checked>
                     <i class="input-helper"></i>
@@ -64,7 +65,7 @@
              <h4>Categories:</h4>
             </div>
             <div class="col-sm-8">
-                <select class="selectpicker" id="f-ip" name="categories"  multiple data-max-options="{{$ctgs->count()}}" title='Choose Categories..'>
+                <select name="categories[]" id="categories"  multiple="multiple" title='Choose Categories..'>
                     @foreach($ctgs as $ctg)
                         <option value="{{$ctg->id}}">{{$ctg->name}}</option>
                     @endforeach

@@ -56,6 +56,10 @@
       width: 40px;
       padding-left: 10px;
     }
+
+    .mem-tab {
+      font-size: 13px
+    }
 </style>
 @endsection
 
@@ -148,7 +152,8 @@
             <li><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
             <li><a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab">Non Player</a></li>
         </ul>
-  <div class="card table-card" id="main">
+  </div>
+  <div class="card table-card" id="main" style="padding: 0% 0%; border-radius: 20px">
         <div class="tab-content">
            <div role="tabpanel" class="tab-pane active" id="all">
             @if( $members->count() == 0 )
@@ -156,7 +161,7 @@
             @else
               @if($ctgs == '[]')
                 <div class="table-responsive ">
-                  <table  class="table table-striped data-table-basic">
+                  <table  class="table table-hover table-condensed mem-tab">
                     @include('partials.table-head')
                     <tbody>
                     @foreach($members as $user)
@@ -180,7 +185,7 @@
                   </table>
                 </div>
               @else
-                <ul class="tab-nav ctg" role="tablist" >
+                <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
                   <?php $i=0 ?>
                   @foreach($ctgs as $ctg)
                     <li class="@if($i==0) active @endif"><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
@@ -193,7 +198,7 @@
                       <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="all{{$ctg->id}}" >
                         <?php $i=1?>
                        <div class="table-responsive ">
-                          <table  class="table table-striped data-table-basic">
+                          <table  class="table table-hover table-condensed mem-tab">
                             @include('partials.table-head')
                             <tbody>
                               @foreach($members as $user)
@@ -228,7 +233,7 @@
               @else
                 @if($ctgs == '[]')
                 <div class="table-responsive ">
-                        <table  class="table table-striped data-table-basic">
+                        <table  class="table table-hover table-condensed mem-tab">
                              @include('partials.table-head')
                              <tbody>
                                 @foreach($members as $user)
@@ -251,7 +256,7 @@
                         </table>
                 </div>
                 @else
-                   <ul class="tab-nav ctg" role="tablist">
+                   <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
                     <?php $i=0?>
                       @foreach($ctgs as $ctg)
                           @if($i==0)
@@ -268,7 +273,7 @@
                          <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="player{{$ctg->id}}">
                           <?php $i=1?>
                            <div class="table-responsive ">
-                                <table  class="table table-striped data-table-basic">
+                                <table  class="table table-hover table-condensed mem-tab">
                                     @include('partials.table-head')
                                      <tbody>
                                         @foreach($members as $user)
@@ -300,12 +305,11 @@
               @if( $members->count() == 0 )
                 <div style="text-align: center"><p style="font-size: 15px;">No member available in the team</p></div>
               @else
-               <ul class="ctg"></ul>
                <div class="table-responsive ">
-                        <table  class="table table-striped data-table-basic">
+                        <table  class="table table-hover table-condensed mem-tab">
                              @include('partials.table-head')
                              <tbody>
-                                @foreach($members as $user)
+                                @foreach($distinct_members as $user)
                                   @if($user->flag == 0)
                                   <tr>
                                          <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
@@ -327,7 +331,7 @@
                 </div>
               @endif
             </div>
-        </div>
+
   </div>
 </div>
 
@@ -337,18 +341,37 @@
 
 @section('footer')
   <script type="text/javascript">
+    $(document).ready(function(){
+      $('#add-form').find('#categories').multiselect({
+        includeSelectAllOption: true
+      });
+    });
+
     $('#main').on('click', '#edit', function(){
       id = $(this).attr('key');
       url = '{{url("/")}}/edit/get/' + id;
+      //$('#categories').multiSelect();
       //window.location.href = '{{url("/")}}/edit/get/' + id;
 
       $.get(url, function(data){
         d = data;
+        //alert(d['ctg'].length);
         opt = ( d['details']['flag'] == 1 ) ? 1 : 0;
         $('#edit-member').find('input[name="id"]').val(id);
         $('#edit-member').find('input[name="firstname"]').val(d['details']['firstname']);
         $('#edit-member').find('input[name="lastname"]').val(d['details']['lastname']);
         $('#edit-member').find('input[name="mobile"]').val(d['details']['mobile']);
+        $('#edit-member').find('#member-type').find('input[value="'+d['details']['flag']+'"]').attr('checked', true);
+
+        //categories
+        ctg = [];
+        for( i = 0; i < d['ctg'].length; i++ )
+          ctg.push(d['ctg'][i]['team_ctgs_id']);
+
+        $('#edit-member').find('#categories').val(ctg);
+        $('#edit-member').find('#categories').multiselect('refresh');
+        //end categories
+
         $('#edit-member').find('input[name="birthday"]').val(d['details']['birthday']);
         $('#edit-member').find('input[name="role"]').val(d['details']['role']);
         $('#edit-member').find('input[name="city"]').val(d['details']['city']);

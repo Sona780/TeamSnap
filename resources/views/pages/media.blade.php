@@ -10,53 +10,67 @@
 @endsection
 @section('content')
 
- <div role="tabpanel">
-       <ul class="tab-nav tab-nav" role="tablist" id="myTab">
-                <li class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
-                <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Video Link</a></li>
-                <li role="presentation"><a href="#messages1" aria-controls="messages1" role="tab" data-toggle="tab">Files</a></li>
-       </ul>
+<div role="tabpanel">
+  <ul class="tab-nav tab-nav" role="tablist" id="myTab">
+    <li class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
+    <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Video Link</a></li>
+    <li role="presentation"><a href="#messages1" aria-controls="messages1" role="tab" data-toggle="tab">Files</a></li>
+  </ul>
 
-        <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="home1">
-                       <div class="row">
-                           <div class="pull-right upload_button">
-                               <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#myModal">
-                                 <i class="zmdi zmdi-plus"></i>
-                               </button>
-                            </div>
-                        </div>
-                            <!--Modal-->
-                        <div class="modal fade" id="myModal" role="dialog">
-              							    <div class="modal-dialog modal-lg">
-                							      <div class="modal-content">
-                  							        <div class="modal-header">
-                  							          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  							          <h4 class="modal-title">Upload Images</h4>
-                  							        </div>
-                  							        <div class="modal-body">
-                    							          <div class="row">
-                                               <div class="col-sm-12">
-                            											<form action="{{url($id.'/files/img-upload')}}" class="dropzone" id="addImages">
-                            											  <input type="hidden" name="gallery_id" value="">
-                                                            {{ csrf_field() }}
-                            											</form>
-                                               </div>
-                    							          </div>
-                  							        </div>
-                							        <div class="modal-footer">
-                							          <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
-                							        </div>
-                							      </div>
-              							    </div>
-							         </div>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home1">
+      <div class="row">
+        <div class="pull-right upload_button">
+          <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#myModal">
+            <i class="zmdi zmdi-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!--Modal-->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Upload Images</h4>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-sm-12">
+                  <form action="{{url($id.'/files/img-upload')}}" class="dropzone" id="addImages">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="gallery_id" value="">
+                    <!-- image -->
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                      <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                      <div>
+                        <span class="btn btn-info btn-file">
+                          <span class="fileinput-new">Select image</span>
+                          <span class="fileinput-exists">Change</span>
+                          <input type="file" name="...">
+                          </span>
+                        <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                      </div>
+                    </div>
+                    <!-- image -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default close_btn" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+			</div>
 
 							          <div class="card-body card-padding">
                              <div class="lightbox photos">
                                 @foreach($images as $img)
-                                 <div data-src="/images/{{$img->img_name}}" class="col-md-2 col-sm-4 col-xs-6">
+                                 <div data-src="{{url('/')}}/images/{{$img->img_name}}" class="col-md-2 col-sm-4 col-xs-6">
                                      <div class="lightbox-item p-item">
-                                         <img src="/images/{{$img->img_name}}" alt="" width="180px" height="160px" />
+                                         <img src="{{url('/')}}/images/{{$img->img_name}}" alt="" width="180px" height="160px" />
                                      </div>
                                  </div>
                                 @endforeach

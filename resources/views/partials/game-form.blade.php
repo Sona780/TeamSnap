@@ -138,7 +138,7 @@
 
 				<tr>
 					<td colspan="2" style="text-align: center">
-						<button style="border-radius: 5px; background: white; height: 40px; " id="info" onClick="event.preventDefault();">
+						<button type="button" style="border-radius: 5px; background: white; height: 40px; " id="info" onClick="event.preventDefault();">
 							&nbsp;<img src="{{url('/')}}/img/down.png" id="info-img" >&nbsp;&nbsp;
 							Show optional Game Info
 						</button>

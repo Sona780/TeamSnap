@@ -98,13 +98,11 @@
 		</form>
 	</div>
 
-	<div class="card" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-event">
-		<div class="card-body table-responsive">
+	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-event">
 		<form method="POST" action="{{url('/')}}/{{$id}}/edit/event" id="edit-event-form">
 			<input type="hidden" name="id">
 			@include('partials.event-form', ['submitButton' => 'Modify', 'loc' => $event_loc])
 		</form>
-		</div>
 	</div>
 
 @endsection

@@ -24,7 +24,7 @@ class GameController extends Controller
             'name' => ($request->opponent == 0) ? 'required|string' : 'string',
             'contact_person' => 'string',
             'email' => 'email',
-            'phone' => 'numeric|size:10',
+            'phone' => 'numeric',
 
             'location' => 'required',
             'loc_name' => ($request->location == 0) ? 'required|string' : 'string',

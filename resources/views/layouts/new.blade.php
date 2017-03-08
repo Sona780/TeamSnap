@@ -24,6 +24,7 @@
 
 
         <!-- CSS -->
+        <link href="{{URL::to('/')}}/css/bootstrap-multiselect.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
          <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
@@ -270,6 +271,7 @@
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
 
          <script src="{{URL::to('/')}}/vendors/bower_components/chosen/chosen.jquery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
 
          <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
@@ -284,6 +286,7 @@
         <script src="{{URL::to('/')}}/js/flot-charts/curved-line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/flot-charts/line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/charts.js"></script>
+        <script src="{{URL::to('/')}}/js/bootstrap-multiselect.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
 
