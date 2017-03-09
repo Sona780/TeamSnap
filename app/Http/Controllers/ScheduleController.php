@@ -22,17 +22,13 @@ class ScheduleController extends Controller
     			$game->minute = '0'. $game->minute;
 
             $game->name = Opponent::find($game->opponent_id)->name;
-            $loc = Location::find($game->location_id);
-            $game->loc_name = $loc->name;
-            $game->loc_detail = $loc->detail;
+            $game->location = Location::find($game->location_id);
     	}
     	foreach ($events as $event) {
     		if( $event->minute < 10 )
     			$event->minute = '0'. $event->minute;
 
-            $loc = Location::find($event->location_id);
-            $event->loc_name = $loc->name;
-            $event->loc_detail = $loc->detail;
+            $event->location = Location::find($event->location_id);
     	}
 
         $opp = Opponent::where('team_id', $id)->get();

@@ -52,11 +52,6 @@
      height: 3px !important;
     }
 
-    .icon-style {
-      width: 40px;
-      padding-left: 10px;
-    }
-
     .mem-tab {
       font-size: 13px
     }

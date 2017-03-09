@@ -18,26 +18,28 @@
             </h4>
     </div>
 
-    <div class="card p-10" id="table">
-            <div class="table-responsive">
-                <table id="example" class="display" cellspacing="0" width="100%">
+    <div class="card p-10 table-responsive" id="table">
 
-                        <thead>
+                <table id="example" class="table display responsive" cellspacing="0" width="100%">
+
+                        <thead style="font-size: 15px">
                             <tr>
-                                <th><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;Games/ <img src='{{url("/")}}/img/green.jpeg' />&nbsp;Events</th>
+                                <th class="all"><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;Games/ <img src='{{url("/")}}/img/green.jpeg' />&nbsp;Events</th>
 			                    <th>Result</th>
 			                    <th>Date</th>
 			                    <th>Time</th>
 			                    <th>Location</th>
-			                    <th>Location Detail</th>
-			                    <th>Manager</th>
+			                    <th class="all">Manager</th>
+			                    <th class="none">Location Detail</th>
+			                    <th class="none">Adress</th>
+			                    <th class="none">Link</th>
                             </tr>
                         </thead>
 
-                        <tbody id="tbody">
+                        <tbody id="tbody" style="font-size: 12px">
                             @foreach($games as $game)
 					            <tr>
-					                <td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;vs. {{ $game->name }}</td>
+					                <td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;&nbsp;&nbsp;vs. {{ $game->name }}</td>
 					                <td>
 					                	@if( $game->results == ''  )
 					                		<button id="edit" key='{{ $game->id }}' type='game' class="b-design">Enter Result</button>
@@ -45,38 +47,52 @@
 					                		{{ $game->results }}
 					                	@endif
 					                </td>
-					                <td>{{ $game->date }}</td>
+					                <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('D d, M Y') }}</td>
 					                <td>
 					                	{{ $game->hour }}:{{ $game->minute }}&nbsp;{{ $game->time }}
 					                </td>
-					                <td>{{ $game->loc_name }}</td>
-					                <td>{{ $game->loc_detail }}</td>
+					                <td>{{ $game->location->name }}</td>
 					                <td>
-					                	<a class="btn btn-info waves-effect delete-button m-r-10" id="edit" key='{{ $game->id }}' type='game'>Edit</a>
-                                        <a class="btn btn-danger waves-effect delete-button" id="delete" key='{{ $game->id }}' type='game' id="delete">Delete</a>
+	                        			<a id="edit" key='{{ $game->id }}' type='game'>
+	                        				<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+	                        			</a>
+
+										<a id="delete" key='{{ $game->id }}' type='game'>
+	                        				<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+	                        			</a>
                                     </td>
+                                    <td>{{ $game->location->detail }}</td>
+                                    <td>{{ $game->location->address }}</td>
+                                    <td>{{ $game->location->link }}</td>
 					            </tr>
 				            @endforeach
 				            @foreach($events as $event)
 					            <tr>
-					                <td><img src='{{url("/")}}/img/green.jpeg' />&nbsp;{{ $event->name }}</td>
+					                <td><img src='{{url("/")}}/img/green.jpeg' />&nbsp;&nbsp;&nbsp;{{ $event->name }}</td>
 					                <td></td>
-					                <td>{{ $event->date }}</td>
+					                <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('D d, M Y') }}</td>
 					                <td>
 					                	{{ $event->hour }}:{{ $event->minute }}&nbsp;{{ $event->time }}
 					                </td>
-					                <td>{{ $event->loc_name }}</td>
-					                <td>{{ $event->loc_detail }}</td>
+					                <td>{{ $event->location->name }}</td>
 					                <td>
-					                	<a class="btn btn-info waves-effect delete-button m-r-10" id="edit" key='{{ $event->id }}' type='event'>Edit</a>
-                                        <a class="btn btn-danger waves-effect delete-button" id="delete" key='{{ $event->id }}' type='event' id="delete">Delete</a>
+                                        <a id="edit" key='{{ $event->id }}' type='event'>
+	                        				<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+	                        			</a>
+
+										<a id="delete" key='{{ $event->id }}' type='event'>
+	                        				<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+	                        			</a>
                                     </td>
+                                    <td>{{ $event->location->detail }}</td>
+                                    <td>{{ $event->location->address }}</td>
+                                    <td>{{ $event->location->link }}</td>
 					            </tr>
 				            @endforeach
                         </tbody>
                 </table>
 
-            </div>
+
     </div>
 
     <div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
@@ -110,6 +126,7 @@
     <!-- Data Table -->
     <script type="text/javascript">
         $(document).ready(function(){
+
             $('#example').DataTable();
             $('#new-game').find('tr[id="add-info"]').hide();
         });

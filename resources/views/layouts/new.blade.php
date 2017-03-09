@@ -27,10 +27,25 @@
         <link href="{{URL::to('/')}}/css/bootstrap-multiselect.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
-         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-         <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+
+
+        <!--<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap4.min.css" rel="stylesheet">-->
+
+        <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" rel="stylesheet">
+
 
          <style type="text/css">
+            .dtr-title {
+                width: 150px;
+            }
+
+            .icon-style {
+              width: 40px;
+              padding-left: 10px;
+            }
+
             .border-height {
                 border-radius: 5px;
                 height: 30px;
@@ -273,11 +288,12 @@
          <script src="{{URL::to('/')}}/vendors/bower_components/chosen/chosen.jquery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
 
-         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+         <!--<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
 
-
-
-
+<!--
+         <script src="{{URL::to('/')}}/js/DataTable/jquery.dataTables.min.js"></script>
+         <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap4.min.js"></script>
+-->
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
@@ -289,6 +305,10 @@
         <script src="{{URL::to('/')}}/js/bootstrap-multiselect.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
+
+
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
 
         <script src="{{URL::to('/')}}/js/demo.js"></script>
         <script type="text/javascript">

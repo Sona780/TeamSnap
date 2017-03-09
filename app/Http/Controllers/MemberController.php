@@ -29,9 +29,9 @@ class MemberController extends Controller
             $members = TeamUser::members($id)->get();
             $ctgs = TeamCtg::where('team_id', $id)->get();
 
-            $member['player']['all'] = TeamUser::members($id)->where('flag', 1)->groupBy('player_ctgs.user_id')->get();
-            $member['non'] = TeamUser::members($id)->where('flag', 0)->groupBy('player_ctgs.user_id')->get();
-            $member['all']['all'] = TeamUser::members($id)->groupBy('player_ctgs.user_id')->get();
+            $member['player']['all'] = TeamUser::members($id)->where('flag', 1)->groupBy('users.id')->get();
+            $member['non'] = TeamUser::members($id)->where('flag', 0)->groupBy('users.id')->get();
+            $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
 
             foreach ($ctgs as $ctg) {
               $member['player'][$ctg->id] = TeamUser::members($id)->where('team_ctgs_id', $ctg->id)->where('flag', 1)->get();
@@ -39,7 +39,7 @@ class MemberController extends Controller
             }
 
             return view('pages.members',compact('id','ctgs','member'));
-            //return $member['all'];
+            //return $member['non'];
         }
     }
    //end show existing members
