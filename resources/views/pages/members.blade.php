@@ -77,10 +77,10 @@
           <h4 class="modal-title">Add Member</h4>
         </div>
         <div class="modal-body">
-          <form action="{{url($id.'/addmember')}}" method="post" id="add-form">
+          {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
             @include ('partials.memberform')
             <button type="submit" class="btn btn-info">Submit</button>
-          </form>
+          {{Form::close()}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -100,11 +100,11 @@
           <h4 class="modal-title">Add Member</h4>
         </div>
         <div class="modal-body">
-          <form action="{{url($id.'/member/edit')}}" method="post" id="edit-form">
+          {{Form::open(['method' => 'post', 'url' => $id.'/member/edit', 'files' => true, 'id' => 'edit-form'])}}
             <input type="hidden" name="id">
             @include ('partials.memberform')
             <button type="submit" class="btn btn-info">Submit</button>
-          </form>
+          {{Form::close()}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -146,6 +146,7 @@
 
 <div>
 
+  <!-- tabs for all, players and non-player -->
   <div role="tabpanel">
         <ul class="tab-nav main_tab" role="tablist">
             <li class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
@@ -153,185 +154,112 @@
             <li><a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab">Non Player</a></li>
         </ul>
   </div>
-  <div class="card table-card" id="main" style="padding: 0% 0%; border-radius: 20px">
-        <div class="tab-content">
-           <div role="tabpanel" class="tab-pane active" id="all">
-            @if( $members->count() == 0 )
-              <div style="text-align: center"><p style="font-size: 15px;">No member available in the team</p></div>
-            @else
-              @if($ctgs == '[]')
-                <div class="table-responsive ">
-                  <table  class="table table-hover table-condensed mem-tab">
-                    @include('partials.table-head')
-                    <tbody>
-                    @foreach($members as $user)
-                      <tr>
-                        <td>
-                          <img src ="/uploads/avatars/{{ $user->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/>
-                        </td>
-                        <td>{{$user->firstname}}&nbsp;&nbsp;{{$user->lastname}}</td>
-                        <td>
-                          <p>{{$user->email}}</p>
-                          <p>{{$user->mobile}}
-                        </td>
-                        <td>{{$user->role}}</td>
-                        <td>
-                          <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$user->id}}" data-toggle="modal" data-target="#edit-member"/>
-                          <a href="{{url('/')}}/{{$user->id}}/profile/delete"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
-                        </td>
-                      </tr>
-                    @endforeach
-                    </tbody>
-                  </table>
-                </div>
-              @else
-                <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
-                  <?php $i=0 ?>
-                  @foreach($ctgs as $ctg)
-                    <li class="@if($i==0) active @endif"><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
-                    <?php $i=1?>
-                  @endforeach
-                </ul>
-                <div class="tab-content">
-                  <?php $i=0 ?>
-                    @foreach($ctgs as $ctg)
-                      <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="all{{$ctg->id}}" >
-                        <?php $i=1?>
-                       <div class="table-responsive ">
-                          <table  class="table table-hover table-condensed mem-tab">
-                            @include('partials.table-head')
-                            <tbody>
-                              @foreach($members as $user)
-                                @if($user->team_ctgs_id==$ctg->id )
-                                  <tr>
-                                    <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
-                                    <td>{{$user->firstname}}&nbsp;&nbsp;{{$user->lastname}}</td>
-                                    <td>
-                                      <p>{{$user->email}}</p>
-                                      <p>{{$user->mobile}}</p>
-                                    </td>
-                                    <td>{{$user->role}}</td>
-                                    <td>
-                                      <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$user->id}}" data-toggle="modal" data-target="#edit-member"/>
-                                      <a id="delete" key="/{{$user->id}}/profile/delete"><img class="icon-style" src="{{url('/')}}/img/delete.png"></a>
-                                    </td>
-                                  </tr>
-                                @endif
-                              @endforeach
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    @endforeach
-                  </div><!--div class tabb content-->
-                @endif
-            @endif
-           </div>
-            <div role="tabpanel" class="tab-pane" id="player">
-              @if( $members->count() == 0 )
-                <div style="text-align: center"><p style="font-size: 15px;">No member available in the team</p></div>
-              @else
-                @if($ctgs == '[]')
-                <div class="table-responsive ">
-                        <table  class="table table-hover table-condensed mem-tab">
-                             @include('partials.table-head')
-                             <tbody>
-                                @foreach($members as $user)
-                                  @if($user->flag == 1 )
-                                  <tr>
-                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
-                                      <td>{{$user->firstname}}&nbsp;&nbsp;{{$user->lastname}}</td>
-                                      <td>
-                                         <p>{{$user->email}}</p>
-                                         <p>{{$user->mobile}}</p>
-                                      </td>
-                                      <td>{{$user->role}}</td>
-                                      <td><img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$user->id}}" data-toggle="modal" data-target="#edit-member"/>
-                                          <a id="delete" key="/{{$user->id}}/profile/delete"><img class="icon-style" src="{{url('/')}}/img/delete.png"></a>
-                                      </td>
-                                  </tr>
-                                  @endif
-                                 @endforeach
-                             </tbody>
-                        </table>
-                </div>
-                @else
-                   <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
-                    <?php $i=0?>
-                      @foreach($ctgs as $ctg)
-                          @if($i==0)
-                          <li class="active"><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a></li>
-                          @else
-                          <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}}</a></li>
-                          @endif
-                           <?php $i=1?>
-                      @endforeach
-                   </ul>
-                    <div class="tab-content">
-                       <?php $i=0?>
-                        @foreach($ctgs as $ctg)
-                         <div role="tabpanel" class="tab-pane @if($i==0) active @endif" id="player{{$ctg->id}}">
-                          <?php $i=1?>
-                           <div class="table-responsive ">
-                                <table  class="table table-hover table-condensed mem-tab">
-                                    @include('partials.table-head')
-                                     <tbody>
-                                        @foreach($members as $user)
-                                         @if(($user->flag == 1) && ($user->team_ctgs_id== $ctg->id))
-                                        <tr>
-                                              <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
-                                      <td>{{$user->firstname}}&nbsp;&nbsp;{{$user->lastname}}</td>
-                                      <td>
-                                         <p>{{$user->email}}</p>
-                                         <p>{{$user->mobile}}</p>
-                                      </td>
-                                      <td>{{$user->role}}</td>
-                                      <td><img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$user->id}}" data-toggle="modal" data-target="#edit-member"/>
-                                          <a id="delete" key="/{{$user->id}}/profile/delete"><img class="icon-style" src="{{url('/')}}/img/delete.png"></a>
-                                      </td>
-                                        </tr>
-                                        @endif
-                                        @endforeach
-                                     </tbody>
-                                </table>
-                            </div>
-                         </div>
-                         @endforeach
-                    </div><!--div class tabb content-->
-                @endif
-              @endif
-            </div>
-            <div role="tabpanel" class="tab-pane" id="nonplayer">
-              @if( $members->count() == 0 )
-                <div style="text-align: center"><p style="font-size: 15px;">No member available in the team</p></div>
-              @else
-               <div class="table-responsive ">
-                        <table  class="table table-hover table-condensed mem-tab">
-                             @include('partials.table-head')
-                             <tbody>
-                                @foreach($distinct_members as $user)
-                                  @if($user->flag == 0)
-                                  <tr>
-                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
-                                      <td>{{$user->firstname}}&nbsp;&nbsp;{{$user->lastname}}</td>
-                                      <td>
-                                         <p>{{$user->email}}</p>
-                                         <p>{{$user->mobile}}</p>
-                                      </td>
-                                      <td>{{$user->role}}</td>
-                                      <td>
-                                        <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$user->id}}" data-toggle="modal" data-target="#edit-member"/>
-                                        <a id="delete" key="/{{$user->id}}/profile/delete"><img class="icon-style" src="{{url('/')}}/img/delete.png"></a>
-                                      </td>
-                                  </tr>
-                                  @endif
-                                @endforeach
-                             </tbody>
-                        </table>
-                </div>
-              @endif
-            </div>
+  <!-- end tabs for all, players and non-player -->
 
+
+  <div class="card table-card" id="main" style="padding: 0% 0%; border-radius: 20px">
+    <div class="tab-content">
+      <!-- show all members -->
+      <div role="tabpanel" class="tab-pane active" id="all">
+
+        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+
+          <!-- create all tab -->
+          <li class="active"><a href="#all0" aria-controls="all0" role="tab" data-toggle="tab" >ALL</a></li>
+          <!-- end create all tab -->
+
+
+          <!-- create tab for each category -->
+          @foreach($ctgs as $ctg)
+            <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
+          @endforeach
+          <!-- end create tab for each category -->
+
+        </ul>
+        <div class="tab-content">
+
+          <!-- table for all members irrespective of category -->
+          <div role="tabpanel" class="tab-pane active" id="all0" >
+            @include('partials.member-table', ['members' => $member['all']['all']])
+          </div>
+          <!-- table for all members irrespective of category -->
+
+          <!-- table for members of each category -->
+          @foreach($ctgs as $ctg)
+            <div role="tabpanel" class="tab-pane" id="all{{$ctg->id}}" >
+               @include('partials.member-table', ['members' => $member['all'][$ctg->id]])
+            </div>
+          @endforeach
+          <!-- table for members of each category -->
+
+        </div><!--div class tabb content-->
+
+      </div>
+      <!-- end show all members -->
+
+
+      <!-- show players only -->
+      <div role="tabpanel" class="tab-pane" id="player">
+
+        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+
+          <!-- create all tab -->
+          <li class="active"><a href="#player0" aria-controls="player0" role="tab" data-toggle="tab" >ALL</a></li>
+          <!-- end create all tab -->
+
+
+          <!-- create tab for each category -->
+          @foreach($ctgs as $ctg)
+            <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
+          @endforeach
+          <!-- end create tab for each category -->
+
+        </ul>
+        <div class="tab-content">
+
+          <!-- table for player members irrespective of category -->
+          <div role="tabpanel" class="tab-pane active" id="player0" >
+            @include('partials.member-table', ['members' => $member['player']['all']])
+          </div>
+          <!-- table for player members irrespective of category -->
+
+          <!-- table for members of each category -->
+          @foreach($ctgs as $ctg)
+            <div role="tabpanel" class="tab-pane" id="player{{$ctg->id}}" >
+               @include('partials.member-table', ['members' => $member['player'][$ctg->id]])
+            </div>
+          @endforeach
+          <!-- table for members of each category -->
+
+        </div><!--div class tabb content-->
+
+      </div>
+      <!-- end show players only -->
+
+
+      <!-- show non-players only -->
+      <div role="tabpanel" class="tab-pane" id="nonplayer">
+
+        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+
+          <!-- create all tab -->
+          <li class="active"><a href="#nonplayer0" aria-controls="nonplayer0" role="tab" data-toggle="tab" >ALL</a></li>
+          <!-- end create all tab -->
+
+        </ul>
+        <div class="tab-content">
+
+          <!-- table for player members irrespective of category -->
+          <div role="tabpanel" class="tab-pane active" id="nonplayer0" >
+            @include('partials.member-table', ['members' => $member['non']])
+          </div>
+          <!-- table for player members irrespective of category -->
+
+        </div><!--div class tabb content-->
+
+      </div>
+      <!-- end show non-players only -->
+    </div>
   </div>
 </div>
 
@@ -341,9 +269,32 @@
 
 @section('footer')
   <script type="text/javascript">
+  /*$("#edit-form").submit(function(e) {
+          e.preventDefault();
+          val = $('#edit-member').find('input[name="file"]').val();
+          alert(val);
+      });*/
+
+    $("#edit-form").find('input[name="file"]').change(function(){
+      //alert('kk');
+      $('#edit-member').find('input[name="profile_img"]').val('changed'); // changed
+    });
+
+    $("#edit-form").find('#remove_img').click(function(){
+      //alert('kk');
+      $('#edit-member').find('input[name="profile_img"]').val('removed'); // changed
+    });
+
     $(document).ready(function(){
       $('#add-form').find('#categories').multiselect({
         includeSelectAllOption: true
+      });
+
+      //show preview of image
+      $.uploadPreview({
+        input_field: "#image-upload",
+        preview_box: "#image-preview",
+        label_field: "#image-label"
       });
     });
 
@@ -355,7 +306,7 @@
 
       $.get(url, function(data){
         d = data;
-        //alert(d['ctg'].length);
+
         opt = ( d['details']['flag'] == 1 ) ? 1 : 0;
         $('#edit-member').find('input[name="id"]').val(id);
         $('#edit-member').find('input[name="firstname"]').val(d['details']['firstname']);
@@ -378,6 +329,16 @@
         $('#edit-member').find('input[name="state"]').val(d['details']['state']);
 
         $('#edit-member').find('input[name="email"]').val(d['email']);
+
+        avatar = d['details']['avatar'];
+        $('#edit-member').find('input[name="profile_img"]').val(avatar); // not change
+
+        if( avatar != '/images/gallery/members/4.jpg' )
+        {
+          $('#edit-member').find('#file-field').removeClass('fileinput-new').addClass('fileinput-exists');
+          $('#edit-member').find('#preview').attr('src', '{{url("/")}}/'+avatar);
+
+        }
       });
     });
 

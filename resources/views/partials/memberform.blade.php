@@ -1,5 +1,23 @@
 
    {!! csrf_field() !!}
+        <input type="hidden" name="profile_img">
+        <div class="row">
+            <div class="fileinput fileinput-new" data-provides="fileinput" id="file-field">
+                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                    <img id="preview">
+                </div>
+                <div>
+                    <span class="btn btn-info btn-file">
+                        <span class="fileinput-new">Select image</span>
+                        <span class="fileinput-exists">Change</span>
+                        <input type="file" name="file">
+                    </span>
+                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput" id="remove_img">Remove</a>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row">
                 <div class="col-sm-4">
                  <h4> First Name:</h4>
@@ -114,3 +132,19 @@
                 </div>
             </div>
         </div>
+
+        <!--<div class="fileinput fileinput-new" data-provides="fileinput" id="img-div">
+
+            <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                <img id="player-img">
+            </div>
+            <div>
+                <span class="btn btn-success btn-file">
+                    <span class="fileinput-new m-b-20 ">Select image</span>
+                    <span class="fileinput-exists m-b-20">Change</span>
+                    <input type="file" name="file">
+                </span>
+                <a href="#" class="btn btn-danger fileinput-exists m-b-20 m-t-20" data-dismiss="fileinput">Remove</a>
+            </div>
+
+        </div>-->

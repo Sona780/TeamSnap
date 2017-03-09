@@ -13,4 +13,9 @@ class TeamController extends Controller
     {
     	return Team::where('team_owner_id', Auth::user()->id)->get();
     }
+
+    public function get(Request $req)
+    {
+    	return $req->file('file');
+    }
 }
