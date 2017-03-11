@@ -23,9 +23,13 @@
 					<tr>
 						<td></td>
 	                    <td>
-	                      <a data-toggle="modal" id="aimg-show" name="{{$member->firstname}}  {{$member->lastname}}" image="{{url('/')}}/{{ $member->avatar }}" data-target="#show-img">
-	                        <img src ="{{url('/')}}/{{ $member->avatar }}" style="width:50px; height:50px; border-radius: 50%;"/>
-	                      </a>
+	                    	<div class="lightbox photos">
+	                    	<div data-src="{{url($member->avatar)}}" class="col-md-2 col-sm-4 col-xs-6">
+
+					            <img src ="{{url($member->avatar)}}" style="width:50px; height:50px; border-radius: 50%;"/>
+					          </div>
+
+					        </div>
 	                    </td>
 	                    <td>{{$member->firstname}}&nbsp;&nbsp;{{$member->lastname}}</td>
 	                    <td>{{ $member->birthday }}</td>

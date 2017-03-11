@@ -1,4 +1,5 @@
 <div class="modal-body">
+	{!! csrf_field() !!}
 	<div style="text-align: center; color: red" id="imember-error"></div>
 	<br/>
 	<div class="form-group">
@@ -15,7 +16,7 @@
 
 	<div class="form-group" id='imember-div' style="display: none">
 		<label for="members">Select members to import</label>
-	    <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="members[]" title='Choose Categories..' id="members" multiple="multiple">
+	    <select class="selectpicker show-menu-arrow" data-actions-box="true" data-header="Choose members" data-live-search="true" data-style="grey" name="members[]" title='Choose members..' id="members" multiple="multiple">
 
 		</select>
 	</div>

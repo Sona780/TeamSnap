@@ -60,8 +60,21 @@
 
                     Route::get('files','MediaController@index');
                     Route::post('files/upload_url','MediaController@upload_url');
-                    Route::post('files/img-upload', 'MediaController@img_store');
-                    Route::post('files/file-upload', 'MediaController@file_store');
+
+                    //upload a image
+                    Route::post('img/upload', 'MediaController@uploadImg');
+
+                    //upload a video
+                    Route::post('video/upload', 'MediaController@uploadVideo');
+
+                    //delete a video
+                    Route::get('video/delete/{vid}', 'MediaController@deleteVideo');
+
+                    //upload a file
+                    Route::post('file/upload', 'MediaController@uploadFile');
+
+                    //delete a file
+                    Route::get('file/delete/{fid}', 'MediaController@deleteFile');
                     
                     
                     Route::get('messages','MessageController@index');

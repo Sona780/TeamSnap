@@ -21,6 +21,8 @@ class CreateEmailsTable extends Migration
             $table->integer('team_id');
             $table->timestamp('send_at');
             $table->integer('receiver_id')->unsigned();
+
+
             $table->foreign('receiver_id')
                   ->references('id')
                   ->on('users')

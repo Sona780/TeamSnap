@@ -500,7 +500,7 @@
 
           swal({
               title: "Are you sure?",
-              text: "the team member will be deleted permanently!!!",
+              text: "Selected team member will be deleted permanently!!!",
               type: "warning",
               showCancelButton: true,
               confirmButtonColor: "#DD6B55",
@@ -588,7 +588,10 @@
         //get all the members
         for( i = 0; i < d.length; i++ )
         {
-          name_email = d[i]['firstname']+" "+d[i]['lastname']+" ("+d[i]['email']+")";
+          email = d[i]['email'];
+          if( email != '' )
+            email = '('+email+')';
+          name_email = d[i]['firstname']+" "+d[i]['lastname']+" "+email;
           content += '<option value="'+ d[i]['id'] +'">'+ name_email +'</option>';
         }
 

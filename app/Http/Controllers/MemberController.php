@@ -92,7 +92,7 @@ class MemberController extends Controller
         //end create new user
 
         //save new user details
-        Userdetail::newUser($user->id, $request, $avatar);
+        UserDetail::newUser($user->id, $request, $avatar);
         //end save new user details
 
         //link member with team
@@ -198,7 +198,7 @@ class MemberController extends Controller
       //end update user
 
       //update user details
-      Userdetail::updateDetail($uid, $request, $avatar);
+      UserDetail::updateDetail($uid, $request, $avatar);
       //end update user details
 
       //update team user details

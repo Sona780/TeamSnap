@@ -13,4 +13,12 @@ class Img extends Model
     
 
     public $timestamps = false;
+
+    public static function upload($tid, $img)
+    {
+        return static::create([
+                            'teams_id'  => $tid,
+                            'img_name'  => $img,
+                        ]);
+    }
 }

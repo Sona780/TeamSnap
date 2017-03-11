@@ -3,6 +3,7 @@
 namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeamSnap\Media;
@@ -14,65 +15,134 @@ use Auth;
 
 class MediaController extends Controller
 {
+    // load media page
     public function index($id)
     {
-    	$user_id = Auth::user()->id;
-       $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
-       if($team_name == '' || $team_name== NULL)
-       {
-        return view('errors/404');
-       }
-       else{
-      $teamid = Team::where('teamname',$id)->select('id')->get()->first();
-      $videos = Media::where('team_id',$teamid->id)->get();
-      $images = Img::where('team_id',$teamid->id)->get();
-      $files  = File::where('team_id',$teamid->id)->get();
+      	$user_id = Auth::user()->id;
+         $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
+         if($team_name == '' || $team_name== NULL)
+         {
+          return view('errors/404');
+         }
+         else{
 
-      return view('pages.media', compact('id', 'videos', 'images', 'files'));
-     }
+        $videos = Media::where('teams_id', $id)->get();
+        $images = Img::where('teams_id', $id)->get();
+        $files  = File::where('teams_id', $id)->get();
+
+        return view('pages.media', compact('id', 'videos', 'images', 'files'));
+        }
     }
+    // end load media page
 
-  
-  public function upload_url($id, Request $request)
-   {
-   	
-    $url =new Media(array(
-              'video_url'   => $request->get('videolink'),
-              'video_title' => $request->get('videotitle'),
-              'team_name'   => $id,
-        ));
-    $url->save();
-    return redirect($id.'/files');
-   	
-   }
 
-  public function img_store($id,Request $request)
+
+
+    //uploading and deleting video links
+
+    // upload video
+    public function uploadVideo($id, Request $request)
     {
-        $file =  $request->file('file');
-        $filename = uniqid().$file->getClientOriginalName();
-        $file->move('images', $filename);
-        $teamid = Team::where('teamname',$id)->select('id')->get()->first();
-        //store img
-        $images = new Img;
-        $images-> img_name = $filename;
-        $images-> team_id = $teamid->id;
-        $images->save();
-        return $images;
+        // save video title & URL
+        Media::upload($id, $request);
+
+        //redirect to media page
+        return redirect($id.'/files');
     }
+    // end upload video
+
+    // delete a video
+    public function deleteVideo($id, $vid)
+    {
+        Media::find($vid)->delete();
+
+        //redirect to media page
+        return redirect($id.'/files');
+    }
+    // end delete a video
+
+    //end uploading and deleting video links
+
+
+
  
- public function file_store($id,Request $request)
-    {
-        $teamid = Team::where('teamname',$id)->select('id')->get()->first();
-        $file =  $request->file('file');
-        $filename = uniqid().$file->getClientOriginalName();
-        $file->move('files', $filename);
-       
-        //store file
-        $files = new File;
-        $files -> file_name = $filename;
-        $files -> team_id = $teamid->id;
-        $files->save();
-        return $files;
-    }
 
+    // uploadig and deleting files
+
+    // upload file
+    public function uploadFile($id, Request $request)
+    {
+        //get file name
+        $file =  $request->file('file');
+
+        //get path to folder in which file will be stored
+        $path = config('paths.public_html').'/files/';
+
+        //get name of the file
+        $fname = $file->getClientOriginalName();
+
+        // move the file to server
+        $file->move($path, $fname);
+
+        //save to db
+        File::upload($id, $fname);
+
+        //redirect to media page
+        return redirect($id.'/files');
+    }
+    // end upload file
+
+    // delete a file
+    public function deleteFile($id, $fid)
+    {
+        File::find($fid)->delete();
+
+        //redirect to media page
+        return redirect($id.'/files');
+    }
+    // end delete a file
+
+    // end uploadig and deleting files
+
+
+
+
+
+    // uploadig image functions
+
+    // upload image
+    public function uploadImg($id,Request $request)
+    {
+        //save image in server and get path
+        $img = $this->getImage($request->file('image'));
+
+        //update db
+        Img::upload($id, $img);
+
+        //redirect to media page
+        return redirect($id.'/files');
+    }
+    // upload image
+
+    //save image in server and return path of the image
+    public function getImage($image)
+    {
+        $size=250; //set size for thumb
+        $destinationPath1= config('paths.gallery_path');
+        $public_html= config('paths.public_html');
+        $str=str_random('4');
+        $extension      =   $image->getClientOriginalExtension();
+        $imageRealPath  =   $image->getRealPath();
+        $substr         =   str_random('4');
+        $thumbName      =   'thumb_'. $image->getClientOriginalName();
+        $picName        =   'pic_'. $image->getClientOriginalName();
+        $img = Image::make($imageRealPath); // use this if you want facade style code
+
+        $img->save($public_html.$destinationPath1.$str.$picName);
+        $d = $destinationPath1.$str.$picName;
+        return $d;
+    }
+    //end save image in server and return path of the image
+
+    // end uploadig image functions
 }

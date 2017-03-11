@@ -16,8 +16,8 @@ class MessageController extends Controller
 {
    public function index($id)
    {
-      $user_id = Auth::user()->id;
-       $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
+      $users_id = Auth::user()->id;
+       $team_name = Team::where('team_owner_id',$users_id)->value('teamname');
        if($team_name == '' || $team_name== NULL)
        {
         return view('errors/404');
@@ -25,12 +25,12 @@ class MessageController extends Controller
        else
        {
           $teamid = Team::where('teamname',$id)->value('id');
-       	  $members = TeamUser::leftJoin('user_details','team_users.user_id','=','user_details.user_id')->where('team_users.team_id',$teamid)->get();
+       	  $members = TeamUser::leftJoin('user_details','team_users.users_id','=','user_details.users_id')->where('team_users.teams_id',$teamid)->get();
 
           $authid = Auth::user()->id;
           $emails = Email::leftJoin('users','emails.sender_id','=','users.id')
                          // ->where('emails.receiver_id', $authid)
-                         // ->where('emails.team_id',$teamid)
+                         // ->where('emails.teams_id',$teamid)
                          ->get();
 
           return view('message',["id"=>$id,'members'=>$members,'emails'=>$emails]);
