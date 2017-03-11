@@ -16,24 +16,18 @@ class CreateUserDetailsTable extends Migration
      Schema::create('user_details', function (Blueprint $table) {
 
             $table->increments('id');
+            $table->integer('users_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
-            $table->boolean('flag');   // 1- player 0-nonplayer
             $table->boolean('manager_access'); //1-manager
             $table->string('mobile')->nullable();
             $table->integer('gender')->nullable();
-            $table->string('role')->nullable();
             $table->string('birthday')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->integer('user_id')->unsigned();
-            $table->string('avatar')->default('/images/gallery/members/4.jpg');
-            $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
+            $table->string('avatar');
 
-
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
      }
 

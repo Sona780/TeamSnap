@@ -8,6 +8,6 @@ class Opponent extends Model
 {
     //
     protected $fillable = [
-         'name', 'team_id', 'contact_person', 'phone_no','email',
+         'name', 'teams_id', 'contact_person', 'phone_no','email',
     ];
 }

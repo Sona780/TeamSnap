@@ -12,7 +12,7 @@ use Auth;
 
 class GameController extends Controller
 {
-    //
+    //validation on form submit
     public function vali(Request $request)
     {
         $v = Validator::make($request->all(), [
@@ -58,33 +58,7 @@ class GameController extends Controller
     	return $e;
     }
 
-    public function newOpponent($id, $request)
-    {
-        $opp = new Opponent();
-        $opp->team_id = $id;
-        $opp->name = $request->name;
-        $opp->contact_person = $request->contact_person;
-        $opp->phone_no = $request->phone;
-        $opp->email = $request->email;
-        $opp->save();
-
-        return $opp;
-    }
-
-    public function newLocation($id, $request)
-    {
-        $loc = new Location();
-        $loc->team_id = $id;
-        $loc->type = 0;
-        $loc->name = $request->loc_name;
-        $loc->detail = $request->location_detail;
-        $loc->address = $request->address;
-        $loc->link = $request->link;
-        $loc->save();
-
-        return $loc;
-    }
-
+    //save new game details
     public function store($id, Request $request)
     {
     	if( $request->opponent == 0 )
@@ -94,25 +68,25 @@ class GameController extends Controller
             $loc = $this->newLocation($id, $request);
 
     	$i = new Game();
-        $i->user_id = Auth::user()->id;
-    	$i->team_id = $id;
+        $i->users_id = Auth::user()->id;
+    	$i->teams_id = $id;
     	$i->date = $request->date;
         $i->hour = $request->hour;
         $i->minute = $request->minute;
     	$i->time = $request->time;
-        $i->opponent_id = ( $request->opponent == 0 ) ? $opp->id : $request->opponent;
+        $i->opponents_id = ( $request->opponent == 0 ) ? $opp->id : $request->opponent;
     	$i->results = $request->result;
-    	$i->location_id = ( $request->location == 0 ) ? $loc->id : $request->location;
+    	$i->locations_id = ( $request->location == 0 ) ? $loc->id : $request->location;
         $i->place = $request->place;
         $i->uniform = $request->uniform;
         $i->duration_hour = $request->d_hour;
         $i->duration_minute = $request->d_minute;
     	$i->save();
-        //Game::create($request->all());
 
     	return redirect($id.'/schedule');
     }
 
+    //update game details
     public function editStore($id, Request $request)
     {
         $game = Game::find($request->id);
@@ -130,9 +104,9 @@ class GameController extends Controller
                 'hour' => $request->hour,
                 'minute' => $request->minute,
                 'time' => $request->time,
-                'opponent_id' => $opp_id,
+                'opponents_id' => $opp_id,
                 'results' => $request->result,
-                'location_id' => $loc_id,
+                'locations_id' => $loc_id,
                 'place' => $request->place,
                 'uniform' => $request->uniform,
                 'duration_hour' => $request->d_hour,
@@ -142,11 +116,12 @@ class GameController extends Controller
         return redirect($id.'/schedule');
     }
 
+    //fetch details of scheduled game
     public function getData($game_id)
     {
         $data = Game::find($game_id);
-        $opp = Opponent::find($data->opponent_id);
-        $loc = Location::find($data->location_id);
+        $opp = Opponent::find($data->opponents_id);
+        $loc = Location::find($data->locations_id);
 
         $data->opp_id = $opp->id;
         $data->name = $opp->name;
@@ -163,9 +138,39 @@ class GameController extends Controller
         return $data;
     }
 
+    //delete a game
     public function delete($id, $game_id)
     {
         Game::find($game_id)->delete();
         return redirect($id.'/schedule');
+    }
+
+    //save new opponent details
+    public function newOpponent($id, $request)
+    {
+        $opp = new Opponent();
+        $opp->teams_id = $id;
+        $opp->name = $request->name;
+        $opp->contact_person = $request->contact_person;
+        $opp->phone_no = $request->phone;
+        $opp->email = $request->email;
+        $opp->save();
+
+        return $opp;
+    }
+
+    //save new location details
+    public function newLocation($id, $request)
+    {
+        $loc = new Location();
+        $loc->teams_id = $id;
+        $loc->type = 0;
+        $loc->name = $request->loc_name;
+        $loc->detail = $request->location_detail;
+        $loc->address = $request->address;
+        $loc->link = $request->link;
+        $loc->save();
+
+        return $loc;
     }
 }

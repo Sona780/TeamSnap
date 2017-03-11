@@ -10,7 +10,7 @@ use Auth;
 
 class EventController extends Controller
 {
-    //
+    //validate event details on submit
     public function vali(Request $request)
     {
     	$v = Validator::make($request->all(), [
@@ -40,6 +40,7 @@ class EventController extends Controller
     	return $e;
     }
 
+    //save new event
     public function store($id, Request $request)
     {
 
@@ -47,8 +48,8 @@ class EventController extends Controller
             $loc = $this->newLocation($id, $request);
 
     	$i = new Event();
-        $i->user_id = Auth::user()->id;
-    	$i->team_id = $id;
+        $i->users_id = Auth::user()->id;
+    	$i->teams_id = $id;
         $i->name = $request->name;
     	$i->label = $request->label;
     	$i->date = $request->date;
@@ -56,12 +57,13 @@ class EventController extends Controller
         $i->minute = $request->minute;
         $i->time = $request->time;
     	$i->repeat = $request->repeat;
-    	$i->location_id = ($request->location == 0) ? $loc->id : $request->location;
+    	$i->locations_id = ($request->location == 0) ? $loc->id : $request->location;
     	$i->save();
 
     	return redirect($id.'/schedule');
     }
 
+    //update event details
     public function editStore($id, Request $request)
     {
         $event = Event::find($request->id);
@@ -78,16 +80,17 @@ class EventController extends Controller
                 'minute' => $request->minute,
                 'time' => $request->time,
                 'repeat' => $request->repeat,
-                'location_id' => $loc_id,
+                'locations_id' => $loc_id,
             ]);
 
         return redirect($id.'/schedule');
     }
 
+    //fetch event details
     public function getData($event_id)
     {
         $data = Event::find($event_id);
-        $loc = Location::find($data->location_id);
+        $loc = Location::find($data->locations_id);
 
         $data->loc_id = $loc->id;
         $data->loc_name = $loc->name;
@@ -98,16 +101,18 @@ class EventController extends Controller
         return $data;
     }
 
+    //delete an event
     public function delete($id, $event_id)
     {
         Event::find($event_id)->delete();
         return redirect($id.'/schedule');
     }
 
+    //save new event location
     public function newLocation($id, $request)
     {
         $loc = new Location();
-        $loc->team_id = $id;
+        $loc->teams_id = $id;
         $loc->type = 1;
         $loc->name = $request->loc_name;
         $loc->detail = $request->location_detail;

@@ -4,12 +4,12 @@ namespace TeamSnap;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Createteam extends Model
+class Category extends Model
 {
+    //
     protected $fillable = [
-         'teamname', 'sport','country','zip'
+         'category_name',
     ];
-
 
     public $timestamps = false;
 }

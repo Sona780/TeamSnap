@@ -1,5 +1,10 @@
 @extends('layouts.new', ['team' => $id, 'active' => 'schedule'])
 
+@section('header')
+	<link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="card" id="manager" style="height: 7%;">
     		<h4 style="display: inline-block; font-weight: none">

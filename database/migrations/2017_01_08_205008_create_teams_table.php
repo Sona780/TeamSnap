@@ -23,9 +23,7 @@ class CreateTeamsTable extends Migration
             $table->string('team_logo')->default('default.jpg');
             $table->string('team_color_first');
             $table->string('team_color_second');
-            $table->timestamp('created_at'); 
-
-        
+            $table->timestamp('created_at');
         });
     }
 

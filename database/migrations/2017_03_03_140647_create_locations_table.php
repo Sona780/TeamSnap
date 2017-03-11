@@ -15,7 +15,7 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('team_id')->unsigned();
+            $table->integer('teams_id')->unsigned();
             $table->integer('type'); // 0 for games, 1 for events
             $table->string('detail');
             $table->string('name');
@@ -23,7 +23,7 @@ class CreateLocationsTable extends Migration
             $table->string('link');
             $table->timestamps();
 
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 

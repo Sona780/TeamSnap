@@ -30,13 +30,21 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
 
-        <!--<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap4.min.css" rel="stylesheet">-->
+        <!--<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+-->
 
-        <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" rel="stylesheet">
 
 
          <style type="text/css">
+             .size-new {
+                padding: 0px 44px;
+             }
+
+            .size-exists {
+                padding: 0px 10px;
+             }
+
             .dtr-title {
                 width: 150px;
             }
@@ -306,9 +314,12 @@
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
 
-
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <!--<script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>-->
         <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+        <!--<script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>-->
+
+
 
         <script src="{{URL::to('/')}}/js/demo.js"></script>
         <script type="text/javascript">
@@ -320,14 +331,19 @@
 
                 url = '{{url("/")}}/get/teams';
 
+                team = {{$team}};
+
                 $.get(url, function(data){
                     t = data;
                     content = '';
 
                     for( i = 0; i < t.length; i++ )
                     {
-                        target = '{{url("/")}}/'+ t[i]['id'] +'/dashboard'
-                        content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
+                        target = '{{url("/")}}/'+ t[i]['id'] +'/dashboard';
+                        if( t[i]['id'] == team )
+                            content += '<li class="active"><a style="font-weight: bold" href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
+                        else
+                            content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
                     }
 
                     target = '{{url("/")}}/createteam';

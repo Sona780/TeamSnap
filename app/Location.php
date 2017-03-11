@@ -8,6 +8,6 @@ class Location extends Model
 {
     //
     protected $fillable = [
-        'team_id', 'detail', 'name','address', 'link', 'type'
+        'teams_id', 'detail', 'name','address', 'link', 'type'
     ];
 }

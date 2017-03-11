@@ -40,7 +40,13 @@
                     Route::post('addmember','MemberController@store');
                     Route::get('members','MemberController@index');
                     Route::post('member/edit','MemberController@update');
-                    Route::get('{p_ctg}/profile/delete','MemberController@delete');
+                    Route::get('member/delete/{tuid}','MemberController@delete');
+
+                    // import the categories to team
+                    Route::post('import/ctg','MemberController@importCtg');
+
+                    // import the members to team
+                    Route::post('import/members','MemberController@importMembers');
 
                     Route::post('create_ctg','CategoryController@store');
 
@@ -81,5 +87,11 @@
             Route::get('event/validate','EventController@vali');
 
             Route::get('edit/get/{id}','MemberController@get');
+
+            //get team categories to import
+            Route::get('team/ctgs/{tid}','MemberController@getTeamCtgs');
+
+            //get team members to import
+            Route::get('team/members/{tid}','MemberController@getTeamMembers');
         });
     });

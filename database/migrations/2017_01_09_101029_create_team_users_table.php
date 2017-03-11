@@ -15,11 +15,11 @@ class CreateTeamUsersTable extends Migration
     {
         Schema::create('team_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('team_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('teams_id')->unsigned();
+            $table->integer('users_id')->unsigned();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 

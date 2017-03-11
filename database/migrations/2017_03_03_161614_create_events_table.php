@@ -15,8 +15,8 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('team_id')->unsigned();
+            $table->integer('users_id')->unsigned();
+            $table->integer('teams_id')->unsigned();
             $table->string('name');
             $table->string('label');
             $table->string('date');
@@ -24,12 +24,12 @@ class CreateEventsTable extends Migration
             $table->integer('minute');
             $table->string('time');
             $table->string('repeat');
-            $table->integer('location_id')->unsigned();
+            $table->integer('locations_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('locations_id')->references('id')->on('locations')->onDelete('cascade');
         });
     }
 

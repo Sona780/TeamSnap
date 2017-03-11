@@ -1,5 +1,8 @@
 @extends('layouts.new', ['team' => $id, 'active' => 'members'])
 @section('header')
+
+<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
 <link href="{{URL::to('/')}}/css/membertable.css" rel="stylesheet">
 <style type="text/css">
     .bootgrid-footer .infoBar, .bootgrid-header .actionBar
@@ -7,6 +10,7 @@
        text-align: right !important;
        padding: 10px;
      }
+
      .tab-nav
      {
        box-shadow: inset 0 0px 0 0 ;
@@ -60,7 +64,65 @@
 
 @section('content')
 <div class="pull-right">
-  <button class="btn bgm-red waves-effect" data-toggle="modal" id="add-member" data-target="#myModal1">Add New Member </button>
+  <div class="btn-group" style="margin-right: 20px">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+      <span style="padding: 0px 15px">NEW</span>
+    </button>
+    <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
+      <li><a data-toggle="modal" id="add-member" data-target="#myModal1">Member</a></li>
+      <li class="divider"></li>
+      <li><a data-toggle="modal" data-target="#myModal">Category</a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group" style="margin-right: 20px">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+      <span style="padding: 0px 15px">IMPORT</span>
+    </button>
+    <ul class="dropdown-menu pull-right" role="menu" style="cursor: pointer">
+      <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
+      <li class="divider"></li>
+      <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
+    </ul>
+  </div>
+
+  <!-- import member modal -->
+  <div id="import-members" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align: center">Import Members</h4>
+        </div>
+        <!-- Modal header -->
+
+        {{ Form::open(['method' => 'post', 'url' => $id.'/import/members', 'id' => 'import-member-form']) }}
+            @include ('partials.import-member-form')
+        {{Form::close()}}
+
+      </div>
+    </div>
+  </div>
+  <!-- end import member modal -->
+
+  <!-- edit member modal -->
+  <div id="import-ctgs" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <!-- Modal header -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align: center">Import Categories</h4>
+        </div>
+        {{ Form::open(['method' => 'post', 'url' => $id.'/import/ctg', 'id' => 'import-ctg-form']) }}
+            @include ('partials.import-ctg-form')
+        {{Form::close()}}
+      </div>
+    </div>
+  </div>
+  <!-- end edit member modal -->
 
   <!-- add member modal -->
   <div id="myModal1" class="modal fade" role="dialog">
@@ -69,17 +131,13 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Member</h4>
+          <h4 class="modal-title" style="text-align: center">Member Details</h4>
         </div>
-        <div class="modal-body">
+
           {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
             @include ('partials.memberform')
-            <button type="submit" class="btn btn-info">Submit</button>
           {{Form::close()}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -92,24 +150,19 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add Member</h4>
+          <h4 class="modal-title" style="text-align: center">Member Details</h4>
         </div>
-        <div class="modal-body">
+
           {{Form::open(['method' => 'post', 'url' => $id.'/member/edit', 'files' => true, 'id' => 'edit-form'])}}
             <input type="hidden" name="id">
             @include ('partials.memberform')
-            <button type="submit" class="btn btn-info">Submit</button>
           {{Form::close()}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+
       </div>
     </div>
   </div>
   <!-- end edit member modal -->
 
-   <button class="btn bgm-red  waves-effect" data-toggle="modal" data-target="#myModal">Create Ctg </button>
    <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
          <!-- Modal content-->
@@ -137,9 +190,33 @@
 
       </div>
    </div>
+
+
+   <!-- image modal -->
+  <div id="show-img" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align: center" id="member-name"></h4>
+        </div>
+
+        <div class="modal-body">
+          <img id="member-img" src="" style="width:100%">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- end image modal -->
 </div>
 
-<div>
+<div id="main-div">
 
   <!-- tabs for all, players and non-player -->
   <div role="tabpanel">
@@ -166,7 +243,7 @@
 
           <!-- create tab for each category -->
           @foreach($ctgs as $ctg)
-            <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
+            <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
           @endforeach
           <!-- end create tab for each category -->
 
@@ -205,7 +282,7 @@
 
           <!-- create tab for each category -->
           @foreach($ctgs as $ctg)
-            <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->name}}</a></li>
+            <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
           @endforeach
           <!-- end create tab for each category -->
 
@@ -263,63 +340,118 @@
 @endsection
 
 @section('footer')
+  <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
+  <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
+
   <script type="text/javascript">
-  /*$("#edit-form").submit(function(e) {
-          e.preventDefault();
-          val = $('#edit-member').find('input[name="file"]').val();
-          alert(val);
-      });*/
 
-    $("#edit-form").find('input[name="file"]').change(function(){
-      //alert('kk');
-      $('#edit-member').find('input[name="profile_img"]').val('changed'); // changed
-    });
-
-    $("#edit-form").find('#remove_img').click(function(){
-      //alert('kk');
-      $('#edit-member').find('input[name="profile_img"]').val('removed'); // changed
-    });
-
+    // do stuff on page loading
     $(document).ready(function(){
       $('#add-form').find('#categories').multiselect({
         includeSelectAllOption: true
       });
 
-      //show preview of image
-      $.uploadPreview({
-        input_field: "#image-upload",
-        preview_box: "#image-preview",
-        label_field: "#image-label"
-      });
+      $('table').DataTable();
+    });
+    // do stuff on page loading
+
+
+    $('#main-div').on('click', '#aimg-show', function(){
+      name = $(this).attr('name');
+      image = $(this).attr('image');
+
+      $('#member-name').html(name);
+      $('#member-img').attr('src', image);
     });
 
+
+    //validate member form
+
+    //call validation for new member
+    $('#add-form').submit(function(e){
+      e.preventDefault();
+      self = this;
+      memberValidate(self);
+    });
+
+    //call validation for existing member
+    $('#edit-form').submit(function(e){
+      e.preventDefault();
+      self = this;
+      memberValidate(self);
+    });
+
+    //validate member form
+    function memberValidate(self)
+    {
+      d = $(self).find('input[name="birthday"]').val();
+      dob = Date.parse(d);
+      curr = Date.parse('{{date("d/m/Y")}}');
+
+      fname = $(self).find('input[name="firstname"]');
+      lname = $(self).find('input[name="lastname"]');
+
+      $(self).find('strong[id^=error]').html('');
+
+      //validate first name
+      if( fname.val() == '' )
+      {
+        $(self).find('#error-first').html('Member\'s first name required.');
+        fname.focus();
+      }
+
+      //validate last name
+      else if( lname.val() == '' )
+      {
+        $(self).find('#error-last').html('Member\'s last name required.');
+        lname.focus();
+      }
+
+      //validate birthday
+      else if( (dob < curr && ! isNaN(dob)) || d == '' )
+      {
+        $(self).find('#error-birth').html('');
+        self.submit();
+      }
+      else
+      {
+        $(self).find('#error-birth').html('Please enter a valid date of birth.');
+      }
+    }
+
+    //end validate member form
+
+
+
+    //code to edit member info
+
+    //get info a member to edit it
     $('#main').on('click', '#edit', function(){
       id = $(this).attr('key');
       url = '{{url("/")}}/edit/get/' + id;
-      //$('#categories').multiSelect();
-      //window.location.href = '{{url("/")}}/edit/get/' + id;
 
       $.get(url, function(data){
         d = data;
 
-        opt = ( d['details']['flag'] == 1 ) ? 1 : 0;
         $('#edit-member').find('input[name="id"]').val(id);
         $('#edit-member').find('input[name="firstname"]').val(d['details']['firstname']);
         $('#edit-member').find('input[name="lastname"]').val(d['details']['lastname']);
         $('#edit-member').find('input[name="mobile"]').val(d['details']['mobile']);
-        $('#edit-member').find('#member-type').find('input[value="'+d['details']['flag']+'"]').attr('checked', true);
+
+        $('#edit-member').find('#gender[value="'+d['details']['gender']+'"]').prop('checked', true);
+        $('#edit-member').find('#member-type[value="'+d['team_details']['flag']+'"]').prop('checked', true);
 
         //categories
         ctg = [];
         for( i = 0; i < d['ctg'].length; i++ )
-          ctg.push(d['ctg'][i]['team_ctgs_id']);
+          ctg.push(d['ctg'][i]['categories_id']);
 
         $('#edit-member').find('#categories').val(ctg);
         $('#edit-member').find('#categories').multiselect('refresh');
         //end categories
 
         $('#edit-member').find('input[name="birthday"]').val(d['details']['birthday']);
-        $('#edit-member').find('input[name="role"]').val(d['details']['role']);
+        $('#edit-member').find('input[name="role"]').val(d['team_details']['role']);
         $('#edit-member').find('input[name="city"]').val(d['details']['city']);
         $('#edit-member').find('input[name="state"]').val(d['details']['state']);
 
@@ -334,9 +466,35 @@
           $('#edit-member').find('#preview').attr('src', '{{url("/")}}/'+avatar);
 
         }
+        else
+        {
+          $('#edit-member').find('#file-field').addClass('fileinput-new').removeClass('fileinput-exists');
+          $('#edit-member').find('#preview').removeAttr('src');
+        }
       });
     });
+    //end get info a member to edit it
 
+
+    //if the image is changed
+    $("#edit-form").find('input[name="file"]').change(function(){
+      $('#edit-member').find('input[name="profile_img"]').val('changed'); // changed
+    });
+    //end if the image is changed
+
+
+    //if the image is removed
+    $("#edit-form").find('#remove_img').click(function(){
+      $('#edit-member').find('input[name="profile_img"]').val('removed'); // changed
+    });
+    //end if the image is removed
+
+    //code to edit member info
+
+
+
+
+    // show confirmation pop-up on deleting a member
     $('#main').on('click', '#delete', function(){
           id = $(this).attr('key');
 
@@ -349,8 +507,118 @@
               confirmButtonText: "Yes, delete it!",
               closeOnConfirm: true
               }, function(){
-                  window.location.href = '{{url("/")}}/{{$id}}'+id;
+                  window.location.href = '{{url("/")}}/{{$id}}/member/delete/'+id;
           });
       });
+    // show confirmation pop-up on deleting a member
+
+
+
+
+    //code for member and category import
+
+    //get categories of selected team
+    $('#import-ctg-form').find('#team').change(function(){
+
+      //id of the selected team
+      tid = $(this).val();
+
+      //show loading status
+      $('#ctg-imp-load').toggle();
+
+      //hide categories dropdown
+      $('#ictg-div').hide();
+
+      url = '{{url("/")}}/team/ctgs/'+tid;
+
+      $.get(url, function(data){
+        d = data;
+        content = '';
+
+        //get all the categories
+        for( i = 0; i < d.length; i++ )
+          content += '<option value="'+ d[i]['id'] +'">'+ d[i]['category_name'] +'</option>';
+
+        //hide loading status
+        $('#ctg-imp-load').toggle();
+
+        //hide categories dropdown
+        $('#ictg-div').show();
+
+        //load all the categories in dropdown
+        $('#import-ctg-form').find('#categories').html(content).selectpicker('refresh');
+      });
+    });
+    //end get categories of selected team
+
+
+    // validate import category form
+    $("#import-ctg-form").submit(function(e){
+      e.preventDefault();
+
+      team = $(this).find('#team').val();
+      ctg = $(this).find('#categories').val();
+
+      if( team == '' || ctg == null )
+        $('#ictg-error').html('Please select team & categories to import.');
+      else
+        this.submit();
+    });
+    // end validate import category form
+
+
+    //get members of selected team
+    $('#import-member-form').find('#team').change(function(){
+
+      //id of the selected team
+      tid = $(this).val();
+
+      //show loading status
+      $('#imember-load').toggle();
+
+      //hide members dropdown
+      $('#imember-div').hide();
+
+      url = '{{url("/")}}/team/members/'+tid;
+
+      $.get(url, function(data){
+        d = data;
+        content = '';
+
+        //get all the members
+        for( i = 0; i < d.length; i++ )
+        {
+          name_email = d[i]['firstname']+" "+d[i]['lastname']+" ("+d[i]['email']+")";
+          content += '<option value="'+ d[i]['id'] +'">'+ name_email +'</option>';
+        }
+
+        //hide loading status
+        $('#imember-load').toggle();
+
+        //hide members dropdown
+        $('#imember-div').show();
+
+        //load all the members in dropdown
+        $('#import-member-form').find('#members').html(content).selectpicker('refresh');
+      });
+    });
+    //end get members of selected team
+
+
+    // validate import member form
+    $("#import-member-form").submit(function(e){
+      e.preventDefault();
+
+      team = $(this).find('#team').val();
+      ctg = $(this).find('#members').val();
+
+      if( team == '' || ctg == null )
+        $('#imember-error').html('Please select team & members to import.');
+      else
+        this.submit();
+    });
+    // end validate import member form
+
+    //code for member and category import
   </script>
 @endsection

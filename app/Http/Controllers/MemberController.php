@@ -12,6 +12,7 @@ use TeamSnap\TeamCtg;
 use TeamSnap\Team;
 use DB;
 use TeamSnap\PlayerCtg;
+use TeamSnap\TeamUserDetail;
 use Auth;
 
 class MemberController extends Controller
@@ -25,21 +26,31 @@ class MemberController extends Controller
           return view('errors/404');
         else
         {
-            $owner = User::find($team->team_owner_id);
-            $members = TeamUser::members($id)->get();
-            $ctgs = TeamCtg::where('team_id', $id)->get();
+            // all categories for the team
+            $ctgs = TeamCtg::getCtg($id);
 
+            //return TeamUser::members($id)->get();
+
+            // all players in the team
             $member['player']['all'] = TeamUser::members($id)->where('flag', 1)->groupBy('users.id')->get();
+
+            // all non players in the team
             $member['non'] = TeamUser::members($id)->where('flag', 0)->groupBy('users.id')->get();
+
+            // all members of the team
             $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
 
+            // sort members on the basis of category
             foreach ($ctgs as $ctg) {
-              $member['player'][$ctg->id] = TeamUser::members($id)->where('team_ctgs_id', $ctg->id)->where('flag', 1)->get();
-              $member['all'][$ctg->id] = TeamUser::members($id)->where('team_ctgs_id', $ctg->id)->get();
+              $member['player'][$ctg->id] = TeamUser::members($id)->where('player_ctgs.categories_id', $ctg->id)->where('flag', 1)->get();
+              $member['all'][$ctg->id] = TeamUser::members($id)->where('player_ctgs.categories_id', $ctg->id)->get();
             }
 
-            return view('pages.members',compact('id','ctgs','member'));
-            //return $member['non'];
+            //get all the teams of current user
+            $teams = Team::getUserTeams($id);
+
+            return view('pages.members',compact('id','ctgs','member', 'teams'));
+            //return $member['all']['all'];
         }
     }
    //end show existing members
@@ -81,31 +92,19 @@ class MemberController extends Controller
         //end create new user
 
         //save new user details
-        $members = new Userdetail(array(
-              'firstname' => $request->get('firstname'),
-              'lastname'  => $request->get('lastname'),
-              'flag'      => $request->get('optradio'),
-              'mobile'    => $request->get('mobile'),
-              'role'      => $request->get('role'),
-              'birthday'  => $request->get('birthday'),
-              'city'      => $request->get('city'),
-              'state'     => $request->get('state'),
-              'user_id'   => $user->id,
-              'avatar'    => $avatar,
-        ));
-        $members->save();
+        Userdetail::newUser($user->id, $request, $avatar);
         //end save new user details
 
         //link member with team
-        $team_users = new TeamUser(array(
-              'team_id' => $id,
-              'user_id' => $user->id,
-        ));
-        $team_users->save();
+        $tuser = TeamUser::createTeamUser($id, $user->id);
         //end link member with team
 
+        // user team details
+        TeamUserDetail::createNew($tuser->id, $request->optradio, $request->role);
+        // end user team details
+
         //specify member categories
-        $this->saveCat($user->id, $c);
+        $this->saveCat($tuser->id, $c);
         //end specify member categories
 
         return redirect($id.'/members');
@@ -116,12 +115,15 @@ class MemberController extends Controller
 
 
     //fetch data of existing member
-    public function get($id)
+    public function get($tuid)
     {
-      //$user_id = PlayerCtg::find($id)->user_id;
-      $data = User::find($id);
-      $data['details'] = UserDetail::where('user_id', $id)->first();
-      $data['ctg'] = PlayerCtg::where('user_id', $id)->get();
+      //user id
+      $uid = TeamUser::findUID($tuid);
+
+      $data = User::find($uid);
+      $data['details'] = UserDetail::where('users_id', $uid)->first();
+      $data['team_details'] = TeamUserDetail::where('team_users_id', $tuid)->first();
+      $data['ctg'] = PlayerCtg::where('team_users_id', $tuid)->get();
 
       return $data;
     }
@@ -131,9 +133,10 @@ class MemberController extends Controller
 
 
     //delete a member
-    public function delete($id, $p_ctg)
+    public function delete($id, $tuid)
     {
-      User::find($id)->delete();
+      $uid = TeamUser::find($tuid)->users_id;
+      User::find($uid)->delete();
       return redirect($id.'/members');
     }
     //end delete a member
@@ -145,10 +148,11 @@ class MemberController extends Controller
     //update existing member info
     public function update($id, Request $request)
     {
-      //return $request->profile_img."     ".$request->file('file');
+      //team_user id
+      $tuid = $request->id;
 
       //user id
-      $uid = $request->id;
+      $uid = TeamUser::findUID($tuid);
 
       //if the image is removed
       if( $request->profile_img == 'removed' )
@@ -173,9 +177,12 @@ class MemberController extends Controller
           }
         }
       }
+
       //if the image is not changed
       else
         $avatar = $request->profile_img;
+
+
 
       //get selected categoeries of new member
       if( $request->categories == null )
@@ -191,22 +198,16 @@ class MemberController extends Controller
       //end update user
 
       //update user details
-      Userdetail::where('user_id', $uid)->update([
-            'firstname' => $request->firstname,
-            'lastname'  => $request->lastname,
-            'flag'      => $request->optradio,
-            'mobile'    => $request->mobile,
-            'role'      => $request->role,
-            'birthday'  => $request->birthday,
-            'city'      => $request->city,
-            'state'     => $request->state,
-            'avatar'    => $avatar,
-        ]);
+      Userdetail::updateDetail($uid, $request, $avatar);
       //end update user details
 
+      //update team user details
+      TeamUserDetail::updateDetail($tuid, $request->optradio, $request->role);
+      //end update team user details
+
       //update member categories
-      PlayerCtg::where('user_id', $uid)->delete();
-      $this->saveCat($uid, $c);
+      PlayerCtg::where('team_users_id', $tuid)->delete();
+      $this->saveCat($tuid, $c);
       //end update member categories
 
       return redirect($id.'/members');
@@ -233,15 +234,10 @@ class MemberController extends Controller
 
 
    //save memeber categories
-   public function saveCat($uid, $c)
+   public function saveCat($tuser, $c)
    {
       foreach ($c as $cat)
-      {
-        $ctg = new PlayerCtg();
-        $ctg->user_id = $uid;
-        $ctg->team_ctgs_id = $cat;
-        $ctg->save();
-      }
+        PlayerCtg::createNew($tuser, $cat);
    }
    //end save memeber categories
 
@@ -269,4 +265,60 @@ class MemberController extends Controller
         return $d;
     }
     //end save image in server and return path of the image
+
+    //get the ctgs of team with id = tid
+    public function getTeamCtgs($tid)
+    {
+      $ctgs = TeamCtg::getCtg($tid);
+      return $ctgs;
+    }
+
+    //import the ctgs
+    public function importCtg($id, Request $request)
+    {
+      $ctgs = $request->categories;
+
+      foreach( $ctgs as $ctg )
+      {
+        $ch = TeamCtg::where('teams_id', $id)->where('categories_id', $ctg)->first();
+
+        if( is_null($ch) )
+        {
+          $tctg = new TeamCtg();
+          $tctg->teams_id = $id;
+          $tctg->categories_id = $ctg;
+          $tctg->save();
+        }
+      }
+      return redirect($id.'/members');
+    }
+
+
+    //get the members of team with id = tid
+    public function getTeamMembers($tid)
+    {
+      $members = TeamUser::getMembers($tid);
+      return $members;
+    }
+
+
+
+    //import the members
+    public function importMembers($id, Request $request)
+    {
+      $uids = $request->members;
+      //return $members;
+
+      foreach( $uids as $uid )
+      {
+        $ch = TeamUser::where('teams_id', $id)->where('users_id', $uid)->first();
+
+        if( is_null($ch) )
+        {
+          $tuser = TeamUser::createTeamUser($id, $uid);
+          TeamUserDetail::createNew($tuser->id, 0, '');
+        }
+      }
+      return redirect($id.'/members');
+    }
 }

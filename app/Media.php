@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    protected $table = 'medias';
     protected $fillable = [
-         'video_url', 'video_title','team_name'
+         'video_url', 'video_title','teams_id'
     ];
     
 

@@ -15,14 +15,14 @@ class CreateOpponentsTable extends Migration
     {
         Schema::create('opponents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('team_id')->unsigned();
+            $table->integer('teams_id')->unsigned();
             $table->string('name');
             $table->string('contact_person');
             $table->string('phone_no');
             $table->string('email');
             $table->timestamps();
 
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 

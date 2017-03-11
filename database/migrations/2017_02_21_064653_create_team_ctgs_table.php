@@ -15,10 +15,11 @@ class CreateTeamCtgsTable extends Migration
     {
         Schema::create('team_ctgs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('team_id')->unsigned();
-            $table->string('name');
+            $table->integer('teams_id')->unsigned();
+            $table->integer('categories_id')->unsigned();
 
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('categories_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
