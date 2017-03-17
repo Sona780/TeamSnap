@@ -6,8 +6,8 @@
 			<thead>
 			    <tr>
 			    	<th class="none"></th>
-			        <th class="">Photo</th>
-			        <th class="all">Name</th>
+			        <th class="all">Photo</th>
+			        <th class="">Name</th>
 			        <th class="">Birthday</th>
 			        <th class="">Gender</th>
 			        <th class="">Age</th>

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
   <div class="row">
     <div class="col-md-6 col-md-offset-3 col-xs-12">
       <div class="lc-block toggled" id="l-login" style="width: 95%;">
@@ -19,6 +20,7 @@
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
+
                 </div>
             </div>
 

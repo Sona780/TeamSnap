@@ -13,6 +13,7 @@ class TeamUser extends Model
 
     public $timestamps = false;
 
+    // get details & categories of all the members of a team
     public static function members($id)
     {
     	return static::leftJoin('user_details', 'team_users.users_id', '=', 'user_details.users_id')
@@ -34,7 +35,7 @@ class TeamUser extends Model
                      ->get();
     }
 
-
+    // create new team & user relation
     public static function createTeamUser($tid, $uid)
     {
         return static::create([
@@ -47,5 +48,15 @@ class TeamUser extends Model
     public static function findUID($id)
     {
         return static::find($id)->users_id;
+    }
+
+
+    // get details of all the members of a team
+    public static function getMemberDetails($id)
+    {
+        return static::leftJoin('user_details', 'team_users.users_id', '=', 'user_details.users_id')
+                     ->select('team_users.users_id AS id', 'user_details.firstname', 'user_details.lastname', 'user_details.avatar')
+                     ->where('team_users.teams_id', $id)
+                     ->get();
     }
 }

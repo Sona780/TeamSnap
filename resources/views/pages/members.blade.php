@@ -55,10 +55,6 @@
      background: #ffff00 !important;
      height: 3px !important;
     }
-
-    .mem-tab {
-      font-size: 13px
-    }
 </style>
 @endsection
 
@@ -371,25 +367,27 @@
     $('#add-form').submit(function(e){
       e.preventDefault();
       self = this;
-      memberValidate(self);
+      memberValidate(self, 0);
     });
 
     //call validation for existing member
     $('#edit-form').submit(function(e){
       e.preventDefault();
       self = this;
-      memberValidate(self);
+      memberValidate(self, $(self).find('input[name="id"]').val());
     });
 
     //validate member form
-    function memberValidate(self)
+    function memberValidate(self, id)
     {
-      d = $(self).find('input[name="birthday"]').val();
-      dob = Date.parse(d);
-      curr = Date.parse('{{date("d/m/Y")}}');
+      d     = $(self).find('input[name="birthday"]').val();
+      d     = d.split("/");
+      dob   = Date.parse(new Date(d[2], parseInt(d[1])-1, d[0]));
+      curr  = Date.parse(new Date());
 
       fname = $(self).find('input[name="firstname"]');
       lname = $(self).find('input[name="lastname"]');
+      email = $(self).find('input[name="email"]');
 
       $(self).find('strong[id^=error]').html('');
 
@@ -407,15 +405,30 @@
         lname.focus();
       }
 
-      //validate birthday
-      else if( (dob < curr && ! isNaN(dob)) || d == '' )
+      //validate email
+      else if(email.val() == '')
       {
-        $(self).find('#error-birth').html('');
-        self.submit();
+        email.focus();
+        $(self).find('#error-email').html('Email is required.');
       }
+
+      //validate DOB
+      else if( dob >= curr || isNaN(dob) )
+      {
+        $(self).find('input[name="birthday"]').focus();
+        $(self).find('#error-birth').html('Please enter a valid date of birth.');
+      }
+
+      //check if email already exists
       else
       {
-        $(self).find('#error-birth').html('Please enter a valid date of birth.');
+        url = '{{url("/")}}/validate/email/'+id+'/'+email.val();
+        $.get(url, function(cnt){
+          if( cnt > 0 )
+            $(self).find('#error-email').html('Email already exists.');
+          else
+            self.submit();
+        });
       }
     }
 
@@ -588,11 +601,11 @@
         //get all the members
         for( i = 0; i < d.length; i++ )
         {
-          email = d[i]['email'];
+          /*email = d[i]['email'];
           if( email != '' )
-            email = '('+email+')';
-          name_email = d[i]['firstname']+" "+d[i]['lastname']+" "+email;
-          content += '<option value="'+ d[i]['id'] +'">'+ name_email +'</option>';
+            /=email = '('+email+')';*/
+          name = d[i]['firstname']+" "+d[i]['lastname'];
+          content += '<option value="'+ d[i]['id'] +'">'+ name +'</option>';
         }
 
         //hide loading status

@@ -37,6 +37,9 @@
 
 
          <style type="text/css">
+            .mem-tab {
+              font-size: 13px
+            }
              .size-new {
                 padding: 0px 44px;
              }

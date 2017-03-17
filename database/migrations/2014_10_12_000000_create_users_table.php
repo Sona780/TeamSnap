@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('address');
+            $table->boolean('login_flag'); // 1 for logged in once, 0 for not once
             $table->rememberToken();
             $table->timestamps();
         });

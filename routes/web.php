@@ -30,9 +30,33 @@
                
                 Route::resource('account','AccountController');
 
+                //show user profile
+                Route::get('profile','UserController@show');
+
+                 //validate mail
+                Route::get('validate/email/{uid}/{email}','UserController@valiMail');
+
+
+                Route::post('recipients/{mid}','MessageController@getEmails');
+
+                //update user contact info
+                Route::post('update/contact','UserController@updateContact');
+
+                //update user basic info
+                Route::post('update/profile','UserController@updateBasicInfo');
+
+                //get recipients
+                //Route::get('{$mid}','MessageController@');
+
                 Route::group(['prefix' => '{id}'], function () {
                    
-                    Route::get('userprofile','UserController@index');
+                    Route::get('member/dashboard', function($id){
+                        return view('pages.member-dashboard', compact('id'));
+                    });
+
+
+
+
                     Route::post('userprofile','UserController@store');
                     
                     //Route::any('team_setup','AddmemberController@store');
@@ -58,27 +82,41 @@
                     Route::get('profile/delete','ProfileController@delete');
                     
 
-                    Route::get('files','MediaController@index');
-                    Route::post('files/upload_url','MediaController@upload_url');
+                    // start Routes for MediaController
 
-                    //upload a image
-                    Route::post('img/upload', 'MediaController@uploadImg');
+                        // to load media pages
+                        Route::get('files','MediaController@index');
 
-                    //upload a video
-                    Route::post('video/upload', 'MediaController@uploadVideo');
+                        //upload a image
+                        Route::post('img/upload', 'MediaController@uploadImg');
 
-                    //delete a video
-                    Route::get('video/delete/{vid}', 'MediaController@deleteVideo');
+                        //upload a video
+                        Route::post('video/upload', 'MediaController@uploadVideo');
 
-                    //upload a file
-                    Route::post('file/upload', 'MediaController@uploadFile');
+                        //delete a video
+                        Route::get('video/delete/{vid}', 'MediaController@deleteVideo');
 
-                    //delete a file
-                    Route::get('file/delete/{fid}', 'MediaController@deleteFile');
+                        //upload a file
+                        Route::post('file/upload', 'MediaController@uploadFile');
+
+                        //delete a file
+                        Route::get('file/delete/{fid}', 'MediaController@deleteFile');
+
+                    // end Routes for MediaController
                     
                     
-                    Route::get('messages','MessageController@index');
-                    Route::post('sendmail','MessageController@sendmail');  
+                    // start Routes for MessageController
+
+                        //load messages page
+                        Route::get('messages','MessageController@show');
+
+                        // send mail
+                        Route::post('message/send','MessageController@send');
+
+                        // reply to mail
+                        Route::post('message/reply','MessageController@reply');
+
+                    // end Routes for MessageController
 
                     Route::get('schedule','ScheduleController@get');
 
@@ -93,6 +131,8 @@
 
             Route::get('get/teams','TeamController@getAll');
 
+            Route::get('get/member/teams','TeamController@getMemberTeams');
+
             Route::get('game/data/{game_id}','GameController@getData');
             Route::get('game/validate','GameController@vali');
 
@@ -106,5 +146,8 @@
 
             //get team members to import
             Route::get('team/members/{tid}','MemberController@getTeamMembers');
+
+            // update last mail check time
+            Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
         });
     });

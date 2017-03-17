@@ -13,22 +13,11 @@ class CreateEmailsTable extends Migration
      */
     public function up()
     {
-       Schema::create('emails', function (Blueprint $table) {
-            $table->increments('id'); 
-            $table->string('title');
-            $table->string('body');
-            $table->integer('sender_id');
-            $table->integer('team_id');
-            $table->timestamp('send_at');
-            $table->integer('receiver_id')->unsigned();
+        Schema::create('emails', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('teams_id')->unsigned();
 
-
-            $table->foreign('receiver_id')
-                  ->references('id')
-                  ->on('users')
-                  ->onDelete('cascade');
-
-             
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 

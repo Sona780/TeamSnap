@@ -33,33 +33,32 @@
     <div role="tabpanel" class="tab-pane active" id="image-manage">
 
       <div class="card">
-      <!-- start button to upload new images -->
-      <div class="card-header">
-        <span style="font-weight: bold; font-family: italic; font-size: 15px">Team Images</span>
-        <div class="pull-right upload_button">
-          <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#img-upload-modal">
-            <i class="zmdi zmdi-plus"></i>
-          </button>
+        <!-- start button to upload new images -->
+        <div class="card-header">
+          <span style="font-weight: bold; font-family: italic; font-size: 15px">Team Images</span>
+          <div class="pull-right upload_button">
+            <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#img-upload-modal">
+              <i class="zmdi zmdi-plus"></i>
+            </button>
+          </div>
         </div>
-      </div>
-      <!-- end button to upload new images -->
+        <!-- end button to upload new images -->
 
 
-      <!--show uploaded image-->
-
-			<div class="card-body">
-        <div class="lightbox photos">
-          @foreach($images as $img)
-            <div data-src="{{url($img->img_name)}}" class="col-md-2 col-sm-4 col-xs-6">
-              <div class="lightbox-item p-item">
-                <img src="{{url($img->img_name)}}" alt="" width="180px" height="160px" />
+        <!--show uploaded image-->
+  			<div class="card-body">
+          <div class="lightbox photos">
+            @foreach($images as $img)
+              <div data-src="{{url($img->img_name)}}" class="col-md-2 col-sm-4 col-xs-6">
+                <div class="lightbox-item p-item">
+                  <img src="{{url($img->img_name)}}" alt="" width="180px" height="160px" />
+                </div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
         </div>
-      </div>
+        <!--end show uploaded image-->
 
-      <!--end show uploaded image-->
       </div>
 
 

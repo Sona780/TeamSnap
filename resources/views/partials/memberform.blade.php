@@ -36,6 +36,7 @@
             <div class="form-group col-sm-12">
                 <label for="email">Email</label>
                 <input type="email" id="f-ip" class="form-control input-sm" name="email" placeholder="Member email address...">
+                <strong id="error-email" class="strong-error"></strong>
             </div>
 
         </div>

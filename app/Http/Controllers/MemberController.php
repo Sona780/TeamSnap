@@ -86,8 +86,9 @@ class MemberController extends Controller
 
         //create new user
         $user = new User();
-        $user->name = $request->firstname;
-        $user->email = $request->email;
+        $user->name       = $request->firstname;
+        $user->email      = $request->email;
+        $user->login_flag = 0;
         $user->save();
         //end create new user
 

@@ -182,6 +182,7 @@ return [
         TeamSnap\Providers\EventServiceProvider::class,
         TeamSnap\Providers\RouteServiceProvider::class,
         TeamSnap\Providers\ComposerServiceProvider::class,
+        TeamSnap\Providers\UserServiceProvider::class,
 
     ],
 

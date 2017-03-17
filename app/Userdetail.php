@@ -40,4 +40,9 @@ class UserDetail extends Model
 				            'avatar'    => $avatar,
 				        ]);
     }
+
+    public static function getUserAvatar($uid)
+    {
+    	return static::where('users_id', $uid)->first()->avatar;
+    }
 }
