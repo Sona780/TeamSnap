@@ -366,7 +366,7 @@
 						right: 'month,listYear'
 					},
 
-					displayEventTime: true, // don't show the time column in list view
+					displayEventTime: false, // don't show the time column in list view
 					googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
 		            height: 500,
 
@@ -380,7 +380,7 @@
 		                        	type: 'game',
 		                            title: 'vs. {{ $game->name }}',
 		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }} ),
-		                            allDay: true,
+		                            allDay: false,
 		                            color: '#2196F3',
 		                        },
 		                    @endforeach
@@ -393,7 +393,7 @@
 		                        	type: 'event',
 		                            title: '{{ $event->name }}',
 		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('d') }} ),
-		                            allDay: true,
+		                            allDay: false,
 		                            color: '#4CAF50'
 		                        },
 		                    @endforeach
