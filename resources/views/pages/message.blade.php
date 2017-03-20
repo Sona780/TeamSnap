@@ -249,9 +249,8 @@
 
   </div>
 
-
-
 @endsection
+
 @section('footer')
 
 <!-- js libraries -->

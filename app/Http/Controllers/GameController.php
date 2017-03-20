@@ -135,6 +135,8 @@ class GameController extends Controller
         $data->address = $loc->address;
         $data->link = $loc->link;
 
+        //return $data;
+
         return $data;
     }
 

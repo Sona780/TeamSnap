@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlayerCtg extends Model
 {
     protected $table = 'player_ctgs';
-    protected $fillable = [
-         'team_users_id','categories_id',
-    ];
+    protected $fillable = [ 'team_users_id','categories_id' ];
     
 
     public $timestamps = false;

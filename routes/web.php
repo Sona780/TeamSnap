@@ -58,9 +58,7 @@
 
 
                     Route::post('userprofile','UserController@store');
-                    
-                    //Route::any('team_setup','AddmemberController@store');
-                    //Route::get('addmember','AddmemberController@index');
+
                     Route::post('addmember','MemberController@store');
                     Route::get('members','MemberController@index');
                     Route::post('member/edit','MemberController@update');
@@ -82,7 +80,7 @@
                     Route::get('profile/delete','ProfileController@delete');
                     
 
-                    // start Routes for MediaController
+                    // start Routes for MediaController with team id
 
                         // to load media pages
                         Route::get('files','MediaController@index');
@@ -102,10 +100,11 @@
                         //delete a file
                         Route::get('file/delete/{fid}', 'MediaController@deleteFile');
 
-                    // end Routes for MediaController
+                    // end Routes for MediaController with team id
+
+
                     
-                    
-                    // start Routes for MessageController
+                    // start Routes for MessageController with team id
 
                         //load messages page
                         Route::get('messages','MessageController@show');
@@ -116,7 +115,16 @@
                         // reply to mail
                         Route::post('message/reply','MessageController@reply');
 
-                    // end Routes for MessageController
+                    // end Routes for MessageController with team id
+
+
+
+                    // start Routes for MessageController with team id
+
+                        //load messages page
+                        Route::get('assets','AssetsController@show');
+
+                    // end Routes for MessageController with team id
 
                     Route::get('schedule','ScheduleController@get');
 
@@ -133,21 +141,28 @@
 
             Route::get('get/member/teams','TeamController@getMemberTeams');
 
-            Route::get('game/data/{game_id}','GameController@getData');
+            Route::post('game/data/{game_id}','GameController@getData');
             Route::get('game/validate','GameController@vali');
 
-            Route::get('event/data/{event_id}','EventController@getData');
+            Route::post('event/data/{event_id}','EventController@getData');
             Route::get('event/validate','EventController@vali');
 
-            Route::get('edit/get/{id}','MemberController@get');
+            // end Routes for MemberController without team id
 
-            //get team categories to import
-            Route::get('team/ctgs/{tid}','MemberController@getTeamCtgs');
+                Route::get('edit/get/{id}','MemberController@get');
 
-            //get team members to import
-            Route::get('team/members/{tid}','MemberController@getTeamMembers');
+                //get team categories to import
+                Route::get('team/ctgs/{tid}','MemberController@getTeamCtgs');
+
+                //get team members to import
+                Route::get('team/members/{tid}','MemberController@getTeamMembers');
+
+            // end Routes for MemberController without team id
 
             // update last mail check time
             Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
+
+            //update avaiabilty of player for a game
+            Route::post('assets/update','AssetsController@update');
         });
     });

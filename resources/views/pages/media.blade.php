@@ -134,7 +134,7 @@
                       <tr>
                         <td>{{$video->video_title}}</td>
                         <td style="text-align: center">
-                          <a href='{{$video->video_url}}'>
+                          <a href='{{$video->video_url}}' target='parent'>
                             <img class="icon-style" src='{{url("/")}}/img/play.png'>
                           </a>
                           <a id="delete" key="{{$video->id}}">

@@ -8,7 +8,6 @@
         <title>Org4Leagues</title>
 
         <!-- Vendor CSS -->
-        <link href="{{URL::to('/')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -29,6 +28,9 @@
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
+        <link href='{{url("calendar/css")}}/fullcalendar.min.css' rel='stylesheet' />
+        <link href='{{url("calendar/css")}}/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
 
         <!--<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
@@ -37,6 +39,24 @@
 
 
          <style type="text/css">
+            @media screen and (min-width: 720px) {
+                #calendar, #loading {
+                    margin-left: 10%;
+                }
+            }
+
+            .fc-center {
+                margin-top: 0px !important;
+            }
+
+            .fc-toolbar:before {
+                height: 60px !important;
+            }
+
+            .fc-toolbar {
+                height: 60px !important;
+            }
+
             .mem-tab {
               font-size: 13px
             }
@@ -195,15 +215,15 @@
             <nav class="ha-menu">
             @if($team > 0)
                 <ul>
-                    <li class="waves-effect" id="dashboard"><a href="{{url('/')}}/{{$team}}/dashboard">Dashboard</a></li>
-                    <li class="waves-effect" id="members"><a href="{{url('/')}}/{{$team}}/members">Members</a></li>
-                    <li class="waves-effect" id="schedule"><a href="{{url('/')}}/{{$team}}/schedule">Schedule</a></li>
-                    <li class="waves-effect" id="records"><a href="{{url('/')}}/{{$team}}/records">Records</a></li>
-                    <li class="waves-effect" id="media"><a href="{{url('/')}}/{{$team}}/files">Media</a></li>
+                    <li class="waves-effect" id="dashboard"><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
+                    <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
+                    <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
+                    <li class="waves-effect" id="records"><a href="{{url($team.'/records')}}">Records</a></li>
+                    <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
 
-                    <li class="waves-effect" id="messages"><a href="{{url('/')}}/{{$team}}/messages">Messages</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url('/')}}/{{$team}}/settings">Settings</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="{{url('/')}}/{{$team}}/assets">Assets</a></li>
+                    <li class="waves-effect" id="messages"><a href="{{url($team.'/messages')}}">Messages</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url($team.'/settings')}}">Settings</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="assets"><a href="{{url($team.'/assets')}}">Assets</a></li>
                 </ul>
             @endif
             </nav>
@@ -285,7 +305,8 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
 
         <script src="{{URL::to('/')}}/vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js "></script>
+
+
         <script src="{{URL::to('/')}}/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
@@ -298,6 +319,9 @@
 
          <script src="{{URL::to('/')}}/vendors/bower_components/chosen/chosen.jquery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
+
+         <script src='{{url("calendar/js")}}/fullcalendar.min.js'></script>
+        <script src='{{url("calendar/js")}}/gcal.min.js'></script>
 
          <!--<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
 
@@ -321,6 +345,8 @@
         <!--<script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>-->
         <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
         <!--<script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>-->
+
+
 
 
 
