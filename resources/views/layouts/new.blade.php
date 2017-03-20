@@ -39,6 +39,10 @@
 
 
          <style type="text/css">
+            .fc-time {
+                margin-right: 4px !important;
+            }
+
             @media screen and (min-width: 720px) {
                 #calendar, #loading {
                     margin-left: 10%;

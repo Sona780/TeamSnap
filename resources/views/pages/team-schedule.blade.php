@@ -366,7 +366,7 @@
 						right: 'month,listYear'
 					},
 
-					displayEventTime: false, // don't show the time column in list view
+					displayEventTime: true, // don't show the time column in list view
 					googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
 		            height: 500,
 
@@ -379,7 +379,7 @@
 		                        	id: {{$game->id}},
 		                        	type: 'game',
 		                            title: 'vs. {{ $game->name }}',
-		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }} ),
+		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }}, {{$game->hour}}, {{$game->minute}} ),
 		                            allDay: false,
 		                            color: '#2196F3',
 		                        },
@@ -392,7 +392,7 @@
 		                        	id: {{$event->id}},
 		                        	type: 'event',
 		                            title: '{{ $event->name }}',
-		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('d') }} ),
+		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('d') }}, {{$event->hour}}, {{$event->minute}} ),
 		                            allDay: false,
 		                            color: '#4CAF50'
 		                        },
@@ -410,6 +410,8 @@
 						else
 							viewEvent(id);
 					},
+
+					axisFormat: 'hh:mm a',
 
 					loading: function(bool) {
 						$('#loading').html('loading...').toggle(bool);
