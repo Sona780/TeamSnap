@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Createteam extends Model
 {
-      protected $fillable = [
+    protected $fillable = [
          'teamname', 'sport','country','zip'
     ];
 

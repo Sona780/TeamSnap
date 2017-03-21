@@ -4,6 +4,7 @@ namespace TeamSnap;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use TeamSnap\UserDetail;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'login_flag'
     ];
 
     /**
@@ -30,5 +31,14 @@ class User extends Authenticatable
     public function teams()
     {
         return $this -> hasMany('TeamSnap\Team');
+    }
+
+    //get sender user detail to send mail
+    public static function getMailDetail($uid)
+    {
+        $user = collect([]);
+        $user['email']  = User::find($uid)->email;
+        $user['detail'] = UserDetail::where('users_id', $uid)->select('avatar', 'firstname', 'lastname')->first();
+        return collect($user);
     }
 }

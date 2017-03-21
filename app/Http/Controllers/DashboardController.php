@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
    public function index($id)
     {
-      
+
        $user_id = Auth::user()->id;
        $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
        if($team_name == '' || $team_name== NULL)

@@ -8,7 +8,6 @@
         <title>Org4Leagues</title>
 
         <!-- Vendor CSS -->
-        <link href="{{URL::to('/')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
@@ -19,17 +18,127 @@
         <link href="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/css/lightGallery.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/vendors/bower_components/chosen/chosen.min.css" rel="stylesheet">
+
+
+
         <!-- CSS -->
+        <link href="{{URL::to('/')}}/css/bootstrap-multiselect.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
-         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-        @yield('header')
-        <style type="text/css">
-            .zmdi-face
-            {
-                font-size: 1.8em;
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
+
+        <link href='{{url("calendar/css")}}/fullcalendar.min.css' rel='stylesheet' />
+        <link href='{{url("calendar/css")}}/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
+
+        <!--<link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+-->
+
+
+
+         <style type="text/css">
+            .fc-time {
+                margin-right: 4px !important;
             }
-        </style>
+            @media screen and (min-width: 720px) {
+                #calendar, #loading {
+                    margin-left: 10%;
+                }
+            }
+            .fc-center {
+                margin-top: 0px !important;
+            }
+            .fc-toolbar:before {
+                height: 60px !important;
+            }
+            .fc-toolbar {
+                height: 60px !important;
+            }
+            .mem-tab {
+              font-size: 13px
+            }
+             .size-new {
+                padding: 0px 44px;
+             }
+            .size-exists {
+                padding: 0px 10px;
+             }
+            .dtr-title {
+                width: 150px;
+            }
+            .icon-style {
+              width: 40px;
+              padding-left: 10px;
+            }
+            .border-height {
+                border-radius: 5px;
+                height: 30px;
+            }
+            .b-design {
+                border-radius: 8px;
+                background: white;
+                font-size: 12px;
+                width: 80%;
+            }
+            .padd-left {
+                padding: 0px 10px;
+            }
+            .bottom-bord {
+                border-bottom: 1px solid grey;
+            }
+            .top-bord {
+                border-top: 1px solid grey;
+            }
+            .first-col {
+                width: 30%;
+            }
+            .adjust {
+                margin-top: 20px;
+            }
+            .dropdown-basic-demo {
+                display: inline-block;
+                margin: 0 15px 20px 0;
+            }
+            .dropdown-basic-demo .dropdown-menu {
+                display: block;
+                position: relative;
+                transform: scale(1);
+                opacity: 1;
+                filter: alpha(opacity=1);
+                z-index: 0;
+            }
+            .dropdown-btn-demo .dropdown, .dropdown-btn-demo .btn-group, .btn-demo .btn {
+                display: inline-block;
+                margin: 0 5px 7px 0;
+            }
+            .modal-preview-demo .modal {
+                position: relative;
+                display: block;
+                z-index: 0;
+                background: rgba(0,0,0,0.1);
+            }
+            .margin-bottom > *{
+                margin-bottom: 20px;
+            }
+            .popover-demo .popover {
+                position: relative;
+                display: inline-block;
+                opacity: 1;
+                margin: 0 10px 30px;
+                z-index: 0;
+            }
+            .preloader {
+                margin-right: 30px;
+            }
+            .strong-error {
+                color: red;
+                font-size: 12px
+            }
+         </style>
+
+        @yield('header')
     </head>
     <body style="background-color: #FAF6F0">
       <header id="header-2" class="clearfix" data-current-skin="lightblue"> <!-- Make sure to change both class and data-current-skin when switching sking manually -->
@@ -46,60 +155,65 @@
 
                 </li>
 
-                <li class="pull-right">
-                    <ul class="top-menu">
+                <li class="pull-right" style="margin-right:3%;">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                My Teams
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" id="teams">
+                            </ul>
+                        </div>
 
-                        <li class="dropdown">
-                           <a data-toggle="dropdown" href="">
-                                <span class="tm-label"><i class="zmdi zmdi-face"></i></span>
-                            </a>
-
-                            <ul class="dropdown-menu dm-icon pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Account
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-home"></i> My Home</a>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
                                 </li>
                                 <li>
-
-                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-account"></i> Profile</a>
+                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings">&nbsp;</i> Profile</a>
                                 </li>
+                                <li class="divider">
                                 <li>
-                                      <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="zmdi zmdi-assignment-return"></i>
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                                    <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </li>
             </ul>
 
             <nav class="ha-menu">
-
+            @if($team > 0)
                 <ul>
-                    <li class="waves-effect" id="a"><a href="/{{$team_name}}/dashboard">Dashboard</a></li>
-                    <li class="waves-effect" id="b"><a href="/{{$team_name}}/members">Members</a></li>
-                    <li class="waves-effect" id="c"><a href="/{{$team_name}}/schedule">Schedule</a></li>
-                    <li class="waves-effect" id="g"><a href="/{{$team_name}}/records">Records</a></li>
-                    <li class="waves-effect" id="h"><a href="/{{$team_name}}/files">Media</a></li>
-                    <li class="waves-effect" id="e"><a href="/{{$team_name}}/messages">Messages</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
-                    <li class="waves-effect hidden-sm hidden-md hidden-lg" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="f"><a href="/{{$team_name}}/settings">Settings</a></li>
-                    <li class="waves-effect pull-right hidden-xs" id="d"><a href="/{{$team_name}}/assets">Assets</a></li>
+                    <li class="waves-effect" id="dashboard"><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
+                    <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
+                    <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
+                    <li class="waves-effect" id="records"><a href="{{url($team.'/records')}}">Records</a></li>
+                    <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
 
+                    <li class="waves-effect" id="messages"><a href="{{url($team.'/messages')}}">Messages</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url($team.'/settings')}}">Settings</a></li>
+                    <li class="waves-effect pull-right hidden-xs" id="assets"><a href="{{url($team.'/assets')}}">Assets</a></li>
                 </ul>
+            @endif
             </nav>
 
         </header>
 
 
         <section id="main" data-layout="layout-1">
+
             <section id="content">
                 <div class="container">
                     @yield('content')
@@ -172,7 +286,8 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
 
         <script src="{{URL::to('/')}}/vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js "></script>
+
+
         <script src="{{URL::to('/')}}/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/Waves/dist/waves.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
@@ -182,13 +297,19 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
-         
 
-         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bower_components/chosen/chosen.jquery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
 
+         <script src='{{url("calendar/js")}}/fullcalendar.min.js'></script>
+        <script src='{{url("calendar/js")}}/gcal.min.js'></script>
 
+         <!--<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>-->
 
-
+<!--
+         <script src="{{URL::to('/')}}/js/DataTable/jquery.dataTables.min.js"></script>
+         <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap4.min.js"></script>
+-->
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
@@ -197,10 +318,44 @@
         <script src="{{URL::to('/')}}/js/flot-charts/curved-line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/flot-charts/line-chart.js"></script>
         <script src="{{URL::to('/')}}/js/charts.js"></script>
+        <script src="{{URL::to('/')}}/js/bootstrap-multiselect.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
 
-        <!-- <script src="{{URL::to('/')}}/js/demo.js"></script> -->
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <!--<script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>-->
+        <script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+        <!--<script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>-->
+
+
+
+
+
+        <script src="{{URL::to('/')}}/js/demo.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                active = '{{$active}}';
+                $('.ha-menu').find('ul').find('li').removeClass('active');
+                $('.ha-menu').find('ul').find('#'+ active).addClass('active');
+                url = '{{url("/")}}/get/teams';
+                team = {{$team}};
+                $.get(url, function(data){
+                    t = data;
+                    content = '';
+                    for( i = 0; i < t.length; i++ )
+                    {
+                        target = '{{url("/")}}/'+ t[i]['id'] +'/dashboard';
+                        if( t[i]['id'] == team )
+                            content += '<li class="active"><a style="font-weight: bold" href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
+                        else
+                            content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
+                    }
+                    target = '{{url("/")}}/createteam';
+                    content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
+                    $('#teams').html(content);
+                });
+            });
+        </script>
 
         @yield('footer')
     </body>

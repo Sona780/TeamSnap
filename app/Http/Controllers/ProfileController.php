@@ -1,7 +1,6 @@
 <?php
 namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
-use TeamSnap\Member;
 use Image;
 use TeamSnap\Team;
 use TeamSnap\PlayerCtg;
@@ -37,14 +36,14 @@ class ProfileController extends Controller
        return redirect($id.'/profile');
     }
 
-    public function edit($id)
+    /*public function edit($id)
     {
       $article = Member::findorFail($id);
       $mid=$article->id;
       return view('edit', [ 'teamname' => $id, 'article' => $article, 'mid' => $mid ]);
-    }
+    }*/
 
-    public function update($id, Request $request)
+    /*public function update($id, Request $request)
     {
        $members = Member::findorFail($id);
        $members->update($request->all());
@@ -61,14 +60,14 @@ class ProfileController extends Controller
        $ctgs->save(); 
        return $ctgs;
 
-    }
+    }*/
 
-    public function delete($id)
+    /*public function delete($id)
     {
 
        $teamname = Member::where('id', $id)->select('team_name')->get()->first();
        Member::where('id', '=', $id)->delete();
        return redirect($teamname->team_name.'/members') ;
-    }
+    }*/
 
 }

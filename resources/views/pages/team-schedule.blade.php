@@ -1,0 +1,959 @@
+@extends('layouts.new', ['team' => $id, 'active' => 'schedule'])
+
+@section('header')
+	<link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" rel="stylesheet">
+
+@endsection
+
+@section('content')
+
+    <div class="card" id="manager" style="height: 7%;">
+    	<h4 style="display: inline-block; font-weight: none">
+    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
+
+    		<div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+				</button>
+                <ul class="dropdown-menu pull-left" role="menu">
+                    <li><a href='#' id="create-game">Game</a></li>
+                	<li class="divider"></li>
+                	<li><a href='#' id="create-event">Event</a></li>
+                </ul>
+            </div>
+        </h4>
+
+		<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
+			<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
+			<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
+		</div>
+
+    </div>
+
+    <!-- start list and calendar view of the schedule -->
+    <div class="tab-content" id='schedule-view'>
+
+    	<!-- start list view of schedule -->
+    	<div role="tabpanel" class="tab-pane active" id="schedule-list">
+
+    		<div class="card p-10 table-responsive" id="table">
+
+                <table id="example" class="table display responsive" cellspacing="0" width="100%">
+
+                    <thead style="font-size: 15px">
+                    	<tr>
+                        	<th class="all"><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;Games/ <img src='{{url("/")}}/img/green.jpeg' />&nbsp;Events</th>
+			                <th>Result</th>
+			                <th>Date</th>
+			                <th>Time</th>
+			                <th>Location</th>
+			                <th class="all">Manager</th>
+			                <th class="none">Location Detail</th>
+			                <th class="none">Adress</th>
+			                <th class="none">Link</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tbody" style="font-size: 12px">
+				        @foreach($games as $game)
+					    	<tr>
+					        	<td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;&nbsp;&nbsp;vs. {{ $game->name }}</td>
+					            <td>
+					            	@if( $game->results == ''  )
+					                	<button id="edit" key='{{ $game->id }}' type='game' class="b-design">Enter Result</button>
+					               	@else
+					                	{{ $game->results }}
+					                @endif
+					            </td>
+					            <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('D d, M Y') }}</td>
+					            <td>
+					            	{{ $game->hour }}:{{ $game->minute }}&nbsp;{{ $game->time }}
+					            </td>
+					            <td>{{ $game->location->name }}</td>
+					            <td>
+	                        		<a id="edit" key='{{ $game->id }}' type='game'>
+	                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+	                        		</a>
+
+									<a id="delete" key='{{ $game->id }}' type='game'>
+	                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+	                        		</a>
+                                </td>
+                                <td>{{ $game->location->detail }}</td>
+                                <td>{{ $game->location->address }}</td>
+                                <td>{{ $game->location->link }}</td>
+					        </tr>
+				        @endforeach
+				        @foreach($events as $event)
+							<tr>
+				                <td><img src='{{url("/")}}/img/green.jpeg' />&nbsp;&nbsp;&nbsp;{{ $event->name }}</td>
+					            <td></td>
+					            <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('D d, M Y') }}</td>
+					            <td>
+					            	{{ $event->hour }}:{{ $event->minute }}&nbsp;{{ $event->time }}
+					            </td>
+					            <td>{{ $event->location->name }}</td>
+					            <td>
+                                	<a id="edit" key='{{ $event->id }}' type='event'>
+	                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+	                        		</a>
+
+									<a id="delete" key='{{ $event->id }}' type='event'>
+	                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+	                        		</a>
+                                </td>
+                                <td>{{ $event->location->detail }}</td>
+                                <td>{{ $event->location->address }}</td>
+                                <td>{{ $event->location->link }}</td>
+					        </tr>
+				        @endforeach
+                    </tbody>
+                </table>
+
+		    </div>
+
+    	</div>
+    	<!-- end list view of schedule -->
+
+
+    	<!-- start calender view of schedule -->
+    	<div role="tabpanel" class="tab-pane active" id="schedule-calender">
+			<div class="col-sm-11 col-md-11">
+	            <div id="loading"></div>
+	            <div id="calendar"></div>
+        	</div>
+    	</div>
+    	<!-- end calender view of schedule -->
+
+    </div>
+    <!-- end list and calendar view of the schedule -->
+
+
+    <!-- start create new game -->
+    	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
+			<form method="POST" action="{{url('/')}}/{{$id}}/new/game" id="game-form">
+				@include('partials.game-form', ['submitButton' => 'Save', 'opp' => $opp, 'loc' => $game_loc])
+			</form>
+		</div>
+	<!-- end create new game -->
+
+
+	<!-- start create new event -->
+		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-event">
+			<form method="POST" action="{{url('/')}}/{{$id}}/new/event" id="event-form">
+				@include('partials.event-form', ['submitButton' => 'Save', 'loc' => $event_loc])
+			</form>
+		</div>
+	<!-- end create new event -->
+
+
+	<!-- start edit game -->
+		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-game">
+			<form method="POST" action="{{url('/')}}/{{$id}}/edit/game" id="edit-game-form">
+				<input type="hidden" name="id">
+				@include('partials.game-form', ['submitButton' => 'Modify', 'opp' => $opp, 'loc' => $game_loc])
+			</form>
+		</div>
+	<!-- end edit game -->
+
+
+	<!-- start edit event -->
+		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-event">
+			<form method="POST" action="{{url('/')}}/{{$id}}/edit/event" id="edit-event-form">
+				<input type="hidden" name="id">
+				@include('partials.event-form', ['submitButton' => 'Modify', 'loc' => $event_loc])
+			</form>
+		</div>
+	<!-- end edit event -->
+
+
+	<!-- start modal to show game info in claendar view -->
+	<div class="modal fade" id="game-data" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<h4 class="modal-title">Game Information</h4>
+                </div>
+                <div class="modal-body" id='game-details'>
+
+                	<!-- start game schedule -->
+	                	<div class="pmb-block">
+				            <!-- start header of game schedule -->
+				            <div class="pmbb-header">
+				                <h4>Schedule</h4>
+				            </div>
+				            <!-- end header of game schedule -->
+
+				            <!-- start body of game schedule -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Date</dt><dd id="date"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Time</dt><dd id="time"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Duration</dt><dd id="duration"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of game schedule -->
+		                </div>
+	                <!-- end game schedule -->
+
+	                <!-- start opponent detail -->
+	                	<div class="pmb-block">
+				            <!-- start header of opponent detail -->
+				            <div class="pmbb-header">
+				                <h4>Opponent Details</h4>
+				            </div>
+				            <!-- end header of opponent detail -->
+
+				            <!-- start body of opponent detail -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Name</dt><dd id="name"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Contact Person</dt><dd id="c-person"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Phone No.</dt><dd id="phone"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Email</dt><dd id="email"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of opponent detail -->
+		                </div>
+	                <!-- end opponent detail -->
+
+	                <!-- start location detail -->
+	                	<div class="pmb-block">
+				            <!-- start header of location detail -->
+				            <div class="pmbb-header">
+				                <h4>Location Details</h4>
+				            </div>
+				            <!-- end header of location detail -->
+
+				            <!-- start body of location detail -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Name</dt><dd id="l-name"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Loction Detail</dt><dd id="l-detail"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Address</dt><dd id="address"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Link</dt><dd id="link"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of location detail -->
+		                </div>
+	                <!-- end location detail -->
+
+                </div>
+                <div class="modal-footer">
+                	<button type="button" class="btn btn-link" id="game-data-edit">edit</button>
+                	<button type="button" class="btn btn-link" id="game-data-delete">Delete</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal to show game info in claendar view -->
+
+    <!-- start modal to show event info in claendar view -->
+    <div class="modal fade" id="event-data" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<h4 class="modal-title">Event Information</h4>
+                </div>
+                <div class="modal-body" id='event-details'>
+
+                	<!-- start location detail -->
+	                	<div class="pmb-block">
+				            <!-- start header of location detail -->
+				            <div class="pmbb-header">
+				                <h4>Details</h4>
+				            </div>
+				            <!-- end header of location detail -->
+
+				            <!-- start body of location detail -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Name</dt><dd id="name"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Short Label</dt><dd id="label"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of location detail -->
+		                </div>
+	                <!-- end location detail -->
+
+                	<!-- start event schedule -->
+	                	<div class="pmb-block">
+				            <!-- start header of event schedule -->
+				            <div class="pmbb-header">
+				                <h4>Schedule</h4>
+				            </div>
+				            <!-- end header of event schedule -->
+
+				            <!-- start body of event schedule -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Date</dt><dd id="date"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Time</dt><dd id="time"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of event schedule -->
+		                </div>
+	                <!-- end event schedule -->
+
+                	<!-- start location detail -->
+	                	<div class="pmb-block">
+				            <!-- start header of location detail -->
+				            <div class="pmbb-header">
+				                <h4>Location Details</h4>
+				            </div>
+				            <!-- end header of location detail -->
+
+				            <!-- start body of location detail -->
+		                	<div class="pmbb-body p-l-30">
+			                    <div class="pmbb-view">
+			                        <dl class="dl-horizontal"><dt>Name</dt><dd id="l-name"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Loction Detail</dt><dd id="l-detail"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Address</dt><dd id="address"></dd></dl>
+			                        <dl class="dl-horizontal"><dt>Link</dt><dd id="link"></dd></dl>
+			                    </div>
+			                </div>
+			                <!-- end body of location detail -->
+		                </div>
+	                <!-- end location detail -->
+
+                </div>
+                <div class="modal-footer">
+                	<button type="button" class="btn btn-link" id="event-data-edit">Edit</button>
+                	<button type="button" class="btn btn-link" id="event-data-delete">Delete</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal to show event info in claendar view -->
+
+@endsection
+@section('footer')
+
+	<script src="{{URL::to('/')}}/js/notify.js"></script>
+
+    <script type="text/javascript">
+
+    	// start load datatable on page load
+	        $(document).ready(function(){
+	            $('#example').DataTable();
+	            $('#new-game').find('tr[id="add-info"]').hide();
+	        });
+        // end load datatable on page load
+
+        // start active list view button on clicking it
+	        $('#list-view').click(function(){
+	        	$('#cal-view').removeClass('fc-state-active');
+		    	$('#list-view').addClass('fc-state-active');
+	        });
+	    // end active list view button on clicking it
+
+        // start when calendar view is opened
+	    	$('#cal-view').click(function(){
+	    		$('#list-view').removeAttr('disabled');
+	    		$('#list-view').removeClass('fc-state-active');
+	    		$('#cal-view').addClass('fc-state-active');
+
+	    		var cId = $('#calendar'); //Change the name if you want. I'm also using thsi add button for more actions
+
+		        //Generate the Calendar
+		        cId.fullCalendar({
+		            header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,listYear'
+					},
+
+					displayEventTime: true, // don't show the time column in list view
+					googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
+		            height: 500,
+
+		            //Add Events
+		            events: [
+
+		                @if( count($games) != 0 )
+		                    @foreach( $games as $game )
+		                        {
+		                        	id: {{$game->id}},
+		                        	type: 'game',
+		                            title: 'vs. {{ $game->name }}',
+		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }}, {{$game->hour}}, {{$game->minute}} ),
+		                            allDay: false,
+		                            color: '#2196F3',
+		                        },
+		                    @endforeach
+		                @endif
+
+		                @if( count($events) != 0 )
+		                    @foreach( $events as $event )
+		                        {
+		                        	id: {{$event->id}},
+		                        	type: 'event',
+		                            title: '{{ $event->name }}',
+		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $event->date)->format('d') }}, {{$event->hour}}, {{$event->minute}} ),
+		                            allDay: false,
+		                            color: '#4CAF50'
+		                        },
+		                    @endforeach
+		                @endif
+
+		            ],
+
+		            eventClick: function(event) {
+						id   = event.id;
+						type = event.type;
+
+						if(type == 'game')
+							viewGame(id);
+						else
+							viewEvent(id);
+					},
+
+					axisFormat: 'hh:mm a',
+
+					loading: function(bool) {
+						$('#loading').html('loading...').toggle(bool);
+					},
+
+		            //On Day Select
+		            select: function(start, end, allDay) {
+		                $('#addNew-event').modal('show');
+		                $('#addNew-event input:text').val('');
+		                $('#getStart').val(start);
+		                $('#getEnd').val(end);
+		            }
+		        });
+	    	});
+	    // end when calendar view is opened
+
+	    // start js for event data modal
+		    // start populate event data modal on clicking on an event in calendar view
+		    	function viewEvent(id)
+		    	{
+		    		url = '{{url("event/data")}}/'+id;
+
+		    		$.post(url, function(event){
+		    			$('#event-data').modal('show');
+		    			det = $('#event-details');
+
+		    			det.find('#name').html(event['name']);
+		    			det.find('#label').html(event['label']);
+
+		    			det.find('#l-name').html(event['loc_name']);
+		    			det.find('#l-detail').html(event['loc_detail']);
+		    			det.find('#address').html(event['address']);
+		    			det.find('#link').html(event['link']);
+
+		    			if( parseInt(event['minute']) < 10 )
+		    				event['minute'] = '0'+event['minute'];
+
+		    			det.find('#date').html(event['date']);
+		    			det.find('#time').html(event['hour']+':'+event['minute']+' '+event['time']);
+
+		    			$('#event-data-edit').attr('key', id);
+		    			$('#event-data-delete').attr('key', id);
+		    		});
+		    	}
+		    // end populate event data modal on clicking on an event in calendar view
+
+	    	// start open edit event form on clicking edit button
+		    	$('#event-data-edit').click(function(){
+		    		editEvent($(this).attr('key'));
+		    		$('#event-data').modal('hide');
+		    	});
+	    	// end open edit event form on clicking edit button
+
+	    	// start delete event on clicking delete button
+		    	$('#event-data-delete').click(function(){
+		    		id = $(this).attr('key');
+		    		deleteEvent(id);
+		    	});
+	    	// end delete event on clicking delete button
+	    // end js for event data modal
+
+    	// start js for game data modal
+	    	// start populate game data modal on clicking on a game in calendar view
+		    	function viewGame(id)
+		    	{
+		    		url = '{{url("game/data")}}/'+id;
+
+		    		$.post(url, function(game){
+		    			$('#game-data').modal('show');
+		    			det = $('#game-details');
+		    			det.find('#name').html(game['name']);
+		    			det.find('#c-person').html(game['contact_person']);
+		    			det.find('#phone').html(game['phone_no']);
+		    			det.find('#email').html(game['email']);
+
+		    			det.find('#l-name').html(game['loc_name']);
+		    			det.find('#l-detail').html(game['loc_detail']);
+		    			det.find('#address').html(game['address']);
+		    			det.find('#link').html(game['link']);
+
+		    			if( parseInt(game['minute']) < 10 )
+		    				game['minute'] = '0'+game['minute'];
+
+		    			det.find('#date').html(game['date']);
+		    			det.find('#time').html(game['hour']+':'+game['minute']+' '+game['time']);
+		    			det.find('#duration').html(game['duration_hour']+':'+game['duration_minute']);
+
+		    			$('#game-data-edit').attr('key', id);
+		    			$('#game-data-delete').attr('key', id);
+		    		});
+		    	}
+	    	// start populate game data modal on clicking on a game in calendar view
+
+	    	// start open edit game form on clicking edit button
+		    	$('#game-data-edit').click(function(){
+		    		editGame($(this).attr('key'));
+		    		$('#game-data').modal('hide');
+		    	});
+	    	// end open edit game form on clicking edit button
+
+	    	// start delete game on clicking delete button
+		    	$('#game-data-delete').click(function(){
+		    		id = $(this).attr('key');
+		    		deleteGame(id);
+		    	});
+	    	// end delete game on clicking delete button
+	    // end js for game data modal
+
+    	// start manage opponent while creating game
+	    	$('#new-game').find('#opponent').change(function(){
+	    		val = $(this).val();
+	    		if( val != 0 || val == '' )
+	    			$('#new-game').find('#opp-detail').hide();
+	    		else
+	    			$('#new-game').find('#opp-detail').show();
+	    	});
+    	// end manage opponent while creating game
+
+    	// start manage location while creating game
+	    	$('#new-game').find('#location').change(function(){
+	    		val = $(this).val();
+	    		if( val != 0 || val == '' )
+	    			$('#new-game').find('tr[id="loc-data"]').hide();
+	    		else
+	    			$('#new-game').find('tr[id="loc-data"]').show();
+	    	});
+    	// end manage location while creating game
+
+    	// start manage opponent while editing game info
+	    	$('#edit-game').find('#opponent').change(function(){
+	    		val = $(this).val();
+	    		if( val != 0 || val == '' )
+	    			$('#edit-game').find('#opp-detail').hide();
+	    		else
+	    		{
+	    			$('#edit-game').find('#opp-detail').show();
+	    			$('#edit-game').find('#opp-detail').find('input').val('');
+	    		}
+	    	});
+    	// end manage opponent while editing game info
+
+    	// start manage location while editing game info
+	    	$('#edit-game').find('#location').change(function(){
+	    		val = $(this).val();
+
+	    		if( val != 0 || val == '' )
+	    			$('#edit-game').find('tr[id="loc-data"]').hide();
+	    		else
+	    		{
+	    			$('#edit-game').find('tr[id="loc-data"]').show();
+	    			$('#edit-game').find('tr[id="loc-data"]').find('input').val('');
+	    		}
+	    	});
+    	// end manage location while editing game info
+
+    	// start manage opponent while editing event info
+	    	$('#edit-event').find('#location').change(function(){
+	    		val = $(this).val();
+
+	    		if( val != 0 || val == '' )
+	    			$('#edit-event').find('tr[id="loc-data"]').hide();
+	    		else
+	    		{
+	    			$('#edit-event').find('tr[id="loc-data"]').show();
+	    			$('#edit-event').find('tr[id="loc-data"]').find('input').val('');
+	    		}
+	    	});
+    	// end manage opponent while editing event info
+
+    	// start manage location while creatin event
+	    	$('#new-event').find('#location').change(function(){
+	    		val = $(this).val();
+	    		if( val != 0 || val == '' )
+	    			$('#new-event').find('tr[id="loc-data"]').hide();
+	    		else
+	    			$('#new-event').find('tr[id="loc-data"]').show();
+	    	});
+    	// end manage location while creatin event
+
+    	// start toggle additional info in game
+	    	ii = 0;
+	    	$('#info').click(function(){
+	    		$('#new-game').find('tr[id="add-info"]').toggle();
+	    		if( ii == 0 )
+	    		{
+	    			ii = 1;
+	    			$('#info-img').attr('src', "{{url('/')}}/img/up.png");
+	    		}
+	    		else
+	    		{
+	    			ii = 0;
+	    			$('#info-img').attr('src', "{{url('/')}}/img/down.png");
+	    		}
+	    	});
+    	// end toggle additional info in game
+
+    	// start confirm deletion of a game/ event
+	    	$('#tbody').on('click', '#delete', function(){
+		        id = $(this).attr('key');
+		        type = $(this).attr('type');
+
+		        swal({
+		            title: "Are you sure?",
+		            text: "The "+ type +" will be cancelled and will be removed from team schedule!",
+		            type: "warning",
+		            showCancelButton: true,
+		            confirmButtonColor: "#DD6B55",
+		            confirmButtonText: "Yes, delete it!",
+		            closeOnConfirm: true
+		            }, function(){
+		                (type == 'event') ? deleteEvent(id) : deleteGame(id);
+		        });
+		    });
+	    // end confirm deletion of a game/ event
+
+	    // start delete a game
+		    function deleteEvent(id)
+		    {
+		    	window.location.href = '{{ url("/") }}/{{$id}}/event/delete/'+ id;
+		    }
+	    // end delete a game
+
+	    // start delete a event
+		    function deleteGame(id)
+		    {
+		    	window.location.href = '{{ url("/") }}/{{$id}}/game/delete/'+ id;
+		    }
+	    // end delete a event
+
+	    // start jquery when game form submitted
+	    	$("#game-form").submit(function(e) {
+		        e.preventDefault();
+		        var detail = $('#game-form').serializeArray();
+		        var url = '{{ url("game/validate") }}';
+		        var self = this;
+		        getGameData(self, url, detail, 'game-form');
+		    });
+	    // end jquery when game form submitted
+
+	    // start jquery when edit game form submitted
+		    $("#edit-game-form").submit(function(e) {
+		        e.preventDefault();
+		        var detail = $('#edit-game-form').serializeArray();
+		        var url = '{{ url("game/validate") }}';
+		        var self = this;
+		        getGameData(self, url, detail, 'edit-game-form');
+		    });
+	    // end jquery when edit game form submitted
+
+	    // start validate game form on submit
+		    function getGameData(self, url, detail, src)
+		    {
+		    	$.get(url, detail, function(data){
+		            var d = data;
+		            $('#'+ src).find('strong').html('');
+		            if( d['date'] != '' )
+		            {
+		            	$('#'+ src).find('#error-date').html('<br /><br />'+d['date']);
+		            	$('#'+ src).find('input[name="date"]').focus();
+		            }
+		            else if( d['hour'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="hour"]').focus();
+		            	$('#'+ src).find('#error-time').html('<br /><br />'+d['hour']);
+		            }
+		            else if( d['minute'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="minute"]').focus();
+		            	$('#'+ src).find('#error-time').html('<br /><br />'+d['minute']);
+		            }
+		            else if( d['opponent'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="opponent"]').focus();
+		            	$('#'+ src).find('#error-opponent').html('<br /><br />'+d['opponent']);
+		            }
+		            else if( d['name'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="name"]').focus();
+		            	$('#'+ src).find('#error-name').html('<br /><br />'+d['name']);
+		            }
+		            else if( d['contact_person'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="contact_person"]').focus();
+		            	$('#'+ src).find('#error-contact_person').html('<br /><br />'+d['contact_person']);
+		            }
+		            else if( d['phone'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="phone"]').focus();
+		            	$('#'+ src).find('#error-phone').html('<br /><br />'+d['phone']);
+		            }
+		            else if( d['email'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="email"]').focus();
+		            	$('#'+ src).find('#error-email').html('<br /><br />'+d['email']);
+		            }
+
+		            else if( d['location'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="location"]').focus();
+		            	$('#'+ src).find('#error-location').html('<br /><br />'+d['location']);
+		            }
+		            else if( d['location_detail'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="location_detail"]').focus();
+		            	$('#'+ src).find('#error-location_detail').html('<br /><br />'+d['location_detail']);
+		            }
+		            else if( d['loc_name'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="loc_name"]').focus();
+		            	$('#'+ src).find('#error-loc_name').html('<br /><br />'+d['loc_name']);
+		            }
+		            else if( d['address'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="address"]').focus();
+		            	$('#'+ src).find('#error-address').html('<br /><br />'+d['address']);
+		            }
+		            else if( d['link'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="link"]').focus();
+		            	$('#'+ src).find('#error-link').html('<br /><br />'+d['link']);
+		            }
+
+		            else if( d['d_hour'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="d_hour"]').focus();
+		            	$('#'+ src).find('#error-duration').html('<br /><br />The duration hour field must be between 1 and 12.');
+		            }
+		            else if( d['d_minute'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="d_minute"]').focus();
+		            	$('#'+ src).find('#error-duration').html('<br /><br />The duration minute field must be between 0 and 59.');
+		            }
+		            else
+	                    self.submit();
+		        });
+		    }
+	    // end validate game form on submit
+
+	    // start jquery when event form submitted
+	    	$('#edit-event-form').submit(function(e) {
+	    		e.preventDefault();
+	    		var detail = $('#edit-event-form').serializeArray();
+	    		var url = '{{ url("event/validate") }}';
+	    		var self = this;
+	    		getEventData(self, url, detail, 'edit-event-form');
+	    	});
+    	// end jquery when event form submitted
+
+	    // start jquery when edit event form submitted
+		    $("#event-form").submit(function(e) {
+		        e.preventDefault();
+		        var detail = $('#event-form').serializeArray();
+		        var url = '{{ url("event/validate") }}';
+		        var self = this;
+		        getEventData(self, url, detail, 'event-form');
+		    });
+	    // end jquery when edit event form submitted
+
+	    // start validate event form on submit
+		    function getEventData(self, url, detail, src)
+		    {
+		    	$.get(url, detail, function(data){
+		            var d = data;
+		            $('#'+ src).find('strong').html('');
+		            if( d['name'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="name"]').focus();
+		            	$('#'+ src).find('#error-name').html('<br /><br />'+d['name']);
+		            }
+		            else if( d['date'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="date"]').focus();
+		            	$('#'+ src).find('#error-date').html('<br /><br />'+d['date']);
+		            }
+		            else if( d['hour'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="hour"]').focus();
+		            	$('#'+ src).find('#error-time').html('<br /><br />'+d['hour']);
+		            }
+		            else if( d['minute'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="minute"]').focus();
+		            	$('#'+ src).find('#error-time').html('<br /><br />'+d['minute']);
+		            }
+		            else if( d['location'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="location"]').focus();
+		            	$('#'+ src).find('#error-location').html('<br /><br />'+d['location']);
+		            }
+		            else if( d['location_detail'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="location_detail"]').focus();
+		            	$('#'+ src).find('#error-location_detail').html('<br /><br />'+d['location_detail']);
+		            }
+		            else if( d['loc_name'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="loc_name"]').focus();
+		            	$('#'+ src).find('#error-loc_name').html('<br /><br />'+d['loc_name']);
+		            }
+		            else if( d['address'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="address"]').focus();
+		            	$('#'+ src).find('#error-address').html('<br /><br />'+d['address']);
+		            }
+		            else if( d['link'] != '' )
+		            {
+		            	$('#'+ src).find('input[name="link"]').focus();
+		            	$('#'+ src).find('#error-link').html('<br /><br />'+d['link']);
+		            }
+		            else
+	                    self.submit();
+		        });
+		    }
+	    // end validate event form on submit
+
+	    // start initialize some var
+		    view   = $('#schedule-view');
+		    ngame  = $('#new-game');
+		    nevent = $('#new-event');
+		    egame  = $('#edit-game');
+		    eevent = $('#edit-event');
+		    manage = $('#manager');
+	    // end initialize some var
+
+	    // start manage tab on clicking create new game
+	    	$('#create-game').click(function(){
+	    		view.hide();
+	    		nevent.hide();
+	    		egame.hide();
+	    		eevent.hide();
+	    		manage.hide();
+	    		ngame.show();
+	    	});
+    	// end manage tab on clicking create new game
+
+    	// start manage tab on clicking create new event
+	    	$('#create-event').click(function(){
+	    		view.hide();
+	    		ngame.hide();
+	    		egame.hide();
+	    		eevent.hide();
+	    		manage.hide();
+	    		nevent.show();
+	    	});
+    	// end manage tab on clicking create new event
+
+    	//start when cancel button clicked
+	    	$('button[id="cancel"]').click(function(){
+	    		ngame.hide();
+	    		nevent.hide();
+	    		egame.hide();
+	    		eevent.hide();
+	    		manage.show();
+	    		view.show();
+	    	});
+    	//end when cancel button clicked
+
+    	// start when edit button clicked
+	    	$('#table').on('click', '#edit', function(){
+		        id = $(this).attr('key');
+		        type = $(this).attr('type');
+		        if( type == "game" )
+		        	editGame(id);
+		        else
+		        	editEvent(id);
+		    });
+	    // end when edit button clicked
+
+	    // start when edit game is clicked populate the form with DB values
+		    function editGame(id)
+		    {
+		    	ngame.hide();
+	    		nevent.hide();
+	    		eevent.hide();
+	    		manage.hide();
+	    		view.hide();
+	    		egame.show();
+
+	    		url = '{{ url("game/data") }}/'+ id;
+
+	    		$.post(url, function(data){
+	    			time = 1;
+	    			if( data['time'] == 'AM' )
+	    				time = 0;
+
+	    			$('#edit-game-form').find('input[name="id"]').val(id);
+	            	$('input[name="date"]').val(data['date']);
+		    		$('input[name="hour"]').val(data['hour']);
+		    		$('input[name="minute"]').val(data['minute']);
+		    		$('#edit-game-form').find('#time option').eq(time).prop('selected', true);
+
+		    		//opponent data
+		    		$('#edit-game-form').find('#opponent option[value="'+data['opp_id']+'"]').prop('selected', true);
+		    		$('#edit-game-form').find('input[name="name"]').val(data['name']);
+		    		$('#edit-game-form').find('input[name="contact_person"]').val(data['contact_person']);
+		    		$('#edit-game-form').find('input[name="phone"]').val(data['phone_no']);
+		    		$('#edit-game-form').find('input[name="email"]').val(data['email']);
+		    		//end opponent data
+
+		    		//location data
+		    		$('#edit-game-form').find('#location option[value="'+data['loc_id']+'"]').prop('selected', true);
+		    		//end location data
+
+		    		$('input[name="result"]').val(data['results']);
+	        	});
+		    }
+		// end when edit game is clicked populate the form with DB values
+
+	    // start when edit event is clicked populate the form with DB values
+		    function editEvent(id)
+	    	{
+	    		ngame.hide();
+	    		nevent.hide();
+	    		egame.hide();
+	    		manage.hide();
+	    		view.hide();
+	    		eevent.show();
+
+	    		url = '{{ url("event/data") }}/'+ id;
+
+	    		$.post(url, function(data){
+	    			time = 1;
+	    			if( data['time'] == 'AM' )
+	    				time = 0;
+	    			$('#edit-event-form').find('input[name="id"]').val(id);
+	    			$('#edit-event-form').find('input[name="name"]').val(data['name']);
+	    			$('#edit-event-form').find('input[name="label"]').val(data['label']);
+	    			$('#edit-event-form').find('input[name="date"]').val(data['date']);
+	    			$('#edit-event-form').find('input[name="hour"]').val(data['hour']);
+	    			$('#edit-event-form').find('input[name="minute"]').val(data['minute']);
+	    			$('#edit-event-form').find('#time option').eq(time).prop('selected', true);
+	    			$('#edit-event-form').find('input[name="opponent"]').val(data['opponent']);
+	    			$('#edit-event-form').find('#repeat option').eq(Number(data['repeat'])).prop('selected', true);
+
+	    			//location data
+		    		$('#edit-event-form').find('#location option[value="'+data['loc_id']+'"]').prop('selected', true);
+		    		//end location data
+	        	});
+	    	}
+    	// end when edit event is clicked populate the form with DB values
+
+
+    </script>
+
+@endsection

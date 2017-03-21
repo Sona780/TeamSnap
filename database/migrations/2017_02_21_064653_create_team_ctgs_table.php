@@ -13,11 +13,13 @@ class CreateTeamCtgsTable extends Migration
      */
    public function up()
     {
-      Schema::create('team_ctgs', function (Blueprint $table) {
-            $table->increments('id'); 
-            $table->string('ctg_id');
-            $table->string('team_id');
-                 
+        Schema::create('team_ctgs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('teams_id')->unsigned();
+            $table->integer('categories_id')->unsigned();
+
+            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('categories_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

@@ -23,11 +23,8 @@ class CreateTeamsTable extends Migration
             $table->string('team_logo')->default('default.jpg');
             $table->string('team_color_first');
             $table->string('team_color_second');
-            $table->timestamp('created_at'); 
-            $table->foreign('team_owner_id')
-                  ->references('id')
-                  ->on('teams')
-                  ->onDelete('cascade');
+            $table->timestamp('created_at');
+
         });
     }
 

@@ -3,6 +3,7 @@
 namespace TeamSnap\Http\Controllers\Auth;
 
 use TeamSnap\User;
+use TeamSnap\UserDetail;
 use TeamSnap\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -48,8 +49,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'name' => 'required|max:20',
+            'email' => 'required|email|max:50',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -62,10 +63,34 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $ch   = User::where('email', $data['email']);
+
+        if( $ch->get()->count() == 0 )
+        {
+            $user = User::create([
+                'name'      => $data['name'],
+                'email'     => $data['email'],
+                'password'  => bcrypt($data['password']),
+                'login_flag'=> 1,
+            ]);
+
+            UserDetail::create([
+                'users_id'       => $user->id,
+                'firstname'      => $user->name,
+                'manager_access' => 1,
+                'avatar'         => config('paths.image_path').'4.jpg',
+            ]);
+
+            return $user;
+        }
+        else if( $ch->first()->login_flag == 0 )
+        {
+            $ch->update(['login_flag', 1]);
+            return $ch->first();
+        }
+        else
+        {
+            return $ch->first();
+        }
     }
 }

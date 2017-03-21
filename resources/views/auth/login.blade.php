@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
   <div class="row">
     <div class="col-md-6 col-md-offset-3 col-xs-12">
       <div class="lc-block toggled" id="l-login" style="width: 95%;">
@@ -19,6 +20,7 @@
                             <strong>{{ $errors->first('email') }}</strong>
                         </span>
                     @endif
+
                 </div>
             </div>
 
@@ -58,7 +60,7 @@
               <ul class="login-navigation"><!-- 
                   <li data-block="/register" class="bgm-red"><a href="{{ url('/register') }}">Register</a></li>
                   <li data-block="" class="bgm-orange"><a href="{{ url('/password/reset') }}">Forgot Password?</a></li> -->
-                    
+
                   <div class="btn-demo">
                   &nbsp;&nbsp;
                   <a href="{{ url('/register') }}"><button class="btn btn-danger btn-xs pills-auth">Register</button></a>

@@ -25,45 +25,97 @@
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
-        <style type="text/css">
-            .pills-auth {
-                    border-radius: 50px;
-            }
-            .zmdi-face
-            {
-                font-size: 1.8em;
-            }
-        </style>
+
         @yield('header')
     </head>
     <body style="background-color: #FAF6F0">
-       <header id="header" class="clearfix" data-current-skin="blue">
+        @if( !Auth::guest() )
+        @if( $user_detail->manager_access == 0 )
+        <header id="header-2" class="clearfix" data-current-skin="lightblue">
+            <ul class="header-inner clearfix" >
+                <li id="menu-trigger" data-trigger=".ha-menu" class="visible-xs">
+                    <div class="line-wrap">
+                        <div class="line top"></div>
+                        <div class="line center"></div>
+                        <div class="line bottom"></div>
+                    </div>
+                </li>
+
+                <li class="logo hidden-xs"></li>
+
+                <li class="pull-right" style="margin-right:3%;">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                My Teams
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach($teams as $t)
+                                <li><a href="{{url($t->id)}}/member/dashboard">{{$t->teamname}}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Account
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
+                                </li>
+                                <li>
+                                    <a href="{{ URL::to('profile') }}"><i class="zmdi zmdi-settings">&nbsp;</i> Profile</a>
+                                </li>
+                                <li class="divider">
+                                <li>
+                                    <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </header>
+
+        @else
+
+        <header id="header" class="clearfix" data-current-skin="blue">
             <ul class="header-inner">
                 <li class="logo ">
                     <a href="/">Org4leagues</a>
                 </li>
-                 <li class="pull-right">
+                 <li class="pull-right" style="margin-right: 20px">
                     <ul class="top-menu">
                         @if (Auth::guest())
                         <li class="logo"><a href="{{ url('/login') }}" style="font-size: 15px;">Login</a></li>
                         <li class="logo"><a href="{{ url('/register') }}" style="font-size: 15px;">Register</a></li>
                          @else
+
                         <li class="dropdown">
-                            <a data-toggle="dropdown" href="">
-                                <span class="tm-label"><i class="zmdi zmdi-face"></i></span>
+
+                            <a data-toggle="dropdown" href=""><img src ="{{url($user_detail->avatar)}}" style="height:40px; border-radius:50%; margin-right: 10px"/>
+                                {{Auth::user()->name}}
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-home"></i> My Home</a>
+                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
                                 </li>
                                 <li>
 
-                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-account"></i> Profile</a>
+                                    <a href="{{ URL::to('profile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
                                 </li>
                                 <li>
-                                      <a href="{{ url('/logout') }}" 
-                                              onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();"><i class="zmdi zmdi-assignment-return"></i>
+                                      <a href="{{ url('/logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
@@ -77,7 +129,10 @@
                     </ul>
                 </li>
             </ul>
-      </header>
+        </header>
+
+        @endif
+        @endif
 
 
         <section id="main" data-layout="layout-1">
@@ -160,9 +215,9 @@
         <script src="{{URL::to('/')}}/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
         <script src="{{URL::to('/')}}/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
-        <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
+         <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+       <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>

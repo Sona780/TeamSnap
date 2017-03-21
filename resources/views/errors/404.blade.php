@@ -6,21 +6,21 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Material Admin</title>
-        
+
         <!-- Vendor CSS -->
         <link href="{{URL::to('/')}}/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
-            
+
         <!-- CSS -->
         <link href="{{URL::to('/')}}/css/app.min.1.css" rel="stylesheet">
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
     </head>
-    
-    <body class="four-zero-content">        
+
+    <body class="four-zero-content">
         <div class="four-zero">
             <h2>SEX!</h2>
             <small>Nah.. it's 404</small>
-            
+
             <footer>
                 <a href="index.html"><i class="zmdi zmdi-arrow-back"></i></a>
                 <a href="index.html"><i class="zmdi zmdi-home"></i></a>
@@ -67,7 +67,7 @@
                     </ul>
                 </div>
                 <p>Sorry for the inconvenience!</p>
-            </div>   
+            </div>
         <![endif]-->
     </body>
 </html>

@@ -1,7 +1,7 @@
 <ul class="tab-nav" role="tablist">
                    <?php $i=0 ?>
                    @foreach($ctgs as $ctg)
-                     
+
                       @if($i == 0)
                         <li class="active">
                           <a href="#all1{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab">{{$ctg->name}} </a>
@@ -14,7 +14,7 @@
                         <?php $i += 1  ?>
                     @endforeach
               </ul>
-                 
+
                 <div class="tab-content">
                    @if($ctgs !='')
                    @foreach($ctgs as $ctg)
@@ -40,7 +40,7 @@
                       </div>
                      </div>
                    </div>
-                   
+
                    @endforeach
                   @endif
                 </div>
@@ -55,7 +55,7 @@
                     @endforeach
                     @endif
                  </ul>
-                 
+
                 <div class="tab-content">
                   @if($ctgs != '')
                     @foreach($ctgs as $ctg)
@@ -83,6 +83,6 @@
                    </div>
                    @endforeach
                    @endif
-                
-                  
-                </div>                
+
+
+                </div>

@@ -31,8 +31,13 @@
 
                       @if ($errors->has('email'))
                           <span class="help-block">
-                              <strong>{{ $errors->first('email') }}</strong>
+                              <strong style="color: red">{{ $errors->first('email') }}</strong>
                           </span>
+                      @endif
+                     @if(session('msg'))
+                      <span class="help-block">
+                        <strong>{{ session('msg') }}</strong>
+                      </span>
                       @endif
                   </div>
               </div>
@@ -68,7 +73,7 @@
             <ul class="login-navigation">
                   <div class="btn-demo">
                   <a href="{{ url('/login') }}"><button class="btn btn-success btn-xs pills-auth">Login</button></a>
-                  </div>  
+                  </div>
               </ul>
                
 

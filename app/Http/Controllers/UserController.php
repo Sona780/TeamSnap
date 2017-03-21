@@ -4,14 +4,22 @@ namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TeamSnap\User;
+use TeamSnap\UserDetail;
+use TeamSnap\TeamUser;
+use Carbon\Carbon;
+use Auth;
 use Image;
 
 class UserController extends Controller
 {
-    public function index($id)
+    public function show()
     {
-    	$user = User::where('id',$id)->get()->first();
-    	return view('userprofile',['user'=>$user]);
+      $id = $this->getUserID();
+
+      $user['mail']   = Auth::user()->email;
+      $user['detail'] = UserDetail::where('users_id', $id)->first();
+
+    	return view('pages.profile', compact('user'));
     }
 
     public function store($id, Request $request)
@@ -29,5 +37,51 @@ class UserController extends Controller
           
        }
        return redirect($id.'/userprofile');
+    }
+
+    public function updateContact(Request $request)
+    {
+      UserDetail::where('users_id', $this->getUserID())->update(['mobile' => $request->phone]);
+    }
+
+    public function updateBasicInfo(Request $request)
+    {
+      $uid = $this->getUserID();
+
+      $fname = $request->fname;
+      $lname = $request->lname;
+      $birth = $request->birthday;
+
+      UserDetail::where('users_id', $uid)
+                ->update([ 'firstname' => $fname,
+                           'lastname'  => $lname,
+                           'gender'    => $request->gender,
+                           'birthday'  => $birth
+                ]);
+
+      User::find($uid)->update(['name' => $fname]);
+
+      $birth = Carbon::createFromFormat('d/m/Y', $birth)->format('M d, Y');
+
+      return $birth;
+    }
+
+    public function getUserID()
+    {
+      return Auth::user()->id;
+    }
+
+    public function valiMail($uid, $email)
+    {
+      if( $uid == 0 )
+        $cnt = User::where('email', $email)->get()->count();
+      else
+      {
+        $umail = User::find(TeamUser::find($uid)->users_id)->email;
+        $cnt   = 0;
+        if( $umail != $email )
+          $cnt = User::where('email', $email)->get()->count();
+      }
+      return $cnt;
     }
 }
