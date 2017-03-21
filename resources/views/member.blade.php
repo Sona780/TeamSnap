@@ -90,14 +90,14 @@
           </div>
           <div class="modal-body">
            <form action="{{url($id.'/create_ctg')}}" method="post">
-             {!! csrf_field() !!}
-            <div class="form-group fg-float m-b-30">
-                <div class="fg-line">
-                    <input type="text" class="form-control input-sm" name="ctg_name">
-                    <label class="fg-label">Name of Ctg</label>
-                </div>
-             </div>
-             <button type="submit" class="btn btn-info">Submit</button>
+                 {!! csrf_field() !!}
+                <div class="form-group fg-float m-b-30">
+                    <div class="fg-line">
+                        <input type="text" class="form-control input-sm" name="ctg_name">
+                        <label class="fg-label">Name of Ctg</label>
+                    </div>
+                 </div>
+                 <button type="submit" class="btn btn-info">Submit</button>
             </form>
            </div>
           <div class="modal-footer">
@@ -121,6 +121,7 @@
         <div class="tab-content">
            <div role="tabpanel" class="tab-pane active" id="all">
                @if($ctgs == '[]')
+               <ul class="ctg"></ul>
                <div class="table-responsive ">
                         <table  class="table table-striped data-table-basic">
                              <thead>
@@ -139,11 +140,11 @@
                                       <td>{{$user->name}}</td>
                                       <td>
                                          <p>{{$user->email}}</p>
-                                         <p>{{$user->mobile}}
+                                         <p>{{$user->mobile}}</p>
                                       </td>
                                       <td>P</td>
                                       <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                          <a href="/{{$member->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
                                       </td>
                                   </tr>
                                  @endforeach 
@@ -189,17 +190,18 @@
                                         @foreach($users as $user)
                                          @if($user->ctg_id==$ctg->id )
                                           <tr>
-                                      <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
-                                      <td>{{$user->name}}</td>
-                                      <td>
-                                         <p>{{$user->email}}</p>
-                                         <p>{{$user->mobile}}</p>
-                                      </td>
-                                      <td>P</td>
-                                      <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
-                                          <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
-                                      </td>
-                                  </tr>
+                                                <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:40px; border-radius: 50%;"/>
+                                                </td>
+                                                <td>{{$user->name}}</td>
+                                                <td>
+                                                   <p>{{$user->email}}</p>
+                                                   <p>{{$user->mobile}}</p>
+                                                </td>
+                                                <td>P</td>
+                                                <td><img src="/img/edit.png" data-toggle="modal" data-target="#myModal"/>
+                                                    <a href="/{{$user->id}}/profile/delete"><img src="/img/delete.png"></a>
+                                                </td>
+                                          </tr>
                                         @endif
                                         @endforeach
                                      </tbody>
@@ -214,6 +216,7 @@
            </div>
             <div role="tabpanel" class="tab-pane" id="player">
                 @if($ctgs == '[]')
+                <ul class="ctg"></ul>
                 <div class="table-responsive ">
                         <table  class="table table-striped data-table-basic">
                              <thead>
@@ -229,7 +232,7 @@
                                 @foreach($users as $user)
                                   @if($user->flag == 1 )
                                   <tr>
-                                         <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
+                                      <td><img src ="/uploads/avatars/{{ $user->avatar }}" style="width:40px; height:4+0px; border-radius: 50%;"/></td>
                                       <td>{{$user->name}}</td>
                                       <td>
                                          <p>{{$user->email}}</p>

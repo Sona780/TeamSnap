@@ -5,7 +5,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="fg-line form-group">
-                        <input type="text" class="form-control input-sm firstname" name="firstname" placeholder="Prashushi">
+                        <input type="text" class="form-control input-sm firstname" name="firstname" >
                     </div>
                 </div>
         </div>
@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm lastname" name="lastname" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm lastname" name="lastname" >
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm email" name="email" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm email" name="email" >
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm mobile" name="mobile" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm mobile" name="mobile" >
                 </div>
             </div>
         </div>
@@ -80,9 +80,9 @@
             </div>
             <div class="col-sm-8">
                 <div class="input-group form-group">
-                  <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                  <span class="input-group-addon"></span>
                     <div class="dtp-container fg-line">
-                       <input type='text' class="form-control date-picker birthday" name="birthday" placeholder="Click here...">
+                       <input type='text' class="form-control date-picker birthday" name="birthday" >
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm role" name="role" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm role" name="role">
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm city" name="city" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm city" name="city" >
                 </div>
             </div>
         </div>
@@ -113,8 +113,21 @@
             </div>
             <div class="col-sm-8">
                 <div class="fg-line form-group">
-                    <input type="text" class="form-control input-sm state" name="state" placeholder="Prashushi">
+                    <input type="text" class="form-control input-sm state" name="state" >
                 </div>
             </div>
+        </div>
+         <div class="row">
+            <div class="col-sm-4">
+             <h4> Manager Access:</h4>
+            </div>
+            <div class="col-sm-8">
+               <label class="checkbox checkbox-inline m-r-20">
+                    <input type="checkbox" value="hello" name="manager_access" id="manager_access">
+                    <i class="input-helper"></i>    
+                   Yes
+                 </label>
+                                 
+             </div>
         </div>
    

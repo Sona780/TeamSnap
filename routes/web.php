@@ -71,7 +71,7 @@
                     Route::get('records','RecordsController@index');
                     Route::get('records/list_stats','RecordsController@list_stats');
                     Route::post('records/list_stats/store','RecordsController@store_stats');
-                    
+
                });
                      
                      

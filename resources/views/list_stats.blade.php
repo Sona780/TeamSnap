@@ -50,7 +50,7 @@
 	            <div role="tabpanel" class="tab-pane" id="start_group">
 	                <div class="card p-15" >
 	                    <button class="btn bgm-red waves-effect">New Stats </button>
-	                    <button class="btn bgm-red waves-effect">Enter Stats</button>
+	                  <a href="/My/records#messages1"> <button class="btn bgm-red waves-effect">Enter Stats</button></a>
 	                </div>
 	                <div class="card">
                         <div class="card-header">

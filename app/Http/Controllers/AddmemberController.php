@@ -30,24 +30,26 @@ class AddmemberController extends Controller
         
         $teamid = Team::where('teamname',$id)->select('id')->get()->first();
         $users= new User(array(
-             'name' => $request->get('firstname').$request->get('lastname'),
+             'name' => $request->get('firstname').' '.$request->get('lastname'),
              'email'=> $request->get('email'),
         )); 
-        $users->save();
+       $users->save();
 
         $uid= $users->id;
         $members = new Userdetail(array(
-              'firstname' => $request->get('firstname'),
-              'lastname'  => $request->get('lastname'),
-              'flag'      => $request->get('optradio'),
-              'mobile'    => $request->get('mobile'),
-              'role'      => $request->get('role'),
-              'birthday'  => $request->get('birthday'),
-              'city'      => $request->get('city'),
-              'state'     => $request->get('state'),
-              'user_id'   => $uid,
-              'team_id'   => $teamid->id,
+              'firstname'       => $request->get('firstname'),
+              'lastname'        => $request->get('lastname'),
+              'flag'            => $request->get('optradio'),
+              'mobile'          => $request->get('mobile'),
+              'role'            => $request->get('role'),
+              'birthday'        => $request->get('birthday'),
+              'city'            => $request->get('city'),
+              'state'           => $request->get('state'),
+              'user_id'         => $uid,
+              'team_id'         => $teamid->id,
+              
         ));
+        dd($members->manager_access);
         $members->save();
 
         $team_users = new TeamUser(array(
@@ -56,8 +58,7 @@ class AddmemberController extends Controller
         ));
         $team_users->save();
         
-          $ctgs =  DB::table('ctgs')
-             ->get();  
+        $ctgs =  DB::table('ctgs')->get();  
       
         foreach($ctgs as $ctg)
         {  

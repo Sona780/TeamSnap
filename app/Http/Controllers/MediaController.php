@@ -10,6 +10,7 @@ use DB;
 use TeamSnap\Img;
 use TeamSnap\File;
 use TeamSnap\Team;
+use Auth;
 
 class MediaController extends Controller
 {
