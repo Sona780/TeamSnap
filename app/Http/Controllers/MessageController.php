@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Mailer;
 use \Carbon\Carbon;
 
-use TeamSnap\Userdetail;
+use TeamSnap\UserDetail;
 use Auth;
 use TeamSnap\Team;
 use TeamSnap\TeamUser;
@@ -120,17 +120,26 @@ class MessageController extends Controller
       // save sender as one of the user for mail
       EmailUser::createMailUser($mid->id, $uid, $at);
 
+      $from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
+
       // send & save mail info for each recipient
       foreach ($rids as $rid)
       {
         //get email of recipient
-        $to = User::find($rid)->email;
+        $ruser = User::find($rid);
+
+        $to = new \SendGrid\Email($ruser->name, $ruser->email);
+        $content = new \SendGrid\Content("text/plain", $body);
+        $mail = new \SendGrid\Mail($from, $sub, $to, $content);
+        $apiKey = $_ENV['SENDGRID_API_KEY'];
+        $sg = new \SendGrid($apiKey);
+        $response = $sg->client->mail()->send()->post($mail);
 
         //initialize mail variables
-        $mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
+        /*$mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
 
         //send mail
-        \Mail::to($to)->send($mail);
+        \Mail::to($to)->send($mail);*/
 
         // register recipient as one of the user for mail
         EmailUser::createMailUser($mid->id, $rid, Carbon::today());
@@ -167,18 +176,25 @@ class MessageController extends Controller
       //get sender details
       $user = User::getMailDetail($uid);
 
+      $from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
+
       // get recipients details
       $rusers = EmailUser::getRecipients($mid, $uid);
 
       foreach ($rusers as $ruser)
       {
-        $to = $ruser->email;
+        $to = new \SendGrid\Email($ruser->firstname, $ruser->email);
+        $content = new \SendGrid\Content("text/plain", $body);
+        $mail = new \SendGrid\Mail($from, $sub, $to, $content);
+        $apiKey = $_ENV['SENDGRID_API_KEY'];
+        $sg = new \SendGrid($apiKey);
+        $response = $sg->client->mail()->send()->post($mail);
 
         //initialize global variables
-        $mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
+        /*$mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
 
         //send mail
-        \Mail::to($to)->send($mail);
+        \Mail::to($to)->send($mail);*/
       }
 
       // save mail content

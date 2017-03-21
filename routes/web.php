@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('demo','AccountController@demo');
 
 
     Route::group(['middlewareGroups' => ['web']], function () {
@@ -122,7 +123,7 @@
                     // start Routes for MessageController with team id
 
                         //load messages page
-                        Route::get('assets','AssetsController@show');
+                        Route::get('availability','AvailabilityController@show');
 
                     // end Routes for MessageController with team id
 
@@ -163,6 +164,6 @@
             Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
 
             //update avaiabilty of player for a game
-            Route::post('assets/update','AssetsController@update');
+            Route::post('availability/update','AvailabilityController@update');
         });
     });

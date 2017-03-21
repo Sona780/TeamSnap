@@ -4,7 +4,7 @@ namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TeamSnap\User;
-use TeamSnap\Userdetail;
+use TeamSnap\UserDetail;
 use TeamSnap\TeamUser;
 use Carbon\Carbon;
 use Auth;

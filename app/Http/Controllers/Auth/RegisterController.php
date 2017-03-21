@@ -3,7 +3,7 @@
 namespace TeamSnap\Http\Controllers\Auth;
 
 use TeamSnap\User;
-use TeamSnap\Userdetail;
+use TeamSnap\UserDetail;
 use TeamSnap\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
