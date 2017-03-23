@@ -30,62 +30,7 @@
     </head>
     <body style="background-color: #FAF6F0">
         @if( !Auth::guest() )
-        @if( $user_detail->manager_access == 0 )
-        <header id="header-2" class="clearfix" data-current-skin="lightblue">
-            <ul class="header-inner clearfix" >
-                <li id="menu-trigger" data-trigger=".ha-menu" class="visible-xs">
-                    <div class="line-wrap">
-                        <div class="line top"></div>
-                        <div class="line center"></div>
-                        <div class="line bottom"></div>
-                    </div>
-                </li>
-
-                <li class="logo hidden-xs"></li>
-
-                <li class="pull-right" style="margin-right:3%;">
-                    <div class="btn-group">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                My Teams
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                @foreach($teams as $t)
-                                <li><a href="{{url($t->id)}}/member/dashboard">{{$t->teamname}}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                Account
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                                <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
-                                </li>
-                                <li>
-                                    <a href="{{ URL::to('profile') }}"><i class="zmdi zmdi-settings">&nbsp;</i> Profile</a>
-                                </li>
-                                <li class="divider">
-                                <li>
-                                    <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </header>
-
-        @else
+        
 
         <header id="header" class="clearfix" data-current-skin="blue">
             <ul class="header-inner">
@@ -101,7 +46,7 @@
 
                         <li class="dropdown">
 
-                            <a data-toggle="dropdown" href=""><img src ="{{url($user_detail->avatar)}}" style="height:40px; border-radius:50%; margin-right: 10px"/>
+                            <a data-toggle="dropdown" href=""><img src ="#" style="height:40px; border-radius:50%; margin-right: 10px"/>
                                 {{Auth::user()->name}}
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">
@@ -132,7 +77,7 @@
         </header>
 
         @endif
-        @endif
+        
 
 
         <section id="main" data-layout="layout-1">

@@ -228,7 +228,7 @@
             <!-- Modal header -->
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title" style="text-align: center">Select a image to upload</h4>
+              <h4 class="modal-title" style="text-align: center">Select a File to upload</h4>
             </div>
 
             <!-- form to upload  file -->
@@ -251,7 +251,7 @@
               <!-- end file input -->
 
               <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-info">Submit</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             {{Form::close()}}

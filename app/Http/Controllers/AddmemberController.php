@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use TeamSnap\Http\Requests;
 use Auth;
 use DB;
-use TeamSnap\Userdetail;
+use TeamSnap\UserDetail;
 use TeamSnap\Team;
 use Illuminate\Support\Facades\Input;
 use TeamSnap\PlayerCtg;
@@ -36,7 +36,7 @@ class AddmemberController extends Controller
        $users->save();
 
         $uid= $users->id;
-        $members = new Userdetail(array(
+        $members = new UserDetail(array(
               'firstname'       => $request->get('firstname'),
               'lastname'        => $request->get('lastname'),
               'flag'            => $request->get('optradio'),

@@ -171,7 +171,7 @@
                                 Account
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
+                            <ul class="dropdown-menu pull-left" role="menu">
                                 <li>
                                     <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
                                 </li>
@@ -199,6 +199,7 @@
                     <li class="waves-effect" id="dashboard"><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
                     <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
                     <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
+                    <li class="waves-effect" id="availability"><a href="{{url($team.'/availability')}}">Availability</a></li>
                     <li class="waves-effect" id="records"><a href="{{url($team.'/records')}}">Records</a></li>
                     <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
 

@@ -20,7 +20,7 @@
       background-color:#4E4C4D;
       margin-top: -1.5em;
       min-height: 4em;  
-
+      border-radius: 0px !important;
     }
     .ctg > li> a
     {
@@ -51,6 +51,7 @@
      background: #ffff00 !important; 
      height: 3px !important; 
     }
+    
 </style>
 @endsection
 
@@ -360,26 +361,3 @@
     </script>
 
  @endsection
-<!-- 
-
- //datatable
-  <div class="card">
-     <div class="table-responsive ">
-        <table id="data-table-basic" class="table table-striped">
-            <thead>
-                <tr>
-                    <th data-column-id="id" data-type="numeric">ID</th>
-                    <th data-column-id="sender">Sender</th>
-                    <th data-column-id="received" data-order="desc">Received</th>
-                </tr>
-             </thead>
-             <tbody>
-                <tr>
-                    <td>10238</td>
-                    <td>eduardo@pingpong.com</td>
-                    <td>14.10.2013</td>
-                </tr>
-             </tbody>
-        </table>
-      </div>
-  </div> -->

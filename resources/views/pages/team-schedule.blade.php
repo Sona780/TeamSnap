@@ -3,7 +3,21 @@
 @section('header')
 	<link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.dataTables.min.css" rel="stylesheet">
-
+    <style type="text/css">
+    	.table > tbody > tr > td
+    	{
+    		border-top: 0px;
+    	}
+    	.form-horizontal .control-label-new
+    	{
+            margin-bottom: 0;
+		    padding-top: 7px;
+		}
+		.opp-detail
+		{
+			display: none;
+		}
+    </style>
 @endsection
 
 @section('content')
@@ -132,9 +146,16 @@
 
     <!-- start create new game -->
     	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
-			<form method="POST" action="{{url('/')}}/{{$id}}/new/game" id="game-form">
-				@include('partials.game-form', ['submitButton' => 'Save', 'opp' => $opp, 'loc' => $game_loc])
-			</form>
+			<div class="card">
+			  <div class="card-header">
+                <h4>New Game</h4>
+			  </div>
+			  <div class="card-body card-padding">
+				<form method="POST" action="{{url('/')}}/{{$id}}/new/game" id="game-form" class="form-horizontal" role="form">
+					@include('partials.game-form', ['submitButton' => 'Save', 'opp' => $opp, 'loc' => $game_loc])
+				</form>
+			  </div>	
+			</div>
 		</div>
 	<!-- end create new game -->
 

@@ -3,6 +3,16 @@
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+    .tab-nav
+    {
+      box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
+    .card .card-header:not(.ch-alt)
+    {
+      padding: 0px ;
+    }
+  </style>
 @endsection
 
 @section('content')
@@ -10,10 +20,9 @@
 <div role="tabpanel">
 
   <!-- start tabs name for player & staff availability -->
-  <ul class="tab-nav tab-nav" role="tablist" id="myTab">
+  <ul class="tab-nav " role="tablist" id="myTab">
     <li class="active"><a href="#players" aria-controls="home1" role="tab" data-toggle="tab">Players</a></li>
-    <li role="presentation"><a href="#staff" aria-controls="staff" role="tab" data-toggle="tab">Staff</a>
-    </li>
+    <li role="presentation"><a href="#staff" aria-controls="staff" role="tab" data-toggle="tab">Staff</a></li>
   </ul>
   <!-- end tabs name for player & staff availability -->
 
@@ -22,11 +31,11 @@
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane active" id="players">
-    	<div class="card table-responsive" id="player-div">
+    	<div class="card table-responsive p-10" id="player-div">
 			<div class="card-header">
-		  	</div>
-		  	<div class="card-body">
-				@include('partials.player-assets')
+		  </div>
+		  <div class="card-body">
+			  @include('partials.player-assets')
 			</div>
 		</div>
     </div>
@@ -35,13 +44,13 @@
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane" id="staff">
-    	<div class="card table-responsive" id="staff-div">
-			<div class="card-header">
-		  	</div>
-		  	<div class="card-body">
-				@include('partials.staff-assets')
-			</div>
-		</div>
+    	<div class="card table-responsive p-10" id="staff-div">
+  			<div class="card-header">
+  		  </div>
+  		  <div class="card-body">
+  				@include('partials.staff-assets')
+  			</div>
+		  </div>
     </div>
     <!-- stop player availability -->
 
@@ -54,7 +63,7 @@
 
 @section('footer')
 
-	<script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
+	  <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
   	<script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
   	<script src="{{URL::to('/')}}/js/notify.js"></script>
 
