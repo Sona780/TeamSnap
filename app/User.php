@@ -4,7 +4,7 @@ namespace TeamSnap;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use TeamSnap\Userdetail;
+use TeamSnap\UserDetail;
 
 class User extends Authenticatable
 {
@@ -38,7 +38,7 @@ class User extends Authenticatable
     {
         $user = collect([]);
         $user['email']  = User::find($uid)->email;
-        $user['detail'] = Userdetail::where('users_id', $uid)->select('avatar', 'firstname', 'lastname')->first();
+        $user['detail'] = UserDetail::where('users_id', $uid)->select('avatar', 'firstname', 'lastname')->first();
         return collect($user);
     }
 }

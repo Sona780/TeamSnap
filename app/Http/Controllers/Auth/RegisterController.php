@@ -74,7 +74,7 @@ class RegisterController extends Controller
                 'login_flag'=> 1,
             ]);
 
-            Userdetail::create([
+            UserDetail::create([
                 'users_id'       => $user->id,
                 'firstname'      => $user->name,
                 'manager_access' => 1,

@@ -42,82 +42,65 @@
             .fc-time {
                 margin-right: 4px !important;
             }
-
             @media screen and (min-width: 720px) {
                 #calendar, #loading {
                     margin-left: 10%;
                 }
             }
-
             .fc-center {
                 margin-top: 0px !important;
             }
-
             .fc-toolbar:before {
                 height: 60px !important;
             }
-
             .fc-toolbar {
                 height: 60px !important;
             }
-
             .mem-tab {
               font-size: 13px
             }
              .size-new {
                 padding: 0px 44px;
              }
-
             .size-exists {
                 padding: 0px 10px;
              }
-
             .dtr-title {
                 width: 150px;
             }
-
             .icon-style {
               width: 40px;
               padding-left: 10px;
             }
-
             .border-height {
                 border-radius: 5px;
                 height: 30px;
             }
-
             .b-design {
                 border-radius: 8px;
                 background: white;
                 font-size: 12px;
                 width: 80%;
             }
-
             .padd-left {
                 padding: 0px 10px;
             }
-
             .bottom-bord {
                 border-bottom: 1px solid grey;
             }
-
             .top-bord {
                 border-top: 1px solid grey;
             }
-
             .first-col {
                 width: 30%;
             }
-
             .adjust {
                 margin-top: 20px;
             }
-
             .dropdown-basic-demo {
                 display: inline-block;
                 margin: 0 15px 20px 0;
             }
-
             .dropdown-basic-demo .dropdown-menu {
                 display: block;
                 position: relative;
@@ -126,23 +109,19 @@
                 filter: alpha(opacity=1);
                 z-index: 0;
             }
-
             .dropdown-btn-demo .dropdown, .dropdown-btn-demo .btn-group, .btn-demo .btn {
                 display: inline-block;
                 margin: 0 5px 7px 0;
             }
-
             .modal-preview-demo .modal {
                 position: relative;
                 display: block;
                 z-index: 0;
                 background: rgba(0,0,0,0.1);
             }
-
             .margin-bottom > *{
                 margin-bottom: 20px;
             }
-
             .popover-demo .popover {
                 position: relative;
                 display: inline-block;
@@ -150,11 +129,9 @@
                 margin: 0 10px 30px;
                 z-index: 0;
             }
-
             .preloader {
                 margin-right: 30px;
             }
-
             .strong-error {
                 color: red;
                 font-size: 12px
@@ -194,7 +171,7 @@
                                 Account
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
+                            <ul class="dropdown-menu pull-left" role="menu">
                                 <li>
                                     <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
                                 </li>
@@ -357,20 +334,15 @@
 
         <script src="{{URL::to('/')}}/js/demo.js"></script>
         <script type="text/javascript">
-
             $(document).ready(function(){
                 active = '{{$active}}';
                 $('.ha-menu').find('ul').find('li').removeClass('active');
                 $('.ha-menu').find('ul').find('#'+ active).addClass('active');
-
                 url = '{{url("/")}}/get/teams';
-
                 team = {{$team}};
-
                 $.get(url, function(data){
                     t = data;
                     content = '';
-
                     for( i = 0; i < t.length; i++ )
                     {
                         target = '{{url("/")}}/'+ t[i]['id'] +'/dashboard';
@@ -379,10 +351,8 @@
                         else
                             content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
                     }
-
                     target = '{{url("/")}}/createteam';
                     content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
-
                     $('#teams').html(content);
                 });
             });

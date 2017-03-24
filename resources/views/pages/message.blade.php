@@ -19,10 +19,10 @@
     label {
       /*border: 1px solid blue;
       border-radius: 50px;*/
-      padding: 5px;
+      /*padding: 5px;*/
       display: block;
       position: relative;
-      margin: 5px;
+      /*margin: 5px;*/
       cursor: pointer;
     }
 
@@ -70,6 +70,10 @@
       box-shadow: 0 0 5px #333;
       z-index: -1;
     }
+    .tab-nav
+    {
+          box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
   </style>
 @endsection
 
@@ -77,7 +81,7 @@
 
   <!-- start Modal to compose mail -->
     <div class="modal fade" id="compose-modal" role="dialog">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog">
         <div class="modal-content">
           <!-- Modal header -->
             <div class="modal-header">
@@ -146,7 +150,7 @@
                 </div>
 
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Submit</button>
+                  <button type="submit" class="btn btn-info">Submit</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             {{Form::close()}}
@@ -179,7 +183,7 @@
             <div class="card-header">
               <span style="font-weight: bold; font-family: italic; font-size: 15px">Outbox History</span>
               <div class="pull-right">
-                <button  class="btn btn-danger" data-toggle="modal" data-target="#compose-modal">
+                <button  class="btn btn-info" data-toggle="modal" data-target="#compose-modal">
                   Compose
                 </button>
               </div>
@@ -216,7 +220,7 @@
             <div class="card-header">
               <span style="font-weight: bold; font-family: italic; font-size: 15px">Inbox</span>
               <div class="pull-right">
-                <button  class="btn btn-danger" data-toggle="modal" data-target="#compose-modal">
+                <button  class="btn btn-info" data-toggle="modal" data-target="#compose-modal">
                   Compose
                 </button>
               </div>

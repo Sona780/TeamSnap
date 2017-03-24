@@ -60,8 +60,8 @@
 
 @section('content')
 <div class="pull-right">
-  <div class="btn-group" style="margin-right: 20px">
-    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+  <div class="btn-group m-r-20">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
       <span style="padding: 0px 15px">NEW</span>
     </button>
     <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
@@ -71,11 +71,11 @@
     </ul>
   </div>
 
-  <div class="btn-group" style="margin-right: 20px">
-    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+  <div class="btn-group m-r-20">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
       <span style="padding: 0px 15px">IMPORT</span>
     </button>
-    <ul class="dropdown-menu pull-right" role="menu" style="cursor: pointer">
+    <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
       <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
       <li class="divider"></li>
       <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
@@ -225,12 +225,12 @@
   <!-- end tabs for all, players and non-player -->
 
 
-  <div class="card table-card" id="main" style="padding: 0% 0%; border-radius: 20px">
+  <div class="card table-card" id="main" style="padding: 0% 0%;">
     <div class="tab-content">
       <!-- show all members -->
       <div role="tabpanel" class="tab-pane active" id="all">
 
-        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+        <ul class="tab-nav ctg" role="tablist">
 
           <!-- create all tab -->
           <li class="active"><a href="#all0" aria-controls="all0" role="tab" data-toggle="tab" >ALL</a></li>
@@ -244,7 +244,7 @@
           <!-- end create tab for each category -->
 
         </ul>
-        <div class="tab-content">
+        <div class="tab-content p-10" >
 
           <!-- table for all members irrespective of category -->
           <div role="tabpanel" class="tab-pane active" id="all0" >
@@ -269,7 +269,7 @@
       <!-- show players only -->
       <div role="tabpanel" class="tab-pane" id="player">
 
-        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+        <ul class="tab-nav ctg" role="tablist" >
 
           <!-- create all tab -->
           <li class="active"><a href="#player0" aria-controls="player0" role="tab" data-toggle="tab" >ALL</a></li>
@@ -283,7 +283,7 @@
           <!-- end create tab for each category -->
 
         </ul>
-        <div class="tab-content">
+        <div class="tab-content p-10">
 
           <!-- table for player members irrespective of category -->
           <div role="tabpanel" class="tab-pane active" id="player0" >
@@ -308,14 +308,14 @@
       <!-- show non-players only -->
       <div role="tabpanel" class="tab-pane" id="nonplayer">
 
-        <ul class="tab-nav ctg" role="tablist" style="border-radius: 15px 15px 0px 0px">
+        <ul class="tab-nav ctg" role="tablist" >
 
           <!-- create all tab -->
           <li class="active"><a href="#nonplayer0" aria-controls="nonplayer0" role="tab" data-toggle="tab" >ALL</a></li>
           <!-- end create all tab -->
 
         </ul>
-        <div class="tab-content">
+        <div class="tab-content p-10">
 
           <!-- table for player members irrespective of category -->
           <div role="tabpanel" class="tab-pane active" id="nonplayer0" >

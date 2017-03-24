@@ -3,6 +3,20 @@
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+
+  <style type="text/css">
+    .tab-nav
+    {
+      box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    padding: 10px !important;
+   }
+   .card .card-header:not(.ch-alt) {
+    padding: 0px ;
+   }
+  </style>
 @endsection
 
 @section('content')
@@ -22,26 +36,26 @@
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane active" id="players">
-      <div class="card table-responsive" id="player-div">
-      <div class="card-header">
+      <div class="card table-responsive p-10 p-t-0" id="player-div">
+        <div class="card-header">
         </div>
         <div class="card-body">
-        @include('partials.player-assets')
+          @include('partials.player-assets')
+        </div>
       </div>
-    </div>
     </div>
     <!-- stop player availability -->
 
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane" id="staff">
-      <div class="card table-responsive" id="staff-div">
-      <div class="card-header">
+      <div class="card table-responsive p-10" id="staff-div">
+        <div class="card-header">
         </div>
         <div class="card-body">
-        @include('partials.staff-assets')
+          @include('partials.staff-assets')
+        </div>
       </div>
-    </div>
     </div>
     <!-- stop player availability -->
 

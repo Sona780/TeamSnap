@@ -17,7 +17,7 @@ class UserController extends Controller
       $id = $this->getUserID();
 
       $user['mail']   = Auth::user()->email;
-      $user['detail'] = Userdetail::where('users_id', $id)->first();
+      $user['detail'] = UserDetail::where('users_id', $id)->first();
 
     	return view('pages.profile', compact('user'));
     }
@@ -41,7 +41,7 @@ class UserController extends Controller
 
     public function updateContact(Request $request)
     {
-      Userdetail::where('users_id', $this->getUserID())->update(['mobile' => $request->phone]);
+      UserDetail::where('users_id', $this->getUserID())->update(['mobile' => $request->phone]);
     }
 
     public function updateBasicInfo(Request $request)
@@ -52,7 +52,7 @@ class UserController extends Controller
       $lname = $request->lname;
       $birth = $request->birthday;
 
-      Userdetail::where('users_id', $uid)
+      UserDetail::where('users_id', $uid)
                 ->update([ 'firstname' => $fname,
                            'lastname'  => $lname,
                            'gender'    => $request->gender,

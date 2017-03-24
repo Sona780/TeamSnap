@@ -3,7 +3,17 @@
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css" rel="stylesheet">
+
+  <style type="text/css">
+    .tab-nav
+    {
+      box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
+    .card .card-header:not(.ch-alt)
+    {
+      padding: 0px ;
+    }
+  </style>
 @endsection
 
 @section('content')

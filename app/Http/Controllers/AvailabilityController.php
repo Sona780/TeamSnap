@@ -23,6 +23,7 @@ class AvailabilityController extends Controller
     	foreach ($players as $player)
     	{
     		$pid = $player->id;
+
     		$gid = Availability::where('team_users_id', $pid)->select('games_id')->get();
 
     		foreach ($gid as $g)
