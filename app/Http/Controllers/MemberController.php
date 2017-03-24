@@ -13,6 +13,7 @@ use TeamSnap\Team;
 use DB;
 use TeamSnap\PlayerCtg;
 use TeamSnap\TeamUserDetail;
+use TeamSnap\PlayerFee;
 use Auth;
 
 class MemberController extends Controller
@@ -107,6 +108,10 @@ class MemberController extends Controller
         //specify member categories
         $this->saveCat($tuser->id, $c);
         //end specify member categories
+
+        // start save fee detail for member
+        PlayerFee::saveNewPlayerFeeDetail($id, $tuser->id);
+        // end save fee detail for member
 
         return redirect($id.'/members');
     }

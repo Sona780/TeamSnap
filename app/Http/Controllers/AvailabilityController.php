@@ -5,7 +5,7 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 
 use TeamSnap\TeamUser;
-use TeamSnap\Asset;
+use TeamSnap\Availability;
 use TeamSnap\Game;
 
 class AvailabilityController extends Controller
@@ -23,7 +23,7 @@ class AvailabilityController extends Controller
     	foreach ($players as $player)
     	{
     		$pid = $player->id;
-    		$gid = Asset::where('team_users_id', $pid)->select('games_id')->get();
+    		$gid = Availability::where('team_users_id', $pid)->select('games_id')->get();
 
     		foreach ($gid as $g)
     			$pgame[$pid][$g->games_id] = 'yes';
@@ -32,7 +32,7 @@ class AvailabilityController extends Controller
     	foreach ($staffs as $staff)
     	{
     		$sid = $staff->id;
-    		$gid = Asset::where('team_users_id', $sid)->select('games_id')->get();
+    		$gid = Availability::where('team_users_id', $sid)->select('games_id')->get();
 
     		foreach ($gid as $g)
     			$sgame[$sid][$g->games_id] = 'yes';
@@ -47,8 +47,8 @@ class AvailabilityController extends Controller
     	$gid  = $request->gid;
 
     	if( $request->ch == 1 )
-	    	Asset::newAsset($tuid, $gid);
+	    	Availability::newAvailability($tuid, $gid);
 	    else
-	    	Asset::deleteAsset($tuid, $gid);
+	    	Availability::deleteAvailability($tuid, $gid);
     }
 }

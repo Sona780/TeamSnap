@@ -5,51 +5,157 @@ namespace TeamSnap\Http\Controllers;
 use Illuminate\Http\Request;
 
 use TeamSnap\TeamUser;
+use TeamSnap\PlayerFee;
+use TeamSnap\TeamItem;
+use TeamSnap\TeamFee;
 use TeamSnap\Asset;
 use TeamSnap\Game;
+use TeamSnap\PlayerItemTrack;
 
 class AssetsController extends Controller
 {
     // show current availability of team members
     public function show($id)
     {
-    	$players = TeamUser::getTeamPlayers($id, 1);
-    	$staffs  = TeamUser::getTeamPlayers($id, 0);
+        $total   = 0;
 
-    	$games   = Game::getTeamGames($id);
+        // fimd all team fees for given team
+        $fees    = TeamFee::where('teams_id', $id)->orderBy('id', 'asc')->get();
 
-    	$pgame   = [];
-    	$sgame   = [];
+        // start find total sum of all different team fee
+        foreach ($fees as $fee)
+            $fee->total = PlayerFee::getFeeTotal($fee->id);
+        // end find total sum of all different team fee
 
-    	foreach ($players as $player)
-    	{
-    		$pid = $player->id;
-    		$gid = Asset::where('team_users_id', $pid)->select('games_id')->get();
+        // find all the players members of the team
+        $players = TeamUser::getTeamPlayers($id, 1);
 
-    		foreach ($gid as $g)
-    			$pgame[$pid][$g->games_id] = 'yes';
-    	}
+        // start fimd fee details of all team fee & total balance for all the players
+        foreach ($players as $player)
+        {
+            $player['fees']  = PlayerFee::findAllFeeDetails($player->id);
+            $player['total'] = PlayerFee::findTotalBalance($player->id);
+            $total = $total + $player['total'];
+        }
+        // end fimd fee details of all team fee & total balance for all the players
 
-    	foreach ($staffs as $staff)
-    	{
-    		$sid = $staff->id;
-    		$gid = Asset::where('team_users_id', $sid)->select('games_id')->get();
+        // find all the non players members of the team
+        $staffs = TeamUser::getTeamPlayers($id, 0);
 
-    		foreach ($gid as $g)
-    			$sgame[$sid][$g->games_id] = 'yes';
-    	}
+        // start fimd fee details of all team fee & total balance for all the non players
+        foreach ($staffs as $staff)
+        {
+            $staff['fees'] = PlayerFee::findAllFeeDetails($staff->id);
+            $staff['total'] = PlayerFee::findTotalBalance($staff->id);
+            $total = $total + $staff['total'];
+        }
+        // start fimd fee details of all team fee & total balance for all the non players
 
-    	return view('pages.assets', compact('id', 'games', 'players', 'staffs', 'pgame', 'sgame'));
+        $items = TeamItem::findItems($id);
+        //return $items;
+
+        foreach ($items as $item)
+        {
+            $item->count = PlayerItemTrack::where('team_items_id', $item->id)->get()->count();
+        }
+
+        $pitems = [];
+
+        foreach ($players as $player)
+        {
+            $pid = $player->id;
+            $iid = PlayerItemTrack::getItems($pid);
+
+            foreach ($iid as $i)
+                $pitems[$pid][$i->team_items_id] = 'yes';
+        }
+
+        foreach ($staffs as $staff)
+        {
+            $pid = $staff->id;
+            $iid = PlayerItemTrack::getItems($pid);
+
+            foreach ($iid as $i)
+                $pitems[$pid][$i->team_items_id] = 'yes';
+        }
+
+    	return view('pages.assets', compact('id', 'fees', 'players', 'staffs', 'total', 'items', 'pitems'));
     }
 
-    public function update(Request $request)
+    public function saveTeamFee($id, Request $request)
     {
-    	$tuid = $request->tuid;
-    	$gid  = $request->gid;
+    	$tfee = TeamFee::createNew($id, $request);
+        PlayerFee::createNew($id, $tfee);
 
-    	if( $request->ch == 1 )
-	    	Asset::newAsset($tuid, $gid);
-	    else
-	    	Asset::deleteAsset($tuid, $gid);
+        return redirect($id.'/assets');
+    }
+
+    public function getFeeDetail($fid)
+    {
+        $fee = TeamFee::find($fid);
+        return $fee;
+    }
+
+    public function updateToPaid(Request $request)
+    {
+        PlayerFee::updateToPaid($request->uid, $request->fid, $request->note);
+    }
+
+    public function updateFeeChange(Request $request)
+    {
+        PlayerFee::updateFeeChange($request->uid, $request->fid, $request->amt, $request->note);
+    }
+
+    public function updateNotApply(Request $request)
+    {
+        PlayerFee::updateNotApply($request->uid, $request->fid, $request->note);
+    }
+
+    public function saveItem($id, Request $request)
+    {
+        TeamItem::create([
+                'teams_id'  => $id,
+                'item_name' => $request->name,
+            ]);
+        return redirect($id.'/assets');
+    }
+
+    public function updateItemTracking(Request $request)
+    {
+        $tuid = $request->tuid;
+        $iid  = $request->iid;
+
+        if( $request->ch == 1 )
+            PlayerItemTrack::createNew($tuid, $iid);
+        else
+            PlayerItemTrack::deletePlayerItem($tuid, $iid);
+    }
+
+
+    public function updateItem($id, $iid, $name)
+    {
+        TeamItem::updateItem($iid, $name);
+        return redirect($id.'/assets');
+    }
+
+    public function deleteItem($id, $iid)
+    {
+        TeamItem::find($iid)->delete();
+        return redirect($id.'/assets');
+    }
+
+    public function updateFee($id, Request $request)
+    {
+        $fid  = $request->fee_id;
+        $pamt = TeamFee::find($fid)->amount;
+        $camt = $request->amount;
+        $diff = floatval($camt) - $pamt;
+
+        TeamFee::updateDetails($fid, $request->description, $camt, $request->note);
+
+        if( $diff != 0 )
+            PlayerFee::updateAmount($fid, $diff);
+
+        return redirect($id.'/assets');
     }
 }
