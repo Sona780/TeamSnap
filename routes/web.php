@@ -120,12 +120,33 @@
 
 
 
-                    // start Routes for MessageController with team id
+                    // start Routes for AvailabilityController with team id
 
                         //load messages page
                         Route::get('availability','AvailabilityController@show');
+                    // end Routes for AvailabilityController with team id
 
-                    // end Routes for MessageController with team id
+
+                    // start Routes for AssetsController with team id
+                        //show team assets
+                        Route::get('assets','AssetsController@show');
+
+                        //save new team fee info
+                        Route::post('team/fee','AssetsController@saveTeamFee');
+
+                        // save new item
+                        Route::post('team/item','AssetsController@saveItem');
+
+                        // updae name of the item
+                        Route::get('item/update/{iid}/{name}','AssetsController@updateItem');
+
+                        // delete a item
+                        Route::get('item/delete/{iid}','AssetsController@deleteItem');
+
+                        // update team fee detail
+                        Route::post('fee/data/update','AssetsController@updateFee');
+                    // end Routes for AssetsController with team id
+
 
                     Route::get('schedule','ScheduleController@get');
 
@@ -165,5 +186,16 @@
 
             //update avaiabilty of player for a game
             Route::post('availability/update','AvailabilityController@update');
+
+            Route::post('get/fee/data/{fid}','AssetsController@getFeeDetail');
+
+            Route::post('member/fee/paid','AssetsController@updateToPaid');
+
+            Route::post('member/fee/change','AssetsController@updateFeeChange');
+
+            Route::post('member/fee/notapply','AssetsController@updateNotApply');
+
+            // update item tracking for player
+            Route::post('item/update','AssetsController@updateItemTracking');
         });
     });
