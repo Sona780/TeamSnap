@@ -9,11 +9,21 @@
           <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
             {{ csrf_field() }}
 
+            @if(session('msg'))
+              <div class="form-group input-group m-b-20">
+                <span class="input-group-addon"></span>
+                <div class="alert alert-danger fade in alert-dismissable">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  {{ session('msg') }}
+                </div>
+              </div>
+            @endif
+
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} input-group m-b-20">
                 <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
 
                 <div class="fg-line">
-                    <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+                    <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}@if(session('email')) {{ session('email') }} @endif" required autofocus>
 
                     @if ($errors->has('email'))
                         <span class="help-block">

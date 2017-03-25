@@ -14,7 +14,7 @@ class UserServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        view()->composer('layouts.app', 'TeamSnap\Http\ViewComposer\UserComposer');
+        view()->composer('layouts.new', 'TeamSnap\Http\ViewComposer\UserComposer');
     }
 
     /**

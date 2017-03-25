@@ -197,15 +197,25 @@
             @if($team > 0)
                 <ul>
                     <li class="waves-effect" id="dashboard"><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
+
+                    @if( $user_detail->manager_access == 1 )
                     <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
+                    @endif
+
                     <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
+
+                    @if( $user_detail->manager_access == 1)
                     <li class="waves-effect" id="availability"><a href="{{url($team.'/availability')}}">Availability</a></li>
+                    @endif
+
                     <li class="waves-effect" id="records"><a href="{{url($team.'/records')}}">Records</a></li>
                     <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
-
                     <li class="waves-effect" id="messages"><a href="{{url($team.'/messages')}}">Messages</a></li>
                     <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url($team.'/settings')}}">Settings</a></li>
+
+                    @if( $user_detail->manager_access == 1 )
                     <li class="waves-effect pull-right hidden-xs" id="assets"><a href="{{url($team.'/assets')}}">Assets</a></li>
+                    @endif
                 </ul>
             @endif
             </nav>

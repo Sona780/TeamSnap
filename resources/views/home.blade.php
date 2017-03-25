@@ -57,9 +57,21 @@
                   </a>
                 </div>
             </div>
-      </div>
+        </div>
       @endforeach
 
 </div>
+
+@endsection
+
+@section('footer')
+
+<script src="{{URL::to('/')}}/js/notify.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    type = ( {{$user->manager_access}} == 1 ) ? 'manager' : 'member';
+    notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as a '+type);
+  });
+</script>
 
 @endsection

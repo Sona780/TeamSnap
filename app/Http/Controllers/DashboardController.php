@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use \TeamSnap\Team;
+use \TeamSnap\TeamUser;
 use \TeamSnap\UserDetail;
 use Auth;
 use \TeamSnap\Repositories;
@@ -16,16 +17,23 @@ class DashboardController extends Controller
 
    public function index($id)
     {
+      $uid     = Auth::user()->id;
+      $user    = UserDetail::where('users_id', $uid)->first();
+      $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+      $manager = Team::where('team_owner_id', $uid)->where('id', $id)->first();
 
-       $user_id = Auth::user()->id;
-       $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
-       if($team_name == '' || $team_name== NULL)
-       {
-       	return view('errors/404');
-       }
-       else
-       {
-        return view('dashboard', [ 'teamname' => $id, ] );
-       }
+      if( $manager != '' )
+      {
+        return view('dashboard', [ 'teamname' => $manager->teamname, 'id' => $id] );
+      }
+      else if( $member != '' )
+      {
+        $tname = Team::find($id)->teamname;
+        return view('dashboard', [ 'teamname' => $tname, 'id' => $id] );
+      }
+      else
+      {
+        return view('errors/404');
+      }
     }
 }

@@ -71,4 +71,13 @@ class TeamUser extends Model
                      ->select('team_users.id', 'user_details.firstname', 'user_details.lastname', 'user_details.avatar', 'team_user_details.role')
                      ->get();
     }
+
+    // get all the teams of a member
+    public static function getUserTeams($uid)
+    {
+        return static::where('users_id', $uid)
+                     ->leftJoin('teams', 'teams.id', 'team_users.teams_id')
+                     ->select('teams.*')
+                     ->get();
+    }
 }

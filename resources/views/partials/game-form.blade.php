@@ -1,9 +1,9 @@
 			{!! csrf_field() !!}
-			<div class="form-group">
+	<!--		<div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label-new">Date</label>
                 <div class="col-sm-10">
                     <div class="fg-line">
-                        <input type="email" class="form-control date-picker" name="date" id="f-ip" >
+                        <input type="text" class="form-control date-picker" name="date" id="f-ip" >
                         <strong id="error-date" class="strong-error"></strong>
                     </div>
                 </div>
@@ -13,12 +13,12 @@
 	             <div class="row">
 	                <div class="col-sm-2">
 	                    <div class="fg-line">
-	                        <input type="email" class="form-control" name="hour" id="f-ip" >
+	                        <input type="text" class="form-control" name="hour" id="f-ip" >
 	                    </div>
 	                </div>
 	                <div class="col-sm-2">
 	                    <div class="fg-line">
-	                        <input type="email" class="form-control" name="minute" id="f-ip" >
+	                        <input type="text" class="form-control" name="minute" id="f-ip" >
 	                    </div>
 	                </div>
 	                <div class="col-sm-2">
@@ -139,7 +139,7 @@
 	                    </div>
 	                </div>
               </div>
-            </div>
+            </div>-->
 
 			<table class="table table-responsive" style="width:100%; height: 50%; font-size: 12px">
 

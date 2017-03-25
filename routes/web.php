@@ -85,7 +85,6 @@
                     // end Routes for MessageController with team id
 
                     // start Routes for AvailabilityController with team id
-
                         //load messages page
                         Route::get('availability','AvailabilityController@show');
                     // end Routes for AvailabilityController with team id
@@ -122,11 +121,14 @@
                     Route::get('event/delete/{event_id}','EventController@delete');
                 });
             Route::get('get/teams','TeamController@getAll');
+
             Route::get('get/member/teams','TeamController@getMemberTeams');
             Route::post('game/data/{game_id}','GameController@getData');
             Route::get('game/validate','GameController@vali');
             Route::post('event/data/{event_id}','EventController@getData');
+
             Route::get('event/validate','EventController@vali');
+
             // end Routes for MemberController without team id
                 Route::get('edit/get/{id}','MemberController@get');
                 //get team categories to import
@@ -134,20 +136,27 @@
                 //get team members to import
                 Route::get('team/members/{tid}','MemberController@getTeamMembers');
             // end Routes for MemberController without team id
+
             // update last mail check time
             Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
             //update avaiabilty of player for a game
             Route::post('availability/update','AvailabilityController@update');
 
-            Route::post('get/fee/data/{fid}','AssetsController@getFeeDetail');
+            // start Routes for AssetsController without team id
+                // get deatail of team fee
+                Route::post('get/fee/data/{fid}','AssetsController@getFeeDetail');
 
-            Route::post('member/fee/paid','AssetsController@updateToPaid');
+                // change player status to paid
+                Route::post('member/fee/paid','AssetsController@updateToPaid');
 
-            Route::post('member/fee/change','AssetsController@updateFeeChange');
+                // change the amount to be paid by a player
+                Route::post('member/fee/change','AssetsController@updateFeeChange');
 
-            Route::post('member/fee/notapply','AssetsController@updateNotApply');
+                // change palyer status to not applicable
+                Route::post('member/fee/notapply','AssetsController@updateNotApply');
 
-            // update item tracking for player
-            Route::post('item/update','AssetsController@updateItemTracking');
+                // update item tracking for player
+                Route::post('item/update','AssetsController@updateItemTracking');
+            // start Routes for AssetsController without team id
         });
     });

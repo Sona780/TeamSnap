@@ -34,11 +34,6 @@
                               <strong style="color: red">{{ $errors->first('email') }}</strong>
                           </span>
                       @endif
-                     @if(session('msg'))
-                      <span class="help-block">
-                        <strong>{{ session('msg') }}</strong>
-                      </span>
-                      @endif
                   </div>
               </div>
 

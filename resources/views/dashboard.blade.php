@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $teamname, 'active' => 'dashboard'])
+@extends('layouts.new', ['team' => $id, 'active' => 'dashboard'])
 
 
 @section('header')
