@@ -29,4 +29,9 @@ class PlayerItemTrack extends Model
     {
     	return static::where('team_users_id', $pid)->select('team_items_id')->get();
     }
+
+    public static function checkPlayerItem($tuid, $iid)
+    {
+        return static::where('team_users_id', $tuid)->where('team_items_id', $iid)->first();
+    }
 }

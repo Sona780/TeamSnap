@@ -9,23 +9,30 @@ use DB;
 use TeamSnap\Img;
 use TeamSnap\File;
 use TeamSnap\Team;
+use TeamSnap\TeamUser;
+use TeamSnap\UserDetail;
 use Auth;
+
 class MediaController extends Controller
 {
     // load media page
     public function index($id)
     {
-        $user_id = Auth::user()->id;
-         $team_name = Team::where('team_owner_id',$user_id)->value('teamname');
-         if($team_name == '' || $team_name== NULL)
-         {
-          return view('errors/404');
-         }
-         else{
-        $videos = Media::where('teams_id', $id)->get();
-        $images = Img::where('teams_id', $id)->get();
-        $files  = File::where('teams_id', $id)->get();
-        return view('pages.media', compact('id', 'videos', 'images', 'files'));
+        $uid        = Auth::user()->id;
+        $mgr_access = UserDetail::where('users_id', $uid)->first()->manager_access;
+        $member     = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+        $manager    = Team::where('team_owner_id', $uid)->where('id', $id)->first();
+
+        if( $member == '' && $manager == '' )
+        {
+            return view('errors/404');
+        }
+        else
+        {
+            $videos = Media::where('teams_id', $id)->get();
+            $images = Img::where('teams_id', $id)->get();
+            $files  = File::where('teams_id', $id)->get();
+            return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access'));
         }
     }
     // end load media page

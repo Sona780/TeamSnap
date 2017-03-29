@@ -29,4 +29,22 @@ class TeamFee extends Model
                 'note'        => $note
             ]);
     }
+
+    public static function findPlayerFeesDetail($uid, $tid)
+    {
+        return static::where('teams_id', $tid)
+                     ->leftJoin('player_fees', 'player_fees.team_fees_id', 'team_fees.id')
+                     ->where('player_fees.team_users_id', $uid)
+                     ->select('team_fees.description', 'team_fees.amount', 'player_fees.*')
+                     ->get();
+    }
+
+    public static function findPlayerTotalFees($uid, $tid)
+    {
+        return static::where('teams_id', $tid)
+                     ->leftJoin('player_fees', 'player_fees.team_fees_id', 'team_fees.id')
+                     ->where('player_fees.team_users_id', $uid)
+                     ->get()
+                     ->sum('pamount');
+    }
 }

@@ -22,4 +22,10 @@ class TeamItem extends Model
     {
     	return static::find($iid)->update(['item_name' => $name]);
     }
+
+    public static function findPlayerItemsDetail($tuid, $id)
+    {
+        return static::where('teams_id', $id)
+                     ->get();
+    }
 }

@@ -20,6 +20,10 @@
           Route::get('/', function() {
               return redirect('login');
           });
+
+          Route::get('demo', function() {
+              return view('email.welcome');
+          });
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('home','HomeController@index')->name('home');
                 Route::get('createteam','CreateteamController@index');

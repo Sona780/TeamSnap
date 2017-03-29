@@ -46,7 +46,7 @@
 
                         <li class="dropdown">
 
-                            <a data-toggle="dropdown" href=""><img src ="#" style="height:40px; border-radius:50%; margin-right: 10px"/>
+                            <a data-toggle="dropdown" href=""><img src ="hhjgj" style="height:40px; border-radius:50%; margin-right: 10px"/>
                                 {{Auth::user()->name}}
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">

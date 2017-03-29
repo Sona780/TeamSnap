@@ -446,6 +446,8 @@
 		                $('#getEnd').val(end);
 		            }
 		        });
+
+		        $('.fc-right').find('.fc-button-group').addClass('hidden-xs');
 	    	});
 	    // end when calendar view is opened
 

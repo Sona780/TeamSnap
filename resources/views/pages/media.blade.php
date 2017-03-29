@@ -36,11 +36,14 @@
         <!-- start button to upload new images -->
         <div class="card-header">
           <span style="font-weight: bold; font-family: italic; font-size: 15px">Team Images</span>
-          <div class="pull-right upload_button">
-            <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#img-upload-modal">
-              <i class="zmdi zmdi-plus"></i>
-            </button>
-          </div>
+
+          @if( $mgr_access == 1 )
+            <div class="pull-right upload_button">
+              <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#img-upload-modal">
+                <i class="zmdi zmdi-plus"></i>
+              </button>
+            </div>
+          @endif
         </div>
         <!-- end button to upload new images -->
 
@@ -103,15 +106,17 @@
               <span class="c-white f-15 ">
                 Video Links
 
-                <!-- button to upload new video link -->
-                <div>
-                  <div class="pull-right upload_button">
-                    <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#video-upload-modal">
-                      <i class="zmdi zmdi-plus"></i>
-                    </button>
+                @if( $mgr_access == 1 )
+                  <!-- button to upload new video link -->
+                  <div>
+                    <div class="pull-right upload_button">
+                      <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#video-upload-modal">
+                        <i class="zmdi zmdi-plus"></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <!-- button to upload new video link -->
+                  <!-- button to upload new video link -->
+                @endif
 
               </span>
             </div>
@@ -137,9 +142,11 @@
                           <a href='{{$video->video_url}}' target='parent'>
                             <img class="icon-style" src='{{url("/")}}/img/play.png'>
                           </a>
-                          <a id="delete" key="{{$video->id}}">
-                            <img class="icon-style" src='{{url("/")}}/img/delete.png'>
-                          </a>
+                          @if( $mgr_access == 1 )
+                            <a id="delete" key="{{$video->id}}">
+                              <img class="icon-style" src='{{url("/")}}/img/delete.png'>
+                            </a>
+                          @endif
                         </td>
                       </tr>
                     @endforeach
@@ -161,15 +168,17 @@
               <span class="c-white f-15 ">
                 Files
 
-                <!-- button to upload new file -->
-                <div>
-                  <div class="pull-right upload_button">
-                    <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#file-upload-modal">
-                      <i class="zmdi zmdi-plus"></i>
-                    </button>
+                @if( $mgr_access == 1 )
+                  <!-- button to upload new file -->
+                  <div>
+                    <div class="pull-right upload_button">
+                      <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#file-upload-modal">
+                        <i class="zmdi zmdi-plus"></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <!-- button to upload new file -->
+                  <!-- button to upload new file -->
+                @endif
 
               </span>
 
@@ -196,9 +205,11 @@
                           <a href='{{url("files/".$file->file_name)}}' download>
                             <img class="icon-style" src='{{url("/")}}/img/download.png'>
                           </a>
-                          <a id="delete" key="{{$file->id}}">
-                            <img class="icon-style" src='{{url("/")}}/img/delete.png'>
-                          </a>
+                          @if( $mgr_access == 1 )
+                            <a id="delete" key="{{$file->id}}">
+                              <img class="icon-style" src='{{url("/")}}/img/delete.png'>
+                            </a>
+                          @endif
                         </td>
                       </tr>
                     @endforeach

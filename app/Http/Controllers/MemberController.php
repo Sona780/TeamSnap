@@ -12,6 +12,10 @@ use TeamSnap\PlayerCtg;
 use TeamSnap\TeamUserDetail;
 use TeamSnap\PlayerFee;
 use Auth;
+
+use TeamSnap\Mail\SendMail;
+use Mail;
+
 class MemberController extends Controller
 {
     //show existing members
@@ -87,6 +91,11 @@ class MemberController extends Controller
         // start save fee detail for member
         PlayerFee::saveNewPlayerFeeDetail($id, $tuser->id);
         // end save fee detail for member
+
+        $teamd = Team::find($id);
+        $userd = Auth::user();
+        $email = new SendMail($userd->name, $userd->email, $teamd->teamname);
+        Mail::to('singhdeopa@gmail.com')->send($email);
 
         return redirect($id.'/members');
     }

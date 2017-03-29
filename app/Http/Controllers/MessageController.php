@@ -53,7 +53,7 @@ class MessageController extends Controller
             $inbox[$i]['mid']         = $mail->emails_id;
             $inbox[$i]['musers']      = EmailUser::getMailUsers($mail->emails_id);
             $inbox[$i]['reply']       = $reply;
-            $inbox[$i]['subject']     = $reply->last()->subject;
+            $inbox[$i]['subject']     = $reply->first()->subject;
             $inbox[$i]['last_reply']  = $reply->last()->send_at;
             $inbox[$i]['status']      = (strtotime($inbox[$i]['last_reply']) > strtotime($mail->last_checked_at)) ? 'new' : '';
             $i++;
@@ -98,18 +98,12 @@ class MessageController extends Controller
         //get email of recipient
         $ruser = User::find($rid);
 
-        $to = new \SendGrid\Email($ruser->name, $ruser->email);
+        /*$to = new \SendGrid\Email($ruser->name, $ruser->email);
         $content = new \SendGrid\Content("text/plain", $body);
         $mail = new \SendGrid\Mail($from, $sub, $to, $content);
         $apiKey = $_ENV['SENDGRID_API_KEY'];
         $sg = new \SendGrid($apiKey);
-        $response = $sg->client->mail()->send()->post($mail);
-
-        //initialize mail variables
-        /*$mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
-
-        //send mail
-        \Mail::to($to)->send($mail);*/
+        $response = $sg->client->mail()->send()->post($mail);*/
 
         // register recipient as one of the user for mail
         EmailUser::createMailUser($mid->id, $rid, Carbon::today());
@@ -143,17 +137,12 @@ class MessageController extends Controller
       $rusers = EmailUser::getRecipients($mid, $uid);
       foreach ($rusers as $ruser)
       {
-        $to = new \SendGrid\Email($ruser->firstname, $ruser->email);
+        /*$to = new \SendGrid\Email($ruser->firstname, $ruser->email);
         $content = new \SendGrid\Content("text/plain", $body);
         $mail = new \SendGrid\Mail($from, $sub, $to, $content);
         $apiKey = $_ENV['SENDGRID_API_KEY'];
         $sg = new \SendGrid($apiKey);
-        $response = $sg->client->mail()->send()->post($mail);
-
-        //initialize global variables
-        /*$mail = new SendMail($user['email'], $user['detail']['firstname'], $user['detail']['lastname'], $sub, $body);
-        //send mail
-        \Mail::to($to)->send($mail);*/
+        $response = $sg->client->mail()->send()->post($mail);*/
       }
       // save mail content
       EmailInfo::saveMail($mid, $uid, $sub, $body, Carbon::now());

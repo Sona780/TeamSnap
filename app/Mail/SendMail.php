@@ -19,18 +19,16 @@ class SendMail extends Mailable
      * @return void
      */
 
-    public $body;
-    public $subject;
-    public $sender;
     public $name;
+    public $email;
+    public $team;
 
-    public function __construct($email, $fname, $lname, $sub, $b)
+    public function __construct($name, $email, $team)
     {
         // initialize global variables
-        $this->sender = $email;
-        $this->name = $fname.' '.$lname;
-        $this->subject = $sub;
-        $this->body = $b;
+        $this->email = $email;
+        $this->name  = $name;
+        $this->team  = $team;
     }
 
     /**
@@ -40,8 +38,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.mymail')
-                    ->from($this->sender, $this->name)
-                    ->subject($this->subject);
+        return $this->view('email.welcome');
+                    /*->from($this->sender, $this->name)
+                    ->subject($this->subject);*/
     }
 }

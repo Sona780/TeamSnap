@@ -212,10 +212,7 @@
                     <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
                     <li class="waves-effect" id="messages"><a href="{{url($team.'/messages')}}">Messages</a></li>
                     <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url($team.'/settings')}}">Settings</a></li>
-
-                    @if( $user_detail->manager_access == 1 )
                     <li class="waves-effect pull-right hidden-xs" id="assets"><a href="{{url($team.'/assets')}}">Assets</a></li>
-                    @endif
                 </ul>
             @endif
             </nav>
@@ -236,8 +233,8 @@
             Copyright &copy; 2017 Kilobyte Technology Partners
 
             <ul class="f-menu">
-                <li><a href="">Home</a></li>
-                <li><a href="">Dashboard</a></li>
+                <li><a href="{{url('home')}}">Home</a></li>
+                <li><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
                 <li><a href="">Support</a></li>
                 <li><a href="">Contact</a></li>
             </ul>
