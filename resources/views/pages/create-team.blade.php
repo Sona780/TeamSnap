@@ -1,7 +1,7 @@
 @extends('layouts.app')
-    
+
 @section('content')
-  
+
   <div class="card">
      <div class="card-header">
        <h2>Create Team <small></small></h2>
@@ -14,10 +14,15 @@
                 <div class="form-group">
                 <label>Team Name <small>(required)</small></label>
                 <div class="input-group">
-                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
-                        <div class="fg-line">
-                             <input type="text" class="form-control" placeholder="Full Name" name="teamname">
-                        </div>
+                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                    <div class="fg-line">
+                      <input type="text" class="form-control" placeholder="Full Name" name="teamname" autofocus>
+                    </div>
+                    <strong style="color: #ec7475">
+                      @if($errors->has('teamname'))
+                        {{$errors->first('teamname')}}
+                      @endif
+                    </strong>
                 </div>
                 </div>
                 <br/><br/>
@@ -26,9 +31,10 @@
                         <div class="input-group">
                         <span class="input-group-addon"><i class="zmdi zmdi-star-circle"></i></span>
                             <div class="fg-line">
-                            <select class="selectpicker sport" name="sport" >
-                                  <option value="0">Sport</option>
-                                  <option value="1">Non sport</option>
+                            <select class="selectpicker sport" data-live-search="true" name="sport">
+                              @foreach($games as $game)
+                                <option value="{{$game->id}}">{{$game->game_name}}</option>
+                              @endforeach
                             </select>
                             </div>
                          </div>
@@ -53,11 +59,16 @@
                     <br/><br/>
                 <div class="form-group">
                 <label>Zip Code <small>(required)</small></label>
-                <div class="input-group">                      
+                <div class="input-group">
                    <span class="input-group-addon"><i class="zmdi zmdi-info"></i></span>
                          <div class="fg-line">
                              <input type="text" class="form-control" placeholder="Zip Code" name="zipcode">
                          </div>
+                         <strong style="color: #ec7475">
+                          @if($errors->has('zipcode'))
+                            {{$errors->first('zipcode')}}
+                          @endif
+                        </strong>
                 </div>
                 </div>
              </div>
@@ -121,21 +132,21 @@
 
 
 
-                    
+
              </div>
 
-        </div>  
+        </div>
         <div class="row">
            <br/><br/>
           <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
-        </div>      
+        </div>
      </form>
-    
-</div>  
-</div>                         
-                                
-  
+
+</div>
+</div>
+
+
 
 @endsection
 
@@ -144,6 +155,8 @@
 <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
 
 <script>
+
+
 // $(document).ready(function(){
 //   var team_name;
 
@@ -204,7 +217,7 @@
 // };
 
   //for adding members
-  
+
 //   $('.addmember').click(function(e){
 //      e.preventDefault();
 

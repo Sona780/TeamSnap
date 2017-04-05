@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'dashboard'])
+@extends('layouts.new', ['team' => $id, 'active' => 'dashboard', 'logo' => $team->team_logo, 'name' => $team->teamname])
 
 
 @section('header')
@@ -16,10 +16,9 @@
         <div class="col-sm-6 col-md-3">
             <div class="mini-charts-item bgm-cyan">
                 <div class="clearfix">
-                    <div class="chart stats-bar"></div>
                     <div class="count">
                         <small>Total Members </small>
-                        <h2>25</h2>
+                        <h2>{{$total['members']}}</h2>
                     </div>
                 </div>
             </div>
@@ -28,10 +27,9 @@
         <div class="col-sm-6 col-md-3">
             <div class="mini-charts-item bgm-lightgreen">
                 <div class="clearfix">
-                    <div class="chart stats-bar-2"></div>
                     <div class="count">
                         <small>Events</small>
-                        <h2>9</h2>
+                        <h2>{{$total['events']}}</h2>
                     </div>
                 </div>
             </div>
@@ -40,22 +38,20 @@
         <div class="col-sm-6 col-md-3">
             <div class="mini-charts-item bgm-orange">
                 <div class="clearfix">
-                    <div class="chart stats-line"></div>
                     <div class="count">
                         <small>Games Played</small>
-                        <h2>15</h2>
+                        <h2>{{$total['games_played']}}</h2>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-3">
-            <div class="mini-charts-item bgm-bluegray">
+            <div class="mini-charts-item bgm-orange">
                 <div class="clearfix">
-                    <div class="chart" style="padding-left: 3em; color: #fff;"><i class="zmdi zmdi-cloud-circle" style="font-size: 3.5em;"></i></div>
-                    <div class="count" style="padding-left: 3em;">
-                        <small>Weather</small>
-                        <h2>47</h2>
+                    <div class="count">
+                        <small>Games</small>
+                        <h2>{{$total['games']}}</h2>
                     </div>
                 </div>
             </div>

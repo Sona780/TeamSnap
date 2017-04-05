@@ -4,7 +4,7 @@
 
         <div class="form-group fg-line">
             <label for="VideoTitle">Video Title</label>
-            <input type="text" id="title" class="form-control input-sm" name="title" placeholder="Title of the Video..">
+            <input type="text" id="title" class="form-control input-sm" name="title" placeholder="Title of the Video.." autofocus>
             <strong id="error-title" class="strong-error"></strong>
         </div>
 

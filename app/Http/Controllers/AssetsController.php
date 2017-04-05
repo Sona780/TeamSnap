@@ -90,7 +90,9 @@ class AssetsController extends Controller
                     $pitems[$pid][$i->team_items_id] = 'yes';
             }
 
-            return view('pages.assets', compact('id', 'fees', 'players', 'staffs', 'total', 'items', 'pitems'));
+            $team  = Team::find($id);
+
+            return view('pages.assets', compact('id', 'fees', 'players', 'staffs', 'total', 'items', 'pitems', 'team'));
         }
         else if( $member != '' )
         {
@@ -110,7 +112,9 @@ class AssetsController extends Controller
                 }
             }
 
-            return view('members.assets', compact('id', 'playerfees', 'teamitems', 'totalfees', 'iavailable'));
+            $team  = Team::find($id);
+
+            return view('members.assets', compact('id', 'playerfees', 'teamitems', 'totalfees', 'iavailable', 'team'));
         }
         else
             return view('errors/404');

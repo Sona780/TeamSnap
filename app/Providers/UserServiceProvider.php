@@ -15,6 +15,7 @@ class UserServiceProvider extends ServiceProvider
     {
         //
         view()->composer('layouts.new', 'TeamSnap\Http\ViewComposer\UserComposer');
+        view()->composer('layouts.app', 'TeamSnap\Http\ViewComposer\UserDetailComposer');
     }
 
     /**

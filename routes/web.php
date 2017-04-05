@@ -21,12 +21,18 @@
               return redirect('login');
           });
 
-          Route::get('demo', function() {
-              return view('email.welcome');
+          Route::get('register/{token}', function($token) {
+            $mail = Crypt::decrypt($token);
+            return view('auth.password', compact('mail'));
           });
+
+          Route::post('password/save','Auth\RegisterController@savePassword');
+
             Route::group(['middleware' => 'auth'], function () {
                 Route::get('home','HomeController@index')->name('home');
-                Route::get('createteam','CreateteamController@index');
+
+                Route::get('team/create','CreateteamController@show');
+
                 Route::post('store','CreateteamController@store');
                 //Route::get('team_setup','AddmemberController@index');
                
@@ -63,6 +69,16 @@
                     Route::get('profile/edit','ProfileController@edit');
                     Route::any('profile/update','ProfileController@update');
                     Route::get('profile/delete','ProfileController@delete');
+
+                    // start Routes for RecordsController with team id
+
+                        // show record page with all layers record
+                        Route::get('records','RecordsController@show');
+
+                        // save a player record
+                        Route::post('/player/record/save','RecordsController@save');
+
+                    // end Routes for RecordsController with team id
 
                     // start Routes for MediaController with team id
                         // to load media pages
@@ -162,5 +178,7 @@
                 // update item tracking for player
                 Route::post('item/update','AssetsController@updateItemTracking');
             // start Routes for AssetsController without team id
+
+            Route::get('player/games/{tuid}','RecordsController@getOpponents');
         });
     });

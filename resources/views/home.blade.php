@@ -12,7 +12,7 @@
       <div class="card-header m-b-20">
         <h2>My Teams</h2>
 
-        <a href="{{url('createteam')}}">
+        <a href="{{url('team/create')}}">
           <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-plus"></i></button>
         </a>
 
@@ -23,42 +23,20 @@
 
 <div class="row">
 
-       @foreach($teams as $team )
-       <div class="col-sm-3">
-       <div class="card bgm-teal">
-            <div class="card-header">
-                    <a href="{{$team->id}}/dashboard">
-                      <h2 style="color: #fff;">{{$team->teamname}} <!-- <small>Team motto</small> --></h2>
-                    </a>
-
-                    <!--
-                    <ul class="actions">
-                        <li class="dropdown">
-                            <a href="" data-toggle="dropdown" aria-expanded="false">
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href="">Delete Team</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    -->
-                </div>
-
-                <div class="card-body card-padding">
-                  <a href="{{$team->teamname}}/dashboard " style="color: #fff;">
-                  Team Logo
-                    <!-- <div style="border: solid 2px #fff;">
-                    <img src="{{URL::to('/')}}/uploads/avatars/{{$team->team_logo}}" style="width: 100%;" />
-                    </div> -->
-                  </a>
-                </div>
-            </div>
+  @foreach($teams as $team )
+    <div class="col-sm-3" team='{{$team->id}}' id="team_tab">
+      <div class="card" style="background-color: {{$team->team_color_first}};">
+        <div class="card-body" style="padding: 10px 10px">
+          <div style="display: inline-block">
+            <img src="{{url($team->team_logo)}}" style="height: 70; border-radius: 20px" />
+          </div>
+          <div style="display: inline-block; padding-left: 20%; text-transform: uppercase; cursor: pointer">
+            <h6>{{$team->teamname}}</h6>
+          </div>
         </div>
-      @endforeach
+      </div>
+    </div>
+  @endforeach
 
 </div>
 
@@ -71,6 +49,11 @@
   $(document).ready(function(){
     type = ( {{$user->manager_access}} == 1 ) ? 'manager' : 'member';
     notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as a '+type);
+  });
+
+  $('.row').on('click', '#team_tab', function(){
+    path = $(this).attr('team')+"/dashboard";
+    window.location = "{{url('/')}}/"+path;
   });
 </script>
 

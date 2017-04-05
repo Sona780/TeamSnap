@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'media'])
+@extends('layouts.new', ['team' => $id, 'active' => 'media', 'logo' => $team->team_logo, 'name' => $team->teamname])
 @section('header')
 <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
 <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">

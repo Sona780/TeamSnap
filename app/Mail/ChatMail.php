@@ -7,9 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use TeamSnap\User;
-
-class SendMail extends Mailable
+class ChatMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -21,16 +19,16 @@ class SendMail extends Mailable
 
     public $name;
     public $email;
-    public $team;
-    public $token;
+    public $sub;
+    public $body;
 
-    public function __construct($name, $email, $team, $rmail)
+    public function __construct($name, $email, $sub, $body)
     {
-        // initialize global variables
-        $this->email = $email;
+        //
         $this->name  = $name;
-        $this->team  = $team;
-        $this->token = \Crypt::encrypt($rmail);
+        $this->email = $email;
+        $this->sub   = $sub;
+        $this->body  = $body;
     }
 
     /**
@@ -40,8 +38,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.welcome')
-                    ->from('admin@TeamSnap.com')
-                    ->subject('Congratulations for being selected in the team '.$this->team);
+        return $this->view('email.chat')
+                    ->from($this->email, $this->name)
+                    ->subject($this->sub);
     }
 }

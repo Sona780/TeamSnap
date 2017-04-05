@@ -47,6 +47,14 @@
                     margin-left: 10%;
                 }
             }
+
+
+            @media (max-width: 768px) {
+              .center-xs {
+                    text-align: center
+                }
+            }
+
             .fc-center {
                 margin-top: 0px !important;
             }
@@ -143,6 +151,15 @@
     <body style="background-color: #FAF6F0">
       <header id="header-2" class="clearfix" data-current-skin="lightblue"> <!-- Make sure to change both class and data-current-skin when switching sking manually -->
             <ul class="header-inner clearfix" >
+                <div style="display: inline-block">
+                    <div style="display: inline-block">
+                        <img src="{{url($logo)}}"  style="width:50px; height:50px; border-radius: 50%;margin-right:5px" >
+                    </div>
+                    <div style="display: inline-block">
+                        <h5 style="text-transform: uppercase">{{$name}}</h5>
+                    </div>
+                </div>
+
                 <li id="menu-trigger" data-trigger=".ha-menu" class="visible-xs">
                     <div class="line-wrap">
                         <div class="line top"></div>
@@ -155,7 +172,7 @@
 
                 </li>
 
-                <li class="pull-right" style="margin-right:3%;">
+                <li class="pull-right hidden-xs" style="margin-right:3%; display: block; display: inline-block">
                     <div class="btn-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">

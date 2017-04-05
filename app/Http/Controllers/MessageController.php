@@ -13,7 +13,9 @@ use TeamSnap\User;
 use TeamSnap\Email;
 use TeamSnap\EmailUser;
 use TeamSnap\EmailInfo;
-use TeamSnap\Mail\SendMail;
+use TeamSnap\Mail\ChatMail;
+use Mail;
+
 class MessageController extends Controller
 {
     // start load all inbox & out box email
@@ -63,7 +65,10 @@ class MessageController extends Controller
           return $value['last_reply'];
         })))->reverse();
         //return $inbox;
-        return view('pages.message', compact('id', 'avatar', 'members', 'outbox', 'recipients', 'inbox'));
+
+        $team  = Team::find($id);
+
+        return view('pages.message', compact('id', 'avatar', 'members', 'outbox', 'recipients', 'inbox', 'team'));
       }
     }
     // end load all inbox & out box email
@@ -90,13 +95,16 @@ class MessageController extends Controller
       // save sender as one of the user for mail
       EmailUser::createMailUser($mid->id, $uid, $at);
 
-      $from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
+      //$from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
 
       // send & save mail info for each recipient
       foreach ($rids as $rid)
       {
         //get email of recipient
         $ruser = User::find($rid);
+
+        $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+        Mail::to($ruser->email)->send($email);
 
         /*$to = new \SendGrid\Email($ruser->name, $ruser->email);
         $content = new \SendGrid\Content("text/plain", $body);
@@ -131,7 +139,7 @@ class MessageController extends Controller
       //get sender details
       $user = User::getMailDetail($uid);
 
-      $from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
+      //$from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
 
       // get recipients details
       $rusers = EmailUser::getRecipients($mid, $uid);

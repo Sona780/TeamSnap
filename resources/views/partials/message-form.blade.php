@@ -5,7 +5,7 @@
 	  <div class="col-sm-12">
 		<div class="form-group fg-line">
 			<label for="Subject">Subject</label>
-		    <input type="text" class="form-control input-sm one" name="subject" id="subject" placeholder="Write subject of mail..">
+		    <input type="text" class="form-control input-sm one" name="subject" id="subject" placeholder="Write subject of mail.." autofocus>
 		    <strong id="error-subject" class="strong-error"></strong>
 		</div>
 	  </div>

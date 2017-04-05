@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use TeamSnap\StatDetail;
+use TeamSnap\GameStat;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,5 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(GameSeeder::class);
+
     }
 }

@@ -1,152 +1,12 @@
 			{!! csrf_field() !!}
-			<div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label-new">Date</label>
-                <div class="col-sm-10">
-                    <div class="fg-line">
-                        <input type="text" class="form-control date-picker" name="date" id="f-ip" >
-                        <strong id="error-date" class="strong-error"></strong>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label-new">Time</label>
-	             <div class="row">
-	                <div class="col-sm-2">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="hour" id="f-ip" >
-	                    </div>
-	                </div>
-	                <div class="col-sm-2">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="minute" id="f-ip" >
-	                    </div>
-	                </div>
-	                <div class="col-sm-2">
-			             <select name="time" id="time" class="selectpicker p-t-5">
-							<option value="AM">AM</option>
-							<option value="PM">PM</option>
-						</select>
-	                </div>
-	                <strong id="error-time" class="strong-error"></strong>
-	             </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label-new">Opponent</label>
-                <div class="col-sm-10">
-                    <div class="fg-line">
-                        <select name="opponent" id="opponent" class="selectpicker" style="width:150px">
-							<option value=""></option>
-							<option value="0">New Opponent</option>
-							@if( $opp->count() > 0 )
-								<option value="default" disabled>-------------------------------</option>
-								@foreach( $opp as $o )
-									<option value="{{$o->id}}">{{$o->name}}</option>
-								@endforeach
-							@endif
-						</select>
-						<strong id="error-opponent" class="strong-error"></strong>
-                    </div>
-                </div>
-            </div>
-            <div class="row p-10" id="opp-detail" style="display: none;">
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-4 control-label">Opponent Name</label>
-                <div class="col-sm-8">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" name="name" id="f-ip">
-					    <strong id="error-name" class="strong-error"></strong>
-                    </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-4 control-label">Contact Person</label>
-                <div class="col-sm-8">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" name="contact_person" id="f-ip" >
-					    <strong id="error-contact_person" class="strong-error"></strong>
-                    </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputEmail3" class="col-sm-4 control-label">Phone</label>
-                <div class="col-sm-8">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" name="phone" id="f-ip" >
-						<strong id="error-phone" class="strong-error"></strong>
-                    </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label-new">Result</label>
-                <div class="col-sm-10">
-                    <div class="fg-line">
-                        <input type="text" class="form-control" name="result" id="f-ip">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label-new">Location</label>
-                <div class="col-sm-10">
-                    <select name="location" id="location" class="selectpicker" style="width:150px">
-							<option value=""></option>
-							<option value="0">New Location</option>
-							@if( $loc->count() > 0 )
-								<option value="default" disabled>-------------------------------</option>
-								@foreach( $loc as $l )
-									<option value="{{$l->id}}">{{$l->name}}</option>
-								@endforeach
-							@endif
-						</select>
-						<strong id="error-location" class="strong-error"></strong>
-                </div>
-            </div>
-            <div class="row p-10" id="loc-data" style="display: none">
-              <div class="form-group">
-	                <label for="inputEmail3" class="col-sm-4 control-label">Location Detail</label>
-	                <div class="col-sm-8">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="location_detail" id="f-ip">
-							<strong id="error-location_detail" class="strong-error"></strong>
-	                    </div>
-	                </div>
-              </div>
-              <div class="form-group">
-	                <label for="inputEmail3" class="col-sm-4 control-label">Location Name</label>
-	                <div class="col-sm-8">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="loc_name" id="f-ip" style="width: 170px">
-						     <strong id="error-loc_name" class="strong-error"></strong>
-	                    </div>
-	                </div>
-              </div>
-              <div class="form-group">
-	                <label for="inputEmail3" class="col-sm-4 control-label">Address</label>
-	                <div class="col-sm-8">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="address" id="f-ip" style="width: 170px">
-							<strong id="error-adress" class="strong-error"></strong>
-	                    </div>
-	                </div>
-              </div>
-              <div class="form-group">
-	                <label for="inputEmail3" class="col-sm-4 control-label">Link</label>
-	                <div class="col-sm-8">
-	                    <div class="fg-line">
-	                        <input type="text" class="form-control" name="link" id="f-ip" style="width: 170px">
-							<strong id="error-link" class="strong-error"></strong>
-	                    </div>
-	                </div>
-              </div>
-            </div>
-
-			<table class="table table-responsive" style="width:100%; height: 50%; font-size: 12px">
-
+			<table class="table table-bordered" style="width:100%; height: 50%; border-radius: 10px; font-size: 12px">
+				<tr>
+					<td colspan="2" style="font-weight:bold">New Game</td>
+				</tr>
 				<tr>
 					<td class="first-col"><label>Date:</label></td>
 					<td class="padd-left dtp-container fg-line">
-						<input type="text" class="date-picker border-height" name="date" id="f-ip" >
+						<input type="text" class="date-picker border-height" name="date" id="f-ip" style="width: 90px">
 						<strong id="error-date" class="strong-error"></strong>
 					</td>
 				</tr>
@@ -178,7 +38,7 @@
 						<strong id="error-opponent" class="strong-error"></strong>
 					</td>
 				</tr>
-				<tr id="opp" style="display: none">
+				<tr id="opp-detail" style="display: none">
 					<td class="first-col"><label></label></td>
 					<td class="padd-left">
 						<table class="table table-bordered" style="background: white; border-radius: 10px; font-size: 12px">
@@ -238,14 +98,14 @@
 					</td>
 				</tr>
 
-					<tr id="loc-data8" style="display: none">
+					<tr id="loc-data" style="display: none">
 						<td class="first-col"><label>Location Detail:</label></td>
 						<td class="padd-left">
 							<input type="text" class="border-height" name="location_detail" id="f-ip">
 							<strong id="error-location_detail" class="strong-error"></strong>
 						</td>
 					</tr>
-					<tr id="loc-data1" style="display: none">
+					<tr id="loc-data" style="display: none">
 						<td class="first-col"><label></label></td>
 						<td class="padd-left">
 							<table class="table table-bordered" style="background: white; border-radius: 10px; font-size: 12px">

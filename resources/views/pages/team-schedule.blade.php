@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'schedule'])
+@extends('layouts.new', ['team' => $id, 'active' => 'schedule', 'logo' => $team->team_logo, 'name' => $team->teamname])
 
 @section('header')
 	<link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">

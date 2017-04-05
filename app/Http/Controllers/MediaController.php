@@ -32,7 +32,8 @@ class MediaController extends Controller
             $videos = Media::where('teams_id', $id)->get();
             $images = Img::where('teams_id', $id)->get();
             $files  = File::where('teams_id', $id)->get();
-            return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access'));
+            $team  = Team::find($id);
+            return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access', 'team'));
         }
     }
     // end load media page

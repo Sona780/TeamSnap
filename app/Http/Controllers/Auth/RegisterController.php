@@ -8,6 +8,8 @@ use TeamSnap\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request;
+
 class RegisterController extends Controller
 {
     /*
@@ -20,6 +22,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+
 
     use RegistersUsers;
 
@@ -85,12 +88,24 @@ class RegisterController extends Controller
         }
         else if( $ch->first()->login_flag == 0 )
         {
-            $ch->update(['login_flag', 1]);
+            $ch->update(['login_flag' => 1, 'password' => bcrypt($data['password'])]);
             return $ch->first();
         }
+    }
+
+    public function savePassword(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = User::where('email', $request->mail);
+
+        if( $user->first()->login_flag == 0 )
+            $user->update(['password' => bcrypt($request->password), 'login_flag' => 1]);
         else
-        {
-            return $ch->first();
-        }
+            return redirect()->back()->withErrors('This password reset link has been expired.');
+
+        return redirect('login');
     }
 }

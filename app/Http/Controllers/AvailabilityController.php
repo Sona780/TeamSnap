@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use TeamSnap\TeamUser;
 use TeamSnap\Availability;
 use TeamSnap\Game;
+use TeamSnap\Team;
 
 class AvailabilityController extends Controller
 {
@@ -39,7 +40,9 @@ class AvailabilityController extends Controller
     			$sgame[$sid][$g->games_id] = 'yes';
     	}
 
-    	return view('pages.availability', compact('id', 'games', 'players', 'staffs', 'pgame', 'sgame'));
+        $team  = Team::find($id);
+
+    	return view('pages.availability', compact('id', 'games', 'players', 'staffs', 'pgame', 'sgame', 'team'));
     }
 
     public function update(Request $request)

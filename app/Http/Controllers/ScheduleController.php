@@ -7,6 +7,7 @@ use TeamSnap\Game;
 use TeamSnap\Event;
 use TeamSnap\Opponent;
 use TeamSnap\Location;
+use TeamSnap\Team;
 use Auth;
 
 class ScheduleController extends Controller
@@ -48,6 +49,8 @@ class ScheduleController extends Controller
         //fget all the locations of events for the team
         $event_loc = Location::where('teams_id', $id)->where('type', 1)->get();      //for event type = 1
 
-    	return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc'));
+        $team  = Team::find($id);
+
+    	return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc', 'team'));
     }
 }

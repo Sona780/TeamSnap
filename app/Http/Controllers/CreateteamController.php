@@ -1,45 +1,63 @@
 <?php
 namespace TeamSnap\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use TeamSnap\Http\Requests;
-use Auth;
-use \TeamSnap\Team;
-use DB;
-use TeamSnap\Member;
-use Image;
 
+use Image;
+use Auth;
+
+use Illuminate\Http\Request;
+
+//use TeamSnap\Http\Requests;
+use TeamSnap\Team;
+use TeamSnap\AllGame;
 
 class CreateteamController extends Controller
 {
-    public function index()
+    public function show()
     {
-      
-    	return view('createteam');
+      $games = AllGame::all();
+
+    	return view('pages.create-team', compact('games'));
     }
 
-      public function store(Request $request)
+    public function store(Request $request)
     {
-       $userid          =  Auth::user()->id;
-       $inputs          =  new Team;
-       $inputs->teamname=  $request->get('teamname');
-       $inputs->sport   =  Input::get('sport');
-       $inputs->country =  Input::get('country');
-       $inputs->zip     =  $request->get('zipcode');
-       $inputs->team_color_first = $request->get('team_color_first');
-       $inputs->team_color_second = $request->get('team_color_second');
-       $inputs->team_owner_id = Auth::user()->id;
-       if($request->hasFile('team_logo'))
-       {
+      $name = $request->teamname;
+      $this->validate($request, [
+          'teamname' => 'required|unique:teams,teamname',
+          'zipcode'  => 'required|digits_between:6,6',
+        ], [
+          'teamname.required' => 'The team name is required.',
+          'teamname.unique'   => 'A team with same name already exists.',
+        ]
+      );
 
-           $teamlogo = $request->file('team_logo');
-           $filename = time().'.'.$teamlogo->getClientOriginalExtension();
-           Image::make($teamlogo)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
-           $inputs->team_logo= $filename;
-        }
-        $inputs->save();
-        return redirect($inputs->id.'/dashboard');
+      $uid  = Auth::user()->id;
+      $team = new Team;
 
+
+      $team->teamname          = $request->teamname;
+      $team->all_games_id      = $request->sport;
+      $team->country           = $request->country;
+      $team->zip               = $request->zipcode;
+      $team->team_color_first  = $request->team_color_first;
+      $team->team_color_second = $request->team_color_second;
+      $team->team_owner_id     = $uid;
+
+      $path = '/images/teams/default.jpg';
+
+      if($request->hasFile('team_logo'))
+      {
+        $teamlogo = $request->file('team_logo');
+        $filename = time().'.'.$teamlogo->getClientOriginalExtension();
+        $path     = '/images/teams/'.$filename;
+
+        Image::make($teamlogo)->resize(300,300)->save(config('paths.public_html').$path);
+      }
+
+      $team->team_logo = $path;
+      $team->save();
+
+      return redirect($team->id.'/dashboard');
     }
 
 }

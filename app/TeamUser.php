@@ -13,6 +13,12 @@ class TeamUser extends Model
 
     public $timestamps = false;
 
+
+    public function baseballRecord()
+    {
+        return $this->hasMany('TeamSnap\BaseballRecord');
+    }
+
     // get details & categories of all the members of a team
     public static function members($id)
     {

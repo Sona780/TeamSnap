@@ -42,7 +42,10 @@ class MemberController extends Controller
             }
             //get all the teams of current user
             $teams = Team::getUserTeams($id);
-            return view('pages.members',compact('id','ctgs','member', 'teams'));
+
+            $team  = Team::find($id);
+
+            return view('pages.members',compact('id','ctgs','member', 'teams', 'team'));
             //return $member['all']['all'];
         }
     }
@@ -51,7 +54,7 @@ class MemberController extends Controller
    public function store($id, Request $request)
     {
         if( $request->file('file') == null )
-          $avatar = config('paths.image_path').'4.jpg';
+          $avatar = config('paths.default_avatar_path');
         else
         {
           //get image
@@ -94,8 +97,9 @@ class MemberController extends Controller
 
         $teamd = Team::find($id);
         $userd = Auth::user();
-        $email = new SendMail($userd->name, $userd->email, $teamd->teamname);
-        Mail::to('singhdeopa@gmail.com')->send($email);
+
+        $email = new SendMail($userd->name, $userd->email, $teamd->teamname, $user->email);
+        Mail::to($user->email)->send($email);
 
         return redirect($id.'/members');
     }
@@ -129,12 +133,12 @@ class MemberController extends Controller
       $uid = TeamUser::findUID($tuid);
       //if the image is removed
       if( $request->profile_img == 'removed' )
-        $avatar = config('paths.image_path').'4.jpg';
+        $avatar = config('paths.default_avatar_path');
       //if the image is changed
       else if( $request->profile_img == 'changed' )
       {
         if( $request->file('file') == null )
-          $avatar = config('paths.image_path').'4.jpg';
+          $avatar = config('paths.default_avatar_path');
         else
         {
           //get image
@@ -195,7 +199,7 @@ class MemberController extends Controller
    public function getImage($image)
     {
         $size=250; //set size for thumb
-        $destinationPath1= config('paths.image_path');
+        $destinationPath1= config('paths.avatar_path');
         $public_html= config('paths.public_html');
         $str=str_random('4');
         $extension      =   $image->getClientOriginalExtension();

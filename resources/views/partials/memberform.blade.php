@@ -22,7 +22,7 @@
                   <div class="col-sm-12">
                     <div class="form-group fg-line">
                         <label for="firstname">First Name</label>
-                        <input type="text" id="f-ip" class="form-control input-sm" name="firstname" placeholder="Member first name...">
+                        <input type="text" id="f-ip" class="form-control input-sm" name="firstname" placeholder="Member first name..." autofocus>
                         <strong id="error-first" class="strong-error"></strong>
                     </div>
                   </div>

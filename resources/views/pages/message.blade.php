@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'messages'])
+@extends('layouts.new', ['team' => $id, 'active' => 'messages', 'logo' => $team->team_logo, 'name' => $team->teamname])
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
@@ -133,7 +133,7 @@
                     <!-- start subject of reply -->
                     <div class="form-group col-sm-12">
                       <label for="Subject">Subject</label>
-                      <input type="text" class="form-control input-sm" name="subject" id="subject" placeholder="Write subject of mail..">
+                      <input type="text" class="form-control input-sm" name="subject" id="subject" placeholder="Write subject of mail.." autofocus>
                       <strong id="error-subject" class="strong-error"></strong>
                     </div>
                     <!-- end subject of reply -->

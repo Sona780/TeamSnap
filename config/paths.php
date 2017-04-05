@@ -1,9 +1,10 @@
 
 <?php
 return  [
-		'image_path' => '/images/gallery/members/',
-		'gallery_path' => '/images/gallery/gallery/',
-		'public_html'     => public_path()
+		'avatar_path'         => '/images/avatars/',
+		'gallery_path'        => '/images/gallery/',
+		'default_avatar_path' => '/images/avatars/default.jpg',
+		'public_html'         => public_path()
 	];
 
 ?>

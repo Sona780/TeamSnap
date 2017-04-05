@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'assets'])
+@extends('layouts.new', ['team' => $id, 'active' => 'assets', 'logo' => $team->team_logo, 'name' => $team->teamname])
 
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -121,7 +121,7 @@
 
             <div class="col-sm-12">
               <div class="form-group col-sm-12">
-                <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Enter item name...">
+                <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Enter item name..." autofocus>
                 <strong id="error-name" class="strong-error"></strong>
               </div>
             </div>
@@ -191,7 +191,7 @@
             <div class="col-sm-12">
               <div class="form-group col-sm-12">
                 <label for="description">Fee Description</label>
-                <input type="text" class="form-control input-sm" name="description" id="description" placeholder="description...">
+                <input type="text" class="form-control input-sm" name="description" id="description" placeholder="description..." autofocus>
                 <strong id="error-description" class="strong-error"></strong>
               </div>
 
@@ -234,7 +234,7 @@
             <div class="col-sm-12">
               <div class="form-group">
                 <label for="name">Description</label>
-                <input type="text" class="form-control input-sm" name="description" id="description" placeholder="Enter description..." readonly>
+                <input type="text" class="form-control input-sm" name="description" id="description" placeholder="Enter description..." readonly autofocus>
                 <strong id="error-description" class="strong-error"></strong>
               </div>
             </div>
@@ -287,7 +287,7 @@
 
             <div class="form-group col-sm-12">
               <label for="tranc-note">Transaction Note</label>
-              <input type="text" id="f-ip" class="form-control input-sm" name="note" placeholder="Write note here...">
+              <input type="text" id="f-ip" class="form-control input-sm" name="note" placeholder="Write note here..." autofocus>
             </div>
 
             <div class="form-group col-sm-12">
