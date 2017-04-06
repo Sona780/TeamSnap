@@ -30,7 +30,7 @@ class CreateteamController extends Controller
       $name = $request->teamname;
       $this->validate($request, [
           'teamname' => 'required|unique:teams,teamname',
-          'zip'      => 'required|digits_between:6,6',
+          'zip'      => 'required',
         ], [
           'teamname.required' => 'The team name is required.',
           'teamname.unique'   => 'A team with same name already exists.',
