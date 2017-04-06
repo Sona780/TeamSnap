@@ -26,6 +26,35 @@
         <link href="{{URL::to('/')}}/css/app.min.2.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
+        <style type="text/css">
+            @media (min-width: 768px) and (max-width: 1080px) {
+                .set-width {
+                    display: block;
+                }
+
+                .team-card {
+                     height: 20%;
+                }
+            }
+
+            @media (min-width: 1080px) {
+                .set-width {
+                    width: 100px;
+                    display: inline-block;
+                }
+
+                .team-card {
+                     height: 15%;
+                }
+            }
+
+            @media (max-width: 767px) {
+                .set-width {
+                    display: inline-block;
+                }
+            }
+        </style>
+
         @yield('header')
     </head>
     <body style="background-color: #FAF6F0">

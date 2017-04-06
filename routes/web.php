@@ -149,6 +149,13 @@
 
             Route::get('event/validate','EventController@vali');
 
+            Route::get('team/edit/{tid}','TeamController@edit');
+
+            Route::post('team/update','TeamController@update');
+            Route::get('team/delete/{id}','TeamController@delete');
+
+
+
             // end Routes for MemberController without team id
                 Route::get('edit/get/{id}','MemberController@get');
                 //get team categories to import

@@ -8,7 +8,7 @@ use Auth;
 class Team extends Model
 {
     protected $fillable = [
-    'teamname', 'sport','country','zip','user_id','team_logo','team_owner_id','team_color_first','team_color_second'
+    'teamname', 'all_games_id','country','zip','user_id','team_logo','team_owner_id','team_color_first','team_color_second'
     ];
 
 
