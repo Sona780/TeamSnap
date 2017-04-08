@@ -8,28 +8,52 @@
     <!-- side image & contact detail -->
     <div class="pm-overview c-overflow">
         <div class="pmo-pic">
-            <div class="p-relative">
+            <div class="p-relative" id='img-div'>
                 <a href="">
                     <img class="img-responsive" src="{{url($user['detail']->avatar)}}" alt="">
                 </a>
-                <a href="" class="pmop-edit">
+                <a class="pmop-edit" id='image-update' style="cursor: pointer">
                     <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
                 </a>
             </div>
+
+            {{Form::open(['method' => 'post', 'url' => 'update/avatar', 'files' => true, 'id' => 'img-upload', 'style' => 'display: none'])}}
+                <div class="fileinput p-relative fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
+                    <div>
+                        <span class="btn btn-info btn-file">
+                            <span class="fileinput-new">Select image</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" name="avatar">
+                        </span>
+                        <a href="#" class="btn btn-danger" data-dismiss="fileinput" id='hide-upload'>Cancel</a>
+                    </div>
+                    <br>
+                    <button class="btn btn-success col-xs-12 col-sm-12 col-lg-12">Update</button>
+                </div>
+            {{Form::close()}}
         </div>
+
+
 
         <div class="pmo-block pmo-contact hidden-xs">
             <h2>Contact</h2>
 
             <ul>
-                <li id="side-phone"><i class="zmdi zmdi-phone"></i> {{$user['detail']->mobile}}</li>
+                @if($user['detail']->mobile != '')
+                    <li id="side-phone"><i class="zmdi zmdi-phone"></i> {{$user['detail']->mobile}}</li>
+                @endif
                 <li><i class="zmdi zmdi-email"></i> {{$user['mail']}}</li>
-                <li>
-                    <i class="zmdi zmdi-pin"></i>
-                    <address class="m-b-0 ng-binding">
-                        {{$user['detail']->city}}, {{$user['detail']->state}}
-                    </address>
-                </li>
+                @if($user['detail']->state != '' || $user['detail']->city != '')
+                    <li>
+                        <i class="zmdi zmdi-pin"></i>
+                        <address class="m-b-0 ng-binding">
+                            {{$user['detail']->city}}
+                            @if($user['detail']->city != ''), @endif
+                            {{$user['detail']->state}}
+                        </address>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>
@@ -230,6 +254,21 @@
     <script src="{{URL::to('/')}}/js/notify.js"></script>
 
     <script type="text/javascript">
+
+            $('#image-update').click(function(){
+                $('#img-div').hide();
+                $('#img-upload').show();
+            });
+
+            $('#hide-upload').click(function(){
+                showAvatar();
+            });
+
+            function showAvatar()
+            {
+                $('#img-div').show();
+                $('#img-upload').hide();
+            }
 
         // start js related to contact info
             // start populate edit contact form with DB values

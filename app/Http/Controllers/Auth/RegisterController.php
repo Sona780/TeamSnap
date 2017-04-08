@@ -81,7 +81,7 @@ class RegisterController extends Controller
                 'users_id'       => $user->id,
                 'firstname'      => $user->name,
                 'manager_access' => 1,
-                'avatar'         => config('paths.image_path').'4.jpg',
+                'avatar'         => config('paths.default_avatar_path'),
             ]);
 
             return $user;

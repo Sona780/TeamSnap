@@ -1,8 +1,9 @@
 @extends('layouts.new', ['team' => $id, 'active' => 'records', 'logo' => $team->team_logo, 'name' => $team->teamname])
 
 @section('header')
-  <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
-  <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+  <link href="{{URL::to('/')}}/css/dt-fixed.css" rel="stylesheet">
+  <link href="{{URL::to('/')}}/css/fixedColumn.css" rel="stylesheet">
+
 @endsection
 
 @section('content')
@@ -13,80 +14,75 @@
       <div class="card-header">
         <span style="font-weight: bold; font-family: italic; font-size: 15px">Statistics</span>
 
+
         <div class="pull-right">
-          <button  class="btn btn-info" data-toggle="modal" data-target="#player-record-modal">
-            New Stat
-          </button>
+          <div class="btn-group m-r-20">
+            <button  class="btn btn-info" data-toggle="modal" data-target="#player-record-modal">
+              New Stat
+            </button>
+          </div>
         </div>
       </div>
+      <div role="tabpanel">
+        <ul class="tab-nav main_tab" role="tablist">
+          <li class="active"><a href="#player-stats" role="tab" data-toggle="tab">Player stats</a></li>
+          <li><a href="#match-stats" role="tab" data-toggle="tab">Match stats</a></li>
+          <li><a href="#match-player-stats" role="tab" data-toggle="tab">Match Player stats</a></li>
+        </ul>
+      </div>
     <!-- end button to upload new player record -->
-    <hr>
-    <!-- start show statistics-->
+
+    <!-- start show player total statistics-->
       <div class="card-body">
 
-        <table class="dt-responsive mem-tab nowrap table table-bordered" id='stat-table' cellspacing="0" width="100%">
+        <div class="card">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="player-stats">
+              <table class="mem-tab table table-bordered" id='stat-table' cellspacing="0" width="100%">
+                @include ('record_partials.baseball-table', ['results' => $players, 'type' => 'Games', 'stat_type' => 'Player'])
+              </table>
+            </div>
 
-          <!-- start Head of player stats-->
-            <thead>
-              <tr>
-                <th title='Rank'>RK</th>
-                <th class="all">Players</th>
-                <th class="all" style="text-align: center">Games</th>
-                <th style="text-align: center" title="At Bats">AB</th>
-                <th style="text-align: center" title="Runs">R</th>
-                <th style="text-align: center" title="Hits">H</th>
-                <th style="text-align: center" title="Singles">1B</th>
-                <th style="text-align: center" title="Doubles">2B</th>
-                <th style="text-align: center" title="Triples">3B</th>
-                <th style="text-align: center" title="Home Runs">HR</th>
-                <th style="text-align: center" title="Runs Batted In">RBI</th>
-                <th style="text-align: center" title="Bases on Balls">BB</th>
-                <th style="text-align: center" title="Strike Outs">SO</th>
-                <th style="text-align: center" title="Stolen Bases">SB</th>
-                <th style="text-align: center" title="Caught Stealing" class="none">CS</th>
-                <th class="all" style="text-align: center; color: red" title="Average">AVG</th>
-                <th style="text-align: center" title="On Base Percentage">OBP</th>
-                <th style="text-align: center" title="Slugging Percentage">SLG</th>
-                <th style="text-align: center" title="Hit by Pitch">HBP</th>
-                <th style="text-align: center" title="Sacrifice Flies">SF</th>
-              </tr>
-            </thead>
-          <!-- end Head of player stats-->
+            <div role="tabpanel" class="tab-pane" id="match-stats">
+              <table class="mem-tab table table-bordered" id='match-stat-table' cellspacing="0" width="100%">
+                @include ('record_partials.baseball-table', ['results' => $games, 'type' => 'Result', 'stat_type' => 'Team'])
+              </table>
+            </div>
 
-          <!-- start Body of player stats-->
-            <tbody>
-              <?php $i = 1; ?>
-              @foreach($players as $player)
-                <tr style="text-align: center">
-                  <td>{{$i}}</td>
-                  <td style="text-align: left">{{$player->firstname}} {{$player->lastname}}</td>
-                  <td>{{$player->stat['games']}}</td>
-                  <td>{{$player->stat['at_bats']}}</td>
-                  <td>{{$player->stat['runs']}}</td>
-                  <td>{{$player->stat['hits']}}</td>
-                  <td>{{$player->stat['singles']}}</td>
-                  <td>{{$player->stat['doubles']}}</td>
-                  <td>{{$player->stat['triples']}}</td>
-                  <td>{{$player->stat['home_runs']}}</td>
-                  <td>{{$player->stat['runs_batted_in']}}</td>
-                  <td>{{$player->stat['bases_on_balls']}}</td>
-                  <td>{{$player->stat['strike_outs']}}</td>
-                  <td>{{$player->stat['stolen_bases']}}</td>
-                  <td>{{$player->stat['caught_stealing']}}</td>
-                  <td style="color: red">{{$player->stat['average']}}</td>
-                  <td>{{$player->stat['obp']}}</td>
-                  <td>{{$player->stat['slg']}}</td>
-                  <td>{{$player->stat['hit_by_pitch']}}</td>
-                  <td>{{$player->stat['sacrifice_flies']}}</td>
-                </tr>
-                <?php $i++ ?>
-              @endforeach
-            </tbody>
-          <!-- end Body of player stats-->
-        </table>
+            <div role="tabpanel" class="tab-pane" id="match-player-stats">
+
+              <!-- start create tab for each opponent -->
+                <ul class="tab-nav ctg" role="tablist">
+                  <?php $i = 0; ?>
+                  @foreach($gpstats as $game)
+                    <li class="@if($i==0) active @endif"><a href="#match{{$game['game']['id']}}" role="tab" data-toggle="tab" >{{$game['game']['name']}}</a></li>
+                    <?php $i =1 ?>
+                  @endforeach
+                </ul>
+              <!-- end create tab for each opponent -->
+
+
+              <div class="tab-content p-10">
+
+                <?php $i = 0; ?>
+                <!-- table for members of each category -->
+                @foreach($gpstats as $game)
+                  <div role="tabpanel" class="tab-pane @if($i == 0) active @endif" id="match{{$game['game']['id']}}" >
+                    <table class="mem-tab table table-bordered" id='match-stat-table' cellspacing="0" width="100%">
+                      @include ('record_partials.baseball-table', ['results' => $game['stats'], 'type' => '', 'stat_type' => 'Player'])
+                    </table>
+                  </div>
+                  <?php $i = 1 ?>
+                @endforeach
+                <!-- table for members of each category -->
+
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
-    <!--end show statistics-->
+    <!--end show player total statistics-->
   </div>
 
   <!-- start modal to create new player stat -->
@@ -104,7 +100,7 @@
           <!-- end Modal header -->
 
           {{ Form::open(['method' => 'post', 'url' => $id.'/player/record/save', 'files' => 'true', 'id' => 'player-record-form']) }}
-            @include ('record-forms.baseball')
+            @include ('record_partials.baseball')
           {{Form::close()}}
 
         </div>
@@ -117,13 +113,17 @@
 @section('footer')
 
   <script src="{{URL::to('/')}}/js/charts.js"></script>
-  <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
-  <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
+  <script src="{{URL::to('/')}}/js/dt-fixed.js"></script>
+
+  <script src="{{url('js/fixedColumn.js')}}"></script>
 
 	<script type="text/javascript">
+
     //start load data table on page load
       $(document).ready(function(){
-        $('#stat-table').DataTable({"scrollCollapse": true, "scrollX": true, 'aaSorting': []});
+        $('.card-body').find('table').DataTable({"scrollCollapse": true, "scrollX": true, 'aaSorting': [], fixedColumns: {
+          leftColumns: 2
+        }});
       });
     //end load data table on page load
 
@@ -160,5 +160,4 @@
       });
     // end validate new stat form
 	</script>
-
 @endsection

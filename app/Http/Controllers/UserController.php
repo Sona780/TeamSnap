@@ -12,6 +12,7 @@ use Image;
 
 class UserController extends Controller
 {
+  // start show user profile
     public function show()
     {
       $id = $this->getUserID();
@@ -21,29 +22,16 @@ class UserController extends Controller
 
     	return view('pages.profile', compact('user'));
     }
+  // end show user profile
 
-    public function store($id, Request $request)
-    {
-      if($request->hasFile('avatar'))
-       {
-
-       	   $avatars = $request->file('avatar');
-       	   $filename = time().'.'.$avatars->getClientOriginalExtension();
-       	   Image::make($avatars)->resize(300,300)->save(public_path('/uploads/avatars/'. $filename));
-           $avatar = User::where('id',$id)->select('avatar')->get()->first();
-           $avatar->avatar=$filename;
-           $avatar->save();
-           User::where('id',$id)->update(['avatar' => $avatar->avatar]);
-          
-       }
-       return redirect($id.'/userprofile');
-    }
-
+  // start update user contact info
     public function updateContact(Request $request)
     {
       UserDetail::where('users_id', $this->getUserID())->update(['mobile' => $request->phone]);
     }
+  // end update user contact info
 
+  // start update user basic info
     public function updateBasicInfo(Request $request)
     {
       $uid = $this->getUserID();
@@ -52,24 +40,42 @@ class UserController extends Controller
       $lname = $request->lname;
       $birth = $request->birthday;
 
-      UserDetail::where('users_id', $uid)
-                ->update([ 'firstname' => $fname,
+      UserDetail::where('users_id', $uid)->update([ 'firstname' => $fname,
                            'lastname'  => $lname,
                            'gender'    => $request->gender,
                            'birthday'  => $birth
                 ]);
 
       User::find($uid)->update(['name' => $fname]);
-
       $birth = Carbon::createFromFormat('d/m/Y', $birth)->format('M d, Y');
-
       return $birth;
     }
+  // end update user basic info
 
+  // start update user avatar
+    public function updateAvatar(Request $request)
+    {
+      if($request->hasFile('avatar'))
+      {
+        $id       = Auth::user()->id;
+        $avatar   = $request->file('avatar');
+        $filename = time().'.'.$avatar->getClientOriginalExtension();
+        $path     = '/images/avatars/'.$filename;
+
+        Image::make($avatar)->resize(300,300)->save(config('paths.public_html').$path);
+        UserDetail::where('users_id', $id)->update(['avatar' => $path]);
+      }
+      return redirect('profile');
+    }
+  // end update user avatar
+
+  // start get user id
     public function getUserID()
     {
       return Auth::user()->id;
     }
+  // end get user id
+
 
     public function valiMail($uid, $email)
     {

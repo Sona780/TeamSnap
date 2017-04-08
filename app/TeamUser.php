@@ -86,4 +86,13 @@ class TeamUser extends Model
                      ->select('teams.*')
                      ->get();
     }
+
+    public static function getUserDetail($tuid)
+    {
+        return static::where('team_users.id', $tuid)
+                     ->leftJoin('user_details', 'user_details.users_id', 'team_users.users_id')
+                     ->leftJoin('team_user_details', 'team_user_details.team_users_id', 'team_users.id')
+                     ->select('team_users.id', 'user_details.firstname', 'user_details.lastname', 'user_details.avatar', 'team_user_details.role')
+                     ->first();
+    }
 }

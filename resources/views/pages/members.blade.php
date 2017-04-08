@@ -19,30 +19,7 @@
      {
       margin-top: 20px;
      }
-    .ctg
-    {
-      background-color:#4E4C4D;
-      margin-top: -1.5em;
-      min-height: 4em;
 
-    }
-    .ctg > li> a
-    {
-      color: #fff;
-    }
-     .ctg > li> a:hover
-    {
-      color: #FFF;
-    }
-     .ctg > li.active > a
-    {
-      color: #FFFF00;
-    }
-    .ctg > li > a:after
-     {
-     background: #fff !important;
-     height: 0px !important;
-    }
     .main_tab >li >a
     {
      font-style: bold;

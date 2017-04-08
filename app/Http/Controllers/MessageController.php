@@ -95,8 +95,6 @@ class MessageController extends Controller
       // save sender as one of the user for mail
       EmailUser::createMailUser($mid->id, $uid, $at);
 
-      //$from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
-
       // send & save mail info for each recipient
       foreach ($rids as $rid)
       {
@@ -105,13 +103,6 @@ class MessageController extends Controller
 
         $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
         Mail::to($ruser->email)->send($email);
-
-        /*$to = new \SendGrid\Email($ruser->name, $ruser->email);
-        $content = new \SendGrid\Content("text/plain", $body);
-        $mail = new \SendGrid\Mail($from, $sub, $to, $content);
-        $apiKey = $_ENV['SENDGRID_API_KEY'];
-        $sg = new \SendGrid($apiKey);
-        $response = $sg->client->mail()->send()->post($mail);*/
 
         // register recipient as one of the user for mail
         EmailUser::createMailUser($mid->id, $rid, Carbon::today());
@@ -139,18 +130,12 @@ class MessageController extends Controller
       //get sender details
       $user = User::getMailDetail($uid);
 
-      //$from = new \SendGrid\Email($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email']);
-
       // get recipients details
       $rusers = EmailUser::getRecipients($mid, $uid);
       foreach ($rusers as $ruser)
       {
-        /*$to = new \SendGrid\Email($ruser->firstname, $ruser->email);
-        $content = new \SendGrid\Content("text/plain", $body);
-        $mail = new \SendGrid\Mail($from, $sub, $to, $content);
-        $apiKey = $_ENV['SENDGRID_API_KEY'];
-        $sg = new \SendGrid($apiKey);
-        $response = $sg->client->mail()->send()->post($mail);*/
+        $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+        Mail::to($ruser->email)->send($email);
       }
       // save mail content
       EmailInfo::saveMail($mid, $uid, $sub, $body, Carbon::now());

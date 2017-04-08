@@ -22,34 +22,35 @@
 
 @section('content')
 
-    <div class="card" id="manager" style="height: 7%;">
-    	<h4 style="display: inline-block; font-weight: none">
-    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="col-lg-12 col-xs-12 col-centered" id="manager">
+        <div class='well'>
+	    	<div style="display: inline-block; font-weight: none">
+	    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
 
-    		<div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
-				</button>
-                <ul class="dropdown-menu pull-left" role="menu">
-                    <li><a href='#' id="create-game">Game</a></li>
-                	<li class="divider"></li>
-                	<li><a href='#' id="create-event">Event</a></li>
-                </ul>
-            </div>
-        </h4>
+	    		<div class="btn-group">
+	                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+	                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+					</button>
+	                <ul class="dropdown-menu pull-left" role="menu">
+	                    <li><a href='#' id="create-game">Game</a></li>
+	                	<li class="divider"></li>
+	                	<li><a href='#' id="create-event">Event</a></li>
+	                </ul>
+	            </div>
+	        </div>
 
-		<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
-			<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
-			<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
-		</div>
-
+			<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
+				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
+				<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
+			</div>
+    	</div>
     </div>
 
     <!-- start list and calendar view of the schedule -->
     <div class="tab-content" id='schedule-view'>
 
     	<!-- start list view of schedule -->
-    	<div role="tabpanel" class="tab-pane active" id="schedule-list">
+    	<div role="tabpanel" class="col-lg-12 col-xs-12 col-centered tab-pane active" id="schedule-list">
 
     		<div class="card p-10 table-responsive" id="table">
 

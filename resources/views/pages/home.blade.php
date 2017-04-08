@@ -12,9 +12,11 @@
       <div class="card-header m-b-20">
         <h2>My Teams</h2>
 
-        <a href="{{url('team/create')}}">
-          <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-plus"></i></button>
-        </a>
+        @if($user->manager_access == 1)
+          <a href="{{url('team/create')}}">
+            <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-plus"></i></button>
+          </a>
+        @endif
 
       </div>
     </div>
@@ -33,20 +35,22 @@
             <img src="{{url($team->team_logo)}}" style="height: 70; border-radius: 20px" />
           </div>
 
-          <div class="pull-right" style="display: inline-block;">
-            <ul class="actions">
-              <li class="dropdown">
-                <a href="" data-toggle="dropdown">
-                  <i class="zmdi zmdi-more-vert"></i>
-                </a>
+          @if($user->manager_access == 1)
+            <div class="pull-right" style="display: inline-block;">
+              <ul class="actions">
+                <li class="dropdown">
+                  <a href="" data-toggle="dropdown">
+                    <i class="zmdi zmdi-more-vert"></i>
+                  </a>
 
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="{{url('team/edit/'.$team->id)}}">Edit</a></li>
-                  <li><a team='{{$team->id}}' id='delete' style="cursor: pointer">Delete</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="{{url('team/edit/'.$team->id)}}">Edit</a></li>
+                    <li><a team='{{$team->id}}' id='delete' style="cursor: pointer">Delete</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          @endif
 
           <div class="set-width" style="padding-left:10%; text-transform: uppercase; cursor: pointer; overflow-x: hidden" team='{{$team->id}}' id="team_tab">
             <h6>{{$team->teamname}}</h6>

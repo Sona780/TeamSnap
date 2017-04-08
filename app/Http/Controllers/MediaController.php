@@ -21,7 +21,7 @@ class MediaController extends Controller
         $uid        = Auth::user()->id;
         $mgr_access = UserDetail::where('users_id', $uid)->first()->manager_access;
         $member     = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
-        $manager    = Team::where('team_owner_id', $uid)->where('id', $id)->first();
+        $manager    = Team::CheckIfTeamOwner($uid, $id)->first();
 
         if( $member == '' && $manager == '' )
         {

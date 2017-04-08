@@ -4,7 +4,6 @@ namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use DB;
 use Carbon\Carbon;
 
 use \TeamSnap\Team;
@@ -15,6 +14,8 @@ use \TeamSnap\Repositories;
 use TeamSnap\User;
 use TeamSnap\Event;
 use TeamSnap\Game;
+use TeamSnap\Announcement;
+use TeamSnap\TeamInfo;
 
 class DashboardController extends Controller
 {
@@ -24,7 +25,7 @@ class DashboardController extends Controller
       $uid     = Auth::user()->id;
       $user    = UserDetail::where('users_id', $uid)->first();
       $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
-      $manager = Team::where('team_owner_id', $uid)->where('id', $id)->first();
+      $manager = Team::CheckIfTeamOwner($uid, $id)->first();
       $team    = Team::find($id);
 
       if( $manager != '' )
@@ -33,19 +34,38 @@ class DashboardController extends Controller
         $total    = [];
 
         $total['members']      = TeamUser::where('teams_id', $id)->count();
-        $total['events']       = Event::where('teams_id', $id)->where('date', '>=', Carbon::now())->count();
-        $total['games']        = Game::where('teams_id', $id)->where('date', '>=', Carbon::now())->count();
-        $total['games_played'] = Game::where('teams_id', $id)->where('date', '<', Carbon::now())->count();
+        $total['events']       = Event::Events($id)->count();
+        $total['games']        = Game::FutureGames($id)->count();
+        $total['games_played'] = Game::PlayedGames($id)->count();
 
-        return view('dashboard', compact('teamname', 'id', 'team', 'total'));
+        $games  = ScheduleController::getTeamGames($uid, $id);
+        $events = ScheduleController::getTeamEvents($uid, $id);
+        $announcements = $this->getAnnouncements($id);
+
+        $info = TeamInfo::where('team_id', $id)->first();
+
+        return view('pages.dashboard', compact('teamname', 'id', 'team', 'total', 'games', 'events', 'announcements', 'info'));
       }
       else if( $member != '' )
       {
-        return view('dashboard', [ 'teamname' => $team->teamname, 'id' => $id, 'team' => $team] );
+        return view('pages.dashboard', [ 'teamname' => $team->teamname, 'id' => $id, 'team' => $team] );
       }
       else
       {
         return view('errors/404');
       }
+    }
+
+    public function saveAnnouncement($id, Request $request)
+    {
+      $request['team_id'] = $id;
+      Announcement::create($request->all());
+
+      //return $this->getAnnouncements($id);
+    }
+
+    public function getAnnouncements($id)
+    {
+      return Announcement::where('team_id', $id)->orderBy('id', 'desc')->get();
     }
 }

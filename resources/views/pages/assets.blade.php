@@ -175,7 +175,6 @@
   </div>
 <!-- end modal to manage team item -->
 
-
 <!-- start modal to create new team fee -->
   <div class="modal fade" id="new-fee-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -220,7 +219,7 @@
   </div>
 <!-- end modal to create new team fee -->
 
-<!-- start modal to manage team item -->
+<!-- start modal to manage team fee -->
   <div class="modal fade" id="fee-manage-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -269,7 +268,7 @@
       </div>
     </div>
   </div>
-<!-- end modal to manage team item -->
+<!-- end modal to manage team fee -->
 
 <!-- start modal to edit member team fee detail -->
   <div class="modal fade" id="user-fee-details" tabindex="-1" role="dialog" aria-hidden="true">
@@ -343,6 +342,11 @@
 <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
+    $('#fee-delete-but').click(function(){
+      id = $('#fee_id').val();
+      window.location.href = "{{url($id.'/fee/delete')}}/"+id;
+    });
 
     $('#fee-edit-but').click(function(){
       form = $('#fee-manage-body');

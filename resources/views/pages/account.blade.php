@@ -10,7 +10,7 @@
       AccountEmail:{{$account->email}}<br/>
       Address:<br/>
             <!--Modal for edit-->
-      
+
 
 			<div id="myModal" class="modal fade" role="dialog">
 			  <div class="modal-dialog">
@@ -26,7 +26,7 @@
                               {!! csrf_field() !!}
 		                      Name:<input id="name" type="text" class="form-control" placeholder="Name" name="name"  value="{{$account->name}}" required autofocus>
 		                      Email:<input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ $account->email }}" required autofocus>
-		                     
+
 		                      <input type="submit" value="submit"/>
                         {!! Form::close() !!}
 			      </div>

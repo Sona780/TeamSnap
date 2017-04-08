@@ -25,6 +25,15 @@ class Team extends Model
     	return $this -> hasMany('TeamSnap\Ctg');
     }
 
+
+    //Team::where('team_owner_id', $uid)->where('id', $id)->first();
+
+    public function scopeCheckIfTeamOwner($query, $uid, $id)
+    {
+        $query->where('team_owner_id', $uid)->where('id', $id);
+    }
+
+
     public static function getUserTeams($id)
     {
         return static::where('team_owner_id', Auth::user()->id)

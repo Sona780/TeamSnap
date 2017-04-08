@@ -64,7 +64,7 @@
         <header id="header" class="clearfix" data-current-skin="blue">
             <ul class="header-inner">
                 <li class="logo ">
-                    <a href="/">Org4leagues</a>
+                    <a href="home">Org4leagues</a>
                 </li>
                  <li class="pull-right" style="margin-right: 20px">
                     <ul class="top-menu">
@@ -80,12 +80,13 @@
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i> My Home</a>
+                                    <a href="{{ URL::to('/') }}/home"> My Home</a>
                                 </li>
                                 <li>
 
-                                    <a href="{{ URL::to('profile') }}"><i class="zmdi zmdi-settings"></i> Profile</a>
+                                    <a href="{{ URL::to('profile') }}"> Profile</a>
                                 </li>
+                                <li class="divider">
                                 <li>
                                       <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
@@ -192,6 +193,7 @@
          <script src="{{URL::to('/')}}/vendors/bower_components/lightgallery/light-gallery/js/lightGallery.min.js"></script>
          <script src="{{URL::to('/')}}/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
        <script src="{{URL::to('/')}}/vendors/farbtastic/farbtastic.min.js"></script>
+       <script src="{{URL::to('/')}}/vendors/fileinput/fileinput.min.js"></script>
         <!-- Placeholder for IE9 -->
         <!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
@@ -202,6 +204,7 @@
         <script src="{{URL::to('/')}}/js/charts.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
+
         <!-- <script src="{{URL::to('/')}}/js/demo.js"></script> -->
 
         @yield('footer')

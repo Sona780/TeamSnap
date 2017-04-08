@@ -12,33 +12,48 @@ use Auth;
 
 class ScheduleController extends Controller
 {
-    //
-    public function get($id)
+    public static function getTeamGames($uid, $id)
     {
-        //get user id
-        $uid = Auth::user()->id;
-
         //get all scheduled games for team
-    	$games = Game::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
-        //get all scheduled events for team
-    	$events = Event::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+        $games = Game::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
 
         //get opponent & location details for all scheduled games for team
-    	foreach ($games as $game) {
-    		if( $game->minute < 10 )
-    			$game->minute = '0'. $game->minute;
+        foreach ($games as $game) {
+            if( $game->minute < 10 )
+                $game->minute = '0'. $game->minute;
 
             $game->name = Opponent::find($game->opponents_id)->name;
             $game->location = Location::find($game->locations_id);
-    	}
+        }
+
+        return $games;
+    }
+
+    public static function getTeamEvents($uid, $id)
+    {
+        //get all scheduled events for team
+        $events = Event::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
 
         //get location details for all scheduled events for team
-    	foreach ($events as $event) {
-    		if( $event->minute < 10 )
-    			$event->minute = '0'. $event->minute;
+        foreach ($events as $event) {
+            if( $event->minute < 10 )
+                $event->minute = '0'. $event->minute;
 
             $event->location = Location::find($event->locations_id);
-    	}
+        }
+
+        return $events;
+    }
+
+    // start show team schedule
+    public function get($id)
+    {
+        //get user id
+        $uid    = Auth::user()->id;
+        //get all scheduled games for team
+        $games  = $this->getTeamGames($uid, $id);
+        //get all scheduled events for team
+        $events = $this->getTeamEvents($uid, $id);
 
         //get all the opponents of the team
         $opp = Opponent::where('teams_id', $id)->get();
@@ -53,4 +68,5 @@ class ScheduleController extends Controller
 
     	return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc', 'team'));
     }
+    // end show team schedule
 }

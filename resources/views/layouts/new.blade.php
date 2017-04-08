@@ -38,7 +38,75 @@
 
 
 
-         <style type="text/css">
+         <style type="text/css">.ctg
+    {
+      background-color:#4E4C4D;
+      margin-top: -1.5em;
+      min-height: 4em;
+
+    }
+    .ctg > li> a
+    {
+      color: #fff;
+    }
+     .ctg > li> a:hover
+    {
+      color: #FFF;
+    }
+     .ctg > li.active > a
+    {
+      color: #FFFF00;
+    }
+    .ctg > li > a:after
+     {
+     background: #fff !important;
+     height: 0px !important;
+    }
+
+
+            .ctg
+    {
+      background-color:#4E4C4D;
+      margin-top: -1.5em;
+      min-height: 4em;
+
+    }
+    .ctg > li> a
+    {
+      color: #fff;
+    }
+     .ctg > li> a:hover
+    {
+      color: #FFF;
+    }
+     .ctg > li.active > a
+    {
+      color: #FFFF00;
+    }
+    .ctg > li > a:after
+     {
+     background: #fff !important;
+     height: 0px !important;
+    }
+
+            a.disabled {
+                text-decoration: none;
+                color: black;
+                cursor: default;
+            }
+
+            #example2-pagination {
+                display: none;
+            }
+
+            .li-class {
+                padding: 0;
+            }
+
+            .li-class > li {
+                list-style: none;
+            }
+
             .fc-time {
                 margin-right: 4px !important;
             }
@@ -156,7 +224,7 @@
                         <img src="{{url($logo)}}"  style="width:50px; height:50px; border-radius: 50%;margin-right:5px" >
                     </div>
                     <div style="display: inline-block">
-                        <h5 style="text-transform: uppercase">{{$name}}</h5>
+                        <a href='{{url($team."/dashboard")}}'><h5 style="text-transform: uppercase">{{$name}}</h5></a>
                     </div>
                 </div>
 
@@ -188,12 +256,12 @@
                                 Account
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu pull-left" role="menu">
+                            <ul class="dropdown-menu pull-right" role="menu">
                                 <li>
-                                    <a href="{{ URL::to('/') }}/home"><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;My Home</a>
+                                    <a href="{{ URL::to('/') }}/home">My Home</a>
                                 </li>
                                 <li>
-                                    <a href="{{ URL::to(Auth::user()->id.'/userprofile') }}"><i class="zmdi zmdi-settings">&nbsp;</i> Profile</a>
+                                    <a href="{{ url('profile') }}">Profile</a>
                                 </li>
                                 <li class="divider">
                                 <li>
@@ -346,6 +414,8 @@
         <script src="{{URL::to('/')}}/js/bootstrap-multiselect.js"></script>
 
         <script src="{{URL::to('/')}}/js/functions.js"></script>
+
+        <script src="{{URL::to('/')}}/js/jquery.paginate.min.js"></script>
 
         <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
         <!--<script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>-->
