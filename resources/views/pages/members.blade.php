@@ -37,27 +37,29 @@
 
 @section('content')
 <div class="pull-right">
-  <div class="btn-group m-r-20">
-    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-      <span style="padding: 0px 15px">NEW</span>
-    </button>
-    <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
-      <li><a data-toggle="modal" id="add-member" data-target="#myModal1">Member</a></li>
-      <li class="divider"></li>
-      <li><a data-toggle="modal" data-target="#myModal">Category</a></li>
-    </ul>
-  </div>
+  @if($user->manager_access == 1)
+    <div class="btn-group m-r-20">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        <span style="padding: 0px 15px">NEW</span>
+      </button>
+      <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
+        <li><a data-toggle="modal" id="add-member" data-target="#myModal1">Member</a></li>
+        <li class="divider"></li>
+        <li><a data-toggle="modal" data-target="#myModal">Category</a></li>
+      </ul>
+    </div>
 
-  <div class="btn-group m-r-20">
-    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-      <span style="padding: 0px 15px">IMPORT</span>
-    </button>
-    <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
-      <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
-      <li class="divider"></li>
-      <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
-    </ul>
-  </div>
+    <div class="btn-group m-r-20">
+      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        <span style="padding: 0px 15px">IMPORT</span>
+      </button>
+      <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
+        <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
+        <li class="divider"></li>
+        <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
+      </ul>
+    </div>
+  @endif
 
   <!-- import member modal -->
   <div id="import-members" class="modal fade" role="dialog">

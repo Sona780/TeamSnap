@@ -38,7 +38,7 @@
                     @if( $type == 'Games' )
                       <td>{{$result->games}}</td>
                     @elseif( $type == 'Result' )
-                      <td>{{$result->result}}</td>
+                      <td>{{$result->results}}</td>
                     @endif
                   @endif
                   <td>{{$result->stat['at_bats']}}</td>

@@ -1,9 +1,6 @@
 			{!! csrf_field() !!}
 			<table class="table table-bordered" style="width:100%; height: 50%; border-radius: 10px; font-size: 12px">
 				<tr>
-					<td colspan="2" style="font-weight:bold">New Game</td>
-				</tr>
-				<tr>
 					<td class="first-col"><label>Date:</label></td>
 					<td class="padd-left dtp-container fg-line">
 						<input type="text" class="date-picker border-height" name="date" id="f-ip" style="width: 90px">

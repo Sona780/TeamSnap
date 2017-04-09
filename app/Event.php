@@ -15,6 +15,6 @@ class Event extends Model
 
     public function scopeEvents($query, $id)
     {
-        $query->where('teams_id', $id)->where('date', '>=', Carbon::now());
+        $query->where('teams_id', $id)->where('date', '>=', Carbon::now()->format('d/m/Y'));
     }
 }

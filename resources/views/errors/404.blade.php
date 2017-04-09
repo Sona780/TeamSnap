@@ -18,12 +18,13 @@
 
     <body class="four-zero-content">
         <div class="four-zero">
-            <h2>SEX!</h2>
-            <small>Nah.. it's 404</small>
+            <br>
+            <h4 style="color: red">Unauthorized Access</h4>
+            <br><br>
+            <small style="font-size: 15px">Sorry, you can't access this page. It seems like either you don't have permission to access this page or you are an unauthorized user.</small>
 
             <footer>
-                <a href="index.html"><i class="zmdi zmdi-arrow-back"></i></a>
-                <a href="index.html"><i class="zmdi zmdi-home"></i></a>
+                <a href="{{url('home')}}"><i class="zmdi zmdi-home"></i></a>
             </footer>
         </div>
 

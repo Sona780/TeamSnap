@@ -282,10 +282,7 @@
             @if($team > 0)
                 <ul>
                     <li class="waves-effect" id="dashboard"><a href="{{url($team.'/dashboard')}}">Dashboard</a></li>
-
-                    @if( $user_detail->manager_access == 1 )
                     <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
-                    @endif
 
                     <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
 
@@ -446,7 +443,9 @@
                             content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
                     }
                     target = '{{url("/")}}/createteam';
-                    content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
+                    @if( $user_detail->manager_access == 1 )
+                        content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
+                    @endif
                     $('#teams').html(content);
                 });
             });

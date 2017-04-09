@@ -1,9 +1,6 @@
 {!! csrf_field() !!}
 			<table class="table table-bordered" style="width:100%; height: 50%; border-radius: 10px; font-size: 12px">
 				<tr>
-					<td colspan="2" style="font-weight:bold">New Event</td>
-				</tr>
-				<tr>
 					<td class="first-col"><label>Name of the Event:</label></td>
 					<td class="padd-left">
 						<input type="text" class="border-height" name="name" id="f-ip">

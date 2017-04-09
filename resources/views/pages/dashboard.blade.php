@@ -75,16 +75,19 @@
           <div class="dash-widget-header">
             <div class="dash-widget-title f-20">Team Info</div>
             <div class="pull-right col-sm-1" style="display: inline-block;">
-              <ul class="actions">
-                <li class="dropdown">
-                  <a href="" data-toggle="dropdown">
-                    <i class="zmdi zmdi-more-vert"></i>
-                  </a>
 
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a id='info-edit' style="cursor: pointer">Edit</a></li>
-                  </ul>
-                </li>
+              @if( $user->manager_access == 1 )
+                <ul class="actions">
+                  <li class="dropdown">
+                    <a href="" data-toggle="dropdown">
+                      <i class="zmdi zmdi-more-vert"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a id='info-edit' style="cursor: pointer">Edit</a></li>
+                    </ul>
+                  </li>
+                @endif
               </ul>
             </div>
           </div>
@@ -143,9 +146,11 @@
       <div class="card-header bgm-bluegray m-b-20">
         <h2>Announcements <small>Don't miss latest team updates</small></h2>
 
-        <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
-          <i class="zmdi zmdi-plus"></i>
-        </button>
+        @if( $user->manager_access == 1 )
+          <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
+            <i class="zmdi zmdi-plus"></i>
+          </button>
+        @endif
       </div>
 
       <div class="card-body">

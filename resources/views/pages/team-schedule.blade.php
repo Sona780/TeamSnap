@@ -23,27 +23,33 @@
 @section('content')
 
     <div class="col-lg-12 col-xs-12 col-centered" id="manager">
+    	@if( $user->manager_access == 1 )
         <div class='well'>
-	    	<div style="display: inline-block; font-weight: none">
-	    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
+        @endif
+        	@if( $user->manager_access == 1 )
+		    	<div style="display: inline-block; font-weight: none">
+		    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
 
-	    		<div class="btn-group">
-	                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-	                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
-					</button>
-	                <ul class="dropdown-menu pull-left" role="menu">
-	                    <li><a href='#' id="create-game">Game</a></li>
-	                	<li class="divider"></li>
-	                	<li><a href='#' id="create-event">Event</a></li>
-	                </ul>
-	            </div>
-	        </div>
+		    		<div class="btn-group">
+		                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
+						</button>
+		                <ul class="dropdown-menu pull-left" role="menu">
+		                    <li><a href='#' id="create-game">Game</a></li>
+		                	<li class="divider"></li>
+		                	<li><a href='#' id="create-event">Event</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    @endif
 
 			<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
 				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
 				<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
 			</div>
+		@if( $user->manager_access == 1 )
     	</div>
+    	@endif
     </div>
 
     <!-- start list and calendar view of the schedule -->
@@ -63,7 +69,9 @@
 			                <th>Date</th>
 			                <th>Time</th>
 			                <th>Location</th>
-			                <th class="all">Manager</th>
+			                @if( $user->manager_access == 1 )
+			                	<th class="all">Manager</th>
+			                @endif
 			                <th class="none">Location Detail</th>
 			                <th class="none">Adress</th>
 			                <th class="none">Link</th>
@@ -76,7 +84,11 @@
 					        	<td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;&nbsp;&nbsp;vs. {{ $game->name }}</td>
 					            <td>
 					            	@if( $game->results == ''  )
-					                	<button id="edit" key='{{ $game->id }}' type='game' class="b-design">Enter Result</button>
+					            		@if( $user->manager_access == 1 )
+					                		<button id="edit" key='{{ $game->id }}' type='game' class="b-design">Enter Result</button>
+					                	@else
+					                		<span style="color: red">Not yet available</span>
+					                	@endif
 					               	@else
 					                	{{ $game->results }}
 					                @endif
@@ -86,15 +98,17 @@
 					            	{{ $game->hour }}:{{ $game->minute }}&nbsp;{{ $game->time }}
 					            </td>
 					            <td>{{ $game->location->name }}</td>
-					            <td>
-	                        		<a id="edit" key='{{ $game->id }}' type='game'>
-	                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
-	                        		</a>
+					            @if( $user->manager_access == 1 )
+						            <td>
+		                        		<a id="edit" key='{{ $game->id }}' type='game'>
+		                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+		                        		</a>
 
-									<a id="delete" key='{{ $game->id }}' type='game'>
-	                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
-	                        		</a>
-                                </td>
+										<a id="delete" key='{{ $game->id }}' type='game'>
+		                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+		                        		</a>
+	                                </td>
+	                             @endif
                                 <td>{{ $game->location->detail }}</td>
                                 <td>{{ $game->location->address }}</td>
                                 <td>{{ $game->location->link }}</td>
@@ -109,15 +123,17 @@
 					            	{{ $event->hour }}:{{ $event->minute }}&nbsp;{{ $event->time }}
 					            </td>
 					            <td>{{ $event->location->name }}</td>
-					            <td>
-                                	<a id="edit" key='{{ $event->id }}' type='event'>
-	                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
-	                        		</a>
+					            @if( $user->manager_access == 1 )
+						            <td>
+	                                	<a id="edit" key='{{ $event->id }}' type='event'>
+		                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
+		                        		</a>
 
-									<a id="delete" key='{{ $event->id }}' type='event'>
-	                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
-	                        		</a>
-                                </td>
+										<a id="delete" key='{{ $event->id }}' type='event'>
+		                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
+		                        		</a>
+	                                </td>
+	                             @endif
                                 <td>{{ $event->location->detail }}</td>
                                 <td>{{ $event->location->address }}</td>
                                 <td>{{ $event->location->link }}</td>
@@ -144,50 +160,69 @@
     </div>
     <!-- end list and calendar view of the schedule -->
 
-
-    <!-- start create new game -->
-    	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
-			<div class="card">
-			  <div class="card-header">
-                <h4>New Game</h4>
-			  </div>
-			  <div class="card-body card-padding">
-				<form method="POST" action="{{url('/')}}/{{$id}}/new/game" id="game-form" class="form-horizontal" role="form">
-					@include('partials.game-form', ['submitButton' => 'Save', 'opp' => $opp, 'loc' => $game_loc])
-				</form>
-			  </div>
+    @if( $user->manager_access == 1 )
+	    <!-- start create new game -->
+	    	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
+				<div class="card">
+				  <div class="card-header">
+	                <h4>New Game</h4>
+				  </div>
+				  <div class="card-body card-padding">
+					<form method="POST" action="{{url('/')}}/{{$id}}/new/game" id="game-form" class="form-horizontal" role="form">
+						@include('partials.game-form', ['submitButton' => 'Save', 'opp' => $opp, 'loc' => $game_loc])
+					</form>
+				  </div>
+				</div>
 			</div>
-		</div>
-	<!-- end create new game -->
+		<!-- end create new game -->
 
+		<!-- start create new event -->
+			<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-event">
+				<div class="card">
+				  <div class="card-header">
+	                <h4>New Event</h4>
+				  </div>
+				  <div class="card-body card-padding">
+					<form method="POST" action="{{url('/')}}/{{$id}}/new/event" id="event-form">
+						@include('partials.event-form', ['submitButton' => 'Save', 'loc' => $event_loc])
+					</form>
+				  </div>
+				</div>
+			</div>
+		<!-- end create new event -->
 
-	<!-- start create new event -->
-		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-event">
-			<form method="POST" action="{{url('/')}}/{{$id}}/new/event" id="event-form">
-				@include('partials.event-form', ['submitButton' => 'Save', 'loc' => $event_loc])
-			</form>
-		</div>
-	<!-- end create new event -->
+		<!-- start edit game -->
+			<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-game">
+				<div class="card">
+				  <div class="card-header">
+	                <h4>Edit Game</h4>
+				  </div>
+				  <div class="card-body card-padding">
+					<form method="POST" action="{{url('/')}}/{{$id}}/edit/game" id="edit-game-form">
+						<input type="hidden" name="id">
+						@include('partials.game-form', ['submitButton' => 'Modify', 'opp' => $opp, 'loc' => $game_loc])
+					</form>
+				  </div>
+				</div>
+			</div>
+		<!-- end edit game -->
 
-
-	<!-- start edit game -->
-		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-game">
-			<form method="POST" action="{{url('/')}}/{{$id}}/edit/game" id="edit-game-form">
-				<input type="hidden" name="id">
-				@include('partials.game-form', ['submitButton' => 'Modify', 'opp' => $opp, 'loc' => $game_loc])
-			</form>
-		</div>
-	<!-- end edit game -->
-
-
-	<!-- start edit event -->
-		<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-event">
-			<form method="POST" action="{{url('/')}}/{{$id}}/edit/event" id="edit-event-form">
-				<input type="hidden" name="id">
-				@include('partials.event-form', ['submitButton' => 'Modify', 'loc' => $event_loc])
-			</form>
-		</div>
-	<!-- end edit event -->
+		<!-- start edit event -->
+			<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="edit-event">
+				<div class="card">
+				  <div class="card-header">
+	                <h4>Edit Game</h4>
+				  </div>
+				  <div class="card-body card-padding">
+					<form method="POST" action="{{url('/')}}/{{$id}}/edit/event" id="edit-event-form">
+						<input type="hidden" name="id">
+						@include('partials.event-form', ['submitButton' => 'Modify', 'loc' => $event_loc])
+					</form>
+				  </div>
+				</div>
+			</div>
+		<!-- end edit event -->
+	@endif
 
 
 	<!-- start modal to show game info in claendar view -->
@@ -263,8 +298,10 @@
 
                 </div>
                 <div class="modal-footer">
-                	<button type="button" class="btn btn-link" id="game-data-edit">edit</button>
-                	<button type="button" class="btn btn-link" id="game-data-delete">Delete</button>
+                	@if( $user->manager_access == 1 )
+	                	<button type="button" class="btn btn-link" id="game-data-edit">edit</button>
+	                	<button type="button" class="btn btn-link" id="game-data-delete">Delete</button>
+                	@endif
                     <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -342,8 +379,10 @@
 
                 </div>
                 <div class="modal-footer">
-                	<button type="button" class="btn btn-link" id="event-data-edit">Edit</button>
-                	<button type="button" class="btn btn-link" id="event-data-delete">Delete</button>
+                	@if( $user->manager_access == 1 )
+                		<button type="button" class="btn btn-link" id="event-data-edit">Edit</button>
+                		<button type="button" class="btn btn-link" id="event-data-delete">Delete</button>
+                	@endif
                     <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                 </div>
             </div>

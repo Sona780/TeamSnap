@@ -8,8 +8,10 @@ use TeamSnap\TeamUser;
 use TeamSnap\Availability;
 use TeamSnap\BaseballRecord;
 use TeamSnap\Game;
+use TeamSnap\UserDetail;
 
 use DB;
+use Auth;
 
 class RecordsController extends Controller
 {
@@ -57,84 +59,119 @@ class RecordsController extends Controller
     // start show player stats
     public function show($id)
     {
-      $team = Team::find($id);
+      $team    = Team::find($id);
+      $uid     = Auth::user()->id;
+      $user    = UserDetail::where('users_id', $uid)->first();
+      $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+      $manager = Team::CheckIfTeamOwner($uid, $id)->first();
 
       if( $team->all_games_id == 1 )
       {
-        // start total stats of ecah player
-          $players = TeamUser::getTeamPlayers($id, 1);
+        return $this->showBaseballRecords($id, $team, $uid, $user, $member, $manager);
+      }
+    }
+    // end show player stats
 
-          foreach ($players as $player)
-          {
-            $stats         = $player->baseballRecord();
-            $player->stat  = $this->getStats($stats);
-            $player->games = Availability::getBaseballOpponentsCount($player->id);
-            $player->name  = $player->firstname.' '.$player->lastname;
-          }
+    // start show baseball records
+      public function showBaseballRecords($id, $team, $uid, $user, $member, $manager)
+      {
+        if( $manager != '' )
+        {
+          // start total stats of ecah player
+            $players = TeamUser::getTeamPlayers($id, 1);
 
-          $players = $players->sortBy(function($player){
-            return $player->stat['average'];
-          })->reverse();
-        // end total stats of ecah player
-
-        // start total stats of ecah player
-          $games = Game::getTeamPlayedGames($id);
-
-          $gpstats = [];
-          $i = 0;
-
-          foreach ($games as $game)
-          {
-            $stats = $game->baseballRecord();
-
-            $gpstats[$i]['game']['id']      = $game->id;
-            $gpstats[$i]['game']['name']    = $game->name;
-            $gpstats[$i]['game']['results'] = $game->results;
-
-            $game->stat = $this->getStats($stats);
-            $stats = $stats->get();
-
-            $temp = [];
-            $j = 0;
-            foreach ($stats as $stat)
+            foreach ($players as $player)
             {
-              $pdata = TeamUser::getUserDetail($stat->team_user_id);
-
-              $num = $stat->singles * 1 + $stat->doubles * 2 + $stat->triples * 3 + $stat->home_runs * 4;
-              $den = $stat['at_bats'];
-
-              $stat->average = $this->computeResult($stat['hits'], $den);
-              $stat->slg     = $this->computeResult($num, $den);
-
-              $num = $stat->hits + $stat->bases_on_balls + $stat->hit_by_pitch;
-              $den = $stat->at_bats + $stat->bases_on_balls + $stat->hit_by_pitch + $stat->sacrifice_flies;
-
-              $stat->obp     = $this->computeResult($num, $den);
-
-              $pdata->stat  = $stat;
-              $pdata->name  = $pdata->firstname.' '.$pdata->lastname;
-              $temp[$j++] = $pdata;
+              $stats         = $player->baseballRecord();
+              $player->stat  = $this->getStats($stats);
+              $player->games = $stats->count();
+              $player->name  = $player->firstname.' '.$player->lastname;
             }
 
-            $gpstats[$i]['stats'] = $temp;
+            $players = $players->sortBy(function($player){
+              return $player->stat['average'];
+            })->reverse();
+          // end total stats of ecah player
 
-            $i++;
-          }
+          // start total stats of ecah player
+            $games = Game::getTeamPlayedGames($id);
 
-          //return $gpstats;
+            $gpstats = [];
+            $i = 0;
+
+            foreach ($games as $game)
+            {
+              $stats = $game->baseballRecord();
+
+              $gpstats[$i]['game']['id']      = $game->id;
+              $gpstats[$i]['game']['name']    = $game->name;
+              $gpstats[$i]['game']['results'] = $game->results;
+
+              $game->stat = $this->getStats($stats);
+              $stats = $stats->get();
+
+              $temp = [];
+              $j = 0;
+              foreach ($stats as $stat)
+              {
+                $pdata = TeamUser::getUserDetail($stat->team_user_id);
+
+                $num = $stat->singles * 1 + $stat->doubles * 2 + $stat->triples * 3 + $stat->home_runs * 4;
+                $den = $stat['at_bats'];
+
+                $stat->average = $this->computeResult($stat['hits'], $den);
+                $stat->slg     = $this->computeResult($num, $den);
+
+                $num = $stat->hits + $stat->bases_on_balls + $stat->hit_by_pitch;
+                $den = $stat->at_bats + $stat->bases_on_balls + $stat->hit_by_pitch + $stat->sacrifice_flies;
+
+                $stat->obp     = $this->computeResult($num, $den);
+
+                $pdata->stat  = $stat;
+                $pdata->name  = $pdata->firstname.' '.$pdata->lastname;
+                $temp[$j++] = $pdata;
+              }
+
+              $gpstats[$i]['stats'] = $temp;
+
+              $i++;
+            }
+
+            $games = $games->sortBy(function($game){
+              return $game->stat['average'];
+            })->reverse();
+          // end total stats of ecah player
+
+          return view('records.baseball', compact('id', 'team', 'players', 'games', 'gpstats', 'user'));
+        }
+        else if( $member != '' )
+        {
+          $tuid    = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
+          $games = Game::getPlayerGamesDetail($id, $tuid);
+
+          // start get player game stats
+            foreach ($games as $game)
+            {
+              $stats = BaseballRecord::getPlayerGameStats($game->id, $tuid);
+              $game->stat = $this->getStats($stats);
+            }
+          // end get player game stats
 
           $games = $games->sortBy(function($game){
             return $game->stat['average'];
           })->reverse();
 
-          //return $gpstats[0];
-        // end total stats of ecah player
-
-
-        return view('records.baseball', compact('id', 'team', 'players', 'games', 'gpstats'));
+          return view('records.baseball', compact('id', 'team', 'games', 'user'));
+        }
+        else
+        {
+          return view('errors/404');
+        }
       }
-    }
-    // end show player stats
+    // end show baseball records
+
+
+
 
     // start get opponents of player whose stat not available
       public function getOpponents($tuid)

@@ -43,9 +43,10 @@ class MemberController extends Controller
             //get all the teams of current user
             $teams = Team::getUserTeams($id);
 
-            $team  = Team::find($id);
+            $team = Team::find($id);
+            $user = UserDetail::where('users_id', Auth::user()->id)->first();
 
-            return view('pages.members',compact('id','ctgs','member', 'teams', 'team'));
+            return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
             //return $member['all']['all'];
         }
     }

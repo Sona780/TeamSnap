@@ -14,7 +14,9 @@
 			        <th class="">Member Type</th>
 			        <th>Position</th>
 			        <th>Contact</th>
-			    	<th class="all">Manager</th>
+			        @if($user->manager_access == 1)
+			    		<th class="all">Manager</th>
+			    	@endif
 			    	<th class="none">Domicile</th>
 				</tr>
 			</thead>
@@ -58,10 +60,12 @@
 	                        <p>{{$member->email}}</p>
 	                        <p>{{$member->mobile}}
 	                    </td>
-	                    <td>
-	                        <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$member->id}}" data-toggle="modal" data-target="#edit-member"/>
-	                        <a id="delete" key="{{$member->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
-	                    </td>
+	                    @if($user->manager_access == 1)
+		                    <td>
+		                        <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$member->id}}" data-toggle="modal" data-target="#edit-member"/>
+		                        <a id="delete" key="{{$member->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+		                    </td>
+		                @endif
 	                    <td>
 	                    	{{$member->city}}
 	                    	@if($member->state != '')

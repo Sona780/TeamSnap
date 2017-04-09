@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'assets'])
+@extends('layouts.new', ['team' => $id, 'active' => 'assets', 'logo' => $team->team_logo, 'name' => $team->teamname])
 
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -78,7 +78,7 @@
           <div class="card-body" style="margin-top: 20px">
 
             @if( $teamitems->count() == 0 )
-              <div style="text-align: center">No payement detail available.</div>
+              <div style="text-align: center">No item to track.</div>
             @else
               <table class="table table-hover dt-responsive mem-tab nowrap" style="width:100% !important; font-size: 12px">
                 <thead>

@@ -38,17 +38,36 @@ class DashboardController extends Controller
         $total['games']        = Game::FutureGames($id)->count();
         $total['games_played'] = Game::PlayedGames($id)->count();
 
-        $games  = ScheduleController::getTeamGames($uid, $id);
-        $events = ScheduleController::getTeamEvents($uid, $id);
+        $games = Game::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+        $games = ScheduleController::getTeamGames($games);
+
+        $events = Event::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+        $events = ScheduleController::getTeamEvents($events);
         $announcements = $this->getAnnouncements($id);
 
         $info = TeamInfo::where('team_id', $id)->first();
 
-        return view('pages.dashboard', compact('teamname', 'id', 'team', 'total', 'games', 'events', 'announcements', 'info'));
+        return view('pages.dashboard', compact('teamname', 'id', 'team', 'total', 'games', 'events', 'announcements', 'info', 'user'));
       }
       else if( $member != '' )
       {
-        return view('pages.dashboard', [ 'teamname' => $team->teamname, 'id' => $id, 'team' => $team] );
+        $teamname = $member->teamname;
+        $total    = [];
+
+        $games  = Game::PlayerFutureGames($id, $member->id)->get();
+
+        $total['members']      = TeamUser::where('teams_id', $id)->count();
+        $total['events']       = Event::Events($id)->count();
+        $total['games']        = $games->count();
+        $total['games_played'] = Game::PlayerPlayedGames($id, $member->id)->count();
+
+        $events = Event::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+        $events = ScheduleController::getTeamEvents($events);
+        $announcements = $this->getAnnouncements($id);
+
+        $info = TeamInfo::where('team_id', $id)->first();
+
+        return view('pages.dashboard', compact('teamname', 'id', 'team', 'total', 'games', 'events', 'announcements', 'info', 'user'));
       }
       else
       {

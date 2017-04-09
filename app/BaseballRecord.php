@@ -14,4 +14,9 @@ class BaseballRecord extends Model
 
 
     public $timestamps = false;
+
+    public static function getPlayerGameStats($gid, $uid)
+    {
+    	return static::where('game_id', $gid)->where('team_user_id', $uid)->get();
+    }
 }
