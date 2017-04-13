@@ -23,24 +23,24 @@
                     <div class="form-group fg-line">
                         <label for="firstname">First Name</label>
                         <input type="text" id="f-ip" class="form-control input-sm" name="firstname" placeholder="Member first name..." autofocus>
-                        <strong id="error-first" class="strong-error"></strong>
                     </div>
+                    <strong id="error-first" class="strong-error"></strong>
                   </div>
 
                   <div class="col-sm-12">
                     <div class="form-group fg-line">
                         <label for="lastname">Last Name</label>
                         <input type="text" id="f-ip" class="form-control input-sm" name="lastname" placeholder="Member middle and last name...">
-                        <strong id="error-last" class="strong-error"></strong>
                     </div>
+                    <strong id="error-last" class="strong-error"></strong>
                   </div>
 
                   <div class="col-sm-12">
                     <div class="form-group fg-line">
                         <label for="email">Email</label>
                         <input type="email" id="f-ip" class="form-control input-sm" name="email" placeholder="Member email address...">
-                        <strong id="error-email" class="strong-error"></strong>
                     </div>
+                    <strong id="error-email" class="strong-error"></strong>
                   </div>
            </div>
       </div>

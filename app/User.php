@@ -41,4 +41,12 @@ class User extends Authenticatable
         $user['detail'] = UserDetail::where('users_id', $uid)->select('avatar', 'firstname', 'lastname')->first();
         return collect($user);
     }
+
+    public static function userData($uid)
+    {
+        return static::where('users.id', $uid)
+                     ->leftJoin('user_details', 'user_details.users_id', 'users.id')
+                     ->select('users.id', 'users.name', 'users.email', 'user_details.lastname')
+                     ->first();
+    }
 }

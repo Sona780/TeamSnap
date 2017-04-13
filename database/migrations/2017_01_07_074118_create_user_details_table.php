@@ -19,7 +19,7 @@ class CreateUserDetailsTable extends Migration
             $table->integer('users_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
-            $table->boolean('manager_access'); //1-manager
+            $table->boolean('manager_access'); //1-owner, 0-member, 2-manager
             $table->string('mobile')->nullable();
             $table->integer('gender')->nullable();
             $table->string('birthday')->nullable();

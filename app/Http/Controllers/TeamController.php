@@ -9,6 +9,7 @@ use TeamSnap\TeamUser;
 use TeamSnap\UserDetail;
 use TeamSnap\AllGame;
 use TeamSnap\TeamInfo;
+use TeamSnap\AccessManage;
 
 use Image;
 
@@ -61,6 +62,8 @@ class TeamController extends Controller
           $team = Team::create($request->all());
 
           TeamInfo::create(['team_id' => $team->id, 'uniform' => '/images/uniforms/default.png']);
+          AccessManage::newTeam($team->id, 0, 0);
+          AccessManage::newTeam($team->id, 1, 1);
 
           return redirect($team->id.'/dashboard');
         }

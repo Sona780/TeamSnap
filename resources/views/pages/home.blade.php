@@ -70,8 +70,17 @@
 <script src="{{URL::to('/')}}/js/notify.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    type = ( {{$user->manager_access}} == 1 ) ? 'manager' : 'member';
-    notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as a '+type);
+    switch({{$user->manager_access}})
+    {
+      case 0: type = "a member";
+              break;
+      case 1: type = "an owner";
+              break;
+      case 2: type = "a manager";
+              break;
+    }
+
+    notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as '+type);
   });
 
   $('.row').on('click', '#team_tab', function(){

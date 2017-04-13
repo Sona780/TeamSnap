@@ -34,11 +34,7 @@ class TeamUser extends Model
     //get all the users of the team with id = $id
     public static function getMembers($id)
     {
-        return static::leftJoin('user_details', 'team_users.users_id', '=', 'user_details.users_id')
-                     ->leftJoin('users', 'team_users.users_id', '=', 'users.id')
-                     ->select('users.id', 'users.email', 'user_details.firstname', 'user_details.lastname')
-                     ->where('team_users.teams_id', $id)
-                     ->get();
+        return static::getTeamUsers($id)->get();
     }
 
     // create new team & user relation
@@ -94,5 +90,18 @@ class TeamUser extends Model
                      ->leftJoin('team_user_details', 'team_user_details.team_users_id', 'team_users.id')
                      ->select('team_users.id', 'user_details.firstname', 'user_details.lastname', 'user_details.avatar', 'team_user_details.role')
                      ->first();
+    }
+
+    public static function getManagers($tid)
+    {
+        return static::getTeamUsers($tid)->where('user_details.manager_access', 2)->get();
+    }
+
+    public static function getTeamUsers($id)
+    {
+        return static::leftJoin('user_details', 'team_users.users_id', '=', 'user_details.users_id')
+                     ->leftJoin('users', 'team_users.users_id', '=', 'users.id')
+                     ->select('users.id', 'users.email', 'user_details.firstname', 'user_details.lastname')
+                     ->where('team_users.teams_id', $id);
     }
 }

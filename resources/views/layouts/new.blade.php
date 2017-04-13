@@ -442,7 +442,7 @@
                         else
                             content += '<li><a href="'+ target +'">'+ t[i]['teamname'] +'</a></li>';
                     }
-                    target = '{{url("/")}}/createteam';
+                    target = '{{url("/")}}/team/create';
                     @if( $user_detail->manager_access == 1 )
                         content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
                     @endif

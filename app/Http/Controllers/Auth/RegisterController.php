@@ -104,7 +104,7 @@ class RegisterController extends Controller
         if( $user->first()->login_flag == 0 )
             $user->update(['password' => bcrypt($request->password), 'login_flag' => 1]);
         else
-            return redirect()->back()->withErrors('This password reset link has been expired.');
+            return redirect()->back()->withErrors('This password update link has been expired.');
 
         return redirect('login');
     }

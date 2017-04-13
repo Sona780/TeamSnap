@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card panel-default">
-                <div class="card-header bgm-cyan"><h5>Reset Password</h5></div>
+                <div class="card-header bgm-cyan"><h5>Set Password</h5></div>
 
                 @if ($errors->any())
                     <div class="alert alert-success alert-dismissable" style="text-align: center">
