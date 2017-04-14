@@ -14,8 +14,6 @@ Route::group(['domain' => 'org4teams.com'], function() {
     Route::group(['middlewareGroups' => ['web']], function () {
         Route::auth();
 
-
-
         Route::get('/', function() {
             return redirect('login');
         });
@@ -32,6 +30,8 @@ Route::group(['domain' => 'org4teams.com'], function() {
         Route::group(['middleware' => 'auth'], function () {
             Route::get('home','HomeController@index')->name('home');
 
+            Route::post('league/create','LeagueController@create');
+
             // start route form UserController without team id
                 // show user profile
                 Route::get('profile','UserController@show');
@@ -46,6 +46,26 @@ Route::group(['domain' => 'org4teams.com'], function() {
             Route::post('recipients/{mid}','MessageController@getEmails');
 
             Route::get('validate/email/{uid}/{email}','UserController@valiMail');
+
+            Route::post('division/team_location/{did}', 'LeagueController@getDivisionTeams');
+
+            Route::group(['prefix' => 'league/{id}'], function () {
+                Route::get('dashboard', 'DashboardController@leagueDashboard');
+                Route::post('announcement/save', 'DashboardController@saveLeagueAnnouncement');
+
+                Route::get('detail', 'LeagueController@showDetail');
+                Route::post('team/save', 'LeagueController@saveTeam');
+                Route::get('team/delete/{tid}', 'LeagueController@deleteTeam');
+                Route::post('division/save', 'LeagueController@saveDivision');
+
+                Route::get('division/{ldid}', 'LeagueController@showDivision');
+
+                Route::get('division/delete/{did}', 'LeagueController@deleteDivision');
+
+                Route::get('schedule', 'ScheduleController@showLeague');
+                Route::post('match/save', 'ScheduleController@saveLeagueMatch');
+                Route::get('match/delete/{mid}', 'ScheduleController@deleteLeagueMatch');
+            });
 
             Route::group(['prefix' => '{id}'], function () {
 

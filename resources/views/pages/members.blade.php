@@ -37,7 +37,7 @@
 
 @section('content')
 <div class="pull-right">
-  @if($user->manager_access == 1)
+  @if($user->manager_access != 0)
     <div class="btn-group m-r-20">
       <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
         <span style="padding: 0px 15px">NEW</span>
@@ -421,6 +421,7 @@
     $('#main').on('click', '#edit', function(){
       id = $(this).attr('key');
       url = '{{url("/")}}/edit/get/' + id;
+      alert(id);
 
       $.get(url, function(data){
         d = data;

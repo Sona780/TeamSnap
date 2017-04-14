@@ -15,22 +15,26 @@ use TeamSnap\EmailUser;
 use TeamSnap\EmailInfo;
 use TeamSnap\Mail\ChatMail;
 use Mail;
+use TeamSnap\Http\ViewComposer\UserComposer;
 
 class MessageController extends Controller
 {
     // start load all inbox & out box email
     public function show($id)
     {
-      $uid  = Auth::user()->id;
+      $uid    = Auth::user()->id;
+      $user   = UserDetail::where('users_id', $uid)->first();
       $avatar = UserDetail::getUserAvatar($uid);
-      //return $avatar;
-      //get team info
-      $ch   = Team::find($id);
-      // if team doesnot exists or not a team of currently logged in user
-      /*if($ch == NULL || $ch->team_owner_id != $uid)
-        return view('errors/404');
-      // if team exists and a team of currently logged in user
-      else*/
+      $owner  = Team::find($id)->team_owner_id;
+
+      $composerWrapper = new UserComposer( $id, 'team' );
+      $composerWrapper->compose();
+
+      $manager = '';
+      if( $user->manager_access == 2 )
+        $manager = TeamUser::CheckMembership($id, $uid)->first();
+
+      if( $uid == $owner || $manager != '' )
       {
         //get member details
         $members = TeamUser::getMemberDetails($id);
@@ -70,6 +74,8 @@ class MessageController extends Controller
 
         return view('pages.message', compact('id', 'avatar', 'members', 'outbox', 'recipients', 'inbox', 'team'));
       }
+      else
+        return view('errors/404');
     }
     // end load all inbox & out box email
     public function lastCheckUpdate($mid)

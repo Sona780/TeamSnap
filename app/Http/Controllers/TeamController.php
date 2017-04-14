@@ -74,8 +74,10 @@ class TeamController extends Controller
         {
             $team  = Team::find($tid);
             $uid   = Auth::user()->id;
+            $user  = UserDetail::where('users_id', $uid)->first()->manager_access;
+            $ch    = TeamUser::where('teams_id', $tid)->where('users_id', $uid)->get();
 
-            if( $team == '' || $uid != $team->team_owner_id )
+            if( $team == '' || ($uid != $team->team_owner_id && ($user != 2 || $ch->count() == 0)) )
                 return view('errors/404');
 
             $gms   = AllGame::all();

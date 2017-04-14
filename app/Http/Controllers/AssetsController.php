@@ -15,6 +15,8 @@ use TeamSnap\Game;
 use TeamSnap\PlayerItemTrack;
 use Auth;
 
+use TeamSnap\Http\ViewComposer\UserComposer;
+
 class AssetsController extends Controller
 {
     // start show team fee & item details
@@ -25,6 +27,9 @@ class AssetsController extends Controller
             $user    = UserDetail::where('users_id', $uid)->first();
             $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
             $manager = Team::CheckIfTeamOwner($uid, $id)->first();
+
+            $composerWrapper = new UserComposer( $id, 'team' );
+            $composerWrapper->compose();
 
             if( $manager != '' )
             {

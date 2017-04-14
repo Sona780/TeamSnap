@@ -10,6 +10,7 @@ use TeamSnap\TeamUser;
 use TeamSnap\AccessManage;
 use TeamSnap\User;
 use TeamSnap\UserDetail;
+use TeamSnap\TeamUserDetail;
 use TeamSnap\TeamManager;
 
 use TeamSnap\Mail\SendMail;
@@ -19,22 +20,37 @@ use Hash;
 use Mail;
 use Redirect;
 
+use TeamSnap\Http\ViewComposer\UserComposer;
+
 class SettingController extends Controller
 {
     // start show settings page
         public function show($id)
         {
-        	$team = Team::find($id);
+          $uid    = Auth::user()->id;
+          $user   = UserDetail::where('users_id', $uid)->first();
+          $owner  = Team::find($id)->team_owner_id;
+
+          $manager = '';
+          if( $user->manager_access == 2 )
+            $manager = TeamUser::CheckMembership($id, $uid)->first();
+
+          if( $uid == $owner || $manager != '' )
+          {
+            $team = Team::find($id);
             $managers = TeamUser::getManagers($id);
             foreach ($managers as $manager)
-            {
-                $manager->data = User::userData($manager->user_id);
-            }
+              $manager->data = User::userData($manager->user_id);
 
             $public  = AccessManage::findPublicAccessDetail($id);
             $manage  = AccessManage::findManagerAccessDetail($id);
 
-        	return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage'));
+            $composerWrapper = new UserComposer( $id, 'team' );
+            $composerWrapper->compose();
+
+            return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage'));
+          }
+          return view('errors/404');
         }
     // end show settings page
 
@@ -92,10 +108,11 @@ class SettingController extends Controller
             $team = Team::find($id);
             $user = User::create(['name' => $fname, 'email' => $email]);
             UserDetail::create(['users_id' => $user->id, 'firstname' => $fname, 'lastname' => $request->lname, 'manager_access' => 2]);
-            TeamUser::create(['teams_id' => $id, 'users_id' => $user->id]);
+            $tuser = TeamUser::create(['teams_id' => $id, 'users_id' => $user->id]);
+            TeamUserDetail::create(['team_users_id' => $tuser->id, 'role' => 'manager', 'flag' => 0]);
 
-            $mail = new SendMail($owner->name, $owner->email, $team->teamname, $email);
-            Mail::to($email)->send($mail);
+            /*$mail = new SendMail($owner->name, $owner->email, $team->teamname, $email);
+            Mail::to($email)->send($mail);*/
             return $user;
         }
     // end add new manager

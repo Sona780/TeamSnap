@@ -12,6 +12,7 @@ use TeamSnap\UserDetail;
 
 use DB;
 use Auth;
+use TeamSnap\Http\ViewComposer\UserComposer;
 
 class RecordsController extends Controller
 {
@@ -64,6 +65,9 @@ class RecordsController extends Controller
       $user    = UserDetail::where('users_id', $uid)->first();
       $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
       $manager = Team::CheckIfTeamOwner($uid, $id)->first();
+
+      $composerWrapper = new UserComposer( $id, 'team' );
+      $composerWrapper->compose();
 
       if( $team->all_games_id == 1 )
       {

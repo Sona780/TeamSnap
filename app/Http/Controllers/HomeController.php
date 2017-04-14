@@ -8,20 +8,28 @@ use TeamSnap\UserDetail;
 use TeamSnap\TeamUser;
 use TeamSnap\Member;
 use TeamSnap\Team;
+use TeamSnap\User;
 
 class HomeController extends Controller
 {
    public function index()
    {
+      $uid     = Auth::user()->id;
+      $user    = UserDetail::where('users_id', $uid)->first();
+      $leagues = User::find(Auth::user()->id)->leagues()->get();
 
-      $uid   = Auth::user()->id;
-      $user  = UserDetail::where('users_id', $uid)->first();
+      switch($user->manager_access) {
+         case 0:
+            $teams = TeamUser::getUserTeams($uid);
+            break;
+         case 1:
+            $teams = Team::where('team_owner_id', $uid)->get();
+            break;
+         case 2:
+            $teams = TeamUser::getManagerTeams($uid);
+            break;
+      }
 
-   	if( $user->manager_access == 1 )
-   	  $teams = Team::where('team_owner_id', $uid)->get();
-   	else
-   	  $teams = TeamUser::getUserTeams($uid);
-
-   	return view('pages.home', compact( 'teams', 'user' ));
+   	return view('pages.home', compact( 'teams', 'user', 'leagues'));
    }
 }

@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function leagues()
+    {
+        return $this->hasMany('TeamSnap\League');
+    }
+
     public function teams()
     {
         return $this -> hasMany('TeamSnap\Team');

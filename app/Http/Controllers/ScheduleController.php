@@ -10,7 +10,15 @@ use TeamSnap\TeamUser;
 use TeamSnap\Opponent;
 use TeamSnap\Location;
 use TeamSnap\Team;
+use TeamSnap\League;
+use TeamSnap\LeagueTeam;
+use TeamSnap\LeagueLocation;
+use TeamSnap\LeagueMatch;
+use TeamSnap\LeagueDivision;
+
 use Auth;
+
+use TeamSnap\Http\ViewComposer\UserComposer;
 
 class ScheduleController extends Controller
 {
@@ -21,15 +29,19 @@ class ScheduleController extends Controller
         $uid     = Auth::user()->id;
         $user    = UserDetail::where('users_id', $uid)->first();
         $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+        $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
         $manager = Team::CheckIfTeamOwner($uid, $id)->first();
 
-        if( $manager != '' )
+        $composerWrapper = new UserComposer( $id, 'team' );
+        $composerWrapper->compose();
+
+        if( $owner != '' )
         {
             //get all scheduled games for team
-            $games = Game::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+            $games = Game::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
             $games = $this->getTeamGames($games);
             //get all scheduled events for team
-            $events = Event::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+            $events = Event::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
             $events = $this->getTeamEvents($events);
             //get all the opponents of the team
             $opp = Opponent::where('teams_id', $id)->get();
@@ -57,6 +69,8 @@ class ScheduleController extends Controller
 
             return view('pages.team-schedule', compact('games', 'events', 'id', 'team', 'user'));
         }
+        else
+            return view('errors/404');
     }
     // end show team schedule
 
@@ -87,5 +101,50 @@ class ScheduleController extends Controller
         return $events;
     }
 
+    public function showLeague($id)
+    {
+        $uid = Auth::user()->id;
+        $ch  = League::find($id)->user_id;
 
+        if( $uid != $ch )
+          return view('errors/404');
+
+        $composerWrapper = new UserComposer( $id, 'league' );
+        $composerWrapper->compose();
+
+        $league    = League::find($id);
+        $divisions = LeagueDivision::findTeamDivisions($id);
+        $matches   = League::matches($id);
+
+        foreach ($matches as $match)
+        {
+            if( $match->minute < 10 )
+                $match->minute = '0'.$match->minute;
+            $match->time = ($match->time == 0) ? 'AM' : 'PM';
+            $match->team_name = LeagueTeam::find($match->team1)->team_name;
+            $match->opponent  = LeagueTeam::find($match->team2)->team_name;
+        }
+
+        return view('league.schedule', compact('id', 'league', 'divisions', 'matches'));
+    }
+
+    public function saveLeagueMatch($id, Request $request)
+    {
+        $request['league_id'] = $id;
+        $loc = $request->location;
+        if( $loc == 0 )
+        {
+            $loc = LeagueLocation::create($request->all());
+            $loc = $loc->id;
+        }
+        $request['league_location_id'] = $loc;
+        $m = LeagueMatch::create($request->all());
+        return redirect('league/'.$id.'/schedule');
+    }
+
+    public function deleteLeagueMatch($id, $mid)
+    {
+        LeagueMatch::find($mid)->delete();
+        return redirect('league/'.$id.'/schedule');
+    }
 }

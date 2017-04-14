@@ -89,7 +89,7 @@
                     <tr>
                       <td style="font-family:sans-serif;font-size:14px;vertical-align:top;">
                         <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Hi there,</p>
-                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Congratulations, <span style="font-weight: bold">{{$name}} ({{$email}})</span> has added you in his team <span style="font-weight: bold; text-transform: uppercase">{{$team}}</span>. Click on the link below to sign up to Org4Teams for more information.</p>
+                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Congratulations, <span style="font-weight: bold">{{$name}} ({{$email}})</span> has added you in league <span style="font-weight: bold; text-transform: uppercase">{{$league}}</span>. Click on the link below to sign up to Org4Teams for more information.</p>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;box-sizing:border-box;width:100%;">
                           <tbody>
                             <tr>
@@ -97,7 +97,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;width:auto;">
                                   <tbody>
                                     <tr>
-                                      <td style="font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;"> <a href="{{url('/register/'.$token)}}" target="_blank" style="text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;">Signup to Org4Teams</a> </td>
+                                      <td style="font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;"> <a href="{{url('/register')}}" target="_blank" style="text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;">Signup to Org4Teams</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -105,6 +105,23 @@
                             </tr>
                           </tbody>
                         </table>
+                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">If you are already a member of Org4Teams click on the link below to sign in.</p>
+                        <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;box-sizing:border-box;width:100%;">
+                          <tbody>
+                            <tr>
+                              <td align="left" style="font-family:sans-serif;font-size:14px;vertical-align:top;padding-bottom:15px;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;width:auto;">
+                                  <tbody>
+                                    <tr>
+                                      <td style="font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;"> <a href="{{url('/login')}}" target="_blank" style="text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;">Signin to Org4Teams</a> </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
                         <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Org4Teams is a team management platform where teams collaborate together and work out future strategies. Org4Teams provide regular updates regarding team schedule and future expedition.</p>
                         <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px; text-align: center">Whole team of Org4Teams wishes you Good luck for your matches!!</p>
                       </td>

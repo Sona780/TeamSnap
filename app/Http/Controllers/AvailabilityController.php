@@ -8,41 +8,62 @@ use TeamSnap\TeamUser;
 use TeamSnap\Availability;
 use TeamSnap\Game;
 use TeamSnap\Team;
+use TeamSnap\UserDetail;
+
+use Auth;
+
+use TeamSnap\Http\ViewComposer\UserComposer;
 
 class AvailabilityController extends Controller
 {
     public function show($id)
     {
-    	$players = TeamUser::getTeamPlayers($id, 1);
-    	$staffs  = TeamUser::getTeamPlayers($id, 0);
+        $uid   = Auth::user()->id;
+        $user  = UserDetail::where('users_id', $uid)->first();
+        $owner = Team::find($id)->team_owner_id;
 
-    	$games   = Game::getTeamGames($id);
+        $manager = '';
+        if( $user->manager_access == 2 )
+          $manager = TeamUser::CheckMembership($id, $uid)->first();
 
-    	$pgame   = [];
-    	$sgame   = [];
+        if( $uid == $owner || $manager != '' )
+        {
+            $players = TeamUser::getTeamPlayers($id, 1);
+            $staffs  = TeamUser::getTeamPlayers($id, 0);
 
-    	foreach ($players as $player)
-    	{
-    		$pid = $player->id;
+            $games   = Game::getTeamGames($id);
 
-    		$gid = Availability::where('team_users_id', $pid)->select('games_id')->get();
+            $composerWrapper = new UserComposer( $id, 'team' );
+            $composerWrapper->compose();
 
-    		foreach ($gid as $g)
-    			$pgame[$pid][$g->games_id] = 'yes';
-    	}
+            $pgame   = [];
+            $sgame   = [];
 
-    	foreach ($staffs as $staff)
-    	{
-    		$sid = $staff->id;
-    		$gid = Availability::where('team_users_id', $sid)->select('games_id')->get();
+            foreach ($players as $player)
+            {
+                $pid = $player->id;
 
-    		foreach ($gid as $g)
-    			$sgame[$sid][$g->games_id] = 'yes';
-    	}
+                $gid = Availability::where('team_users_id', $pid)->select('games_id')->get();
 
-        $team  = Team::find($id);
+                foreach ($gid as $g)
+                    $pgame[$pid][$g->games_id] = 'yes';
+            }
 
-    	return view('pages.availability', compact('id', 'games', 'players', 'staffs', 'pgame', 'sgame', 'team'));
+            foreach ($staffs as $staff)
+            {
+                $sid = $staff->id;
+                $gid = Availability::where('team_users_id', $sid)->select('games_id')->get();
+
+                foreach ($gid as $g)
+                    $sgame[$sid][$g->games_id] = 'yes';
+            }
+
+            $team  = Team::find($id);
+
+            return view('pages.availability', compact('id', 'games', 'players', 'staffs', 'pgame', 'sgame', 'team'));
+        }
+    	else
+            return view('errors/404');
     }
 
     public function update(Request $request)

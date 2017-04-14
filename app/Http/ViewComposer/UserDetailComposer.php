@@ -23,7 +23,6 @@ class UserDetailComposer
 
     public function compose(View $view)
     {
-
       $view->with(['user_detail' => $this->user_detail]);
     }
 }

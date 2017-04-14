@@ -12,6 +12,7 @@ use TeamSnap\Team;
 use TeamSnap\TeamUser;
 use TeamSnap\UserDetail;
 use Auth;
+use TeamSnap\Http\ViewComposer\UserComposer;
 
 class MediaController extends Controller
 {
@@ -22,6 +23,9 @@ class MediaController extends Controller
         $mgr_access = UserDetail::where('users_id', $uid)->first()->manager_access;
         $member     = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $manager    = Team::CheckIfTeamOwner($uid, $id)->first();
+
+        $composerWrapper = new UserComposer( $id, 'team' );
+        $composerWrapper->compose();
 
         if( $member == '' && $manager == '' )
         {

@@ -19,6 +19,11 @@ class TeamUser extends Model
         return $this->hasMany('TeamSnap\BaseballRecord');
     }
 
+    public static function scopeCheckMembership($query, $tid, $uid)
+    {
+        $query->where('teams_id', $tid)->where('users_id', $uid);
+    }
+
     // get details & categories of all the members of a team
     public static function members($id)
     {
@@ -103,5 +108,13 @@ class TeamUser extends Model
                      ->leftJoin('users', 'team_users.users_id', '=', 'users.id')
                      ->select('users.id', 'users.email', 'user_details.firstname', 'user_details.lastname')
                      ->where('team_users.teams_id', $id);
+    }
+
+    public static function getManagerTeams($uid)
+    {
+        return static::where('users_id', $uid)
+                     ->leftJoin('teams', 'teams.id', 'team_users.teams_id')
+                     ->select('teams.*')
+                     ->get();
     }
 }

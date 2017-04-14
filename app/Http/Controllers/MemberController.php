@@ -16,16 +16,24 @@ use Auth;
 use TeamSnap\Mail\SendMail;
 use Mail;
 
+use TeamSnap\Http\ViewComposer\UserComposer;
+
 class MemberController extends Controller
 {
     //show existing members
     public function index($id)
     {
         $team = Team::find($id);
-        if($team == NULL)
+        $uid  = Auth::user()->id;
+        $user = UserDetail::where('users_id', $uid)->first();
+        $ch   = TeamUser::CheckMembership($id, $uid)->first();
+
+        if($team == NULL || ($uid != $team->team_owner_id && $ch == '') )
           return view('errors/404');
         else
         {
+            $composerWrapper = new UserComposer( $id, 'team' );
+            $composerWrapper->compose();
             // all categories for the team
             $ctgs = TeamCtg::getCtg($id);
             //return TeamUser::members($id)->get();
@@ -44,7 +52,7 @@ class MemberController extends Controller
             $teams = Team::getUserTeams($id);
 
             $team = Team::find($id);
-            $user = UserDetail::where('users_id', Auth::user()->id)->first();
+
 
             return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
             //return $member['all']['all'];
