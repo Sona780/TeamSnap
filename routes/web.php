@@ -65,6 +65,8 @@ Route::group(['domain' => 'org4teams.com'], function() {
                 Route::get('schedule', 'ScheduleController@showLeague');
                 Route::post('match/save', 'ScheduleController@saveLeagueMatch');
                 Route::get('match/delete/{mid}', 'ScheduleController@deleteLeagueMatch');
+
+                Route::get('settings', 'SettingController@leagueSetting');
             });
 
             Route::group(['prefix' => '{id}'], function () {
@@ -88,7 +90,7 @@ Route::group(['domain' => 'org4teams.com'], function() {
                     // add manager
                     Route::post('new/manager','SettingController@newManager');
                     // delete manager
-                    Route::get('manager/delete/{uid}','SettingController@deleteManager');
+                    Route::get('manager/delete/{type}/{uid}','SettingController@deleteManager');
 
                 // end SettingController routes with team id
 

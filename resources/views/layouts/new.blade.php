@@ -328,7 +328,7 @@
                   @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->setting == 1) )
                     <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url($team.'/settings')}}">Settings</a></li>
                   @elseif($teamleague == 'league')
-                    <!--<li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url('league/'.$team.'/settings')}}">Settings</a></li>-->
+                    <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url('league/'.$team.'/settings')}}">Settings</a></li>
                   @endif
 
                   @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->asset == 1) )

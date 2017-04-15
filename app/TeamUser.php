@@ -99,7 +99,12 @@ class TeamUser extends Model
 
     public static function getManagers($tid)
     {
-        return static::getTeamUsers($tid)->where('user_details.manager_access', 2)->get();
+        return static::leftJoin('user_details', 'team_users.users_id', '=', 'user_details.users_id')
+                     ->leftJoin('users', 'team_users.users_id', '=', 'users.id')
+                     ->select('team_users.id', 'users.email', 'user_details.firstname', 'user_details.lastname')
+                     ->where('team_users.teams_id', $tid)
+                     ->where('user_details.manager_access', 2)
+                     ->get();
     }
 
     public static function getTeamUsers($id)

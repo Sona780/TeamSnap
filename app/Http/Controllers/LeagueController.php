@@ -9,6 +9,8 @@ use TeamSnap\Team;
 use TeamSnap\LeagueTeam;
 use TeamSnap\LeagueDivision;
 use TeamSnap\LeagueLocation;
+use TeamSnap\LeagueAccessManage;
+
 use TeamSnap\Mail\LeagueInviteMail;
 use Mail;
 
@@ -23,6 +25,7 @@ class LeagueController extends Controller
     	$request['user_id'] = Auth::user()->id;
     	$league = League::create($request->all());
         LeagueDivision::create(['division_name' => $request->league_name, 'league_id' => $league->id, 'parent_id' => 0]);
+        LeagueAccessManage::newLeague($league->id);
     	return redirect('home');
     }
 

@@ -1,6 +1,7 @@
 {{ Form::open(['method' => 'post', 'url' => $id.$formURL]) }}
 	<br>
 	{!! csrf_field() !!}
+	<input type="hidden" name="teamleague" value="{{$ch}}">
 	<table class="table table-hover dt-responsive mem-tab nowrap">
 		<th>View</th>
 		<th style="text-align: center">
@@ -21,6 +22,7 @@
 	        </ul>
 		</th>
 		<tbody>
+		  @if( $ch == 'team' )
 			<tr>
 				<td>Members</td>
 			  	<td style="text-align: center" id="member">
@@ -31,6 +33,7 @@
 			  	  	@endif
 			  	</td>
 			</tr>
+		  @endif
 			<tr>
 				<td>Schedule</td>
 			  	<td style="text-align: center" id="schedule">
@@ -41,6 +44,7 @@
 			  	  	@endif
 			  	</td>
 			</tr>
+		  @if( $ch == 'team' )
 			<tr>
 				<td>Availability</td>
 			  	<td style="text-align: center" id="availability">
@@ -51,6 +55,7 @@
 			  	  	@endif
 			  	</td>
 			</tr>
+	      @endif
 			<tr>
 				<td>Records</td>
 			  	<td style="text-align: center" id="record">
@@ -81,6 +86,7 @@
 			  	  	@endif
 			  	</td>
 			</tr>
+		  @if( $ch == 'team' )
 			<tr>
 				<td>Assets</td>
 			  	<td style="text-align: center" id="asset">
@@ -91,6 +97,7 @@
 			  	  	@endif
 			  	</td>
 			</tr>
+		  @endif
 			<tr>
 				<td>Settings</td>
 			  	<td style="text-align: center" id="setting">

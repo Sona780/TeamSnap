@@ -115,7 +115,7 @@
 				    	  <!-- start public public view access -->
 				    		<div role="tabpanel" class="tab-pane active" id="public">
 				    		  <div class="card table-responsive" id='public-div'>
-				    		    @include('partials.access-permission-table', ['formURL' => '/public/access/update', 'buttonKey' => 'public', 'access' => $public])
+				    		    @include('partials.access-permission-table', ['formURL' => '/public/access/update', 'buttonKey' => 'public', 'access' => $public, 'ch' => 'team'])
 				    		  </div>
 				    		</div>
 				    	  <!-- stop public public view access -->
@@ -123,7 +123,7 @@
 				    	  <!-- start manager view access -->
 				    		<div role="tabpanel" class="tab-pane" id="manager">
 				    		  <div class="card table-responsive" id='manager-div'>
-				    		  	@include('partials.access-permission-table', ['formURL' => '/manager/access/update', 'buttonKey' => 'manager', 'access' => $manage])
+				    		  	@include('partials.access-permission-table', ['formURL' => '/manager/access/update', 'buttonKey' => 'manager', 'access' => $manage, 'ch' => 'team'])
 				    		  </div>
 				    		</div>
 				    	  <!-- stop manager view access -->
@@ -139,7 +139,7 @@
 			  <!-- end manage access permissions -->
 
 			  <!-- start manage managers -->
-		      <div class="col-sm-6" id='managers-detail' style="display: none">
+		    <div class="col-sm-6" id='managers-detail' style="display: none">
 				<div class="card">
 				  <div class="card-header">
 				  	<span style="font-weight: bold; font-family: italic; font-size: 15px">Manager(s)</span>
@@ -199,6 +199,7 @@
       </div>
 
       	<div class="modal-body">
+          <input type="hidden" id="teamleague" value="team">
       	  <div class="form-group fg-line">
             <label for="firstname">First Name <small style="color: red">(required)</small></label>
       	    <input type="text" id="firstname" class="form-control input-sm" name="firstname" autofocus>
@@ -241,39 +242,37 @@
 
 	// start validate and save new manager
   	$('#manager-button').click(function(){
-  	  name  = $('#firstname').val();
-  	  email = $('#email').val();
-  	  var re = /\S+@\S+\.\S+/;
-  	  if( name == '' || email == '' )
-  	  	$('#manager-error').html('<br>Required fields shouldn\'t be empty.');
-  	  else if(!re.test(email))
-  	  	$('#manager-error').html('<br>Invalid email address.');
-  	  else
-  	  {
-  	  	lname = $('#lastname').val();
-  	  	url   = '{{url($id."/new/manager")}}';
-  	  	$.post(url, {fname: name, lname: lname, email: email}, function(ch){
-  	  		if( ch == 1 )
-  	  			$('#manager-error').html('<br>Email address already registered.');
-  	  		else
-  	  		{
-  	  			$('#manager-modal').find('input[type="text"]').val('');
-  	  			$('#manager-modal').modal('hide');
-
-  	  			if( cnt == 0 )
-  	  			{
-  	  				content = '<table class="table table-hover dt-responsive mem-tab nowrap"><thead><th>Name</th><th>Email</th><th style="text-align: center">Actions</th></thead><tbody id="all-managers"><tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ ch['id'] +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr></tbody></table>';
-  	  				$('#manager-card').html(content);
-  	  				cnt++;
-  	  			}
-  	  			else
-  	  			{
-  	  			  $('#all-managers').append('<tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ ch['id'] +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr>');
-  	  			}
-  	  		}
-  	  	});
-  	  }
-  	});
+      name  = $('#firstname').val();
+      email = $('#email').val();
+      var re = /\S+@\S+\.\S+/;
+      if( name == '' || email == '' )
+        $('#manager-error').html('<br>Required fields shouldn\'t be empty.');
+      else if(!re.test(email))
+        $('#manager-error').html('<br>Invalid email address.');
+      else
+      {
+        lname = $('#lastname').val();
+        teamleague  = $('#manager-modal').find('#teamleague').val();
+        url   = '{{url($id."/new/manager")}}';
+        $.post(url, {fname: name, lname: lname, email: email, teamleague: teamleague}, function(uid){
+          $('#manager-modal').find('input[type="text"]').val('');
+          $('#manager-modal').modal('hide');
+          if( uid > 0 )
+          {
+            if( cnt == 0 )
+            {
+              content = '<table class="table table-hover dt-responsive mem-tab nowrap"><thead><th>Name</th><th>Email</th><th style="text-align: center">Actions</th></thead><tbody id="all-managers"><tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ uid +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr></tbody></table>';
+              $('#manager-card').html(content);
+              cnt++;
+            }
+            else
+            {
+              $('#all-managers').append('<tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ uid +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr>');
+            }
+          }
+        });
+      }
+    });
   	// end validate and save new manager
 
   	// start confirm & delete manager
@@ -288,7 +287,7 @@
               confirmButtonText: "Yes, delete it!",
               closeOnConfirm: true
               }, function(){
-                  window.location.href = '{{url($id."/manager/delete")}}/'+id;
+                  window.location.href = '{{url($id."/manager/delete")}}/team/'+id;
           });
   	});
   	// end confirm & delete manager
