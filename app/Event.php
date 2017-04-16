@@ -10,11 +10,11 @@ class Event extends Model
 {
     //
     protected $fillable = [
-         'users_id', 'teams_id', 'name', 'label', 'date', 'hour', 'minute', 'time','repeat','locations_id',
+         'team_id', 'name', 'label', 'date', 'hour', 'minute', 'time','repeat', 'location_detail_id',
     ];
 
     public function scopeEvents($query, $id)
     {
-        $query->where('teams_id', $id)->where('date', '>=', Carbon::now()->format('d/m/Y'));
+        $query->where('team_id', $id)->where('date', '>=', Carbon::now()->format('d/m/Y'))->orderBy('updated_at', 'latest');
     }
 }

@@ -299,10 +299,10 @@
         @if( count($games) != 0 )
           @foreach( $games as $game )
           {
-            id: {{$game->id}},
+            id: {{$game['id']}},
             type: 'game',
-            title: 'vs. {{ $game->name }}',
-            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }}, {{$game->hour}}, {{$game->minute}} ),
+            title: 'vs. {{ $game["opp"] }}',
+            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['on'])->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['on'])->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['on'])->format('d') }}, {{$game['hour']}}, {{$game['minute']}} ),
             allDay: false,
             color: '#2196F3',
           },

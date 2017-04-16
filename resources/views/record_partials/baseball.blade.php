@@ -14,7 +14,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label for="team">Select Opponent</label>
-                <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="game_id" id="opponent" title='Choose Opponent..'>
+                <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="game_team_id" id="opponent" title='Choose Opponent..'>
                 </select>
             </div>
         </div>

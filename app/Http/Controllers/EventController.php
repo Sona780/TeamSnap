@@ -4,7 +4,7 @@ namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TeamSnap\Event;
-use TeamSnap\Location;
+use TeamSnap\LocationDetail;
 use Validator;
 use Auth;
 
@@ -43,22 +43,12 @@ class EventController extends Controller
     //save new event
     public function store($id, Request $request)
     {
-
     	if( $request->location == 0 )
             $loc = $this->newLocation($id, $request);
 
-    	$i = new Event();
-        $i->users_id = Auth::user()->id;
-    	$i->teams_id = $id;
-        $i->name = $request->name;
-    	$i->label = $request->label;
-    	$i->date = $request->date;
-        $i->hour = $request->hour;
-        $i->minute = $request->minute;
-        $i->time = $request->time;
-    	$i->repeat = $request->repeat;
-    	$i->locations_id = ($request->location == 0) ? $loc->id : $request->location;
-    	$i->save();
+        $request['team_id'] = $id;
+        $request['location_detail_id'] = ($request->location == 0) ? $loc->id : $request->location;
+        Event::create($request->all());
 
     	return redirect($id.'/schedule');
     }
@@ -70,18 +60,9 @@ class EventController extends Controller
 
         if( $request->location == 0 )
             $loc = $this->newLocation($id, $request);
-        $loc_id = ( $request->location == 0 ) ? $loc->id : $request->location;
+        $request['location_detail_id'] = ($request->location == 0) ? $loc->id : $request->location;
 
-        $event->update([
-                'name' => $request->name,
-                'label' => $request->label,
-                'date' => $request->date,
-                'hour' => $request->hour,
-                'minute' => $request->minute,
-                'time' => $request->time,
-                'repeat' => $request->repeat,
-                'locations_id' => $loc_id,
-            ]);
+        Event::find($request->id)->update($request->only(['name', 'label', 'date', 'hour', 'minute', 'time', 'repeat', 'location_detail_id']));
 
         return redirect($id.'/schedule');
     }
@@ -89,16 +70,9 @@ class EventController extends Controller
     //fetch event details
     public function getData($event_id)
     {
-        $data = Event::find($event_id);
-        $loc = Location::find($data->locations_id);
-
-        $data->loc_id = $loc->id;
-        $data->loc_name = $loc->name;
-        $data->loc_detail = $loc->detail;
-        $data->address = $loc->address;
-        $data->link = $loc->link;
-
-        return $data;
+        $event       = Event::find($event_id);
+        $event->loc  = LocationDetail::find($event->location_detail_id);
+        return $event;
     }
 
     //delete an event
@@ -111,13 +85,13 @@ class EventController extends Controller
     //save new event location
     public function newLocation($id, $request)
     {
-        $loc = new Location();
-        $loc->teams_id = $id;
-        $loc->type = 1;
-        $loc->name = $request->loc_name;
-        $loc->detail = $request->location_detail;
+        $loc = new LocationDetail();
+        $loc->team_id = $id;
+        $loc->type    = 1;
+        $loc->name    = $request->loc_name;
+        $loc->detail  = $request->location_detail;
         $loc->address = $request->address;
-        $loc->link = $request->link;
+        $loc->link    = $request->link;
         $loc->save();
 
         return $loc;

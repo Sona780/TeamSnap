@@ -37,7 +37,7 @@
         <div class="card-header">
           <span style="font-weight: bold; font-family: italic; font-size: 15px">Team Images</span>
 
-          @if( $mgr_access == 1 )
+          @if( $mgr_access != 0 )
             <div class="pull-right upload_button">
               <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#img-upload-modal">
                 <i class="zmdi zmdi-plus"></i>
@@ -106,7 +106,7 @@
               <span class="c-white f-15 ">
                 Video Links
 
-                @if( $mgr_access == 1 )
+                @if( $mgr_access != 0 )
                   <!-- button to upload new video link -->
                   <div>
                     <div class="pull-right upload_button">
@@ -142,7 +142,7 @@
                           <a href='{{$video->video_url}}' target='parent'>
                             <img class="icon-style" src='{{url("/")}}/img/play.png'>
                           </a>
-                          @if( $mgr_access == 1 )
+                          @if( $mgr_access != 0 )
                             <a id="delete" key="{{$video->id}}">
                               <img class="icon-style" src='{{url("/")}}/img/delete.png'>
                             </a>
@@ -168,7 +168,7 @@
               <span class="c-white f-15 ">
                 Files
 
-                @if( $mgr_access == 1 )
+                @if( $mgr_access != 0 )
                   <!-- button to upload new file -->
                   <div>
                     <div class="pull-right upload_button">
@@ -205,7 +205,7 @@
                           <a href='{{url("files/".$file->file_name)}}' download>
                             <img class="icon-style" src='{{url("/")}}/img/download.png'>
                           </a>
-                          @if( $mgr_access == 1 )
+                          @if( $mgr_access != 0 )
                             <a id="delete" key="{{$file->id}}">
                               <img class="icon-style" src='{{url("/")}}/img/delete.png'>
                             </a>

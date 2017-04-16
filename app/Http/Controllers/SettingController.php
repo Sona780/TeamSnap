@@ -186,8 +186,8 @@ class SettingController extends Controller
             else
                 UserDetail::where('users_id', $user->id)->update(['manager_access' => 2]);
 
-            $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
-            Mail::to($email)->send($mail);
+            /*$mail = new Manager($owner->name, $owner->email, $name, $email, $type);
+            Mail::to($email)->send($mail);*/
             return $uid;
         }
     // end add new manager

@@ -16,10 +16,10 @@ class CreateAvailabilitiesTable extends Migration
         Schema::create('availabilities', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('team_users_id')->unsigned();
-            $table->integer('games_id')->unsigned();
+            $table->integer('game_team_id')->unsigned();
 
             $table->foreign('team_users_id')->references('id')->on('team_users')->onDelete('cascade');
-            $table->foreign('games_id')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('game_team_id')->references('id')->on('game_teams')->onDelete('cascade');
         });
     }
 

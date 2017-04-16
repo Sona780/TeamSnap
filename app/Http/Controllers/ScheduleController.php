@@ -3,12 +3,9 @@
 namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\Game;
 use TeamSnap\Event;
 use TeamSnap\UserDetail;
 use TeamSnap\TeamUser;
-use TeamSnap\Opponent;
-use TeamSnap\Location;
 use TeamSnap\Team;
 use TeamSnap\League;
 use TeamSnap\LeagueTeam;
@@ -16,12 +13,44 @@ use TeamSnap\LeagueLocation;
 use TeamSnap\LeagueMatch;
 use TeamSnap\LeagueDivision;
 
+use TeamSnap\GameTeam;
+use TeamSnap\GameDetail;
+use TeamSnap\OpponentDetail;
+use TeamSnap\LocationDetail;
+use TeamSnap\Availability;
+
 use Auth;
+use Carbon\Carbon;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
 
 class ScheduleController extends Controller
 {
+
+    public function getGames($id, $games)
+    {
+        $res = [];
+        $i = 0;
+        foreach ($games as $game)
+        {
+            $opp_id = ( $game->team1_id == $id ) ? $game->team2_id : $game->team1_id;
+
+            $res[$i]['id']       = $game->id;
+            $res[$i]['opp']      = Team::getDetail($opp_id);
+            $res[$i]['detail']   = GameDetail::getDetail($game->id);
+            $res[$i]['loc']      = LocationDetail::find($res[$i]['detail']->location_detail_id);
+            $res[$i]['opp_data'] = ($game->team1_id == $id) ? OpponentDetail::getDetail($id) : '';
+            $res[$i]['ch']       = ($game->team1_id == $id) ? 'yes' : 'no';
+
+            $min = $res[$i]['detail']->minute;
+            if( $min < 10 )
+                $res[$i]['detail']->minute = '0'.$min;
+
+            $i++;
+        }
+        return collect($res);
+    }
+
     // start show team schedule
     public function get($id)
     {
@@ -30,25 +59,28 @@ class ScheduleController extends Controller
         $user    = UserDetail::where('users_id', $uid)->first();
         $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
-        $manager = Team::CheckIfTeamOwner($uid, $id)->first();
+        $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
 
         $composerWrapper = new UserComposer( $id, 'team' );
         $composerWrapper->compose();
 
-        if( $owner != '' )
+        if( $owner != '' || $manager != '' )
         {
             //get all scheduled games for team
-            $games = Game::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
-            $games = $this->getTeamGames($games);
+            $games = $this->getGames($id, GameTeam::getGames($id));
+
             //get all scheduled events for team
-            $events = Event::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
+            $events = Event::where('team_id', $id)->orderBy('updated_at', 'latest')->get();
             $events = $this->getTeamEvents($events);
+
             //get all the opponents of the team
-            $opp = Opponent::where('teams_id', $id)->get();
+            $opp = GameTeam::getOpponents($id);
+
             //get all the locations of games for the team
-            $game_loc = Location::where('teams_id', $id)->where('type', 0)->get();       //for game type = 0
+            $game_loc  = LocationDetail::getLocations($id, 0);     //for game type = 0
+
             //fget all the locations of events for the team
-            $event_loc = Location::where('teams_id', $id)->where('type', 1)->get();     //for event type = 1
+            $event_loc = LocationDetail::getLocations($id, 1);     //for event type = 1
 
             $team  = Team::find($id);
 
@@ -57,12 +89,13 @@ class ScheduleController extends Controller
         else if( $member != '' )
         {
             $tuid    = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
+
             //get all scheduled games for team
-            $games = Game::getPlayerAllGames($id, $tuid);
-            $games = $this->getTeamGames($games);
+            $tuid  = TeamUser::where('teams_id', $id)->where('users_id', $uid)->first()->id;
+            $games = $this->getGames($id, Availability::PlayerGames($tuid)->get());
 
             //get all scheduled events for team
-            $events = Event::where('teams_id', $id)->latest('updated_at')->get();
+            $events = Event::where('team_id', $id)->latest('updated_at')->get();
             $events = $this->getTeamEvents($events);
 
             $team  = Team::find($id);
@@ -95,7 +128,7 @@ class ScheduleController extends Controller
             if( $event->minute < 10 )
                 $event->minute = '0'. $event->minute;
 
-            $event->location = Location::find($event->locations_id);
+            $event->location = LocationDetail::find($event->location_detail_id);
         }
 
         return $events;

@@ -11,7 +11,6 @@ use TeamSnap\TeamItem;
 use TeamSnap\TeamFee;
 use TeamSnap\Team;
 use TeamSnap\Asset;
-use TeamSnap\Game;
 use TeamSnap\PlayerItemTrack;
 use Auth;
 
@@ -26,12 +25,13 @@ class AssetsController extends Controller
             $uid     = Auth::user()->id;
             $user    = UserDetail::where('users_id', $uid)->first();
             $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
-            $manager = Team::CheckIfTeamOwner($uid, $id)->first();
+            $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
+            $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
 
             $composerWrapper = new UserComposer( $id, 'team' );
             $composerWrapper->compose();
 
-            if( $manager != '' )
+            if( $owner != '' || $manager != '' )
             {
                 $total   = 0;
 

@@ -9,8 +9,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::group(['domain' => 'org4teams.com'], function() {
     Route::group(['middlewareGroups' => ['web']], function () {
         Route::auth();
 
@@ -120,6 +118,8 @@ Route::group(['domain' => 'org4teams.com'], function() {
                     Route::get('records','RecordsController@show');
                     // save a player record
                     Route::post('/player/record/save','RecordsController@save');
+
+                    Route::get('player/games/{tuid}','RecordsController@getOpponents');
                 // end Routes for RecordsController with team id
 
                 // start Routes for MediaController with team id
@@ -177,6 +177,8 @@ Route::group(['domain' => 'org4teams.com'], function() {
                     Route::post('edit/game','GameController@editStore');
                     // delete a game
                     Route::get('game/delete/{game_id}','GameController@delete');
+
+                    Route::post('game/data/{game_id}','GameController@getData');
                 // stop GameController routes with team id
 
                 // start EventController routes with team id
@@ -192,7 +194,6 @@ Route::group(['domain' => 'org4teams.com'], function() {
                 Route::post('team/info/save','TeamController@updateInfo');
             });
 
-            Route::post('game/data/{game_id}','GameController@getData');
             Route::get('game/validate','GameController@vali');
             Route::post('event/data/{event_id}','EventController@getData');
 
@@ -240,14 +241,5 @@ Route::group(['domain' => 'org4teams.com'], function() {
             Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
             //update avaiabilty of player for a game
             Route::post('availability/update','AvailabilityController@update');
-
-            Route::get('player/games/{tuid}','RecordsController@getOpponents');
         });
     });
-});
-
-Route::group(['domain' => 'team.org4teams.com'], function() {
-    Route::get('/', function() {
-        return 'kjhk';
-    });
-});

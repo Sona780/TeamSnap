@@ -30,11 +30,6 @@ class MessageController extends Controller
       $composerWrapper = new UserComposer( $id, 'team' );
       $composerWrapper->compose();
 
-      $manager = '';
-      if( $user->manager_access == 2 )
-        $manager = TeamUser::CheckMembership($id, $uid)->first();
-
-      if( $uid == $owner || $manager != '' )
       {
         //get member details
         $members = TeamUser::getMemberDetails($id);
@@ -71,18 +66,16 @@ class MessageController extends Controller
         //return $inbox;
 
         $team  = Team::find($id);
+        $owner = User::getOwnerDetail($owner);
 
-        return view('pages.message', compact('id', 'avatar', 'members', 'outbox', 'recipients', 'inbox', 'team'));
+        return view('pages.message', compact('id', 'avatar', 'members', 'outbox', 'recipients', 'inbox', 'team', 'owner', 'user'));
       }
-      else
-        return view('errors/404');
     }
     // end load all inbox & out box email
     public function lastCheckUpdate($mid)
     {
       $uid  = Auth::user()->id;
       EmailUser::where('emails_id', $mid)->where('users_id', $uid)->update(['last_checked_at' => Carbon::now()]);
-      dd($mid."   ".$uid);
     }
     // start compose new mail
     public function send($id, Request $request)

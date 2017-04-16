@@ -54,4 +54,12 @@ class User extends Authenticatable
                      ->select('users.id', 'users.name', 'users.email', 'user_details.lastname')
                      ->first();
     }
+
+    public static function getOwnerDetail($id)
+    {
+        return static::where('users.id', $id)
+                     ->leftJoin('user_details', 'user_details.users_id', 'users.id')
+                     ->select('users.id', 'users.email', 'user_details.firstname', 'user_details.lastname', 'user_details.avatar')
+                     ->first();
+    }
 }

@@ -7,8 +7,10 @@ use TeamSnap\Team;
 use TeamSnap\TeamUser;
 use TeamSnap\Availability;
 use TeamSnap\BaseballRecord;
-use TeamSnap\Game;
 use TeamSnap\UserDetail;
+
+use TeamSnap\GameTeam;
+
 
 use DB;
 use Auth;
@@ -63,23 +65,25 @@ class RecordsController extends Controller
       $team    = Team::find($id);
       $uid     = Auth::user()->id;
       $user    = UserDetail::where('users_id', $uid)->first();
-      $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
-      $manager = Team::CheckIfTeamOwner($uid, $id)->first();
 
       $composerWrapper = new UserComposer( $id, 'team' );
       $composerWrapper->compose();
 
       if( $team->all_games_id == 1 )
       {
-        return $this->showBaseballRecords($id, $team, $uid, $user, $member, $manager);
+        return $this->showBaseballRecords($id, $team, $uid, $user);
       }
     }
     // end show player stats
 
     // start show baseball records
-      public function showBaseballRecords($id, $team, $uid, $user, $member, $manager)
+      public function showBaseballRecords($id, $team, $uid, $user)
       {
-        if( $manager != '' )
+        $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+        $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
+        $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
+
+        if( $owner != '' || $manager != '' )
         {
           // start total stats of ecah player
             $players = TeamUser::getTeamPlayers($id, 1);
@@ -95,10 +99,10 @@ class RecordsController extends Controller
             $players = $players->sortBy(function($player){
               return $player->stat['average'];
             })->reverse();
-          // end total stats of ecah player
+          // end total stats of each player
 
           // start total stats of ecah player
-            $games = Game::getTeamPlayedGames($id);
+            $games = GameTeam::getPlayedGames($id);
 
             $gpstats = [];
             $i = 0;
@@ -106,12 +110,14 @@ class RecordsController extends Controller
             foreach ($games as $game)
             {
               $stats = $game->baseballRecord();
+              $opp_id = ($game->team1_id == $id) ? $game->team2_id : $game->team1_id;
 
               $gpstats[$i]['game']['id']      = $game->id;
-              $gpstats[$i]['game']['name']    = $game->name;
-              $gpstats[$i]['game']['results'] = $game->results;
+              $gpstats[$i]['game']['name']    = Team::find($opp_id)->teamname;
+              $gpstats[$i]['game']['result']  = $game->result;
 
               $game->stat = $this->getStats($stats);
+              $game->name = $gpstats[$i]['game']['name'];
               $stats = $stats->get();
 
               $temp = [];
@@ -151,19 +157,21 @@ class RecordsController extends Controller
         else if( $member != '' )
         {
           $tuid    = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
-          $games = Game::getPlayerGamesDetail($id, $tuid);
+          //$games   = Game::getPlayerGamesDetail($id, $tuid);
+          $games = Availability::getPlayedGames($tuid);
 
-          // start get player game stats
-            foreach ($games as $game)
-            {
-              $stats = BaseballRecord::getPlayerGameStats($game->id, $tuid);
-              $game->stat = $this->getStats($stats);
-            }
-          // end get player game stats
+          foreach ($games as $game)
+          {
+            $stats = BaseballRecord::getPlayerGameStats($tuid, $game->id);
+            $opp_id = ($game->team1_id == $id) ? $game->team2_id : $game->team1_id;
+            $game->name = Team::find($opp_id)->teamname;
+            $game->stat = $this->getStats($stats);
+          }
 
           $games = $games->sortBy(function($game){
             return $game->stat['average'];
           })->reverse();
+          //return $games;
 
           return view('records.baseball', compact('id', 'team', 'games', 'user'));
         }
@@ -175,12 +183,16 @@ class RecordsController extends Controller
     // end show baseball records
 
 
-
-
     // start get opponents of player whose stat not available
-      public function getOpponents($tuid)
+      public function getOpponents($id, $tuid)
       {
         $games = Availability::getBaseballOpponents($tuid);
+        foreach ($games as $game)
+        {
+          $opp_id = ($game->team1_id ==  $id) ? $game->team2_id : $game->team1_id;
+          $game->name = Team::find($opp_id)->teamname;
+        }
+        //dd($games);
         return $games;
       }
     // end get opponents of player whose stat not available

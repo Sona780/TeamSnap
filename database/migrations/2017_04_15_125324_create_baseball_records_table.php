@@ -16,7 +16,7 @@ class CreateBaseballRecordsTable extends Migration
         Schema::create('baseball_records', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('team_user_id')->unsigned();
-            $table->integer('game_id')->unsigned();
+            $table->integer('game_team_id')->unsigned();
             $table->integer('at_bats');
             $table->integer('runs');
             $table->integer('hits');
@@ -33,7 +33,7 @@ class CreateBaseballRecordsTable extends Migration
             $table->integer('sacrifice_flies');
 
             $table->foreign('team_user_id')->references('id')->on('team_users')->onDelete('cascade');
-            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('game_team_id')->references('id')->on('game_teams')->onDelete('cascade');
         });
     }
 

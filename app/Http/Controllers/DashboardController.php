@@ -13,12 +13,14 @@ use Auth;
 use \TeamSnap\Repositories;
 use TeamSnap\User;
 use TeamSnap\Event;
-use TeamSnap\Game;
 use TeamSnap\Announcement;
 use TeamSnap\TeamInfo;
 use TeamSnap\League;
 use TeamSnap\LeagueTeam;
 use TeamSnap\LeagueAnnouncement;
+use TeamSnap\Availability;
+use TeamSnap\GameDetail;
+use TeamSnap\GameTeam;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
 
@@ -45,20 +47,37 @@ class DashboardController extends Controller
       {
         $teamname = Team::find($id)->teamname;
         $total    = [];
+        $games = [];
+        $i = 0;
+
+        $all_games = GameTeam::getGames($id);
+
+        foreach ($all_games as $g)
+        {
+          $detail = GameDetail::getDetail($g->id);
+          $date   = Carbon::createFromFormat('d/m/Y', $detail->date);
+          if( $date->format('d/m/Y') >= Carbon::now()->format('d/m/Y') )
+          {
+            $opp_id = ($g->team1_id == $id) ? $g->team2_id : $g->team1_id;
+
+            $games[$i]['id']     = $g->id;
+            $games[$i]['on']     = $detail->date;
+            $games[$i]['hour']   = $detail->hour;
+            $games[$i]['minute'] = $detail->minute;
+            $games[$i]['time']   = $detail->time;
+            $games[$i]['opp']    = Team::find($opp_id)->teamname;
+            $i++;
+          }
+        }
 
         $total['members']      = TeamUser::where('teams_id', $id)->count();
         $total['events']       = Event::Events($id)->count();
-        $total['games']        = Game::FutureGames($id)->count();
-        $total['games_played'] = Game::PlayedGames($id)->count();
+        $total['games']        = $i;
+        $total['games_played'] = $all_games->count() - $i;
 
-        $games = Game::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
-        $games = ScheduleController::getTeamGames($games);
-
-        $events = Event::where('users_id', $uid)->where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
-        $events = ScheduleController::getTeamEvents($events);
+        $events        = Event::Events($id)->get();
         $announcements = $this->getAnnouncements($id);
-
-        $info = TeamInfo::where('team_id', $id)->first();
+        $info          = TeamInfo::where('team_id', $id)->first();
 
         return view('pages.dashboard', compact('teamname', 'id', 'team', 'total', 'games', 'events', 'announcements', 'info', 'user', 'type'));
       }
@@ -67,15 +86,32 @@ class DashboardController extends Controller
         $teamname = $member->teamname;
         $total    = [];
 
-        $games  = Game::PlayerFutureGames($id, $member->id)->get();
+        $all_games = Availability::getPlayerGames($uid);
+        $i = 0;
+        $games = [];
+        foreach ($all_games as $game)
+        {
+          $detail = GameDetail::where('game_team_id', $game->game_team_id)->first();
+          $date   = Carbon::createFromFormat('d/m/Y', $detail->date);
+          if($date->format('d/m/Y') >= Carbon::now()->format('d/m/Y'))
+          {
+            $gt = GameTeam::find($game->game_team_id);
+            $opp_id = ($gt->team1_id == $id) ? $gt->team2_id : $gt->team1_id;
+            $games[$i]['id']     = $gt->id;
+            $games[$i]['on']     = $date->format('d/m/Y');
+            $games[$i]['hour']   = $detail->hour;
+            $games[$i]['minute'] = $detail->minute;
+            $games[$i]['name']   = Team::find($opp_id)->teamname;
+            $i++;
+          }
+        }
 
         $total['members']      = TeamUser::where('teams_id', $id)->count();
         $total['events']       = Event::Events($id)->count();
-        $total['games']        = $games->count();
-        $total['games_played'] = Game::PlayerPlayedGames($id, $member->id)->count();
+        $total['games']        = $i;
+        $total['games_played'] = $all_games->count() - $i;
 
-        $events = Event::where('teams_id', $id)->orderBy('updated_at', 'latest')->get();
-        $events = ScheduleController::getTeamEvents($events);
+        $events = Event::Events($id)->get();
         $announcements = $this->getAnnouncements($id);
 
         $info = TeamInfo::where('team_id', $id)->first();

@@ -23,13 +23,23 @@
 			<label for="Add Receivers">Add Receivers &nbsp;&nbsp;<span><button class="btn btn-info" type='button' id='selectall'>Select All</button></span></label>
 			<ul id="example">
 				<?php $count = 1; ?>
+				@if( $user->manager_access != 1 )
+					<li class="members-li p-5">
+	            		<input type="checkbox" id="cb{{$count}}" name="receivers[{{$count}}]" class="member_checkbox" value="{{$owner->id}}" />
+	                	<label for="cb{{$count}}"><img src='{{ url($owner->avatar) }}' class="img-circle"/></label>
+	                	<span>{{$owner->firstname}}</span>
+	                </li>
+	                <?php $count += 1; ?>
+				@endif
 				@foreach($members as $member )
+				  @if( $member->id != $user->users_id )
 	            	<li class="members-li p-5">
 	            		<input type="checkbox" id="cb{{$count}}" name="receivers[{{$count}}]" class="member_checkbox" value="{{$member->id}}" />
 	                	<label for="cb{{$count}}"><img src='{{ url($member->avatar) }}' class="img-circle"/></label>
 	                	<span>{{$member->firstname}}</span>
 	                </li>
 	                <?php $count += 1; ?>
+	              @endif
 	            @endforeach
 	        </ul>
 	        <strong id="error-receivers" class="strong-error"></strong>
