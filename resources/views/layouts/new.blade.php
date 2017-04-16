@@ -297,7 +297,7 @@
                     <li class="waves-effect" id="members"><a href="{{url($team.'/members')}}">Members</a></li>
                   @endif
 
-                  @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->schedule == 1) )
+                  @if( ($manager_access == 0) || ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->schedule == 1) )
                     <li class="waves-effect" id="schedule"><a href="{{url($team.'/schedule')}}">Schedule</a></li>
                   @elseif($teamleague == 'league')
                     <li class="waves-effect" id="schedule"><a href="{{url('league/'.$team.'/schedule')}}">Schedule</a></li>
@@ -307,19 +307,19 @@
                     <li class="waves-effect" id="availability"><a href="{{url($team.'/availability')}}">Availability</a></li>
                   @endif
 
-                  @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->record == 1) )
+                  @if( ($manager_access == 0) || ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->record == 1) )
                     <li class="waves-effect" id="records"><a href="{{url($team.'/records')}}">Records</a></li>
                   @elseif($teamleague == 'league')
                     <!--<li class="waves-effect" id="records"><a href="{{url('league/'.$team.'/records')}}">Records</a></li>-->
                   @endif
 
-                  @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->media == 1) )
+                  @if( ($manager_access == 0) || ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->media == 1) )
                     <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
                   @elseif($teamleague == 'league')
                     <!--<li class="waves-effect" id="media"><a href="{{url('league/'.$team.'/files')}}">Media</a></li>-->
                   @endif
 
-                  @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->message == 1) )
+                  @if( ($manager_access == 0) || ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->message == 1) )
                     <li class="waves-effect" id="messages"><a href="{{url($team.'/messages')}}">Messages</a></li>
                   @elseif($teamleague == 'league')
                     <!--<li class="waves-effect" id="messages"><a href="{{url('league/'.$team.'/messages')}}">Messages</a></li>-->
@@ -331,7 +331,7 @@
                     <li class="waves-effect pull-right hidden-xs" id="settings"><a href="{{url('league/'.$team.'/settings')}}">Settings</a></li>
                   @endif
 
-                  @if( ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->asset == 1) )
+                  @if( ($manager_access == 0) || ($manager_access == 1 && $teamleague == 'team') || ($manager_access == 2 && $maccess->asset == 1) )
                     <li class="waves-effect pull-right hidden-xs" id="assets"><a href="{{url($team.'/assets')}}">Assets</a></li>
                   @endif
                 </ul>

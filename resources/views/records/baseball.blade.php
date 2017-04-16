@@ -10,7 +10,7 @@
 
 
   <div class="card">
-    @if( $user->manager_access == 1 )
+    @if( $user->manager_access != 0 )
       <!-- start button to upload new player record -->
         <div class="card-header">
           <span style="font-weight: bold; font-family: italic; font-size: 15px">Statistics</span>
@@ -148,7 +148,7 @@
   		$('#player').change(function() {
   			id = $(this).val();
 
-        url = '{{url("player/games")}}/'+id;
+        url = '{{url($id."/player/games")}}/'+id;
 
         $.get(url, function(games){
           content = '';

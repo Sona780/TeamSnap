@@ -41,4 +41,20 @@ class Team extends Model
                      ->select('id', 'teamname')
                      ->get();
     }
+
+
+
+
+
+
+
+    public static function newTeam($name, $game)
+    {
+        return static::create(['teamname' => $name, 'all_games_id' => $game]);
+    }
+
+    public static function getDetail($id)
+    {
+        return static::select('id', 'teamname')->find($id);
+    }
 }

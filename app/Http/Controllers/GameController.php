@@ -3,12 +3,16 @@
 namespace TeamSnap\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\Game;
-use TeamSnap\Opponent;
-use TeamSnap\Location;
+
+use TeamSnap\GameTeam;
+use TeamSnap\OpponentDetail;
+use TeamSnap\LocationDetail;
+use TeamSnap\GameDetail;
+use TeamSnap\Team;
+
 use Validator;
 use Auth;
-//use TeamSnap\Http\Requests\CreateGame;
+
 
 class GameController extends Controller
 {
@@ -62,22 +66,37 @@ class GameController extends Controller
     // start save new game details
         public function store($id, Request $request)
         {
-        	if( $request->opponent == 0 )
+            $game = Team::find($id)->all_games_id;
+            $opp_detail_id = $request->opponent;
+            if( $opp_detail_id == 0 )
+            {
+                $opp  = Team::where('teamname', $request->name)->first();
+                if( $opp == '' )
+                    $opp = Team::newTeam($request->name, $game);
+            }
+            else
+            {
+                $opp = OpponentDetail::getOpponentTeamID($opp_detail_id);
+            }
+            //return $opp;
+
+            $gteam = GameTeam::newGame($id, $opp->id, 0);
+
+        	if( $opp_detail_id == 0 )
                 $opp = $this->newOpponent($id, $request);
 
             if( $request->location == 0 )
                 $loc = $this->newLocation($id, $request);
 
-        	$i = new Game();
-            $i->users_id = Auth::user()->id;
-        	$i->teams_id = $id;
+        	$i = new GameDetail();
+            $i->game_team_id = $gteam->id;
         	$i->date = $request->date;
             $i->hour = $request->hour;
             $i->minute = $request->minute;
         	$i->time = $request->time;
-            $i->opponents_id = ( $request->opponent == 0 ) ? $opp->id : $request->opponent;
-        	$i->results = $request->result;
-        	$i->locations_id = ( $request->location == 0 ) ? $loc->id : $request->location;
+            $i->opponent_detail_id = ( $opp_detail_id == 0 ) ? $opp->id : $opp_detail_id;
+        	$i->result = $request->result;
+        	$i->location_detail_id = ( $request->location == 0 ) ? $loc->id : $request->location;
             $i->place = $request->place;
             $i->uniform = $request->uniform;
             $i->duration_hour = $request->d_hour;
@@ -91,24 +110,40 @@ class GameController extends Controller
     // start update game details
         public function editStore($id, Request $request)
         {
-            $game = Game::find($request->id);
-            if( $request->opponent == 0 )
+
+            $game = Team::find($id)->all_games_id;
+            $opp_detail_id = $request->opponent;
+            if( $opp_detail_id == 0 )
+            {
+                $opp  = Team::where('teamname', $request->name)->first();
+                if( $opp == '' )
+                    $opp = Team::newTeam($request->name, $game);
+            }
+            else
+            {
+                $opp = OpponentDetail::getOpponentTeamID($opp_detail_id);
+            }
+            //return $opp;
+
+            GameTeam::find($request->id)->update(['team2_id' => $opp->id]);
+
+            if( $opp_detail_id == 0 )
                 $opp = $this->newOpponent($id, $request);
 
             if( $request->location == 0 )
                 $loc = $this->newLocation($id, $request);
 
-            $opp_id = ( $request->opponent == 0 ) ? $opp->id : $request->opponent;
+            $opp_id = ( $opp_detail_id == 0 ) ? $opp->id : $opp_detail_id;
             $loc_id = ( $request->location == 0 ) ? $loc->id : $request->location;
 
-            $game->update([
+            GameDetail::where('game_team_id', $request->id)->update([
                     'date' => $request->date,
                     'hour' => $request->hour,
                     'minute' => $request->minute,
                     'time' => $request->time,
-                    'opponents_id' => $opp_id,
-                    'results' => $request->result,
-                    'locations_id' => $loc_id,
+                    'opponent_detail_id' => $opp_id,
+                    'result' => $request->result,
+                    'location_detail_id' => $loc_id,
                     'place' => $request->place,
                     'uniform' => $request->uniform,
                     'duration_hour' => $request->d_hour,
@@ -120,34 +155,23 @@ class GameController extends Controller
     // end update game details
 
     // start fetch details of scheduled game
-        public function getData($game_id)
+        public function getData($id, $game_id)
         {
-            $data = Game::find($game_id);
-            $opp = Opponent::find($data->opponents_id);
-            $loc = Location::find($data->locations_id);
+            $game         = GameTeam::find($game_id);
+            $game->detail = GameDetail::where('game_team_id', $game->id)->first();
+            $game->opp    = OpponentDetail::find($game->detail->opponent_detail_id);
+            $game->loc    = LocationDetail::find($game->detail->location_detail_id);
 
-            $data->opp_id = $opp->id;
-            $data->name = $opp->name;
-            $data->contact_person = $opp->contact_person;
-            $data->phone_no = $opp->phone_no;
-            $data->email = $opp->email;
-
-            $data->loc_id = $loc->id;
-            $data->loc_name = $loc->name;
-            $data->loc_detail = $loc->detail;
-            $data->address = $loc->address;
-            $data->link = $loc->link;
-
-            //return $data;
-
-            return $data;
+            $opp_id = ($game->team1_id == $id) ? $game->team2_id : $game->team1_id;
+            $game->name = Team::find($opp_id)->teamname;
+            return $game;
         }
     // end fetch details of scheduled game
 
     // start delete a game
         public function delete($id, $game_id)
         {
-            Game::find($game_id)->delete();
+            GameTeam::find($game_id)->delete();
             return redirect($id.'/schedule');
         }
     // end delete a game
@@ -155,9 +179,8 @@ class GameController extends Controller
     // start save new opponent details
         public function newOpponent($id, $request)
         {
-            $opp = new Opponent();
-            $opp->teams_id = $id;
-            $opp->name = $request->name;
+            $opp = new OpponentDetail();
+            $opp->team_id = $id;
             $opp->contact_person = $request->contact_person;
             $opp->phone_no = $request->phone;
             $opp->email = $request->email;
@@ -170,8 +193,8 @@ class GameController extends Controller
     // start save new location details
         public function newLocation($id, $request)
         {
-            $loc = new Location();
-            $loc->teams_id = $id;
+            $loc = new LocationDetail();
+            $loc->team_id = $id;
             $loc->type = 0;
             $loc->name = $request->loc_name;
             $loc->detail = $request->location_detail;

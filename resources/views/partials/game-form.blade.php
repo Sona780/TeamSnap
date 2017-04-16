@@ -28,7 +28,7 @@
 							@if( $opp->count() > 0 )
 								<option value="default" disabled>-------------------------------</option>
 								@foreach( $opp as $o )
-									<option value="{{$o->id}}">{{$o->name}}</option>
+									<option value="{{$o->id}}">{{$o->teamname}}</option>
 								@endforeach
 							@endif
 						</select>

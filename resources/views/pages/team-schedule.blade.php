@@ -23,10 +23,10 @@
 @section('content')
 
     <div class="col-lg-12 col-xs-12 col-centered" id="manager">
-    	@if( $user->manager_access == 1 )
+    	@if( $user->manager_access != 0 )
         <div class='well'>
         @endif
-        	@if( $user->manager_access == 1 )
+        	@if( $user->manager_access != 0 )
 		    	<div style="display: inline-block; font-weight: none">
 		    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -47,7 +47,7 @@
 				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
 				<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
 			</div>
-		@if( $user->manager_access == 1 )
+		@if( $user->manager_access != 0 )
     	</div>
     	@endif
     </div>
@@ -69,7 +69,7 @@
 			                <th>Date</th>
 			                <th>Time</th>
 			                <th>Location</th>
-			                @if( $user->manager_access == 1 )
+			                @if( $user->manager_access != 0 )
 			                	<th class="all">Manager</th>
 			                @endif
 			                <th class="none">Location Detail</th>
@@ -81,37 +81,41 @@
                     <tbody id="tbody" style="font-size: 12px">
 				        @foreach($games as $game)
 					    	<tr>
-					        	<td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;&nbsp;&nbsp;vs. {{ $game->name }}</td>
+					        	<td><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;&nbsp;&nbsp;vs. {{ $game['opp']->teamname }}</td>
 					            <td>
-					            	@if( $game->results == ''  )
-					            		@if( $user->manager_access == 1 )
-					                		<button id="edit" key='{{ $game->id }}' type='game' class="b-design">Enter Result</button>
+					            	@if( $game['detail']->result == ''  )
+					            		@if( $user->manager_access != 0 && $game['ch'] == 'yes' )
+					                		<button id="edit" key='{{ $game["id"] }}' type='game' class="b-design">Enter Result</button>
 					                	@else
 					                		<span style="color: red">Not yet available</span>
 					                	@endif
 					               	@else
-					                	{{ $game->results }}
+					                	{{ $game['detail']->result }}
 					                @endif
 					            </td>
-					            <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('D d, M Y') }}</td>
+					            <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('D d, M Y') }}</td>
 					            <td>
-					            	{{ $game->hour }}:{{ $game->minute }}&nbsp;{{ $game->time }}
+					            	{{ $game['detail']->hour }}:{{ $game['detail']->minute }}&nbsp;{{ $game['detail']->time }}
 					            </td>
-					            <td>{{ $game->location->name }}</td>
-					            @if( $user->manager_access == 1 )
+					            <td>{{ $game['loc']->name }}</td>
+					            @if( $user->manager_access != 0 )
+					              @if($game['ch'] == 'no')
+					              	<td></td>
+					              @else
 						            <td>
-		                        		<a id="edit" key='{{ $game->id }}' type='game'>
+		                        		<a id="edit" key='{{ $game["id"] }}' type='game'>
 		                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
 		                        		</a>
 
-										<a id="delete" key='{{ $game->id }}' type='game'>
+										<a id="delete" key='{{ $game["id"] }}' type='game'>
 		                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
 		                        		</a>
 	                                </td>
+	                              @endif
 	                             @endif
-                                <td>{{ $game->location->detail }}</td>
-                                <td>{{ $game->location->address }}</td>
-                                <td>{{ $game->location->link }}</td>
+                                <td>{{ $game['loc']->detail }}</td>
+                                <td>{{ $game['loc']->address }}</td>
+                                <td>{{ $game['loc']->link }}</td>
 					        </tr>
 				        @endforeach
 				        @foreach($events as $event)
@@ -123,7 +127,7 @@
 					            	{{ $event->hour }}:{{ $event->minute }}&nbsp;{{ $event->time }}
 					            </td>
 					            <td>{{ $event->location->name }}</td>
-					            @if( $user->manager_access == 1 )
+					            @if( $user->manager_access != 0 )
 						            <td>
 	                                	<a id="edit" key='{{ $event->id }}' type='event'>
 		                        			<img class="icon-style" src='{{url("/")}}/img/edit.png'>
@@ -160,7 +164,7 @@
     </div>
     <!-- end list and calendar view of the schedule -->
 
-    @if( $user->manager_access == 1 )
+    @if( $user->manager_access != 0 )
 	    <!-- start create new game -->
 	    	<div class="table-responsive" style="padding: 10px 5px; width: 70%; margin: auto; display: none" id="new-game">
 				<div class="card">
@@ -298,7 +302,7 @@
 
                 </div>
                 <div class="modal-footer">
-                	@if( $user->manager_access == 1 )
+                	@if( $user->manager_access != 0 )
 	                	<button type="button" class="btn btn-link" id="game-data-edit">edit</button>
 	                	<button type="button" class="btn btn-link" id="game-data-delete">Delete</button>
                 	@endif
@@ -379,7 +383,7 @@
 
                 </div>
                 <div class="modal-footer">
-                	@if( $user->manager_access == 1 )
+                	@if( $user->manager_access != 0 )
                 		<button type="button" class="btn btn-link" id="event-data-edit">Edit</button>
                 		<button type="button" class="btn btn-link" id="event-data-delete">Delete</button>
                 	@endif
@@ -437,10 +441,10 @@
 		                @if( count($games) != 0 )
 		                    @foreach( $games as $game )
 		                        {
-		                        	id: {{$game->id}},
+		                        	id: {{$game['id']}},
 		                        	type: 'game',
-		                            title: 'vs. {{ $game->name }}',
-		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game->date)->format('d') }}, {{$game->hour}}, {{$game->minute}} ),
+		                            title: 'vs. {{ $game["opp"]["teamname"] }}',
+		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('d') }}, {{$game['detail']->hour}}, {{$game['detail']->minute}} ),
 		                            allDay: false,
 		                            color: '#2196F3',
 		                        },
@@ -540,7 +544,7 @@
 	    	// start populate game data modal on clicking on a game in calendar view
 		    	function viewGame(id)
 		    	{
-		    		url = '{{url("game/data")}}/'+id;
+		    		url = '{{url($id."/game/data")}}/'+id;
 
 		    		$.post(url, function(game){
 		    			$('#game-data').modal('show');
@@ -550,17 +554,17 @@
 		    			det.find('#phone').html(game['phone_no']);
 		    			det.find('#email').html(game['email']);
 
-		    			det.find('#l-name').html(game['loc_name']);
-		    			det.find('#l-detail').html(game['loc_detail']);
-		    			det.find('#address').html(game['address']);
-		    			det.find('#link').html(game['link']);
+		    			det.find('#l-name').html(game['loc']['name']);
+		    			det.find('#l-detail').html(game['loc']['detail']);
+		    			det.find('#address').html(game['loc']['address']);
+		    			det.find('#link').html(game['loc']['link']);
 
-		    			if( parseInt(game['minute']) < 10 )
-		    				game['minute'] = '0'+game['minute'];
+		    			if( parseInt(game['detail']['minute']) < 10 )
+		    				game['detail']['minute'] = '0'+game['detail']['minute'];
 
-		    			det.find('#date').html(game['date']);
-		    			det.find('#time').html(game['hour']+':'+game['minute']+' '+game['time']);
-		    			det.find('#duration').html(game['duration_hour']+':'+game['duration_minute']);
+		    			det.find('#date').html(game['detail']['date']);
+		    			det.find('#time').html(game['detail']['hour']+':'+game['detail']['minute']+' '+game['detail']['time']);
+		    			det.find('#duration').html(game['detail']['duration_hour']+':'+game['detail']['duration_minute']);
 
 		    			$('#game-data-edit').attr('key', id);
 		    			$('#game-data-delete').attr('key', id);
@@ -953,32 +957,32 @@
 	    		view.hide();
 	    		egame.show();
 
-	    		url = '{{ url("game/data") }}/'+ id;
+	    		url = '{{ url($id."/game/data") }}/'+ id;
 
 	    		$.post(url, function(data){
 	    			time = 1;
-	    			if( data['time'] == 'AM' )
+	    			if( data['detail']['time'] == 'AM' )
 	    				time = 0;
 
 	    			$('#edit-game-form').find('input[name="id"]').val(id);
-	            	$('input[name="date"]').val(data['date']);
-		    		$('input[name="hour"]').val(data['hour']);
-		    		$('input[name="minute"]').val(data['minute']);
+	            	$('input[name="date"]').val(data['detail']['date']);
+		    		$('input[name="hour"]').val(data['detail']['hour']);
+		    		$('input[name="minute"]').val(data['detail']['minute']);
 		    		$('#edit-game-form').find('#time option').eq(time).prop('selected', true);
 
 		    		//opponent data
-		    		$('#edit-game-form').find('#opponent option[value="'+data['opp_id']+'"]').prop('selected', true);
-		    		$('#edit-game-form').find('input[name="name"]').val(data['name']);
-		    		$('#edit-game-form').find('input[name="contact_person"]').val(data['contact_person']);
-		    		$('#edit-game-form').find('input[name="phone"]').val(data['phone_no']);
-		    		$('#edit-game-form').find('input[name="email"]').val(data['email']);
+		    		$('#edit-game-form').find('#opponent option[value="'+data['opp']['id']+'"]').prop('selected', true);
+		    		/*$('#edit-game-form').find('input[name="name"]').val(data['opp']['name']);
+		    		$('#edit-game-form').find('input[name="contact_person"]').val(data['opp']['contact_person']);
+		    		$('#edit-game-form').find('input[name="phone"]').val(data['opp']['phone_no']);
+		    		$('#edit-game-form').find('input[name="email"]').val(data['opp']['email']);*/
 		    		//end opponent data
 
 		    		//location data
-		    		$('#edit-game-form').find('#location option[value="'+data['loc_id']+'"]').prop('selected', true);
+		    		$('#edit-game-form').find('#location option[value="'+data['loc']['id']+'"]').prop('selected', true);
 		    		//end location data
 
-		    		$('input[name="result"]').val(data['results']);
+		    		$('input[name="result"]').val(data['detail']['result']);
 	        	});
 		    }
 		// end when edit game is clicked populate the form with DB values
@@ -995,22 +999,21 @@
 
 	    		url = '{{ url("event/data") }}/'+ id;
 
-	    		$.post(url, function(data){
+	    		$.post(url, function(event){
 	    			time = 1;
-	    			if( data['time'] == 'AM' )
+	    			if( event['time'] == 'AM' )
 	    				time = 0;
 	    			$('#edit-event-form').find('input[name="id"]').val(id);
-	    			$('#edit-event-form').find('input[name="name"]').val(data['name']);
-	    			$('#edit-event-form').find('input[name="label"]').val(data['label']);
-	    			$('#edit-event-form').find('input[name="date"]').val(data['date']);
-	    			$('#edit-event-form').find('input[name="hour"]').val(data['hour']);
-	    			$('#edit-event-form').find('input[name="minute"]').val(data['minute']);
+	    			$('#edit-event-form').find('input[name="name"]').val(event['name']);
+	    			$('#edit-event-form').find('input[name="label"]').val(event['label']);
+	    			$('#edit-event-form').find('input[name="date"]').val(event['date']);
+	    			$('#edit-event-form').find('input[name="hour"]').val(event['hour']);
+	    			$('#edit-event-form').find('input[name="minute"]').val(event['minute']);
 	    			$('#edit-event-form').find('#time option').eq(time).prop('selected', true);
-	    			$('#edit-event-form').find('input[name="opponent"]').val(data['opponent']);
-	    			$('#edit-event-form').find('#repeat option').eq(Number(data['repeat'])).prop('selected', true);
+	    			$('#edit-event-form').find('#repeat option').eq(Number(event['repeat'])).prop('selected', true);
 
 	    			//location data
-		    		$('#edit-event-form').find('#location option[value="'+data['loc_id']+'"]').prop('selected', true);
+		    		$('#edit-event-form').find('#location option[value="'+event['loc']['id']+'"]').prop('selected', true);
 		    		//end location data
 	        	});
 	    	}

@@ -5,7 +5,7 @@
       <tr>
         <th>Staff</th>
         @foreach( $games as $game )
-          <th>vs. {{$game->name}}</th>
+          <th>vs. {{$game['name']}}</th>
         @endforeach
       </tr>
     </thead>
@@ -26,7 +26,7 @@
           </td>
           @foreach( $games as $game )
             <td>
-              <input type="checkbox" user-id='{{$staff->id}}' game-id='{{$game->id}}' @if(array_key_exists($staff->id, $sgame) && array_key_exists($game->id, $sgame[$staff->id])) checked @endif>
+              <input type="checkbox" user-id='{{$staff->id}}' game-id='{{$game["id"]}}' @if(array_key_exists($staff->id, $sgame) && array_key_exists($game['id'], $sgame[$staff->id])) checked @endif>
               <i class="input-helper"></i>
             </td>
           @endforeach

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocationsTable extends Migration
+class CreateLocationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('location_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('teams_id')->unsigned();
+            $table->integer('team_id')->unsigned();
             $table->integer('type'); // 0 for games, 1 for events
             $table->string('detail');
             $table->string('name');
             $table->string('address');
             $table->string('link');
-            $table->timestamps();
 
-            $table->foreign('teams_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 
@@ -34,6 +33,6 @@ class CreateLocationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('location_details');
     }
 }

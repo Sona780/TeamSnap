@@ -107,8 +107,8 @@ class MemberController extends Controller
         $teamd = Team::find($id);
         $userd = Auth::user();
 
-        $email = new SendMail($userd->name, $userd->email, $teamd->teamname, $user->email);
-        Mail::to($user->email)->send($email);
+        /*$email = new SendMail($userd->name, $userd->email, $teamd->teamname, $user->email);
+        Mail::to($user->email)->send($email);*/
 
         return redirect($id.'/members');
     }

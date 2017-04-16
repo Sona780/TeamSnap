@@ -25,7 +25,7 @@ class CreateUserDetailsTable extends Migration
             $table->string('birthday')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->string('avatar');
+            $table->string('avatar')->default(config('paths.default_avatar_path'));
 
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
         });
