@@ -23,13 +23,13 @@ class GameTeam extends Model
 
     public static function getGames($id)
     {
-    	return static::where('team1_id', $id)->orWhere('team2_id', $id)
-    				 ->select('id', 'team1_id', 'team2_id')->latest('created_at')->get();
+    	return static::where('team1_id', $id)->orWhere('team2_id', $id)->latest('created_at')->get();
     }
 
     public static function getOpponents($id)
     {
         return static::where('team1_id', $id)
+                     ->where('game_type', 0)
                      ->leftJoin('teams', 'teams.id', 'game_teams.team2_id')
                      ->leftJoin('game_details', 'game_details.game_team_id', 'game_teams.id')
                      ->leftJoin('opponent_details', 'opponent_details.id', 'game_details.opponent_detail_id')
@@ -45,6 +45,16 @@ class GameTeam extends Model
                      })->leftJoin('game_details', 'game_details.game_team_id', 'game_teams.id')
                      ->where('game_details.result', '!=', '')
                      ->select('game_teams.*', 'game_details.result')
+                     ->union(GameTeam::playedLeagueGames($id))
                      ->get();
+    }
+
+    public static function playedLeagueGames($id)
+    {
+        return static::where(function($query) use($id){
+                        $query->where('team1_id', $id)->orWhere('team2_id', $id);
+                     })->leftJoin('league_match_details', 'league_match_details.game_team_id', 'game_teams.id')
+                     ->where('league_match_details.result', '!=', '')
+                     ->select('game_teams.*', 'league_match_details.result');
     }
 }

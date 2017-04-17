@@ -16,12 +16,10 @@ class CreateLeagueTeamsTable extends Migration
         Schema::create('league_teams', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('league_division_id')->unsigned();
-            $table->string('team_name');
-            $table->string('owner_first_name');
-            $table->string('owner_last_name');
-            $table->string('owner_email');
+            $table->integer('team_id')->unsigned();
 
             $table->foreign('league_division_id')->references('id')->on('league_divisions')->onDelete('cascade');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }
 

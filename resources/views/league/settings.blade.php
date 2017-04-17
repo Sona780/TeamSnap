@@ -234,7 +234,7 @@
   <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
   <script src="{{URL::to('/')}}/js/notify.js"></script>
   <script type="text/javascript">
-  	cnt = '{{$manager->count()}}';
+  	cnt = '{{$managers->count()}}';
   	// start script to load on page load
   	$(document).ready(function(){
 	  $("#alert").fadeTo(2000, 500).slideUp(500, function(){

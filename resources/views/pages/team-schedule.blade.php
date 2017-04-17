@@ -93,11 +93,25 @@
 					                	{{ $game['detail']->result }}
 					                @endif
 					            </td>
-					            <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('D d, M Y') }}</td>
+					            <td>
+					              @if( $game['type'] == 0 )
+					                {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('D d, M Y') }}
+					              @else
+					              	{{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->match_date)->format('D d, M Y') }}
+					              @endif
+					            </td>
 					            <td>
 					            	{{ $game['detail']->hour }}:{{ $game['detail']->minute }}&nbsp;{{ $game['detail']->time }}
 					            </td>
-					            <td>{{ $game['loc']->name }}</td>
+
+					            <td>
+					              @if( $game['type'] == 0 )
+					              	{{ $game['loc']->name }}
+					              @else
+					              	{{ $game['loc']->loc_name }}
+					              @endif
+					            </td>
+
 					            @if( $user->manager_access != 0 )
 					              @if($game['ch'] == 'no')
 					              	<td></td>
@@ -112,10 +126,16 @@
 		                        		</a>
 	                                </td>
 	                              @endif
-	                             @endif
-                                <td>{{ $game['loc']->detail }}</td>
-                                <td>{{ $game['loc']->address }}</td>
-                                <td>{{ $game['loc']->link }}</td>
+	                            @endif
+	                            @if( $game['type'] == 0 )
+                                  <td>{{ $game['loc']->detail }}</td>
+                                  <td>{{ $game['loc']->address }}</td>
+                                  <td>{{ $game['loc']->link }}</td>
+                                @else
+                                  <td>{{ $game['loc']->loc_detail }}</td>
+                                  <td>{{ $game['loc']->contact }}</td>
+                                  <td>-</td>
+                                @endif
 					        </tr>
 				        @endforeach
 				        @foreach($events as $event)
@@ -137,7 +157,7 @@
 		                        			<img class="icon-style" src='{{url("/")}}/img/delete.png'>
 		                        		</a>
 	                                </td>
-	                             @endif
+	                            @endif
                                 <td>{{ $event->location->detail }}</td>
                                 <td>{{ $event->location->address }}</td>
                                 <td>{{ $event->location->link }}</td>
@@ -444,7 +464,12 @@
 		                        	id: {{$game['id']}},
 		                        	type: 'game',
 		                            title: 'vs. {{ $game["opp"]["teamname"] }}',
-		                            start: new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('d') }}, {{$game['detail']->hour}}, {{$game['detail']->minute}} ),
+		                            start:
+		                              @if( $game['type'] == 0 )
+		                            	new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->date)->format('d') }}, {{$game['detail']->hour}}, {{$game['detail']->minute}} ),
+		                              @else
+		                              	new Date( {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->match_date)->format('Y') }}, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->match_date)->format('m') }} - 1, {{ \Carbon\Carbon::createFromFormat('d/m/Y', $game['detail']->match_date)->format('d') }}, {{$game['detail']->hour}}, {{$game['detail']->minute}} ),
+		                              @endif
 		                            allDay: false,
 		                            color: '#2196F3',
 		                        },
@@ -550,21 +575,42 @@
 		    			$('#game-data').modal('show');
 		    			det = $('#game-details');
 		    			det.find('#name').html(game['name']);
-		    			det.find('#c-person').html(game['contact_person']);
-		    			det.find('#phone').html(game['phone_no']);
-		    			det.find('#email').html(game['email']);
 
-		    			det.find('#l-name').html(game['loc']['name']);
-		    			det.find('#l-detail').html(game['loc']['detail']);
-		    			det.find('#address').html(game['loc']['address']);
-		    			det.find('#link').html(game['loc']['link']);
+		    			if( game['game_type'] == 0 )
+		    			{
+		    			  det.find('#c-person').html(game['contact_person']);
+		    			  det.find('#phone').html(game['phone_no']);
+		    			  det.find('#email').html(game['email']);
 
-		    			if( parseInt(game['detail']['minute']) < 10 )
-		    				game['detail']['minute'] = '0'+game['detail']['minute'];
+		    			  det.find('#l-name').html(game['loc']['name']);
+		    			  det.find('#l-detail').html(game['loc']['detail']);
+		    			  det.find('#address').html(game['loc']['address']);
+		    			  det.find('#link').html(game['loc']['link']);
 
-		    			det.find('#date').html(game['detail']['date']);
+		    			  det.find('#duration').html(game['detail']['duration_hour']+':'+game['detail']['duration_minute']);
+		    			  det.find('#date').html(game['detail']['date']);
+
+		    			  $('#game-data-edit').show();
+		    			  $('#game-data-delete').show();
+		    			}
+		    			else
+		    			{
+		    			  det.find('#c-person').html('-');
+		    			  det.find('#phone').html('-');
+		    			  det.find('#email').html('-');
+		    			  det.find('#address').html('-');
+		    			  det.find('#link').html('-');
+		    			  det.find('#duration').html('-');
+
+		    			  det.find('#l-name').html(game['loc']['loc_name']);
+		    			  det.find('#l-detail').html(game['loc']['loc_detail']);
+		    			  det.find('#date').html(game['detail']['match_date']);
+
+		    			  $('#game-data-edit').hide();
+		    			  $('#game-data-delete').hide();
+		    			}
+
 		    			det.find('#time').html(game['detail']['hour']+':'+game['detail']['minute']+' '+game['detail']['time']);
-		    			det.find('#duration').html(game['detail']['duration_hour']+':'+game['detail']['duration_minute']);
 
 		    			$('#game-data-edit').attr('key', id);
 		    			$('#game-data-delete').attr('key', id);

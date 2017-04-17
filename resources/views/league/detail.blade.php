@@ -70,16 +70,14 @@
           <table class="table table-row-bordered mem-tab" style="width:100% !important">
             <thead>
               <tr>
-                <th class="all">Team name</th>
-                <th class="">Owner</th>
+                <th class="all" style="width: 80%">Team name</th>
                 <th class="all" style="text-align: center">Manager</th>
               </tr>
             </thead>
             <tbody>
               @foreach($lteams as $lteam)
                 <tr>
-                  <td>{{$lteam->team_name}}</td>
-                  <td>{{$lteam->owner_first_name}} {{$lteam->owner_last_name}}<br>{{$lteam->owner_email}}</td>
+                  <td>{{$lteam->teamname}}</td>
                   <td style="text-align: center">
                     <a id="delete" href="{{url('league/'.$id.'/team/delete/'.$lteam->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
                   </td>

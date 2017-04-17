@@ -144,14 +144,14 @@
                   <!-- start teams -->
                     <div class="col-sm-12">
                   	  <div class="form-group col-sm-5">
-					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team1" title='Select a team' id="team1">
+					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team1_id" title='Select a team' id="team1">
 					    </select>
 					  </div>
 					  <div class="col-sm-2">
 					  	<h6 style="text-align: center">v/s</h6>
 					  </div>
 					  <div class="form-group col-sm-5">
-					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team2" title='Select opponent team' id="team2">
+					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team2_id" title='Select opponent team' id="team2">
 					  	</select>
 					  </div>
                   	</div>
@@ -250,7 +250,7 @@
     	  loc_content  = '<option value="0" checked>New Location</option><option value="default" disabled>-------------------------------</option> ';
 
     	  for( i = 0; i < data['teams'].length; i++ )
-    	  	team_content += '<option value="'+ data['teams'][i]['id'] +'">'+ data['teams'][i]['team_name'] +'</option>';
+    	  	team_content += '<option value="'+ data['teams'][i]['id'] +'">'+ data['teams'][i]['teamname'] +'</option>';
 
     	  for( i = 0; i < data['loc'].length; i++ )
     	  	loc_content  += '<option value="'+ data['loc'][i]['id'] +'">'+ data['loc'][i]['loc_name'] +'</option>';

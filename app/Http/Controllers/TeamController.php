@@ -12,6 +12,7 @@ use TeamSnap\TeamInfo;
 use TeamSnap\AccessManage;
 
 use Image;
+use Redirect;
 
 class TeamController extends Controller
 {
@@ -35,15 +36,12 @@ class TeamController extends Controller
         {
           $name = $request->teamname;
           $this->validate($request, [
-              'teamname' => 'required|unique:teams,teamname',
+              'teamname' => 'required',
               'zip'      => 'required',
             ], [
               'teamname.required' => 'The team name is required.',
-              'teamname.unique'   => 'A team with same name already exists.',
             ]
           );
-
-          $uid  = Auth::user()->id;
 
           $path = '/images/teams/default.jpg';
 
@@ -57,9 +55,22 @@ class TeamController extends Controller
           }
 
           $request['team_logo'] = $path;
-          $request['team_owner_id'] = $uid;
+          $request['team_owner_id'] = Auth::user()->id;
 
-          $team = Team::create($request->all());
+          $team = Team::where('teamname', $name)->first();
+
+          if( $team != '' )
+          {
+            if( $team->team_owner_id == 0 )
+              $team->update($request->except('_token'));
+            else
+            {
+              session()->flash('error', 'A team with same name already exists.');
+              return Redirect::back();
+            }
+          }
+          else
+            $team = Team::create($request->all());
 
           TeamInfo::create(['team_id' => $team->id, 'uniform' => '/images/uniforms/default.png']);
           AccessManage::newTeam($team->id, 0, 0);

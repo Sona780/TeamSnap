@@ -12,6 +12,9 @@
           @if($errors->has('teamname'))
             {{$errors->first('teamname')}}
           @endif
+          @if(Session::has('error'))
+            {{ Session::get('error') }}
+          @endif
         </strong>
       </div>
     </div>
@@ -46,8 +49,8 @@
           {{Form::text('zip', null, ['class' => 'form-control', 'placeholder' => 'Zip Code'])}}
         </div>
         <strong style="color: #ec7475">
-          @if($errors->has('zipcode'))
-            {{$errors->first('zipcode')}}
+          @if($errors->has('zip'))
+            {{$errors->first('zip')}}
           @endif
         </strong>
       </div>

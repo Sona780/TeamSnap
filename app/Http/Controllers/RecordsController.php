@@ -10,10 +10,13 @@ use TeamSnap\BaseballRecord;
 use TeamSnap\UserDetail;
 
 use TeamSnap\GameTeam;
+use TeamSnap\GameDetail;
+use TeamSnap\LeagueMatchDetail;
 
 
 use DB;
 use Auth;
+use Carbon\Carbon;
 use TeamSnap\Http\ViewComposer\UserComposer;
 
 class RecordsController extends Controller
@@ -103,13 +106,12 @@ class RecordsController extends Controller
 
           // start total stats of ecah player
             $games = GameTeam::getPlayedGames($id);
-
             $gpstats = [];
             $i = 0;
 
             foreach ($games as $game)
             {
-              $stats = $game->baseballRecord();
+              $stats  = BaseballRecord::getRecords($id, $game->id);
               $opp_id = ($game->team1_id == $id) ? $game->team2_id : $game->team1_id;
 
               $gpstats[$i]['game']['id']      = $game->id;
@@ -118,7 +120,6 @@ class RecordsController extends Controller
 
               $game->stat = $this->getStats($stats);
               $game->name = $gpstats[$i]['game']['name'];
-              $stats = $stats->get();
 
               $temp = [];
               $j = 0;
@@ -156,8 +157,7 @@ class RecordsController extends Controller
         }
         else if( $member != '' )
         {
-          $tuid    = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
-          //$games   = Game::getPlayerGamesDetail($id, $tuid);
+          $tuid  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
           $games = Availability::getPlayedGames($tuid);
 
           foreach ($games as $game)
@@ -186,13 +186,26 @@ class RecordsController extends Controller
     // start get opponents of player whose stat not available
       public function getOpponents($id, $tuid)
       {
-        $games = Availability::getBaseballOpponents($tuid);
-        foreach ($games as $game)
+        $all_games = Availability::getBaseballOpponents($tuid);
+        $games = [];
+        $i = 0;
+
+        foreach ($all_games as $game)
         {
-          $opp_id = ($game->team1_id ==  $id) ? $game->team2_id : $game->team1_id;
-          $game->name = Team::find($opp_id)->teamname;
+          if( $game->game_type == 0 )
+            $date = GameDetail::where('game_team_id', $game->id)->first()->date;
+          else
+            $date = LeagueMatchDetail::where('game_team_id', $game->id)->first()->match_date;
+
+          $date   = Carbon::createFromFormat('d/m/Y', $date)->format('d/m/Y');
+          if( $date <= Carbon::now()->format('d/m/Y') )
+          {
+            $opp_id = ($game->team1_id ==  $id) ? $game->team2_id : $game->team1_id;
+            $games[$i]['name'] = Team::find($opp_id)->teamname;
+            $games[$i]['id']   = $game->id;
+            $games[$i]['date'] = $date;
+          }
         }
-        //dd($games);
         return $games;
       }
     // end get opponents of player whose stat not available

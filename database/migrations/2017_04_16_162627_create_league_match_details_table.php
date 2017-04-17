@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLeagueMatchesTable extends Migration
+class CreateLeagueMatchDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateLeagueMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('league_matches', function (Blueprint $table) {
+        Schema::create('league_match_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('league_division_id')->unsigned();
-            $table->integer('team1')->unsigned();
-            $table->integer('team2')->unsigned();
+            $table->integer('game_team_id')->unsigned();
             $table->string('result');
             $table->string('match_date');
             $table->integer('hour');
@@ -27,8 +26,7 @@ class CreateLeagueMatchesTable extends Migration
 
             $table->foreign('league_division_id')->references('id')->on('league_divisions')->onDelete('cascade');
             $table->foreign('league_location_id')->references('id')->on('league_locations')->onDelete('cascade');
-            $table->foreign('team1')->references('id')->on('league_teams')->onDelete('cascade');
-            $table->foreign('team2')->references('id')->on('league_teams')->onDelete('cascade');
+            $table->foreign('game_team_id')->references('id')->on('game_teams')->onDelete('cascade');
         });
     }
 
@@ -39,6 +37,6 @@ class CreateLeagueMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('league_matches');
+        Schema::dropIfExists('league_match_details');
     }
 }

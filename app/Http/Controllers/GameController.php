@@ -9,6 +9,8 @@ use TeamSnap\OpponentDetail;
 use TeamSnap\LocationDetail;
 use TeamSnap\GameDetail;
 use TeamSnap\Team;
+use TeamSnap\LeagueMatchDetail;
+use TeamSnap\LeagueLocation;
 
 use Validator;
 use Auth;
@@ -157,10 +159,23 @@ class GameController extends Controller
     // start fetch details of scheduled game
         public function getData($id, $game_id)
         {
-            $game         = GameTeam::find($game_id);
-            $game->detail = GameDetail::where('game_team_id', $game->id)->first();
-            $game->opp    = OpponentDetail::find($game->detail->opponent_detail_id);
-            $game->loc    = LocationDetail::find($game->detail->location_detail_id);
+            $game = GameTeam::find($game_id);
+
+            if( $game->game_type == 0 )
+            {
+              $game->detail = GameDetail::where('game_team_id', $game->id)->first();
+              $game->opp    = OpponentDetail::find($game->detail->opponent_detail_id);
+              $game->loc    = LocationDetail::find($game->detail->location_detail_id);
+            }
+            else
+            {
+              $game->detail = LeagueMatchDetail::where('game_team_id', $game->id)->first();
+              $game->loc    = LeagueLocation::find($game->detail->league_location_id);
+              $game->detail->time = ($game->detail->time == 0) ? 'AM' : 'PM';
+            }
+
+            $min = $game->detail->minute;
+            $game->detail->minute = ($min < 10) ? '0'.$min : $min;
 
             $opp_id = ($game->team1_id == $id) ? $game->team2_id : $game->team1_id;
             $game->name = Team::find($opp_id)->teamname;

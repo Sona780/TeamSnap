@@ -42,7 +42,7 @@ class LeagueController extends Controller
     	$composerWrapper = new UserComposer( $id, 'league' );
       	$composerWrapper->compose();
 
-      	$lteams = LeagueTeam::where('league_division_id', $ldid)->get();
+      	$lteams = LeagueTeam::getTeams($ldid);
       	$divisions = LeagueDivision::where('parent_id', $ldid)->get();
         $prev = [];
         $name = $league->league_name;
@@ -75,7 +75,7 @@ class LeagueController extends Controller
         }
         $prev = array_reverse($prev);
 
-        $lteams = LeagueTeam::where('league_division_id', $ldid)->get();
+        $lteams = LeagueTeam::getTeams($ldid);
         $divisions = LeagueDivision::where('parent_id', $ldid)->get();
         $name = LeagueDivision::find($ldid)->division_name;
         return view('league.detail', compact('id', 'league', 'lteams', 'divisions', 'ldid', 'prev', 'name'));
@@ -84,6 +84,11 @@ class LeagueController extends Controller
 
     public function saveTeam($id, Request $request)
     {
+        $opp  = Team::where('teamname', $request->team_name)->first();
+        if( $opp == '' )
+            $opp = Team::newTeam($request->team_name, 1);
+
+        $request['team_id'] = $opp->id;
     	LeagueTeam::create($request->all());
         $ldid = $request->league_division_id;
 
@@ -135,7 +140,7 @@ class LeagueController extends Controller
     public function getDivisionTeams($did)
     {
         $data = [];
-        $data['teams'] = LeagueTeam::where('league_division_id', $did)->select('id', 'team_name')->get();
+        $data['teams'] = LeagueTeam::getDivisionTeams($did);
         $data['loc']   = LeagueLocation::where('league_division_id', $did)->select('id', 'loc_name')->get();
         return $data;
     }

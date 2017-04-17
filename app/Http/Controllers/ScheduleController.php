@@ -10,7 +10,7 @@ use TeamSnap\Team;
 use TeamSnap\League;
 use TeamSnap\LeagueTeam;
 use TeamSnap\LeagueLocation;
-use TeamSnap\LeagueMatch;
+use TeamSnap\LeagueMatchDetail;
 use TeamSnap\LeagueDivision;
 
 use TeamSnap\GameTeam;
@@ -36,11 +36,24 @@ class ScheduleController extends Controller
             $opp_id = ( $game->team1_id == $id ) ? $game->team2_id : $game->team1_id;
 
             $res[$i]['id']       = $game->id;
+            $res[$i]['type']     = $game->game_type;
             $res[$i]['opp']      = Team::getDetail($opp_id);
-            $res[$i]['detail']   = GameDetail::getDetail($game->id);
-            $res[$i]['loc']      = LocationDetail::find($res[$i]['detail']->location_detail_id);
-            $res[$i]['opp_data'] = ($game->team1_id == $id) ? OpponentDetail::getDetail($id) : '';
-            $res[$i]['ch']       = ($game->team1_id == $id) ? 'yes' : 'no';
+
+            if( $res[$i]['type'] == 0 )
+            {
+                $res[$i]['detail']   = GameDetail::getDetail($game->id);
+                $res[$i]['loc']      = LocationDetail::find($res[$i]['detail']->location_detail_id);
+                $res[$i]['opp_data'] = ($game->team1_id == $id) ? OpponentDetail::getDetail($id) : '';
+                $res[$i]['ch']       = ($game->team1_id == $id) ? 'yes' : 'no';
+            }
+            else
+            {
+                $res[$i]['detail']   = LeagueMatchDetail::getDetail($game->id);
+                $res[$i]['loc']      = LeagueLocation::find($res[$i]['detail']->league_location_id);
+                $res[$i]['ch']       = 'no';
+
+                $res[$i]['detail']['time'] = ($res[$i]['detail']['time'] == 0) ? 'AM' : 'PM';
+            }
 
             $min = $res[$i]['detail']->minute;
             if( $min < 10 )
@@ -68,6 +81,7 @@ class ScheduleController extends Controller
         {
             //get all scheduled games for team
             $games = $this->getGames($id, GameTeam::getGames($id));
+            //return $games;
 
             //get all scheduled events for team
             $events = Event::where('team_id', $id)->orderBy('updated_at', 'latest')->get();
@@ -147,22 +161,29 @@ class ScheduleController extends Controller
 
         $league    = League::find($id);
         $divisions = LeagueDivision::findTeamDivisions($id);
-        $matches   = League::matches($id);
+        //$matches   = League::matches($id);
+        $matches   = LeagueMatchDetail::matches($id);
 
         foreach ($matches as $match)
         {
             if( $match->minute < 10 )
                 $match->minute = '0'.$match->minute;
             $match->time = ($match->time == 0) ? 'AM' : 'PM';
-            $match->team_name = LeagueTeam::find($match->team1)->team_name;
-            $match->opponent  = LeagueTeam::find($match->team2)->team_name;
+            $match->team_name      = Team::find($match->team1_id)->teamname;
+            $match->opponent       = Team::find($match->team2_id)->teamname;
+            $match->division_name  = LeagueDivision::find($match->league_division_id)->division_name;
         }
+        //return $matches;
 
         return view('league.schedule', compact('id', 'league', 'divisions', 'matches'));
     }
 
     public function saveLeagueMatch($id, Request $request)
     {
+        //return $request->team2_id;
+        $return['game_type'] = 1;
+        $gteam = GameTeam::newGame($request->team1_id, $request->team2_id, 1);
+
         $request['league_id'] = $id;
         $loc = $request->location;
         if( $loc == 0 )
@@ -171,7 +192,8 @@ class ScheduleController extends Controller
             $loc = $loc->id;
         }
         $request['league_location_id'] = $loc;
-        $m = LeagueMatch::create($request->all());
+        $request['game_team_id'] = $gteam->id;
+        $m = LeagueMatchDetail::create($request->all());
         return redirect('league/'.$id.'/schedule');
     }
 

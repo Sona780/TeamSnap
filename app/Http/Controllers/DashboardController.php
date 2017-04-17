@@ -21,6 +21,7 @@ use TeamSnap\LeagueAnnouncement;
 use TeamSnap\Availability;
 use TeamSnap\GameDetail;
 use TeamSnap\GameTeam;
+use TeamSnap\LeagueMatchDetail;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
 
@@ -51,17 +52,27 @@ class DashboardController extends Controller
         $i = 0;
 
         $all_games = GameTeam::getGames($id);
+        //return $all_games;
 
         foreach ($all_games as $g)
         {
-          $detail = GameDetail::getDetail($g->id);
-          $date   = Carbon::createFromFormat('d/m/Y', $detail->date);
-          if( $date->format('d/m/Y') >= Carbon::now()->format('d/m/Y') )
+          if( $g->game_type == 0 )
+          {
+            $detail = GameDetail::getDetail($g->id);
+            $date   = Carbon::createFromFormat('d/m/Y', $detail->date)->format('d/m/Y');
+          }
+          else
+          {
+            $detail = LeagueMatchDetail::where('game_team_id', $g->id)->first();
+            $date   = Carbon::createFromFormat('d/m/Y', $detail->match_date)->format('d/m/Y');
+          }
+
+          if( $date >= Carbon::now()->format('d/m/Y') )
           {
             $opp_id = ($g->team1_id == $id) ? $g->team2_id : $g->team1_id;
 
             $games[$i]['id']     = $g->id;
-            $games[$i]['on']     = $detail->date;
+            $games[$i]['on']     = $date;
             $games[$i]['hour']   = $detail->hour;
             $games[$i]['minute'] = $detail->minute;
             $games[$i]['time']   = $detail->time;
@@ -92,13 +103,13 @@ class DashboardController extends Controller
         foreach ($all_games as $game)
         {
           $detail = GameDetail::where('game_team_id', $game->game_team_id)->first();
-          $date   = Carbon::createFromFormat('d/m/Y', $detail->date);
-          if($date->format('d/m/Y') >= Carbon::now()->format('d/m/Y'))
+          $date   = Carbon::createFromFormat('d/m/Y', $detail->date)->format('d/m/Y');
+          if($date >= Carbon::now()->format('d/m/Y'))
           {
             $gt = GameTeam::find($game->game_team_id);
             $opp_id = ($gt->team1_id == $id) ? $gt->team2_id : $gt->team1_id;
             $games[$i]['id']     = $gt->id;
-            $games[$i]['on']     = $date->format('d/m/Y');
+            $games[$i]['on']     = $date;
             $games[$i]['hour']   = $detail->hour;
             $games[$i]['minute'] = $detail->minute;
             $games[$i]['name']   = Team::find($opp_id)->teamname;
@@ -155,21 +166,26 @@ class DashboardController extends Controller
 
       $total    = [];
       $total['teams']   = League::totalTeams($id);
-      $total['matches'] = League::totalMatches($id);
-      $total['played']  = League::playedMatches($id);
-      $total['future']  = $total['matches'] - $total['played'];
 
-
-      $matches   = League::matches($id);
-
+      $matches   = LeagueMatchDetail::matches($id);
+      $i = 0;
       foreach ($matches as $match)
       {
+        $date = Carbon::createFromFormat('d/m/Y', $match->match_date)->format('d/m/Y');
+        if($date >= Carbon::now()->format('d/m/Y'))
+        {
+          $i++;
+        }
         if( $match->minute < 10 )
           $match->minute = '0'.$match->minute;
         $match->time = ($match->time == 0) ? 'AM' : 'PM';
-        $match->team_name = LeagueTeam::find($match->team1)->team_name;
-        $match->opponent  = LeagueTeam::find($match->team2)->team_name;
+        $match->team_name = Team::find($match->team1_id)->teamname;
+        $match->opponent  = Team::find($match->team2_id)->teamname;
       }
+
+      $total['matches'] = $matches->count();
+      $total['played']  = $matches->count() - $i;
+      $total['future']  = $i;
 
       $announcements = LeagueAnnouncement::where('league_id', $id)->latest('id')->get();
 

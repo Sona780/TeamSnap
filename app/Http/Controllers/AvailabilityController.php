@@ -12,6 +12,7 @@ use TeamSnap\UserDetail;
 
 use TeamSnap\GameTeam;
 use TeamSnap\GameDetail;
+use TeamSnap\LeagueMatchDetail;
 use Carbon\Carbon;
 
 use Auth;
@@ -40,7 +41,11 @@ class AvailabilityController extends Controller
             $i = 0;
             foreach ($all_games as $game)
             {
-                $date = GameDetail::where('game_team_id', $game->id)->first()->date;
+                if( $game->game_type == 0 )
+                  $date = GameDetail::where('game_team_id', $game->id)->first()->date;
+                else
+                  $date = LeagueMatchDetail::where('game_team_id', $game->id)->first()->match_date;
+
                 $date = Carbon::createFromFormat('d/m/Y', $date);
                 if($date->format('d/m/Y') >= Carbon::now()->format('d/m/Y'))
                 {
