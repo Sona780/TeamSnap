@@ -16,6 +16,8 @@ class CreateLeagueAnnouncementsTable extends Migration
         Schema::create('league_announcements', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('league_id')->unsigned();
+            $table->string('start');
+            $table->string('end');
             $table->string('title');
             $table->string('announcement');
 

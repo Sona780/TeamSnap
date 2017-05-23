@@ -15,6 +15,8 @@ use TeamSnap\TeamManager;
 use TeamSnap\League;
 use TeamSnap\LeagueAccessManage;
 use TeamSnap\LeagueManager;
+use TeamSnap\LeagueDivision;
+use TeamSnap\DivisionManager;
 
 use TeamSnap\Mail\Manager;
 
@@ -24,6 +26,7 @@ use Mail;
 use Redirect;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
+use TeamSnap\Http\Controllers\DashboardController;
 
 class SettingController extends Controller
 {
@@ -33,12 +36,13 @@ class SettingController extends Controller
           $uid    = Auth::user()->id;
           $user   = UserDetail::where('users_id', $uid)->first();
           $owner  = Team::find($id)->team_owner_id;
+          $access = AccessManage::getDetail($id);
 
           $manager = '';
           if( $user->manager_access == 2 )
             $manager = TeamUser::CheckMembership($id, $uid)->first();
 
-          if( $uid == $owner || $manager != '' )
+          if( $owner == $uid || ($manager != '' && $access->setting == 1) )
           {
             $team = Team::find($id);
             $managers = TeamUser::getManagers($id);
@@ -59,11 +63,15 @@ class SettingController extends Controller
     // end show settings page
 
     // start  league settings page
-        public function leagueSetting($id)
+        public function leagueSetting($id, $ldid)
         {
-          $uid = Auth::user()->id;
-          $league = League::find($id);
-          if( $uid != $league->user_id )
+
+          $user = Auth::user();
+          $uid  = $user->id;
+          $ch   = League::find($id)->user_id;
+          $man  = DivisionManager::check($uid, $ldid);
+
+          if( $uid != $ch && $man == 0 )
             return view('errors/404');
 
           $composerWrapper = new UserComposer( $id, 'league' );
@@ -72,10 +80,12 @@ class SettingController extends Controller
           $public = LeagueAccessManage::getPermissions($id, 0);
           $manage = LeagueAccessManage::getPermissions($id, 1);
 
-          $managers = LeagueManager::getManagers($id);
-          //return $managers;
+          $managers = DivisionManager::getManagers($ldid);
+          $d = new DashboardController();
+          $prev = $d->path($ldid);
+          $curr = LeagueDivision::find($ldid)->division_name;
 
-          return view('league.settings', compact('id', 'league', 'public', 'manage', 'managers'));
+          return view('league.settings', compact('id', 'league', 'public', 'manage', 'managers', 'curr', 'prev', 'ldid'));
         }
     // end show settings page
 
@@ -108,14 +118,15 @@ class SettingController extends Controller
         public function publicAccessUpdate($id, Request $request)
         {
             $type = $request->teamleague;
-            session()->flash('success', 'The access permissions for public url been changed successfully.');
+            session()->flash('success', 'The access permissions for public url has been changed successfully.');
+            session()->flash('active', 11);
             if( $type == 'team' )
             {
                 AccessManage::PublicAccess($id)->update($request->except('_token', 'teamleague'));
                 return redirect($id.'/settings');
             }
             LeagueAccessManage::where('league_id', $id)->where('type', 0)->update($request->except('_token', 'teamleague'));
-            return redirect('league/'.$id.'/settings');
+            return Redirect::back();
         }
     // end update public access permissions
 
@@ -123,14 +134,15 @@ class SettingController extends Controller
         public function managerAccessUpdate($id, Request $request)
         {
             $type = $request->teamleague;
-            session()->flash('success', 'The access permissions for managers been changed successfully.');
+            session()->flash('success', 'The access permissions for managers has been changed successfully.');
+            session()->flash('active', 12);
             if( $type == 'team' )
             {
                 AccessManage::ManagerAccess($id)->update($request->except('_token', 'teamleague'));
                 return redirect($id.'/settings');
             }
             LeagueAccessManage::where('league_id', $id)->where('type', 1)->update($request->except('_token', 'teamleague'));
-            return redirect('league/'.$id.'/settings');
+            return Redirect::back();
         }
     // end update manager access permissions
 
@@ -143,48 +155,44 @@ class SettingController extends Controller
             $fname = $request->fname;
             $user  = User::where('email', $email)->first();
             $owner = Auth::user();
-            $ch = 0;
             $uid = 0;
 
             if( $user == '' )
             {
-                $ch   = 1;
-                $user = User::create(['name' => $fname, 'email' => $email]);
+                $user = User::addUserFromLeague($fname, $email, 0);
+                UserDetail::addUserFromLeague($user->id, $fname, $request->lname, 2);
+            }
+            else
+            {
+                $access = UserDetail::where('users_id', $user->id)->first()->manager_access;
+                if($access != 2)
+                    return 0;
             }
 
             if( $type == 'team' )
             {
                 $name  = Team::find($id)->teamname;
-                $tuser = TeamUser::where('teams_id', $id)->where('users_id', $user->id)->first();
+                $tuser = TeamUser::checkIfManager($id, $user->id);
 
                 if( $tuser == '' )
                 {
-                    $tuser = TeamUser::create(['teams_id' => $id, 'users_id' => $user->id]);
-                    TeamUserDetail::create(['team_users_id' => $tuser->id, 'role' => 'manager', 'flag' => 0]);
-                    $uid = $tuser->id;
+                    $tuser = TeamUser::createTeamUser($id, $user->id);
+                    TeamUserDetail::createNew($tuser->id, 0, 'manager');
                 }
                 else
-                    TeamUserDetail::find($tuser->id)->update(['role' => 'manager', 'flag' => 0]);
+                    TeamUserDetail::updateDetail($tuser->id, 0, 'manager');
+                $uid = $tuser->id;
             }
             else
             {
                 $name  = League::find($id)->league_name;
-                $tuser = LeagueManager::where('league_id', $id)->where('user_id', $user->id)->first();
+                $tuser = DivisionManager::checkIfManager($id, $user->id);
 
                 if( $tuser == '' )
-                {
-                    $tuser = LeagueManager::create(['league_id' => $id, 'user_id' => $user->id]);
-                    $uid = $tuser->id;
-                }
-            }
+                    $tuser = DivisionManager::newManager($id, $user->id);
 
-            if( $ch == 1 )
-                UserDetail::create([
-                    'users_id' => $user->id, 'firstname' => $fname,
-                    'lastname' => $request->lname, 'manager_access' => 2
-                ]);
-            else
-                UserDetail::where('users_id', $user->id)->update(['manager_access' => 2]);
+                $uid = $tuser->id;
+            }
 
             $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
             Mail::to($email)->send($mail);
@@ -193,22 +201,24 @@ class SettingController extends Controller
     // end add new manager
 
     // start delete team manager
-        public function deleteManager($id, $type, $uid)
+        public function deleteManager($type, $uid)
         {
+            //return 'kk';
             if( $type == 'team' )
             {
                 $tuser = TeamUser::find($uid);
-                $user  = User::find($tuser->users_id);
+                $user  = User::find($tuser->users_id)->name;
                 $tuser->delete();
             }
             else
             {
-                $tuser = LeagueManager::find($uid);
-                $user  = User::find($tuser->user_id);
-                $tuser->delete();
+                $m = DivisionManager::find($uid);
+                $user = User::find($m->user_id)->name;
+                $m->delete();
             }
 
-            session()->flash('success', $user->name.' has been removed from team manager post.');
+            session()->flash('success', $user.' has been removed from team manager post.');
+            session()->flash('active', 2);
             return Redirect::back();
         }
     // end delete team manager

@@ -118,6 +118,7 @@ class TeamController extends Controller
 
             $team->update($request->all());
 
+            session()->flash('success', 'Team details updated successfully!!');
             return redirect('home');
         }
     // end update team info
@@ -126,7 +127,7 @@ class TeamController extends Controller
         public function delete($tid)
         {
             Team::find($tid)->delete();
-
+            session()->flash('success', 'Team has been successfully deleted!!');
             return redirect('home');
         }
     // end delete team
@@ -174,7 +175,8 @@ class TeamController extends Controller
 
             $team->update(['uniform' => $path]);
           }
+          session()->flash('success', 'Team information updated successfully!!');
           return redirect($id.'/dashboard');
         }
-    // end
+    // end update team info
 }

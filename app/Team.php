@@ -25,9 +25,6 @@ class Team extends Model
     	return $this -> hasMany('TeamSnap\Ctg');
     }
 
-
-    //Team::where('team_owner_id', $uid)->where('id', $id)->first();
-
     public function scopeCheckIfTeamOwner($query, $uid, $id)
     {
         $query->where('team_owner_id', $uid)->where('id', $id);
@@ -42,15 +39,14 @@ class Team extends Model
                      ->get();
     }
 
-
-
-
-
-
-
     public static function newTeam($name, $game)
     {
         return static::create(['teamname' => $name, 'all_games_id' => $game]);
+    }
+
+    public static function newLeagueTeam($tname, $uid, $game)
+    {
+        return static::create([ 'teamname' => $tname, 'all_games_id' => $game, 'team_owner_id' => $uid ]);;
     }
 
     public static function getDetail($id)

@@ -111,6 +111,6 @@
 		</tbody>
 	</table>
 	<button type="submit" class="btn btn-success col-sm-12 col-xs-12" style="display:none" id="submit">
-		Upadte Permissions
+		Update Permissions
 	</button>
 {{Form::close()}}

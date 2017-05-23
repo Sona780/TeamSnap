@@ -105,7 +105,9 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Org4Teams is a team management platform where teams collaborate together and work out future strategies. Org4Teams provide regular updates regarding team schedule and future expedition.</p>
+                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Org4Teams is a web and phone based team management platform where teams stay organized and communicate better. Org4Teams keeps everyone updated regarding team schedule and activities.<br>
+                        Org4Teams wishes ypou and your entire team good luck in your games!
+                        </p>
                         <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px; text-align: center">Whole team of Org4Teams wishes you Good luck for your matches!!</p>
                       </td>
                     </tr>

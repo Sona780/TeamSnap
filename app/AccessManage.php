@@ -46,4 +46,9 @@ class AccessManage extends Model
     {
     	return static::where('team_id', $tid)->where('type', 1)->first();
     }
+
+    public static function getDetail($id)
+    {
+        return static::where('team_id', $id)->where('type', 1)->first();
+    }
 }

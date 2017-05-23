@@ -50,6 +50,7 @@ class EventController extends Controller
         $request['location_detail_id'] = ($request->location == 0) ? $loc->id : $request->location;
         Event::create($request->all());
 
+        session()->flash('success', 'The event has been scheduled successfully!!');
     	return redirect($id.'/schedule');
     }
 
@@ -64,6 +65,7 @@ class EventController extends Controller
 
         Event::find($request->id)->update($request->only(['name', 'label', 'date', 'hour', 'minute', 'time', 'repeat', 'location_detail_id']));
 
+        session()->flash('success', 'The scheduled event detail has been updated successfully!!');
         return redirect($id.'/schedule');
     }
 
@@ -79,6 +81,7 @@ class EventController extends Controller
     public function delete($id, $event_id)
     {
         Event::find($event_id)->delete();
+        session()->flash('success', 'The event has been deleted successfully!!');
         return redirect($id.'/schedule');
     }
 

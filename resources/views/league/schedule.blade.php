@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'schedule', 'name' => $league->league_name])
+@extends('layouts.new', ['team' => $id, 'active' => 'schedule', 'name' => $curr, 'ld' => $ldid])
 
 @section('header')
 	<link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -21,37 +21,42 @@
 @endsection
 
 @section('content')
+  <?php $i = 0; ?>
+  <h5>
+    @foreach($prev as $p)
+      @if($i > 0)
+        &nbsp;&nbsp;>&nbsp;&nbsp;
+      @endif
+      <a href="{{url('l/'.$id.'/d/'.$p['id'].'/dashboard')}}">{{$p['name']}}</a>
+      <?php $i = 1; ?>
+    @endforeach
+
+    @if( sizeof($prev) > 0 )
+      &nbsp;&nbsp;>&nbsp;&nbsp;
+    @endif
+    {{$curr}}
+  </h5>
+  <br>
 
     <div class="col-lg-12 col-xs-12 col-centered" id="manager">
-        <div class='well'>
-
-		    	<div style="display: inline-block; font-weight: none">
-		    		&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
-
-		    		<!--<div class="btn-group">
-		                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-		                    &nbsp;&nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"></span>
-						</button>
-		                <ul class="dropdown-menu pull-left" role="menu">
-		                    <li><a href="#create-match" role="tab" data-toggle="tab">Match</a></li>
-		                	<li class="divider"></li>
-		                	<li><a href='#' id="create-event">Event</a></li>
-		                </ul>
-		            </div>-->
-		            <button  class="btn btn-success" data-toggle="modal" data-target="#create-match">
-                      New Match
-                    </button>
-
-		        </div>
-
-
-			<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
-				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
-				<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
-			</div>
-
+      @if(Session::has('success'))
+      <div class="alert alert-success alert-dismissable" id='alert'>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{ Session::get('success') }}</strong>
+      </div>
+      @endif
+      <div class='well'>
+		   	<div style="display: inline-block; font-weight: none">
+		    	&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
+		        <button  class="btn btn-success" data-toggle="modal" data-target="#create-match">
+                	New Match
+            	</button>
+		    </div>
+  			<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
+  				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
+  				<button type="button" class="fc-listYear-button fc-button fc-state-default fc-corner-right" href="#schedule-calender" role="tab" data-toggle="tab" id="cal-view">Calender View</button>
+  			</div>
     	</div>
-
     </div>
 
     <!-- start list and calendar view of the schedule -->
@@ -67,7 +72,7 @@
                     <thead style="font-size: 15px">
                     	<tr>
                         	<th class="all" class="all"><img src='{{url("/")}}/img/blue.jpeg' />&nbsp;Matches</th>
-			                <th class="all">Division</th>
+
 			                <th>Result</th>
 			                <th>Date</th>
 			                <th>Time</th>
@@ -80,17 +85,18 @@
                     <tbody id="tbody" style="font-size: 12px">
                       @foreach($matches as $match)
                       	<tr>
-                      	  <td><span style="text-transform: uppercase">{{$match->team_name}}</span> <B>v/s</B> <span style="text-transform: uppercase">{{$match->opponent}}</span></td>
-                      	  <td>{{$match->division_name}}</td>
+                      	  <td><B style="text-transform: uppercase">{{$match->team_name}}</B> ({{$match->div1}}) <B>v/s</B> <B style="text-transform: uppercase">{{$match->opponent}}</B> ({{$match->div2}})</td>
+
                       	  <td>{{$match->result}}</td>
                       	  <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $match->match_date)->format('D d, M Y') }}</td>
                       	  <td>{{$match->hour}}:{{$match->minute}} {{$match->time}}</td>
                       	  <td>{{$match->loc_name}}</td>
                       	  <td>{{$match->contact}}</td>
                       	  <td style="text-align: center">
-						    <a id="delete" key='{{ $match->id }}' type='match'>
-		                      <img class="icon-style" src='{{url("/")}}/img/delete.png'>
-		                    </a>
+                      	  	<img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{ $match->id }}" data-toggle="modal" data-target="#edit-match" style="cursor: pointer" />
+						                <a id="delete" key='{{ $match->id }}' type='match' style="cursor: pointer" >
+		                          <img class="icon-style" src='{{url("/")}}/img/delete.png'>
+		                        </a>
                       	  </td>
                         </tr>
                       @endforeach
@@ -120,94 +126,97 @@
       <div id="create-match" class="modal fade" role="dialog">
         <div class="modal-dialog modal-default">
           <div class="modal-content">
-            <!-- Modal header -->
+            <!-- start Modal header -->
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h4 class="modal-title" style="text-align: center">Create Match</h4>
-              <h6 id='error-match' style="text-align: center; color:red"></h6>
+              <h6 id='error-new' style="text-align: center; color:red"></h6>
             </div>
+            <!-- end Modal header -->
+            {{ Form::open(['method' => 'post', 'url' => 'l/'.$id.'/d/'.$ldid.'/match/save', 'id' => 'create-match-form']) }}
+              <div class="modal-body" id="create-body">
+                <input type="hidden" name="league_division_id" value="{{$ldid}}">
 
-              {{ Form::open(['method' => 'post', 'url' => 'league/'.$id.'/match/save', 'id' => 'create-match-form']) }}
-                <div class="modal-body">
+                @if( $div['teams']->count() == 0 )
                   <!-- start divisions -->
                     <div class="col-sm-12">
-	                  <div class="form-group col-sm-12">
-	                  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="league_division_id" title='Select a league division' id="league_division">
-						  @foreach($divisions as $division)
-						  	<option value="{{$division->id}}">{{$division->division_name}}</option>
-						  @endforeach
-						</select>
-	                  </div>
-	                </div>
-	              <!-- end divisions -->
+                      <div class="form-group col-sm-5">
+                        <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" title='Select a league division' id="div1">
+                          @foreach($div['child'] as $division)
+                            <option value="{{$division->id}}">{{$division->division_name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="col-sm-2"></div>
+                      <div class="form-group col-sm-5">
+                        <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" title='Select a league division' id="div2">
+                          @foreach($div['child'] as $division)
+                            <option value="{{$division->id}}">{{$division->division_name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  <!-- end divisions -->
+                @endif
 
-                  <!-- start teams -->
-                    <div class="col-sm-12">
-                  	  <div class="form-group col-sm-5">
-					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team1_id" title='Select a team' id="team1">
-					    </select>
-					  </div>
-					  <div class="col-sm-2">
-					  	<h6 style="text-align: center">v/s</h6>
-					  </div>
-					  <div class="form-group col-sm-5">
-					  	<select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team2_id" title='Select opponent team' id="team2">
-					  	</select>
-					  </div>
-                  	</div>
-                  <!-- end teams -->
+                <!-- start teams -->
+                  <div class="col-sm-12">
+                    <div class="form-group col-sm-5">
+                      <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team1_id" title='Select a team' id="team1">
+                        @if( $div['teams']->count() > 0 )
+                          @foreach($div['teams'] as $team)
+                            <option value="{{$team->team_id}}">{{$team->teamname}}</option>
+                          @endforeach
+                        @endif
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <h6 style="text-align: center">v/s</h6>
+                    </div>
+                    <div class="form-group col-sm-5">
+                      <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="team2_id" title='Select opponent team' id="team2">
+                        @if( $div['teams']->count() > 0 )
+                          @foreach($div['teams'] as $team)
+                            <option value="{{$team->team_id}}">{{$team->teamname}}</option>
+                          @endforeach
+                        @endif
+                      </select>
+                    </div>
+                  </div>
+                <!-- end teams -->
 
-				  <!-- start date & time -->
-				    <div class="col-sm-12">
-					  <div class="form-group col-sm-6">
-						<label>Date</label>
-						<input type='text' class="form-control date-picker birthday" name="match_date">
-					  </div>
-					  <div class="form-group col-sm-6">
-						<label>Time</label>
-						<div class="form-inline">
-						  <input type="text" class="form-control" name="hour" style="width: 50px">&nbsp;:&nbsp;
-						  <input type="text" class="form-control" name="minute" style="width: 50px">&nbsp;&nbsp;
-						  <select name="time" class="form-control" style="width: 50px">
-							<option value="0">AM</option>
-							<option value="1">PM</option>
-						  </select>
-						</div>
-					  </div>
-				    </div>
-				  <!-- end date & time -->
+                @include('partials.league-match')
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success adjust" type="submit">Save</button>
+                <button class="btn btn-default adjust" type="button" data-dismiss="modal" id="cancel">Cancel</button>
+              </div>
+            {{Form::close()}}
+          </div>
+        </div>
+      </div>
 
-				  <!-- start location dropdown -->
-				  	<div class="col-sm-12">
-					  <div class="form-group col-sm-12" style="padding-top: 13px">
-		                <label for="categories" style="padding-right: 53px">Location</label>
-		                <select class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey" name="location" title='Choose location' id="location">
-		                </select>
-		              </div>
-		            </div>
-		          <!-- end location dropdown -->
-
-		          <!-- start new location detail -->
-		          	<div class="col-sm-12">
-		              <div class="form-group col-sm-4">
-						<input type="text" class="form-control" name="loc_name" placeholder='Location name'>
-					  </div>
-					  <div class="form-group col-sm-4">
-						<input type="text" class="form-control" name="loc_detail" placeholder='Location detail'>
-					  </div>
-					  <div class="form-group col-sm-4">
-						<input type="text" class="form-control" name="contact" placeholder='Contact person'>
-					  </div>
-					</div>
-				  <!-- end new location detail -->
-
-                </div>
-                <div class="modal-footer">
-                  <button class="btn btn-success adjust" type="submit">Save</button>
-                  <button class="btn btn-default adjust" type="button" id="cancel">Cancel</button>
-                </div>
-              {{Form::close()}}
-
+      <div id="edit-match" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-default">
+          <div class="modal-content">
+            <!-- start Modal header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title" style="text-align: center" id="heading"></h4>
+              <h6 id='error-edit' style="text-align: center; color:red"></h6>
+            </div>
+            <!-- end Modal header -->
+            {{ Form::open(['method' => 'post', 'url' => "l/$id/d/$ldid/match/edit", 'id' => 'edit-match-form']) }}
+              <div class="modal-body" id="edit-body">
+                <input type="hidden" name="mid" id="mid">
+                <input type="hidden" name="league_division_id" value="{{$ldid}}">
+                @include('partials.league-match')
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-success adjust" type="submit">Update</button>
+                <button class="btn btn-default adjust" type="button" data-dismiss="modal" id="cancel">Cancel</button>
+              </div>
+            {{Form::close()}}
           </div>
         </div>
       </div>
@@ -216,49 +225,96 @@
 @section('footer')
   <script src="{{URL::to('/')}}/js/notify.js"></script>
   <script type="text/javascript">
-  	form = $('#create-match-form');
+    form = $('#create-match-form');
+
+    form.find('#location').change(function(){
+      val = $(this).val();
+      if( val == 'new' ) form.find('#new_loc').show();
+      else form.find('#new_loc').hide();
+    });
 
   	form.submit(function(e){
   		e.preventDefault();
+      form = $('#create-body');
 
-  		t1   = form.find('select[name="team1"]').val();
-  		t2   = form.find('select[name="team2"]').val();
+  		t1   = form.find('#team1').val();
+  		t2   = form.find('#team2').val();
 
-  		date = form.find('input[name="match_date"]').val();
-  		hour = form.find('input[name="hour"]').val();
-  		min  = form.find('input[name="minute"]').val();
-  		loc  = form.find('select[name="location"]').val();
-  		name = form.find('input[name="loc_name"]').val();
-
-  		if(t1 == '' || t2 == '')
-  			$('#error-match').html('Select teams to schedule match.');
-  		else if( date == '' || hour == '' || min == '' )
-  			$('#error-match').html('Required fields should\'t be empty.');
-  		else if( isNaN(hour) || isNaN(min) )
-  			$('#error-match').html('Hour & minute should be integer only.');
-  		else if( loc == 0 && name == '' )
-  			$('#error-match').html('Location name required.');
-  		else
-  			this.submit();
+      if(t1 == '' || t2 == '')
+        $('#error-new').html('Select teams for the match.');
+      else
+        vali(form, $('#error-new'), this);
   	});
 
-    $('#league_division').change(function(){
+    function vali(form, error, self)
+    {
+      date = form.find('input[name="match_date"]').val();
+      hour = form.find('input[name="hour"]').val();
+      min  = form.find('input[name="minute"]').val();
+      loc  = form.find('select[name="location"]').val();
+      name = form.find('input[name="loc_name"]').val();
+
+      if( date == '' || hour == '' || min == '' )
+        error.html('Required fields should\'t be empty.');
+      else if( isNaN(hour) || isNaN(min) )
+        error.html('Hour & minute should be integer only.');
+      else if( loc == 'new' && name == '' )
+        error.html('Location name required.');
+      else
+        self.submit();
+    }
+
+    $('#div1').change(function(){
     	id = $(this).val();
-    	url = '{{url("division/team_location")}}/'+id;
-    	$.post(url, function(data){
-    	  team_content = '';
-    	  loc_content  = '<option value="0" checked>New Location</option><option value="default" disabled>-------------------------------</option> ';
+      getDivTeams(id, 'team1');
+    });
 
-    	  for( i = 0; i < data['teams'].length; i++ )
-    	  	team_content += '<option value="'+ data['teams'][i]['id'] +'">'+ data['teams'][i]['teamname'] +'</option>';
+    $('#div2').change(function(){
+      id = $(this).val();
+      getDivTeams(id, 'team2');
+    });
 
-    	  for( i = 0; i < data['loc'].length; i++ )
-    	  	loc_content  += '<option value="'+ data['loc'][i]['id'] +'">'+ data['loc'][i]['loc_name'] +'</option>';
+    function getDivTeams(id, team)
+    {
+      url = '{{url("division/team")}}/'+id;
+      $.post(url, function(t){
+        content = '';
+        for(i = 0; i < t.length; i++ )
+          content += '<option value="'+t[i]['id']+'">'+t[i]['teamname']+'</option>';
+        $('#create-body').find('#'+team).html(content).selectpicker('refresh');
+      });
+    }
 
-    	  form.find('#team1').html(team_content).selectpicker('refresh');
-    	  form.find('#team2').html(team_content).selectpicker('refresh');
-    	  form.find('#location').html(loc_content).selectpicker('refresh');
-    	});
+
+    body = $('#edit-body');
+
+    $('#tbody').on('click', '#edit', function(){
+      id = $(this).attr('key');
+      url = '{{url("l/$id/d/$ldid/match")}}/'+id;
+
+      $.post(url, function(g){
+        $('#heading').html(g['t1']+" vs "+g['t2']);
+        body.find('input[name="match_date"]').val(g['detail']['match_date']);
+        body.find('input[name="hour"]').val(g['detail']['hour']);
+        body.find('input[name="minute"]').val(g['detail']['minute']);
+        body.find('input[name="result"]').val(g['detail']['result']);
+        body.find('select[name="time"]').val(g['detail']['time']);
+        body.find('#location').val(g['detail']['league_location_id']);
+        body.find('#location').selectpicker('refresh');
+        body.find('#new_loc').hide();
+        body.find('#mid').val(id);
+      });
+    });
+
+    $('#edit-match-form').find('#location').change(function(){
+      val = $(this).val();
+      if( val == 'new' ) body.find('#new_loc').show();
+      else body.find('#new_loc').hide();
+    });
+
+    $('#edit-match-form').submit(function(e){
+      e.preventDefault();
+      vali(body, $('#error-edit'), this);
     });
 
   		$('#example').on('click', '#delete', function(){
@@ -273,12 +329,15 @@
               confirmButtonText: "Yes, delete it!",
               closeOnConfirm: true
               }, function(){
-                  window.location.href = '{{url("league/".$id."/match/delete")}}/'+id;
+                  window.location.href = '{{url("l/$id/d/$ldid/match/delete")}}/'+id;
           });
       	});
 
     	// start load datatable on page load
 	        $(document).ready(function(){
+              $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+              });
 	            $('#example').DataTable();
 	            $('#new-game').find('tr[id="add-info"]').hide();
 	        });

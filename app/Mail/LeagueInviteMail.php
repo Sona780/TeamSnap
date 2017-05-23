@@ -37,6 +37,6 @@ class LeagueInviteMail extends Mailable
     {
         return $this->view('email.league-invite')
                     ->from($this->email)
-                    ->subject('Congratulations for being selected in the league '.$this->league);
+                    ->subject('Congratulations for being selected as a Manager in the '.$this->league.' league.');
     }
 }

@@ -14,6 +14,7 @@ use TeamSnap\Email;
 use TeamSnap\EmailUser;
 use TeamSnap\EmailInfo;
 use TeamSnap\Mail\ChatMail;
+use TeamSnap\AccessManage;
 use Mail;
 use TeamSnap\Http\ViewComposer\UserComposer;
 
@@ -26,6 +27,11 @@ class MessageController extends Controller
       $user   = UserDetail::where('users_id', $uid)->first();
       $avatar = UserDetail::getUserAvatar($uid);
       $owner  = Team::find($id)->team_owner_id;
+      $access = AccessManage::getDetail($id);
+      $member = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
+
+      if( $uid != $owner && ($member == '' || ($member != '' && $user->manager_access == 2 && $access->message == 0)) )
+        return view('errors/404');
 
       $composerWrapper = new UserComposer( $id, 'team' );
       $composerWrapper->compose();

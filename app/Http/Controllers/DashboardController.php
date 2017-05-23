@@ -22,13 +22,17 @@ use TeamSnap\Availability;
 use TeamSnap\GameDetail;
 use TeamSnap\GameTeam;
 use TeamSnap\LeagueMatchDetail;
+use TeamSnap\LeagueDivision;
+use TeamSnap\DivisionManager;
+use Redirect;
+
 
 use TeamSnap\Http\ViewComposer\UserComposer;
 
 class DashboardController extends Controller
 {
-
-   public function index($id)
+  // start team dashboard
+    public function index($id)
     {
       $uid     = Auth::user()->id;
       $user    = UserDetail::where('users_id', $uid)->first();
@@ -134,27 +138,17 @@ class DashboardController extends Controller
         return view('errors/404');
       }
     }
+  // end team dashboard
 
-    public function saveAnnouncement($id, Request $request)
+  // start league dashboard
+    public function leagueDashboard($id, $ldid)
     {
-      $request['team_id'] = $id;
-      Announcement::create($request->all());
+      $user = Auth::user();
+      $uid  = $user->id;
+      $ch   = League::find($id)->user_id;
+      $man  = DivisionManager::check($uid, $ldid);
 
-      //return $this->getAnnouncements($id);
-    }
-
-    public function getAnnouncements($id)
-    {
-      return Announcement::where('team_id', $id)->orderBy('id', 'desc')->get();
-    }
-
-    public function leagueDashboard($id)
-    {
-      $user   = Auth::user();
-      $uid    = $user->id;
-      $ch  = League::find($id)->user_id;
-
-      if( $uid != $ch )
+      if( $uid != $ch && $man == 0 )
         return view('errors/404');
 
       $league = League::find($id);
@@ -165,9 +159,11 @@ class DashboardController extends Controller
       $composerWrapper->compose();
 
       $total    = [];
-      $total['teams']   = League::totalTeams($id);
 
-      $matches   = LeagueMatchDetail::matches($id);
+      $total['teams'] = LeagueTeam::totalTeams($ldid);
+      $total['divs']  = LeagueDivision::totalDivs($ldid);
+
+      $matches = LeagueMatchDetail::matches($ldid);
       $i = 0;
       foreach ($matches as $match)
       {
@@ -188,13 +184,86 @@ class DashboardController extends Controller
       $total['future']  = $i;
 
       $announcements = LeagueAnnouncement::where('league_id', $id)->latest('id')->get();
+      $prev = $this->path($ldid);
+      $curr = LeagueDivision::find($ldid)->division_name;
 
-      return view('league.dashboard', compact('id', 'league', 'total', 'matches', 'announcements', 'user', 'type'));
+
+      return view('league.dashboard', compact('id', 'league', 'total', 'matches', 'announcements', 'user', 'type', 'ldid', 'prev', 'curr'));
     }
+  // end league dashboard
 
+  // start save team announcements
+    public function saveAnnouncement($id, Request $request)
+    {
+      $request['team_id'] = $id;
+      $ann = Announcement::create($request->all());
+      return $ann->id;
+    }
+  // end save team announcements
+
+  // start all announcements
+    public function getAnnouncements($id)
+    {
+      return Announcement::where('team_id', $id)->orderBy('id', 'desc')->get();
+    }
+  // end all announcements
+
+  // start get announcement data
+    public function getAnnouncement($type, $id)
+    {
+      if( $type == 'league' )
+        return LeagueAnnouncement::find($id);
+      else
+        return Announcement::find($id);
+    }
+  // end get announcement data
+
+  // start update announcement
+    public function editAnnouncement($type, $id, Request $request)
+    {
+      if( $type == 'league' )
+        LeagueAnnouncement::find($id)->update($request->except('_token', 'id'));
+      else
+        Announcement::find($id)->update($request->except('_token', 'id'));
+    }
+  // end update announcement
+
+  // start delete announcement
+    public function deleteLAnnouncement($type, $aid)
+    {
+      if( $type == 'league' )
+        LeagueAnnouncement::find($aid)->delete();
+      else
+        Announcement::find($aid)->delete();
+      session()->flash('success', 'Announcement successfully deleted.');
+      return Redirect::back();
+    }
+  // end delete announcement
+
+  // start save league announcement
     public function saveLeagueAnnouncement($id, Request $request)
     {
       $request['league_id'] = $id;
-      LeagueAnnouncement::create($request->all());
+      $ann = LeagueAnnouncement::create($request->all());
+      return $ann->id;
     }
+  // end save league announcement
+
+  // start get league division path
+    public function path($ldid)
+    {
+      $prev = [];
+      $i = 0;
+      $div = LeagueDivision::find($ldid);
+      $parent = $div->parent_id;
+      while($parent != 0)
+      {
+        $div = LeagueDivision::find($parent);
+        $prev[$i]['name'] = $div->division_name;
+        $prev[$i++]['id'] = $div->id;
+        $parent = $div->parent_id;
+      }
+      return array_reverse($prev);
+    }
+  // end get league division path
 }

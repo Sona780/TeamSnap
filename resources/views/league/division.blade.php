@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'detail', 'name' => $league->league_name])
+@extends('layouts.new', ['team' => $id, 'active' => 'detail', 'name' => $curr, 'ld' => $ldid])
 
 
 @section('header')
@@ -14,32 +14,30 @@
   <div id='error-div-team'></div>
 
   <?php $i = 0; ?>
-
-  <h4>
+  <h5>
     @foreach($prev as $p)
       @if($i > 0)
-        &nbsp;&nbsp;>&nbsp;&nbsp;<a href="{{url('league/'.$id.'/division/'.$p['id'])}}">{{$p['name']}}</a>
-      @else
-        <a href="{{url('league/'.$id.'/detail')}}">{{$p['name']}}</a>
-        <?php $i = 1; ?>
+        &nbsp;&nbsp;>&nbsp;&nbsp;
       @endif
+      <a href="{{url('l/'.$id.'/d/'.$p['id'].'/dashboard')}}">{{$p['name']}}</a>
+      <?php $i = 1; ?>
     @endforeach
 
     @if( sizeof($prev) > 0 )
       &nbsp;&nbsp;>&nbsp;&nbsp;
     @endif
-    {{$name}}
-  </h4>
-
+    {{$curr}}
+  </h5>
   <br>
+
   @if( $lteams->count() == 0 && $divisions->count() == 0 )
     <div class="col-sm-6 col-sm-offset-3">
       <div class="card bs-item z-depth-5" style="text-align: center; height:50%">
         <div class="card-header">
-          <h3>Create teams or divisions in {{$name}}</h3>
+          <h3>Create teams or divisions in {{$curr}}</h3>
         </div>
         <div class="card-body" style="height: 55%; width: 70%; margin-left: 15%">
-          <p style="font-size: 15">You can add teams directly to {{$name}}, or you can use divisions within asd to further divide up your teams. You can only choose one or the other, though.</p>
+          <p style="font-size: 15">You can add teams directly to {{$curr}}, or you can use divisions within asd to further divide up your teams. You can only choose one or the other, though.</p>
         </div>
         <div class="card-footer">
           <button  class="btn btn-info" data-toggle="modal" data-target="#team-modal">New Team</button>
@@ -79,7 +77,7 @@
                 <tr>
                   <td>{{$lteam->teamname}}</td>
                   <td style="text-align: center">
-                    <a id="delete" href="{{url('league/'.$id.'/team/delete/'.$lteam->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+                    <a id="delete" href="{{url('l/'.$id.'/d/'.$ldid.'/team/delete/'.$lteam->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
                   </td>
                 </tr>
               @endforeach
@@ -118,9 +116,9 @@
                 <tbody>
                   @foreach($divisions as $division)
                     <tr>
-                      <td><a href='{{url("league/".$id."/division/".$division->id)}}'>{{$division->division_name}}</a></td>
+                      <td><a href='{{url("l/".$id."/d/".$division->id."/dashboard")}}'>{{$division->division_name}}</a></td>
                       <td style="text-align: center">
-                        <a id="delete" href="{{url('league/'.$id.'/division/delete/'.$division->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+                        <a id="delete" href="{{url('l/'.$id.'/d/'.$ldid.'/delete/'.$division->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
                       </td>
                     </tr>
                   @endforeach
@@ -152,7 +150,7 @@
           <!-- Modal header -->
 
           <!-- start form to compose reply mail -->
-            {{ Form::open(['method' => 'post', 'url' => 'league/'.$id.'/division/save', 'id' => 'division-form']) }}
+            {{ Form::open(['method' => 'post', 'url' => 'l/'.$id.'/d/'.$ldid.'/division/save', 'id' => 'division-form']) }}
                 {!! csrf_field() !!}
                 <input type="hidden" name="league_id" value="{{$id}}">
                 <input type="hidden" name="parent_id" value="{{$ldid}}">
@@ -188,7 +186,7 @@
           <!-- Modal header -->
 
           <!-- start form to compose reply mail -->
-            {{ Form::open(['method' => 'post', 'url' => 'league/'.$id.'/team/save', 'id' => 'team-form']) }}
+            {{ Form::open(['method' => 'post', 'url' => 'l/'.$id.'/d/'.$ldid.'/team/save', 'id' => 'team-form']) }}
                 {!! csrf_field() !!}
                 <div class="modal-body">
                   <div class="col-sm-12">

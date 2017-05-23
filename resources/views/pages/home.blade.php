@@ -5,25 +5,31 @@
 
 <div class="block-header">
 </div>
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{ Session::get('success') }}</strong>
+</div>
+@endif
 
 <div role="tabpanel">
-  @if($user->manager_access == 1)
+  @if($user->manager_access != 0)
   <ul class="tab-nav tab-nav" role="tablist" id="myTab">
-    <li class="active"><a href="#my-teams" role="tab" data-toggle="tab">Teams</a></li>
-    <li role="presentation"><a href="#my-leagues" role="tab" data-toggle="tab">Leagues</a></li>
+    <li class="@if(!Session::has('home')) active @endif"><a href="#my-teams" role="tab" data-toggle="tab">Teams</a></li>
+    <li role="presentation" class="@if(Session::has('home')) active @endif"><a href="#my-leagues" role="tab" data-toggle="tab">Leagues</a></li>
   </ul>
   @endif
 
   <div class="tab-content">
     <!-- start teams -->
-    <div role="tabpanel" class="tab-pane active" id="my-teams">
+    <div role="tabpanel" class="tab-pane @if(!Session::has('home')) active @endif" id="my-teams">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header m-b-20">
               <h2>My Teams</h2>
 
-              @if($user->manager_access == 1)
+              @if($user->manager_access != 0)
                 <a href="{{url('team/create')}}">
                   <button class="btn bgm-red btn-float waves-effect"><i class="zmdi zmdi-plus"></i></button>
                 </a>
@@ -75,14 +81,14 @@
     </div>
     <!-- end teams -->
 
-    <div role="tabpanel" class="tab-pane" id="my-leagues">
+    <div role="tabpanel" class="tab-pane @if(Session::has('home')) active @endif" id="my-leagues">
       <div class="row">
         <div class="col-md-12">
           <div class="card">
             <div class="card-header m-b-20">
               <h2>My Leagues</h2>
 
-              @if($user->manager_access == 1)
+              @if($user->manager_access != 0)
                 <button class="btn bgm-red btn-float waves-effect" data-toggle="modal" data-target="#league-modal"><i class="zmdi zmdi-plus"></i></button>
               @endif
 
@@ -99,7 +105,7 @@
 
               <div class="card-body" style="padding: 30px 10px; text-align: center; text-transform: uppercase">
 
-                <a style="color: black;" href='{{url("league/".$league->id."/dashboard")}}'>{{$league->league_name}}</a>
+                <a style="color: black;" href="{{url('l/'.$league->id.'/d/'.$league->ldid.'/dashboard')}}">{{$league->league_name}}</a>
 
               </div>
             </div>
@@ -162,6 +168,9 @@
   });
 
   $(document).ready(function(){
+    $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#success-alert").slideUp(500);
+    });
     switch({{$user->manager_access}})
     {
       case 0: type = "a member";

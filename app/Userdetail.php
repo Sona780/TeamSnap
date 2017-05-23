@@ -41,6 +41,11 @@ class UserDetail extends Model
 				        ]);
     }
 
+    public static function addUserFromLeague($uid, $fname, $lname, $access)
+    {
+    	return static::create([ 'users_id' => $uid, 'firstname' => $fname, 'lastname' => $lname, 'manager_access' => $access ]);
+    }
+
     public static function getUserAvatar($uid)
     {
     	return static::where('users_id', $uid)->first()->avatar;

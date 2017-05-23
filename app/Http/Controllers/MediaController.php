@@ -11,6 +11,7 @@ use TeamSnap\File;
 use TeamSnap\Team;
 use TeamSnap\TeamUser;
 use TeamSnap\UserDetail;
+use TeamSnap\AccessManage;
 use Auth;
 use TeamSnap\Http\ViewComposer\UserComposer;
 
@@ -23,11 +24,12 @@ class MediaController extends Controller
         $mgr_access = UserDetail::where('users_id', $uid)->first()->manager_access;
         $member     = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $manager    = Team::CheckIfTeamOwner($uid, $id)->first();
+        $access     = AccessManage::getDetail($id);
 
         $composerWrapper = new UserComposer( $id, 'team' );
         $composerWrapper->compose();
 
-        if( $member == '' && $manager == '' )
+        if( $manager == '' && ($member == '' || ($member != '' && $mgr_access == 2 && $access->media == 0)) )
         {
             return view('errors/404');
         }

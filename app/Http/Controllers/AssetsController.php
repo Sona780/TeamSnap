@@ -12,6 +12,7 @@ use TeamSnap\TeamFee;
 use TeamSnap\Team;
 use TeamSnap\Asset;
 use TeamSnap\PlayerItemTrack;
+use TeamSnap\AccessManage;
 use Auth;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
@@ -26,12 +27,13 @@ class AssetsController extends Controller
             $user    = UserDetail::where('users_id', $uid)->first();
             $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
             $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
+            $access  = AccessManage::getDetail($id);
             $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
 
             $composerWrapper = new UserComposer( $id, 'team' );
             $composerWrapper->compose();
 
-            if( $owner != '' || $manager != '' )
+            if( $owner != '' || ($manager != '' && $access->asset == 1) )
             {
                 $total   = 0;
 
@@ -99,7 +101,7 @@ class AssetsController extends Controller
 
                 return view('pages.assets', compact('id', 'fees', 'players', 'staffs', 'total', 'items', 'pitems', 'team'));
             }
-            else if( $member != '' )
+            else if( $user->manager_access == 0 && $member != '' )
             {
                 $playerfees  = TeamFee::findPlayerFeesDetail($member->id, $id);
                 $totalfees   = TeamFee::findPlayerTotalFees($member->id, $id);

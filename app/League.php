@@ -31,13 +31,7 @@ class League extends Model
     	return static::allMatches($id)->where('match_date', '<' , Carbon::now()->format('d/m/Y'))->count();
     }
 
-    public static function totalTeams($id)
-    {
-    	return static::where('leagues.id', $id)
-    				 ->leftJoin('league_divisions', 'league_divisions.league_id', 'leagues.id')
-    				 ->rightJoin('league_teams', 'league_teams.league_division_id', 'league_divisions.id')
-    				 ->count();
-    }
+
 
     public static function allMatches($id)
     {

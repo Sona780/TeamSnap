@@ -24,6 +24,11 @@ class TeamUser extends Model
         $query->where('teams_id', $tid)->where('users_id', $uid);
     }
 
+    public static function checkIfManager($id, $uid)
+    {
+        return static::where('teams_id', $id)->where('users_id', $uid)->first();
+    }
+
     // get details & categories of all the members of a team
     public static function members($id)
     {

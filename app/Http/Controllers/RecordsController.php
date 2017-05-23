@@ -12,6 +12,7 @@ use TeamSnap\UserDetail;
 use TeamSnap\GameTeam;
 use TeamSnap\GameDetail;
 use TeamSnap\LeagueMatchDetail;
+use TeamSnap\AccessManage;
 
 
 use DB;
@@ -85,8 +86,9 @@ class RecordsController extends Controller
         $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
         $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
+        $access  = AccessManage::getDetail($id);
 
-        if( $owner != '' || $manager != '' )
+        if( $owner != '' || ($manager != '' && $access->record == 1) )
         {
           // start total stats of ecah player
             $players = TeamUser::getTeamPlayers($id, 1);
@@ -155,7 +157,7 @@ class RecordsController extends Controller
 
           return view('records.baseball', compact('id', 'team', 'players', 'games', 'gpstats', 'user'));
         }
-        else if( $member != '' )
+        else if( $user->manager_access == 0 && $member != '' )
         {
           $tuid  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
           $games = Availability::getPlayedGames($tuid);

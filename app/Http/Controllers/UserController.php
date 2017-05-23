@@ -76,7 +76,7 @@ class UserController extends Controller
     }
   // end get user id
 
-
+  // start check email availability
     public function valiMail($uid, $email)
     {
       if( $uid == 0 )
@@ -90,4 +90,5 @@ class UserController extends Controller
       }
       return $cnt;
     }
+  // end check email availability
 }

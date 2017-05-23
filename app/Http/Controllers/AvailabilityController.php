@@ -14,6 +14,7 @@ use TeamSnap\GameTeam;
 use TeamSnap\GameDetail;
 use TeamSnap\LeagueMatchDetail;
 use Carbon\Carbon;
+use TeamSnap\AccessManage;
 
 use Auth;
 
@@ -23,15 +24,16 @@ class AvailabilityController extends Controller
 {
     public function show($id)
     {
-        $uid   = Auth::user()->id;
-        $user  = UserDetail::where('users_id', $uid)->first();
-        $owner = Team::find($id)->team_owner_id;
+        $uid    = Auth::user()->id;
+        $user   = UserDetail::where('users_id', $uid)->first();
+        $owner  = Team::find($id)->team_owner_id;
+        $access = AccessManage::getDetail($id);
 
         $manager = '';
         if( $user->manager_access == 2 )
           $manager = TeamUser::CheckMembership($id, $uid)->first();
 
-        if( $uid == $owner || $manager != '' )
+        if( $uid == $owner || ($manager != '' && $access->availability == 1) )
         {
             $players = TeamUser::getTeamPlayers($id, 1);
             $staffs  = TeamUser::getTeamPlayers($id, 0);

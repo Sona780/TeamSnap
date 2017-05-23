@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LeagueAnnouncement extends Model
 {
     //
-    protected $fillable = [ 'league_id','title', 'announcement' ];
+    protected $fillable = [ 'league_id','title', 'announcement', 'start', 'end' ];
 
     public $timestamps  = false;
 }

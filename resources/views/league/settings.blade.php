@@ -1,4 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'settings', 'name' => $league->league_name])
+@extends('layouts.new', ['team' => $id, 'active' => 'settings', 'name' => $curr, 'ld' => $ldid])
 
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -12,6 +12,22 @@
 @endsection
 
 @section('content')
+  <?php $i = 0; ?>
+  <h5>
+    @foreach($prev as $p)
+      @if($i > 0)
+        &nbsp;&nbsp;>&nbsp;&nbsp;
+      @endif
+      <a href="{{url('l/'.$id.'/d/'.$p['id'].'/dashboard')}}">{{$p['name']}}</a>
+      <?php $i = 1; ?>
+    @endforeach
+
+    @if( sizeof($prev) > 0 )
+      &nbsp;&nbsp;>&nbsp;&nbsp;
+    @endif
+    {{$curr}}
+  </h5>
+  <br>
 
 @if(Session::has('success'))
 <div class="alert alert-success alert-dismissable" id='alert'>
@@ -24,8 +40,8 @@
 
   <!-- start tabs for different setting categories -->
 	  <ul class="tab-nav" role="tablist" id="myTab">
-	    <li class="active"><a href="#account" role="tab" data-toggle="tab">Account</a></li>
-	    <li role="presentation"><a href="#team" role="tab" data-toggle="tab">League</a></li>
+	    <li @if(!Session::has('active')) class="active" @endif><a href="#account" role="tab" data-toggle="tab">Account</a></li>
+	    <li @if(Session::has('active')) class="active" @endif role="presentation"><a href="#team" role="tab" data-toggle="tab">League</a></li>
 	  </ul>
   <!-- end tabs for different setting categories -->
 
@@ -33,7 +49,7 @@
     <div class="tab-content">
 
       <!-- start tab for account setting -->
-        <div role="tabpanel" class="tab-pane active" id="account">
+        <div role="tabpanel" class="tab-pane @if(!Session::has('active')) active @endif" id="account">
           <div class="col-sm-3">
             <a class="col-sm-12 a-active" href='#'>Change Password</a>
           </div>
@@ -88,15 +104,15 @@
       <!-- stop tab for account setting -->
 
       <!-- start tab for team settings -->
-        <div role="tabpanel" class="tab-pane" id="team">
+        <div role="tabpanel" class="tab-pane @if(Session::has('active')) active @endif" id="team">
 
           <div class="col-sm-3">
-            <a class="col-sm-12 a-active" href='#' id='a-access'>Access Setting</a><br>
-            <a class="col-sm-12" href='#' id='a-manager'>Manager Setting</a>
+            <a class="col-sm-12 @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 2)) a-active @endif" href='#' id='a-access'>Access Setting</a><br>
+            <a class="col-sm-12 @if(Session::has('active') && Session::get('active') == 2) a-active @endif" href='#' id='a-manager'>Manager Setting</a>
           </div>
 
           <!-- start manage access permissions -->
-          <div class="col-md-6" id='access-detail'>
+          <div class="col-md-6" id='access-detail' @if(Session::has('active') && Session::get('active') == 2) style="display:none" @endif>
             <div class="card">
               <div class="card-body">
 
@@ -104,16 +120,16 @@
 
                   <!-- start tabs for different access categories -->
                   <ul class="tab-nav tn-justified tn-icon" role="tablist" id="myTab">
-                    <li class="active"><a class="col-xs-4" href="#public" role="tab" data-toggle="tab">Public Access</a></li>
-                      <li><a class="col-xs-4" href="#manager" role="tab" data-toggle="tab">Manager Access</a></li>
-                    </ul>
+                    <li class=" @if(!Session::has('active') || (Session::has('active') && Session::get('active') == 11)) active @endif"><a class="col-xs-4" href="#public" role="tab" data-toggle="tab">Public Access</a></li>
+                    <li class="@if(Session::has('active') && Session::get('active') == 12) active @endif"><a class="col-xs-4" href="#manager" role="tab" data-toggle="tab">Manager Access</a></li>
+                  </ul>
                   <!-- end tabs for different access categories -->
 
                   <!-- start tab contents for different access categories -->
                   <div class="tab-content" id="access-tabs">
 
                     <!-- start public public view access -->
-                    <div role="tabpanel" class="tab-pane active" id="public">
+                    <div role="tabpanel" class="tab-pane @if(!Session::has('active') || (Session::has('active') && Session::get('active') == 11)) active @endif" id="public">
                       <div class="card table-responsive" id='public-div'>
                         @include('partials.access-permission-table', ['formURL' => '/public/access/update', 'buttonKey' => 'public', 'access' => $public, 'ch' => 'league'])
                       </div>
@@ -121,7 +137,7 @@
                     <!-- stop public public view access -->
 
                     <!-- start manager view access -->
-                    <div role="tabpanel" class="tab-pane" id="manager">
+                    <div role="tabpanel" class="tab-pane @if(Session::has('active') && Session::get('active') == 12) active @endif" id="manager">
                       <div class="card table-responsive" id='manager-div'>
                         @include('partials.access-permission-table', ['formURL' => '/manager/access/update', 'buttonKey' => 'manager', 'access' => $manage, 'ch' => 'league'])
                       </div>
@@ -139,16 +155,15 @@
           <!-- end manage access permissions -->
 
           <!-- start manage managers -->
-          <div class="col-sm-6" id='managers-detail' style="display: none">
+          <div class="col-sm-6" id='managers-detail' @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 2)) style="display: none" @endif>
             <div class="card">
               <div class="card-header">
                 <span style="font-weight: bold; font-family: italic; font-size: 15px">Manager(s)</span>
-
-                      <div class="pull-right">
-                        <button  class="btn btn-info" data-toggle="modal" data-target="#manager-modal">
-                          Add Manager
-                        </button>
-                      </div>
+                  <div class="pull-right">
+                    <button  class="btn btn-info" data-toggle="modal" data-target="#manager-modal">
+                      Add Manager
+                    </button>
+                  </div>
               </div>
               <hr>
 
@@ -256,12 +271,12 @@
   	  {
   	  	lname = $('#lastname').val();
         teamleague  = $('#manager-modal').find('#teamleague').val();
-  	  	url   = '{{url($id."/new/manager")}}';
+  	  	url   = '{{url($ldid."/new/manager")}}';
   	  	$.post(url, {fname: name, lname: lname, email: email, teamleague: teamleague}, function(uid){
-          $('#manager-modal').find('input[type="text"]').val('');
-          $('#manager-modal').modal('hide');
   	  		if( uid > 0 )
           {
+            $('#manager-modal').find('input[type="text"]').val('');
+            $('#manager-modal').modal('hide');
             if( cnt == 0 )
             {
               content = '<table class="table table-hover dt-responsive mem-tab nowrap"><thead><th>Name</th><th>Email</th><th style="text-align: center">Actions</th></thead><tbody id="all-managers"><tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ uid +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr></tbody></table>';
@@ -272,6 +287,10 @@
             {
               $('#all-managers').append('<tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ uid +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr>');
             }
+          }
+          else
+          {
+            $('#manager-error').html('<br>'+name+' can\'t become manager of this league division.');
           }
   	  	});
   	  }
@@ -290,7 +309,7 @@
               confirmButtonText: "Yes, delete it!",
               closeOnConfirm: true
               }, function(){
-                  window.location.href = '{{url($id."/manager/delete")}}/league/'+id;
+                  window.location.href = '{{url("league/m/d")}}/'+id;
           });
   	});
   	// end confirm & delete manager

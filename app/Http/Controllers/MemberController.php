@@ -11,6 +11,7 @@ use DB;
 use TeamSnap\PlayerCtg;
 use TeamSnap\TeamUserDetail;
 use TeamSnap\PlayerFee;
+use TeamSnap\AccessManage;
 use Auth;
 
 use TeamSnap\Mail\SendMail;
@@ -23,12 +24,13 @@ class MemberController extends Controller
     //show existing members
     public function index($id)
     {
-        $team = Team::find($id);
-        $uid  = Auth::user()->id;
-        $user = UserDetail::where('users_id', $uid)->first();
-        $ch   = TeamUser::CheckMembership($id, $uid)->first();
+        $team   = Team::find($id);
+        $uid    = Auth::user()->id;
+        $user   = UserDetail::where('users_id', $uid)->first();
+        $ch     = TeamUser::CheckMembership($id, $uid)->first();
+        $access = AccessManage::getDetail($id);
 
-        if($team == NULL || ($uid != $team->team_owner_id && $ch == '') )
+        if($team == NULL || ($uid != $team->team_owner_id && $ch == '') || ($user->manager_access == 2 && $access->member == 0) )
           return view('errors/404');
         else
         {

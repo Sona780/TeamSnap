@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use TeamSnap\UserDetail;
 use TeamSnap\TeamUser;
 use TeamSnap\AccessManage;
+use TeamSnap\LeagueAccessManage;
 use Auth;
 
 class UserComposer
@@ -24,6 +25,8 @@ class UserComposer
         $this->teamleague = $ch;
         if( $ch == 'team' )
           $this->maccess = AccessManage::where('team_id', $id)->where('type', 1)->first();
+        else
+          $this->maccess = LeagueAccessManage::where('league_id', $id)->where('type', 1)->first();
         $this->manager_access = UserDetail::where('users_id', $uid)->first()->manager_access;
         $this->teams       = TeamUser::where('users_id', $uid)->leftJoin('teams', 'teams.id', 'team_users.teams_id')->select('teams.id', 'teams.teamname')->get();
       }

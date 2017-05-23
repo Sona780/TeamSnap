@@ -1,5 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'dashboard', 'logo' => $league->team_logo, 'name' => $league->league_name])
-
+@extends('layouts.new', ['team' => $id, 'active' => 'dashboard', 'logo' => $league->team_logo, 'name' => $curr, 'ld' => $ldid])
 
 @section('header')
 
@@ -7,18 +6,39 @@
 
 @section('content')
 
-<div class="block-header">
+  <?php $i = 0; ?>
+  <h5>
+    @foreach($prev as $p)
+      @if($i > 0)
+        &nbsp;&nbsp;>&nbsp;&nbsp;
+      @endif
+      <a href="{{url('l/'.$id.'/d/'.$p['id'].'/dashboard')}}">{{$p['name']}}</a>
+      <?php $i = 1; ?>
+    @endforeach
+
+    @if( sizeof($prev) > 0 )
+      &nbsp;&nbsp;>&nbsp;&nbsp;
+    @endif
+    {{$curr}}
+  </h5>
+  <br>
+
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{ Session::get('success') }}</strong>
 </div>
+@endif
 
 <div class="mini-charts">
   <div class="row">
     <div class="col-xs-6 col-sm-3 col-md-3">
-      <a href='{{url("league/".$id."/detail")}}'>
+      <a href='{{url("l/".$id."/d/".$ldid."/detail")}}'>
         <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
-              <small>Total Teams </small>
-              <h2>{{$total['teams']}}</h2>
+              <small>Total @if( $total['teams'] > 0 ) Teams @else Divisions @endif </small>
+              <h2>@if( $total['teams'] > 0 ) {{$total['teams']}} @else {{$total['divs']}} @endif</h2>
             </div>
           </div>
         </div>
@@ -26,7 +46,7 @@
     </div>
 
     <div class="col-xs-6 col-sm-3 col-md-3">
-      <a href='{{url("league/".$id."/schedule")}}'>
+      <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
         <div class="mini-charts-item bgm-lightgreen">
           <div class="clearfix">
             <div class="count">
@@ -39,7 +59,7 @@
     </div>
 
     <div class="col-xs-6 col-sm-3 col-md-3">
-      <a href='{{url("league/".$id."/schedule")}}'>
+      <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
         <div class="mini-charts-item bgm-orange">
           <div class="clearfix">
             <div class="count">
@@ -52,7 +72,7 @@
     </div>
 
     <div class="col-xs-6 col-sm-3 col-md-3">
-      <a href='{{url("league/".$id."/schedule")}}'>
+      <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
         <div class="mini-charts-item bgm-orange">
           <div class="clearfix">
             <div class="count">
@@ -70,7 +90,7 @@
   <div class="col-sm-6">
     <div class="card">
       <div class="card-header bgm-bluegray m-b-20">
-        <h2>Announcements <small>Don't miss latest team updates</small></h2>
+        <h2>Announcements <small>Don't miss latest league updates</small></h2>
 
 
           <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
@@ -80,31 +100,7 @@
       </div>
 
       <div class="card-body">
-        <div class="listview" id='all-announcements'>
-
-          <ul class='li-class' id="example2">
-            @foreach($announcements as $a)
-              <li>
-                <a class="lv-item">
-                  <div class="media">
-                    <div class="media-body">
-                      <div class="lv-title">{{$a->title}}</div>
-                      <small class="lv-small">{{$a->announcement}}</small>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            @endforeach
-          </ul>
-
-          <div class="lv-footer">
-            <div id="example2-pagination">
-              <a id="example2-previous" href="#">&laquo; Previous</a>
-              <a id="example2-next" href="#">Next &raquo;</a>
-            </div>
-          </div>
-
-        </div>
+        @include('partials.announce-display', ['access' => 1])
       </div>
     </div>
   </div>
@@ -115,67 +111,129 @@
   </div>
 </div>
 
-<!-- start new announcement modal -->
-<div id="announcement-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- Modal header -->
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" style="text-align: center">New Announcement</h4>
-      </div>
-      <!-- Modal header -->
-      {{ Form::open(['method' => 'post', 'url' => 'league/'.$id.'/announcement/save', 'id' => 'announcement-form']) }}
-          @include('partials.announcement')
-      {{Form::close()}}
-    </div>
-  </div>
-</div>
-<!-- end new announcement modal -->
+@include('partials.announce-modal')
 
 @endsection
 
 @section('footer')
 <script src="{{URL::to('/')}}/js/notify.js"></script>
 <script>
+  $('#example2').on('click', '#edit', function(){
+    id = $(this).attr('key');
+    url = '{{url("league/ann/edit")}}/'+id;
+    $.post(url, function(d){
+      form = $('#edit-ann-form');
+      form.find('#id').val(id);
+      form.find('input[name="start"]').val(d['start']);
+      form.find('input[name="end"]').val(d['end']);
+      form.find('input[name="title"]').val(d['title']);
+      form.find('textarea[name="announcement"]').val(d['announcement']);
+    });
+  });
 
   $('#new-announcement').click(function(){
     $('#announcement-form').trigger("reset");
   });
 
   $('#submit-announcement').click(function(){
-    form = $('#announcement-form');
+    form  = $('#announcement-form');
     title = form.find('input[name="title"]');
+    start = form.find('input[name="start"]');
+    end   = form.find('input[name="end"]');
     data  = form.find('textarea[name="announcement"]');
+    error = $('#announcement-modal').find('#error-ann');
 
-    form.find('strong').html('');
+    error.html('');
 
-    if( title.val() == '' )
+    if( start.val() == '' || end.val() == '' )
+    {
+      error.html('Start and end date required.');
+    }
+    else if( title.val() == '' )
     {
       title.focus();
-      $('#error-title').html('Title of the announcement required.');
+      error.html('Title of the announcement required.');
     }
     else if( data.val() == '' )
     {
       data.focus();
-      $('#error-announcement').html('Announcement Detail required.');
+      error.html('Announcement Detail required.');
     }
     else
     {
-      url = '{{url("league/".$id."/announcement/save")}}';
-      $.post(url, $('#announcement-form').serializeArray(), function(){
+      url = '{{url("l/".$id."/d/".$ldid."/announcement/save")}}';
+      $.post(url, $('#announcement-form').serializeArray(), function(aid){
         $('#announcement-modal').modal('hide');
 
-        content = '<li><a class="lv-item"><div class="media"><div class="media-body"><div class="lv-title">'+ title.val() +'</div><small class="lv-small">'+ data.val() +'</small></div></div></a></li>';
+        content = '<li id="li'+aid+'"><a class="lv-item" style="background: white"><div class="media"><div class="media-body"><div class="lv-title" style="text-transform: uppercase" id="heading">'+ title.val() +'</div><p style="color: grey" id="detail">'+ data.val() +'</p></div></div><div class="pull-left" id="dates">'+start.val() +' to '+ end.val()+'</div><div class="pull-right"><button class="btn btn-success" type="button" id="edit" key="'+aid+'" data-toggle="modal" data-target="#edit-ann">Edit</button>&nbsp;<button class="btn btn-danger" type="button" key="'+aid+'" id="delete">Delete</button></div></a></li>';
 
-        $('#example2').prepend(content).paginate({itemsPerPage: 5});
+        $('#example2').prepend(content).paginate({itemsPerPage: 1});
       });
     }
   });
 
-  $(document).ready(function() {
+  $('#edit-sub-announcement').click(function(){
+    form  = $('#edit-ann-form');
+    title = form.find('input[name="title"]');
+    start = form.find('input[name="start"]');
+    end   = form.find('input[name="end"]');
+    data  = form.find('textarea[name="announcement"]');
+    error = $('#edit-ann').find('#error-ann');
 
-    $('#example2').paginate({itemsPerPage: 5});
+    error.html('');
+
+    if( start.val() == '' || end.val() == '' )
+    {
+      error.html('Start and end date required.');
+    }
+    else if( title.val() == '' )
+    {
+      title.focus();
+      error.html('Title of the announcement required.');
+    }
+    else if( data.val() == '' )
+    {
+      data.focus();
+      error.html('Announcement Detail required.');
+    }
+    else
+    {
+      id = form.find('#id').val();
+      url = '{{url("league/ann/edited")}}/'+id;
+      $.post(url, form.serializeArray(), function(){
+        $('#edit-ann').modal('hide');
+        $('#example2').find('li[id="li'+id+'"]').find('#heading').html(title.val());
+        $('#example2').find('li[id="li'+id+'"]').find('#detail').html(data.val());
+        $('#example2').find('li[id="li'+id+'"]').find('#dates').html(start.val()+"  to  "+end.val());
+
+      });
+    }
+  });
+
+  $('#example2').on('click', '#delete', function(){
+
+    id  = $(this).attr('key');
+
+    swal({
+      title: "Are you sure?",
+      text: "The announcement will be deleted!!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: true
+      }, function(){
+        window.location.href = '{{url("league/announce/delete")}}/'+id;
+      }
+    );
+  });
+
+  $(document).ready(function() {
+    $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#success-alert").slideUp(500);
+    });
+
+    $('#example2').paginate({itemsPerPage: 1});
 
     var cId = $('#calendar'); //Change the name if you want. I'm also using thsi add button for more actions
 

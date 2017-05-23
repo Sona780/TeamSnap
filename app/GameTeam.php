@@ -57,4 +57,9 @@ class GameTeam extends Model
                      ->where('league_match_details.result', '!=', '')
                      ->select('game_teams.*', 'league_match_details.result');
     }
+
+    public static function getMatchTeams($gtid)
+    {
+        return static::find($gtid)->select('team1_id', 'team2_id');
+    }
 }

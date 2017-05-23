@@ -15,7 +15,7 @@ class LeagueTeam extends Model
     {
     	return static::where('league_division_id', $ldid)
     				 ->leftJoin('teams', 'teams.id', 'league_teams.team_id')
-    				 ->select('league_teams.id', 'teams.teamname')
+    				 ->select('league_teams.id', 'league_teams.team_id', 'teams.teamname')
     				 ->get();
     }
 
@@ -25,5 +25,19 @@ class LeagueTeam extends Model
     				 ->leftJoin('teams', 'teams.id', 'league_teams.team_id')
     				 ->select('teams.id', 'teams.teamname', 'league_teams.league_division_id')
     				 ->get();
+    }
+
+    public static function totalTeams($id)
+    {
+        return static::where('league_division_id', $id)->count();
+    }
+
+    public static function getTeamDiv($tid, $lid)
+    {
+        return static::where('team_id', $tid)
+                     ->leftJoin('league_divisions', 'league_divisions.id', 'league_teams.league_division_id')
+                     ->where('league_divisions.league_id', $lid)
+                     ->first()
+                     ->division_name;
     }
 }

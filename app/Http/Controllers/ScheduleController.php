@@ -12,17 +12,21 @@ use TeamSnap\LeagueTeam;
 use TeamSnap\LeagueLocation;
 use TeamSnap\LeagueMatchDetail;
 use TeamSnap\LeagueDivision;
+use TeamSnap\DivisionManager;
 
 use TeamSnap\GameTeam;
 use TeamSnap\GameDetail;
 use TeamSnap\OpponentDetail;
 use TeamSnap\LocationDetail;
 use TeamSnap\Availability;
+use TeamSnap\AccessManage;
 
 use Auth;
 use Carbon\Carbon;
+use Redirect;
 
 use TeamSnap\Http\ViewComposer\UserComposer;
+use TeamSnap\Http\Controllers\DashboardController;
 
 class ScheduleController extends Controller
 {
@@ -73,11 +77,12 @@ class ScheduleController extends Controller
         $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
         $manager = ( $user->manager_access == 2 ) ? TeamUser::where('teams_id', $id)->where('users_id', $uid)->first() : '';
+        $access  = AccessManage::getDetail($id);
 
         $composerWrapper = new UserComposer( $id, 'team' );
         $composerWrapper->compose();
 
-        if( $owner != '' || $manager != '' )
+        if( $owner != '' || ($manager != '' && $access->schedule == 1) )
         {
             //get all scheduled games for team
             $games = $this->getGames($id, GameTeam::getGames($id));
@@ -100,7 +105,7 @@ class ScheduleController extends Controller
 
             return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc', 'team', 'user'));
         }
-        else if( $member != '' )
+        else if( $user->manager_access == 0 && $member != '' )
         {
             $tuid    = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first()->id;
 
@@ -148,37 +153,62 @@ class ScheduleController extends Controller
         return $events;
     }
 
-    public function showLeague($id)
+    public function getChilds($id, $arr)
     {
-        $uid = Auth::user()->id;
-        $ch  = League::find($id)->user_id;
+        $i = sizeof($arr);
+        $childs = LeagueDivision::childDivs($id);
+        if( $childs->count() == 0 )
+        {
+          $arr[$i] = LeagueDivision::find($id);
+          return $arr;
+        }
+        foreach ($childs as $child)
+          $arr = $this->getChilds($child->id, $arr);
+        return $arr;
+    }
 
-        if( $uid != $ch )
+    public function showLeague($id, $ldid)
+    {
+        $user = Auth::user();
+        $uid  = $user->id;
+        $ch   = League::find($id)->user_id;
+        $man  = DivisionManager::check($uid, $ldid);
+
+        if( $uid != $ch && $man == 0 )
           return view('errors/404');
 
         $composerWrapper = new UserComposer( $id, 'league' );
         $composerWrapper->compose();
 
+        $div = [];
+        $div['teams'] = LeagueTeam::getTeams($ldid);
+        $div['locs']  = LeagueLocation::divisionLocations($ldid);
+        $div['child'] = $this->getChilds($ldid, []);
+        //return $div['child'];
+
+        $matches   = LeagueMatchDetail::matches($ldid);
         $league    = League::find($id);
-        $divisions = LeagueDivision::findTeamDivisions($id);
-        //$matches   = League::matches($id);
-        $matches   = LeagueMatchDetail::matches($id);
 
         foreach ($matches as $match)
         {
             if( $match->minute < 10 )
                 $match->minute = '0'.$match->minute;
-            $match->time = ($match->time == 0) ? 'AM' : 'PM';
-            $match->team_name      = Team::find($match->team1_id)->teamname;
-            $match->opponent       = Team::find($match->team2_id)->teamname;
-            $match->division_name  = LeagueDivision::find($match->league_division_id)->division_name;
-        }
-        //return $matches;
 
-        return view('league.schedule', compact('id', 'league', 'divisions', 'matches'));
+            $match->time      = ($match->time == 0) ? 'AM' : 'PM';
+            $match->team_name = Team::find($match->team1_id)->teamname;
+            $match->div1      = LeagueTeam::getTeamDiv($match->team1_id, $id);
+            $match->opponent  = Team::find($match->team2_id)->teamname;
+            $match->div2      = LeagueTeam::getTeamDiv($match->team2_id, $id);
+        }
+
+        $d = new DashboardController();
+        $prev = $d->path($ldid);
+        $curr = LeagueDivision::find($ldid)->division_name;
+
+        return view('league.schedule', compact('id', 'league', 'matches', 'ldid', 'prev', 'curr', 'div'));
     }
 
-    public function saveLeagueMatch($id, Request $request)
+    public function saveLeagueMatch($id, $ldid, Request $request)
     {
         //return $request->team2_id;
         $return['game_type'] = 1;
@@ -186,7 +216,7 @@ class ScheduleController extends Controller
 
         $request['league_id'] = $id;
         $loc = $request->location;
-        if( $loc == 0 )
+        if( $loc == 'new' )
         {
             $loc = LeagueLocation::create($request->all());
             $loc = $loc->id;
@@ -194,12 +224,39 @@ class ScheduleController extends Controller
         $request['league_location_id'] = $loc;
         $request['game_team_id'] = $gteam->id;
         $m = LeagueMatchDetail::create($request->all());
-        return redirect('league/'.$id.'/schedule');
+
+        session()->flash('success', 'The match has been scheduled successfully!!');
+        return Redirect::back();
     }
 
-    public function deleteLeagueMatch($id, $mid)
+    public function editLeagueMatch($id, $ldid, Request $request)
     {
-        LeagueMatch::find($mid)->delete();
-        return redirect('league/'.$id.'/schedule');
+        $mid = $request->mid;
+        $loc = $request->location;
+        if( $loc == 'new' )
+        {
+            $loc = LeagueLocation::create($request->all());
+            $loc = $loc->id;
+        }
+        LeagueMatchDetail::matchUpdate($request, $loc);
+        session()->flash('success', 'The scheduled match detail has been updated successfully!!');
+        return redirect("l/$id/d/$ldid/schedule");
+    }
+
+    public function deleteLeagueMatch($id, $ldid, $mid)
+    {
+        GameTeam::find($mid)->delete();
+        session()->flash('success', 'The match has been deleted successfully!!');
+        return Redirect::back();
+    }
+
+    public function getLeagueMatchDetail($id, $ldid, $gtid)
+    {
+        $gt = GameTeam::find($gtid);
+        $data = [];
+        $data['t1'] = Team::find($gt->team1_id)->teamname;
+        $data['t2'] = Team::find($gt->team2_id)->teamname;
+        $data['detail'] = LeagueMatchDetail::getDetail($gtid);
+        return $data;
     }
 }

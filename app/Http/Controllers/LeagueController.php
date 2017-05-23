@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 
 use TeamSnap\League;
 use TeamSnap\Team;
+use TeamSnap\TeamInfo;
+use TeamSnap\User;
+use TeamSnap\UserDetail;
 use TeamSnap\LeagueTeam;
 use TeamSnap\LeagueDivision;
 use TeamSnap\LeagueLocation;
 use TeamSnap\LeagueAccessManage;
+use TeamSnap\DivisionManager;
 
 use TeamSnap\Mail\LeagueInviteMail;
 use Mail;
@@ -17,131 +21,116 @@ use Mail;
 use Auth;
 use TeamSnap\Http\ViewComposer\UserComposer;
 
+use TeamSnap\Http\Controllers\DashboardController;
+
 class LeagueController extends Controller
 {
-    //
-    public function create(Request $request)
-    {
-    	$request['user_id'] = Auth::user()->id;
-    	$league = League::create($request->all());
-        LeagueDivision::create(['division_name' => $request->league_name, 'league_id' => $league->id, 'parent_id' => 0]);
-        LeagueAccessManage::newLeague($league->id);
-    	return redirect('home');
-    }
-
-    public function showDetail($id)
-    {
-        $uid = Auth::user()->id;
-        $ch  = League::find($id)->user_id;
-
-        if( $uid != $ch )
-          return view('errors/404');
-
-    	$league = League::find($id);
-        $ldid = LeagueDivision::RootDivision($id)->first()->id;
-    	$composerWrapper = new UserComposer( $id, 'league' );
-      	$composerWrapper->compose();
-
-      	$lteams = LeagueTeam::getTeams($ldid);
-      	$divisions = LeagueDivision::where('parent_id', $ldid)->get();
-        $prev = [];
-        $name = $league->league_name;
-
-    	return view('league.detail', compact('id', 'league', 'lteams', 'divisions', 'ldid', 'prev', 'name'));
-    }
-
-    public function showDivision($id, $ldid)
-    {
-        $uid = Auth::user()->id;
-        $ch  = League::find($id)->user_id;
-
-        if( $uid != $ch )
-          return view('errors/404');
-
-        $league = League::find($id);
-
-        $composerWrapper = new UserComposer( $id, 'league' );
-        $composerWrapper->compose();
-
-        $prev = [];
-        $i = 0;
-        $parent = LeagueDivision::find($ldid)->parent_id;
-        while($parent != 0)
+    // start create new league
+        public function create(Request $request)
         {
-            $div = LeagueDivision::find($parent);
-            $prev[$i]['name'] = $div->division_name;
-            $prev[$i++]['id'] = $div->id;
-            $parent = $div->parent_id;
+        	$request['user_id'] = Auth::user()->id;
+        	$league = League::create($request->all());
+            LeagueDivision::newLeague($request->league_name, $league->id);
+            LeagueAccessManage::newLeague($league->id);
+            session()->flash('home', 'league');
+            session()->flash('success', 'League successfully created!!');
+        	return redirect('home');
         }
-        $prev = array_reverse($prev);
+    // end create new league
 
-        $lteams = LeagueTeam::getTeams($ldid);
-        $divisions = LeagueDivision::where('parent_id', $ldid)->get();
-        $name = LeagueDivision::find($ldid)->division_name;
-        return view('league.detail', compact('id', 'league', 'lteams', 'divisions', 'ldid', 'prev', 'name'));
-    }
+    // start show division section
+        public function showDetail($id, $ldid)
+        {
+            $user = Auth::user();
+            $uid  = $user->id;
+            $ch   = League::find($id)->user_id;
+            $man  = DivisionManager::check($uid, $ldid);
 
+            if( $uid != $ch && $man == '' )
+              return view('errors/404');
 
-    public function saveTeam($id, Request $request)
-    {
-        $opp  = Team::where('teamname', $request->team_name)->first();
-        if( $opp == '' )
-            $opp = Team::newTeam($request->team_name, 1);
+            $composerWrapper = new UserComposer( $id, 'league' );
+            $composerWrapper->compose();
 
-        $request['team_id'] = $opp->id;
-    	LeagueTeam::create($request->all());
-        $ldid = $request->league_division_id;
+        	$league    = League::find($id);
+          	$lteams    = LeagueTeam::getTeams($ldid);
+          	$divisions = LeagueDivision::where('parent_id', $ldid)->get();
 
-        $user   = Auth::user();
-        $league = League::find($id);
+            $d    = new DashboardController();
+            $prev = $d->path($ldid);
+            $curr = LeagueDivision::find($ldid)->division_name;
 
-        $email = new LeagueInviteMail($user->name, $user->email, $league->league_name);
-        Mail::to($request->owner_email)->send($email);
+        	return view('league.division', compact('id', 'league', 'lteams', 'divisions', 'ldid', 'prev', 'ldid', 'curr'));
+        }
+    // end show division section
 
-        if( LeagueDivision::find($ldid)->parent_id == 0 )
-           return redirect('league/'.$id.'/detail');
-        else
-            return redirect('league/'.$id.'/division/'.$ldid);
-    }
+    // start save new league team
+        public function saveTeam($id, $ldid, Request $request)
+        {
+            $mail  = $request->owner_email;
+            $fname = $request->owner_first_name;
+            $lname = $request->owner_last_name;
+            $tname = $request->team_name;
 
-    public function saveDivision($id, Request $request)
-    {
-    	LeagueDivision::create($request->all());
-        $ldid = $request->parent_id;
-        if( LeagueDivision::find($ldid)->parent_id == 0 )
-    	   return redirect('league/'.$id.'/detail');
-        else
-            return redirect('league/'.$id.'/division/'.$ldid);
-    }
+            $uid = User::where('email', $mail)->first();
 
-    public function deleteDivision($id, $did)
-    {
-        $div  = LeagueDivision::find($did);
-        $ldid = $div->parent_id;
-        $div->delete();
+            if( $uid != '' )
+              $uid = $uid->id;
+            else
+            {
+              $u   = User::addUserFromLeague($fname, $mail, 0);
+              $uid = $u->id;
+              UserDetail::addUserFromLeague($uid, $fname, $lname, 1);
+            }
 
-        if( LeagueDivision::find($ldid)->parent_id == 0 )
-            return redirect('league/'.$id.'/detail');
-        else
-            return redirect('league/'.$id.'/division/'.$ldid);
-    }
+            $t = Team::where('teamname', $tname)->where('team_owner_id', $uid)->first();
+            if($t == '')
+            {
+              $t = Team::newLeagueTeam($tname, $uid, 1);
+              TeamInfo::create([ 'team_id' => $t->id ]);
+            }
+            $request['team_id'] = $t->id;
+        	LeagueTeam::create($request->all());
 
-    public function deleteTeam($id, $tid)
-    {
-        $team = LeagueTeam::find($tid);
-        $ldid = $team->league_division_id;
-        $team->delete();
-        if( LeagueDivision::find($ldid)->parent_id == 0 )
-           return redirect('league/'.$id.'/detail');
-        else
-            return redirect('league/'.$id.'/division/'.$ldid);
-    }
+            $user   = Auth::user();
+            $league = League::find($id);
 
-    public function getDivisionTeams($did)
-    {
-        $data = [];
-        $data['teams'] = LeagueTeam::getDivisionTeams($did);
-        $data['loc']   = LeagueLocation::where('league_division_id', $did)->select('id', 'loc_name')->get();
-        return $data;
-    }
+            $email = new LeagueInviteMail($user->name, $user->email, $league->league_name);
+            Mail::to($mail)->send($email);
+            return redirect('l/'.$id.'/d/'.$ldid.'/detail');
+        }
+    // end save new league team
+
+    // start save new league division
+        public function saveDivision($id, $ldid, Request $request)
+        {
+        	LeagueDivision::create($request->all());
+            return redirect('l/'.$id.'/d/'.$ldid.'/detail');
+        }
+    // end save new league division
+
+    // start delete league division
+        public function deleteDivision($id, $ldid, $did)
+        {
+            $div  = LeagueDivision::find($did);
+            $div->delete();
+            return redirect('l/'.$id.'/d/'.$ldid.'/detail');
+        }
+    // end delete league division
+
+    // start delete league team
+        public function deleteTeam($id, $ldid, $tid)
+        {
+            $team = LeagueTeam::find($tid);
+            $team->delete();
+            return redirect('l/'.$id.'/d/'.$ldid.'/detail');
+        }
+    // end delete league team
+
+    // start get teams of a league division
+        public function getDivisionTeams($did)
+        {
+          return LeagueTeam::getDivisionTeams($did);
+        }
+    // end get teams of a league division
 }

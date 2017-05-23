@@ -75,17 +75,7 @@
                 <h2><i class="zmdi zmdi-account m-r-5"></i> Basic Information</h2>
 
                 <ul class="actions">
-                    <li class="dropdown">
-                        <!-- start show dots -->
-                        <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-                        <!-- end show dots -->
-
-                        <!-- start show edit option -->
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a data-pmb-action="edit" id="basic-edit" href="">Edit</a></li>
-                        </ul>
-                        <!-- stop show edit option -->
-                    </li>
+                    <a data-pmb-action="edit" id="basic-edit" href=""><img style="width: 85%; height: 85%" src="{{url('img/profile-edit.png')}}"></a>
                 </ul>
             </div>
             <!-- end header of basic info -->
@@ -189,13 +179,7 @@
                     <h2><i class="zmdi zmdi-phone m-r-5"></i> Contact Information</h2>
 
                     <ul class="actions">
-                        <li class="dropdown">
-                            <a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a data-pmb-action="edit" href="" id="contact-edit">Edit</a></li>
-                            </ul>
-                        </li>
+                        <a data-pmb-action="edit" href="" id="contact-edit"><img style="width: 85%; height: 85%" src="{{url('img/profile-edit.png')}}"></a>
                     </ul>
                 </div>
             <!-- head of contact info -->

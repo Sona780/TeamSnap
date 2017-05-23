@@ -1,5 +1,4 @@
-@extends('layouts.new', ['team' => $id, 'active' => 'dashboard', 'logo' => $team->team_logo, 'name' => $team->teamname])
-
+@extends('layouts.new', ['team' => $id, 'active' => 'dashboard', 'logo' => $team->team_logo, 'name' => $team->teamname, 'first' => $team->team_color_first])
 
 @section('header')
 
@@ -9,6 +8,12 @@
 
 <div class="block-header">
 </div>
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{ Session::get('success') }}</strong>
+</div>
+@endif
 
 <div class="mini-charts">
   <div class="row">
@@ -154,31 +159,7 @@
       </div>
 
       <div class="card-body">
-        <div class="listview" id='all-announcements'>
-
-          <ul class='li-class' id="example2">
-            @foreach($announcements as $a)
-              <li>
-                <a class="lv-item">
-                  <div class="media">
-                    <div class="media-body">
-                      <div class="lv-title">{{$a->title}}</div>
-                      <small class="lv-small">{{$a->announcement}}</small>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            @endforeach
-          </ul>
-
-          <div class="lv-footer">
-            <div id="example2-pagination">
-              <a id="example2-previous" href="#">&laquo; Previous</a>
-              <a id="example2-next" href="#">Next &raquo;</a>
-            </div>
-          </div>
-
-        </div>
+        @include('partials.announce-display', ['access' => $user->manager_access])
       </div>
     </div>
   </div>
@@ -207,29 +188,26 @@
 </div>
 <!-- end new info modal -->
 
-<!-- start new announcement modal -->
-<div id="announcement-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- Modal header -->
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" style="text-align: center">New Announcement</h4>
-      </div>
-      <!-- Modal header -->
-      {{ Form::open(['method' => 'post', 'url' => '/announcement/save', 'id' => 'announcement-form']) }}
-          @include('partials.announcement')
-      {{Form::close()}}
-    </div>
-  </div>
-</div>
-<!-- end new announcement modal -->
+@include('partials.announce-modal')
 
 @endsection
 
 @section('footer')
 <script src="{{URL::to('/')}}/js/notify.js"></script>
 <script>
+
+  $('#example2').on('click', '#edit', function(){
+    id = $(this).attr('key');
+    url = '{{url("team/ann/edit")}}/'+id;
+    $.post(url, function(d){
+      form = $('#edit-ann-form');
+      form.find('#id').val(id);
+      form.find('input[name="start"]').val(d['start']);
+      form.find('input[name="end"]').val(d['end']);
+      form.find('input[name="title"]').val(d['title']);
+      form.find('textarea[name="announcement"]').val(d['announcement']);
+    });
+  });
 
   $('#info-edit').click(function(){
     $('#team-info-modal').modal('show');
@@ -247,38 +225,103 @@
   });
 
   $('#submit-announcement').click(function(){
-    form = $('#announcement-form');
+    form  = $('#announcement-form');
     title = form.find('input[name="title"]');
+    start = form.find('input[name="start"]');
+    end   = form.find('input[name="end"]');
     data  = form.find('textarea[name="announcement"]');
+    error = $('#announcement-modal').find('#error-ann');
 
-    form.find('strong').html('');
+    error.html('');
 
-    if( title.val() == '' )
+    if( start.val() == '' || end.val() == '' )
+    {
+      error.html('Start and end date required.');
+    }
+    else if( title.val() == '' )
     {
       title.focus();
-      $('#error-title').html('Title of the announcement required.');
+      error.html('Title of the announcement required.');
     }
     else if( data.val() == '' )
     {
       data.focus();
-      $('#error-announcement').html('Announcement Detail required.');
+      error.html('Announcement Detail required.');
     }
     else
     {
       url = '{{url($id."/announcement/save")}}';
-      $.post(url, $('#announcement-form').serializeArray(), function(){
+      $.post(url, $('#announcement-form').serializeArray(), function(aid){
         $('#announcement-modal').modal('hide');
 
-        content = '<li><a class="lv-item"><div class="media"><div class="media-body"><div class="lv-title">'+ title.val() +'</div><small class="lv-small">'+ data.val() +'</small></div></div></a></li>';
+        content = '<li id="li'+aid+'"><a class="lv-item" style="background: white"><div class="media"><div class="media-body"><div class="lv-title" style="text-transform: uppercase" id="heading">'+ title.val() +'</div><p style="color: grey" id="detail">'+ data.val() +'</p></div></div><div class="pull-left" id="dates">'+start.val() +' to '+ end.val()+'</div><div class="pull-right"><button class="btn btn-success" type="button" id="edit" key="'+aid+'" data-toggle="modal" data-target="#edit-ann">Edit</button>&nbsp;<button class="btn btn-danger" type="button" key="'+aid+'" id="delete">Delete</button></div></a></li>';
 
-        $('#example2').prepend(content).paginate({itemsPerPage: 5});
+        $('#example2').prepend(content).paginate({itemsPerPage: 1});
       });
     }
   });
 
-  $(document).ready(function() {
+  $('#edit-sub-announcement').click(function(){
+    form  = $('#edit-ann-form');
+    title = form.find('input[name="title"]');
+    start = form.find('input[name="start"]');
+    end   = form.find('input[name="end"]');
+    data  = form.find('textarea[name="announcement"]');
+    error = $('#edit-ann').find('#error-ann');
 
-    $('#example2').paginate({itemsPerPage: 5});
+    error.html('');
+
+    if( start.val() == '' || end.val() == '' )
+    {
+      error.html('Start and end date required.');
+    }
+    else if( title.val() == '' )
+    {
+      title.focus();
+      error.html('Title of the announcement required.');
+    }
+    else if( data.val() == '' )
+    {
+      data.focus();
+      error.html('Announcement Detail required.');
+    }
+    else
+    {
+      id = form.find('#id').val();
+      url = '{{url("team/ann/edited")}}/'+id;
+      $.post(url, form.serializeArray(), function(){
+        $('#edit-ann').modal('hide');
+        $('#example2').find('li[id="li'+id+'"]').find('#heading').html(title.val());
+        $('#example2').find('li[id="li'+id+'"]').find('#detail').html(data.val());
+        $('#example2').find('li[id="li'+id+'"]').find('#dates').html(start.val()+"  to  "+end.val());
+      });
+    }
+  });
+
+  $('#example2').on('click', '#delete', function(){
+
+    id  = $(this).attr('key');
+
+    swal({
+      title: "Are you sure?",
+      text: "The announcement will be deleted!!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: true
+      }, function(){
+        window.location.href = '{{url("team/announce/delete")}}/'+id;
+      }
+    );
+  });
+
+  $(document).ready(function() {
+    $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+      $("#success-alert").slideUp(500);
+    });
+
+    $('#example2').paginate({itemsPerPage: 1});
 
     var cId = $('#calendar'); //Change the name if you want. I'm also using thsi add button for more actions
 

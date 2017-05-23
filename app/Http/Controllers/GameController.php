@@ -105,6 +105,7 @@ class GameController extends Controller
             $i->duration_minute = $request->d_minute;
         	$i->save();
 
+            session()->flash('success', 'The match has been scheduled successfully!!');
         	return redirect($id.'/schedule');
         }
     // end save new game details
@@ -152,6 +153,7 @@ class GameController extends Controller
                     'duration_minute' => $request->d_minute
                 ]);
 
+            session()->flash('success', 'The scheduled match detail has been updated successfully!!');
             return redirect($id.'/schedule');
         }
     // end update game details
@@ -187,6 +189,7 @@ class GameController extends Controller
         public function delete($id, $game_id)
         {
             GameTeam::find($game_id)->delete();
+            session()->flash('success', 'The match has been deleted successfully!!');
             return redirect($id.'/schedule');
         }
     // end delete a game
