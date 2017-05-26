@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/members")}}'>
-        <div class="mini-charts-item bgm-bluegray">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Total Members </small>
@@ -32,7 +32,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-bluegray">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Events</small>
@@ -45,7 +45,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-lightblue">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Games Played</small>
@@ -58,7 +58,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-lightblue">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Games</small>

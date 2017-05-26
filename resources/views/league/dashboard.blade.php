@@ -47,7 +47,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
-        <div class="mini-charts-item bgm-lightgreen">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Total matches</small>
@@ -60,7 +60,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
-        <div class="mini-charts-item bgm-orange">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Match Played</small>
@@ -73,7 +73,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url("l/".$id."/d/".$ldid."/schedule")}}'>
-        <div class="mini-charts-item bgm-orange">
+        <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
             <div class="count">
               <small>Remaining matches</small>

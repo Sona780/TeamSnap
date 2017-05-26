@@ -37,274 +37,220 @@
 
 @section('content')
 <div class="pull-right">
-  @if($user->manager_access != 0)
-    <div class="btn-group m-r-20">
-      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-        <span style="padding: 0px 15px">NEW</span>
-      </button>
-      <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
-        <li><a data-toggle="modal" id="add-member" data-target="#myModal1">Member</a></li>
-        <li class="divider"></li>
-        <li><a data-toggle="modal" data-target="#myModal">Category</a></li>
-      </ul>
-    </div>
+  <!-- start create or import privilege if owner or manager -->
+    @if($user->manager_access != 0)
+      <div class="btn-group m-r-20">
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+          <span style="padding: 0px 15px">NEW</span>
+        </button>
+        <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
+          <li><a data-toggle="modal" id="add-member" data-target="#myModal1">Member</a></li>
+          <li class="divider"></li>
+          <li><a data-toggle="modal" data-target="#myModal">Category</a></li>
+        </ul>
+      </div>
 
-    <div class="btn-group m-r-20">
-      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-        <span style="padding: 0px 15px">IMPORT</span>
-      </button>
-      <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
-        <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
-        <li class="divider"></li>
-        <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
-      </ul>
-    </div>
-  @endif
+      <div class="btn-group m-r-20">
+        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+          <span style="padding: 0px 15px">IMPORT</span>
+        </button>
+        <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
+          <li><a data-toggle="modal" id="import-member" data-target="#import-members">Members</a></li>
+          <li class="divider"></li>
+          <li><a data-toggle="modal" id="import-ctg" data-target="#import-ctgs">Categories</a></li>
+        </ul>
+      </div>
+    @endif
+  <!-- end create or import privilege if owner or manager -->
 
   <!-- import member modal -->
-  <div id="import-members" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <!-- Modal header -->
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: center">Import Members</h4>
+    <div id="import-members" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="text-align: center">Import Members</h4>
+          </div>
+          {{ Form::open(['method' => 'post', 'url' => $id.'/import/members', 'id' => 'import-member-form']) }}
+              @include ('partials.import-member-form')
+          {{Form::close()}}
         </div>
-        <!-- Modal header -->
-
-        {{ Form::open(['method' => 'post', 'url' => $id.'/import/members', 'id' => 'import-member-form']) }}
-            @include ('partials.import-member-form')
-        {{Form::close()}}
-
       </div>
     </div>
-  </div>
   <!-- end import member modal -->
 
   <!-- edit member modal -->
-  <div id="import-ctgs" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-
-        <!-- Modal header -->
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: center">Import Categories</h4>
+    <div id="import-ctgs" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="text-align: center">Import Categories</h4>
+          </div>
+          {{ Form::open(['method' => 'post', 'url' => $id.'/import/ctg', 'id' => 'import-ctg-form']) }}
+              @include ('partials.import-ctg-form')
+          {{Form::close()}}
         </div>
-        {{ Form::open(['method' => 'post', 'url' => $id.'/import/ctg', 'id' => 'import-ctg-form']) }}
-            @include ('partials.import-ctg-form')
-        {{Form::close()}}
       </div>
     </div>
-  </div>
   <!-- end edit member modal -->
 
   <!-- add member modal -->
-  <div id="myModal1" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: center">Member Details</h4>
+    <div id="myModal1" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="text-align: center">Member Details</h4>
+          </div>
+            {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
+              @include ('partials.memberform', ['id' => 'add'])
+            {{Form::close()}}
         </div>
-
-          {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
-            @include ('partials.memberform', ['id' => 'add'])
-          {{Form::close()}}
-
       </div>
     </div>
-  </div>
   <!-- end add member modal -->
 
-<!-- edit member modal -->
-  <div id="edit-member" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: center">Member Details</h4>
-        </div>
-
+  <!-- edit member modal -->
+    <div id="edit-member" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" style="text-align: center">Member Details</h4>
+          </div>
           {{Form::open(['method' => 'post', 'url' => $id.'/member/edit', 'files' => true, 'id' => 'edit-form'])}}
             <input type="hidden" name="id">
             @include ('partials.memberform', ['id' => 'edit'])
           {{Form::close()}}
-
+        </div>
       </div>
     </div>
-  </div>
   <!-- end edit member modal -->
 
-   <div id="myModal" class="modal fade" role="dialog">
+  <!-- start modal for new category -->
+    <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
-         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Create Ctg</h4>
           </div>
           <div class="modal-body">
-           <form action="{{url($id.'/create_ctg')}}" method="post">
-             {!! csrf_field() !!}
-            <div class="form-group fg-float m-b-30">
+            <form action="{{url($id.'/create_ctg')}}" method="post">
+              {!! csrf_field() !!}
+              <div class="form-group fg-float m-b-30">
                 <div class="fg-line">
-                    <input type="text" class="form-control input-sm" name="ctg_name">
-                    <label class="fg-label">Name of Ctg</label>
+                  <input type="text" class="form-control input-sm" name="ctg_name">
+                  <label class="fg-label">Name of Ctg</label>
                 </div>
-             </div>
-             <button type="submit" class="btn btn-info">Submit</button>
+              </div>
+              <button type="submit" class="btn btn-info">Submit</button>
             </form>
-           </div>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-
-      </div>
-   </div>
-
-
-   <!-- image modal -->
-  <div id="show-img" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" style="text-align: center" id="member-name"></h4>
-        </div>
-
-        <div class="modal-body">
-          <img id="member-img" src="" style="width:100%">
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-
       </div>
     </div>
-  </div>
-  <!-- end image modal -->
+  <!-- end modal for new category -->
 </div>
 
 <div id="main-div">
 
   <!-- tabs for all, players and non-player -->
-  <div role="tabpanel">
-        <ul class="tab-nav main_tab" role="tablist">
-            <li class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
-            <li><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
-            <li><a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab">Non Player</a></li>
-        </ul>
-  </div>
+    <div role="tabpanel">
+      <ul class="tab-nav main_tab" role="tablist">
+        <li class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
+        <li><a href="#player" aria-controls="player" role="tab" data-toggle="tab">Player</a></li>
+        <li><a href="#nonplayer" aria-controls="nonplayer" role="tab" data-toggle="tab">Non Player</a></li>
+      </ul>
+    </div>
   <!-- end tabs for all, players and non-player -->
 
 
   <div class="card table-card" id="main" style="padding: 0% 0%;">
     <div class="tab-content">
       <!-- show all members -->
-      <div role="tabpanel" class="tab-pane active" id="all">
+        <div role="tabpanel" class="tab-pane active" id="all">
+          <ul class="tab-nav ctg" role="tablist">
+            <!-- create all tab -->
+              <li class="active"><a href="#all0" aria-controls="all0" role="tab" data-toggle="tab" >ALL</a></li>
+            <!-- end create all tab -->
 
-        <ul class="tab-nav ctg" role="tablist">
+            <!-- create tab for each category -->
+              @foreach($ctgs as $ctg)
+                <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
+              @endforeach
+            <!-- end create tab for each category -->
+          </ul>
+          <div class="tab-content p-10" >
+            <!-- table for all members irrespective of category -->
+              <div role="tabpanel" class="tab-pane active" id="all0" >
+                @include('partials.member-table', ['members' => $member['all']['all']])
+              </div>
+            <!-- table for all members irrespective of category -->
 
-          <!-- create all tab -->
-          <li class="active"><a href="#all0" aria-controls="all0" role="tab" data-toggle="tab" >ALL</a></li>
-          <!-- end create all tab -->
-
-
-          <!-- create tab for each category -->
-          @foreach($ctgs as $ctg)
-            <li><a href="#all{{$ctg->id}}" aria-controls="all{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
-          @endforeach
-          <!-- end create tab for each category -->
-
-        </ul>
-        <div class="tab-content p-10" >
-
-          <!-- table for all members irrespective of category -->
-          <div role="tabpanel" class="tab-pane active" id="all0" >
-            @include('partials.member-table', ['members' => $member['all']['all']])
+            <!-- table for members of each category -->
+              @foreach($ctgs as $ctg)
+                <div role="tabpanel" class="tab-pane" id="all{{$ctg->id}}" >
+                  @include('partials.member-table', ['members' => $member['all'][$ctg->id]])
+                </div>
+              @endforeach
+            <!-- table for members of each category -->
           </div>
-          <!-- table for all members irrespective of category -->
-
-          <!-- table for members of each category -->
-          @foreach($ctgs as $ctg)
-            <div role="tabpanel" class="tab-pane" id="all{{$ctg->id}}" >
-               @include('partials.member-table', ['members' => $member['all'][$ctg->id]])
-            </div>
-          @endforeach
-          <!-- table for members of each category -->
-
-        </div><!--div class tabb content-->
-
-      </div>
+        </div>
       <!-- end show all members -->
 
-
       <!-- show players only -->
-      <div role="tabpanel" class="tab-pane" id="player">
+        <div role="tabpanel" class="tab-pane" id="player">
+          <ul class="tab-nav ctg" role="tablist" >
+            <!-- create all tab -->
+              <li class="active"><a href="#player0" aria-controls="player0" role="tab" data-toggle="tab" >ALL</a></li>
+            <!-- end create all tab -->
 
-        <ul class="tab-nav ctg" role="tablist" >
+            <!-- create tab for each category -->
+              @foreach($ctgs as $ctg)
+                <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
+              @endforeach
+            <!-- end create tab for each category -->
+          </ul>
+          <div class="tab-content p-10">
+            <!-- table for player members irrespective of category -->
+              <div role="tabpanel" class="tab-pane active" id="player0" >
+                @include('partials.member-table', ['members' => $member['player']['all']])
+              </div>
+            <!-- table for player members irrespective of category -->
 
-          <!-- create all tab -->
-          <li class="active"><a href="#player0" aria-controls="player0" role="tab" data-toggle="tab" >ALL</a></li>
-          <!-- end create all tab -->
-
-
-          <!-- create tab for each category -->
-          @foreach($ctgs as $ctg)
-            <li><a href="#player{{$ctg->id}}" aria-controls="player{{$ctg->id}}" role="tab" data-toggle="tab" >{{$ctg->category_name}}</a></li>
-          @endforeach
-          <!-- end create tab for each category -->
-
-        </ul>
-        <div class="tab-content p-10">
-
-          <!-- table for player members irrespective of category -->
-          <div role="tabpanel" class="tab-pane active" id="player0" >
-            @include('partials.member-table', ['members' => $member['player']['all']])
+            <!-- table for members of each category -->
+              @foreach($ctgs as $ctg)
+                <div role="tabpanel" class="tab-pane" id="player{{$ctg->id}}" >
+                   @include('partials.member-table', ['members' => $member['player'][$ctg->id]])
+                </div>
+              @endforeach
+            <!-- table for members of each category -->
           </div>
-          <!-- table for player members irrespective of category -->
-
-          <!-- table for members of each category -->
-          @foreach($ctgs as $ctg)
-            <div role="tabpanel" class="tab-pane" id="player{{$ctg->id}}" >
-               @include('partials.member-table', ['members' => $member['player'][$ctg->id]])
-            </div>
-          @endforeach
-          <!-- table for members of each category -->
-
-        </div><!--div class tabb content-->
-
-      </div>
+        </div>
       <!-- end show players only -->
 
-
       <!-- show non-players only -->
-      <div role="tabpanel" class="tab-pane" id="nonplayer">
-
-        <ul class="tab-nav ctg" role="tablist" >
-
-          <!-- create all tab -->
-          <li class="active"><a href="#nonplayer0" aria-controls="nonplayer0" role="tab" data-toggle="tab" >ALL</a></li>
-          <!-- end create all tab -->
-
-        </ul>
-        <div class="tab-content p-10">
-
-          <!-- table for player members irrespective of category -->
-          <div role="tabpanel" class="tab-pane active" id="nonplayer0" >
-            @include('partials.member-table', ['members' => $member['non']])
+        <div role="tabpanel" class="tab-pane" id="nonplayer">
+          <ul class="tab-nav ctg" role="tablist" >
+            <!-- create all tab -->
+            <li class="active"><a href="#nonplayer0" aria-controls="nonplayer0" role="tab" data-toggle="tab" >ALL</a></li>
+            <!-- end create all tab -->
+          </ul>
+          <div class="tab-content p-10">
+            <!-- table for player members irrespective of category -->
+              <div role="tabpanel" class="tab-pane active" id="nonplayer0" >
+                @include('partials.member-table', ['members' => $member['non']])
+              </div>
+            <!-- table for player members irrespective of category -->
           </div>
-          <!-- table for player members irrespective of category -->
-
-        </div><!--div class tabb content-->
-
-      </div>
+        </div>
       <!-- end show non-players only -->
     </div>
   </div>
@@ -329,16 +275,6 @@
         $('table').DataTable();
       });
     // do stuff on page loading
-
-
-    $('#main-div').on('click', '#aimg-show', function(){
-      name = $(this).attr('name');
-      image = $(this).attr('image');
-
-      $('#member-name').html(name);
-      $('#member-img').attr('src', image);
-    });
-
 
     //validate member form
 
@@ -490,8 +426,6 @@
     //code to edit member info
 
 
-
-
     // show confirmation pop-up on deleting a member
     $('#main').on('click', '#delete', function(){
           id = $(this).attr('key');
@@ -509,8 +443,6 @@
           });
       });
     // show confirmation pop-up on deleting a member
-
-
 
 
     //code for member and category import
@@ -586,9 +518,6 @@
         //get all the members
         for( i = 0; i < d.length; i++ )
         {
-          /*email = d[i]['email'];
-          if( email != '' )
-            /=email = '('+email+')';*/
           name = d[i]['firstname']+" "+d[i]['lastname'];
           content += '<option value="'+ d[i]['id'] +'">'+ name +'</option>';
         }

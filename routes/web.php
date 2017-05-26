@@ -275,6 +275,8 @@
                 Route::get('inbox/mail/visit/update/{mid}','MessageController@lastCheckUpdate');
                 // get a mail chat
                 Route::post('recipients/{mid}','MessageController@getEmails');
+                // open compose dialog for selected member
+                Route::get('member/mail/{tid}/{tuid}','MessageController@composeMail');
             // end Routes for MessageController without team id
 
             // start Routes for DashboardController without team id

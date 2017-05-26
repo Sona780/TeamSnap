@@ -79,6 +79,13 @@
 
 @section('content')
 
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{ Session::get('success') }}</strong>
+</div>
+@endif
+
   <!-- start Modal to compose mail -->
     <div class="modal fade" id="compose-modal" role="dialog">
       <div class="modal-dialog">
@@ -267,171 +274,126 @@
 
 <script type="text/javascript">
     check = 0;
-    $('#in-tab').on('click', '#inbox-mail', function(){
-      {
+
+    // do stuff on page loading
+      $(document).ready(function(){
+        @if(Session::has('uid'))
+          modal = $('#compose-modal');
+          modal.modal('show');
+        @endif
+
+        $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+          $("#success-alert").slideUp(500);
+        });
+
+        $('body').on('click', '#selectall', function () {
+          if ($(this).hasClass('allChecked'))
+          {
+              $('input[type="checkbox"]').prop('checked', false);
+          }
+          else
+          {
+              $('input[type="checkbox"]').prop('checked', true);
+          }
+          $(this).toggleClass('allChecked');
+        });
+
+        var child=$("tr.give"),parent=$("tr.parent");
+        child.hide();
+        parent.click(function(){
+          $(this).next().slideToggle();
+          $('table').DataTable({'bInfo': false, 'aaSorting': []});
+        });
+      });
+    // do stuff on page loading
+
+    // start updtae last visited date
+      $('#in-tab').on('click', '#inbox-mail', function(){
         id = $(this).attr('key');
         $('#new-mail-'+id).hide();
         url = '{{url("inbox/mail/visit/update")}}/'+id;
         $.get(url);
-      }
-
-    });
+      });
+    // end updtae last visited date
 
     // start load the email of recipient on replying
-    $('#inbox-mail').on('click', '#reply-modal-but', function(){
-      mid = $(this).attr('key');
+      $('#inbox-mail').on('click', '#reply-modal-but', function(){
+        mid = $(this).attr('key');
+        url = '{{url("recipients")}}/'+mid;
 
-      url = '{{url("/")}}/get/recipients/' + mid;
+        $.post(url, function(d){
+          content = '';
+          for( i = 0; i < d.length; i++ )
+          {
+            src = '{{url("/")}}'+d[i]['avatar'];
+            content += '<li class="members-li"><input type="checkbox" id="cb class="member_checkbox" checked disabled/><label><img src="'+src+'" class="img-circle"/></label><span>'+d[i]['firstname']+' '+d[i]['lastname']+'</span></li>';
+          }
 
-      u = '{{url("recipients")}}/'+mid;
+          $('#reply-form').find('#example').html(content);
+        });
 
-      $.post(u, function(d){
-        content = '';
+        form = $('#reply-form');
 
-        for( i = 0; i < d.length; i++ )
-        {
-          src = '{{url("/")}}'+d[i]['avatar'];
-          content += '<li class="members-li"><input type="checkbox" id="cb class="member_checkbox" checked disabled/><label><img src="'+src+'" class="img-circle"/></label><span>'+d[i]['firstname']+' '+d[i]['lastname']+'</span></li>';
-        }
-
-        $('#reply-form').find('#example').html(content);
+        form.find('input[name="mid"]').val(mid);
+        form.find('input[name="body"]').val('');
+        form.find('input[name="subject"]').val('');
+        form.find('strong').html('');
       });
-
-      form = $('#reply-form');
-
-      form.find('input[name="mid"]').val(mid);
-      form.find('input[name="body"]').val('');
-      form.find('input[name="subject"]').val('');
-      form.find('strong').html('');
-    });
     // end load the email of recipient on replying
 
+    // start validate reply form
+      $('#reply-form').submit(function(e){
+        e.preventDefault();
+        sub  = $(this).find('#subject');
+        body = $(this).find('#body');
 
-    $('#reply-form').submit(function(e){
-      e.preventDefault();
-      sub  = $(this).find('#subject');
-      body = $(this).find('#body');
+        $(this).find('strong').html('');
 
-      $(this).find('strong').html('');
-
-      if( sub.val() == '' )
-      {
-        sub.focus();
-        $(this).find('#error-subject').html('Subject of the mail is necessary.');
-      }
-      else if( body.val() == '' )
-      {
-        body.focus();
-        $(this).find('#error-body').html('Body of the mail is necessary.');
-      }
-      else
-        this.submit();
-    });
-
-
-
-    // do stuff on page loading
-    $(document).ready(function(){
-      $('table').DataTable({'bInfo': false, 'aaSorting': []});
-    });
-    // do stuff on page loading
-
-  $('#message-form').submit(function(e){
-    e.preventDefault();
-
-    sub  = $(this).find('#subject');
-    body = $(this).find('#body');
-
-    ch = false;
-    $(this).find(':checkbox:checked').each(function(i){
-      ch = true;
-    });
-
-    $(this).find('strong').html('');
-
-    if( sub.val() == '' )
-    {
-      sub.focus();
-      $(this).find('#error-subject').html('Subject of the mail is necessary.');
-    }
-    else if( body.val() == '' )
-    {
-      body.focus();
-      $(this).find('#error-body').html('Body of the mail is necessary.');
-    }
-    else if(!ch)
-      $(this).find('#error-receivers').html('Select atleast one member as recipient.');
-    else
-      this.submit();
-  });
-
-
-    $(document).ready(function(){
-
-          $('body').on('click', '#selectall', function () {
-    if ($(this).hasClass('allChecked'))
-    {
-        $('input[type="checkbox"]').prop('checked', false);
-    }
-    else
-    {
-        $('input[type="checkbox"]').prop('checked', true);
-    }
-    $(this).toggleClass('allChecked');
-  })
- var child=$("tr.give"),parent=$("tr.parent");
-      console.log("aa");
-    child.hide();
-     parent.click(function(){
-
-        $(this).next().slideToggle();
-    });
-
-
-
-   $('.submit').click(function(e){
-     e.preventDefault();
-     var url = "{{ url($id.'/sendmail') }}";
-      var val = [] , i=0;
-        $(':checkbox:checked').each(function(i){
-          val[i++] = $(this).val();
-        });
-       i=0;
-        console.log(val);
-      var data = {
-      'title': $('#title').val(),
-      'body' : $('#body').val(),
-      'val'  : val,
-
-     };
-     console.log(data);
-     $.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-        success: function(data) {
-                  console.log('hello');
-                  console.log(data);
-                  swal("Message sent")
-            }
-    });
-
-
-
-    document.getElementById("message_form").reset();
+        if( sub.val() == '' )
+        {
+          sub.focus();
+          $(this).find('#error-subject').html('Subject of the mail is necessary.');
+        }
+        else if( body.val() == '' )
+        {
+          body.focus();
+          $(this).find('#error-body').html('Body of the mail is necessary.');
+        }
+        else
+          this.submit();
       });
- });
-        </script>
+    // end validate reply form
 
-<!-- <script>
-$(document).ready(function () {
+    // start validate compose mail form
+      $('#message-form').submit(function(e){
+        e.preventDefault();
 
+        sub  = $(this).find('#subject');
+        body = $(this).find('#body');
 
+        ch = false;
+        $(this).find(':checkbox:checked').each(function(i){
+          ch = true;
+        });
 
+        $(this).find('strong').html('');
 
-  });
-
-</script> -->
+        if( sub.val() == '' )
+        {
+          sub.focus();
+          $(this).find('#error-subject').html('Subject of the mail is necessary.');
+        }
+        else if( body.val() == '' )
+        {
+          body.focus();
+          $(this).find('#error-body').html('Body of the mail is necessary.');
+        }
+        else if(!ch)
+          $(this).find('#error-receivers').html('Select atleast one member as recipient.');
+        else
+          this.submit();
+      });
+    // end validate compose mail form
+</script>
 @endsection
 

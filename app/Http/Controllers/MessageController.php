@@ -106,17 +106,19 @@ class MessageController extends Controller
         //get email of recipient
         $ruser = User::find($rid);
 
-        $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
-        Mail::to($ruser->email)->send($email);
+        /*$email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+        Mail::to($ruser->email)->send($email);*/
 
         // register recipient as one of the user for mail
         EmailUser::createMailUser($mid->id, $rid, Carbon::today());
       }
       // save mail content
       EmailInfo::saveMail($mid->id, $uid, $sub, $body, $at);
+      session()->flash('success', 'Message sent successfully.');
       return redirect($id.'/messages');
     }
     // end compose new mail
+
     // start get all recipients of mail
     public function getEmails($mid)
     {
@@ -139,12 +141,20 @@ class MessageController extends Controller
       $rusers = EmailUser::getRecipients($mid, $uid);
       foreach ($rusers as $ruser)
       {
-        $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
-        Mail::to($ruser->email)->send($email);
+        /*$email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+        Mail::to($ruser->email)->send($email);*/
       }
       // save mail content
       EmailInfo::saveMail($mid, $uid, $sub, $body, Carbon::now());
+      session()->flash('success', 'Message sent successfully.');
       return redirect($id.'/messages');
     }
     // end compose reply mail
+
+    public function composeMail($tid, $tuid)
+    {
+      $uid = TeamUser::find($tuid)->users_id;
+      session()->flash('uid', $uid);
+      return redirect("$tid/messages");
+    }
 }

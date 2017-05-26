@@ -15,7 +15,7 @@
 			        <th>Position</th>
 			        <th>Contact</th>
 			        @if($user->manager_access != 0)
-			    		<th class="all">Manager</th>
+			    		<th class="all" style="text-align: center">Manager</th>
 			    	@endif
 			    	<th class="none">Domicile</th>
 				</tr>
@@ -61,10 +61,11 @@
 	                        <p>{{$member->mobile}}
 	                    </td>
 	                    @if($user->manager_access != 0 && $member->role != 'manager')
-		                    <td>
-		                        <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$member->id}}" data-toggle="modal" data-target="#edit-member"/>
-		                        <a id="delete" key="{{$member->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
-		                    </td>
+		                  <td>
+		                  	<a href='{{url("member/mail/$id/$member->id")}}'><img class="icon-style" src='{{url("img/mail.jpeg")}}'></a>
+		                    <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$member->id}}" data-toggle="modal" data-target="#edit-member"/>
+		                    <a id="delete" key="{{$member->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+		                  </td>
 		                @endif
 	                    <td>
 	                    	{{$member->city}}
