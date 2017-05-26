@@ -2,7 +2,7 @@
 				    <div class="col-sm-12">
 					  <div class="form-group col-sm-6">
 						<label>Date</label>
-						<input type='text' class="form-control date-picker birthday" name="match_date">
+						<input type='text' class="form-control" name="match_date">
 					  </div>
 					  <div class="form-group col-sm-6">
 						<label>Time</label>

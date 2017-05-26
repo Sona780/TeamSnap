@@ -48,6 +48,11 @@ class TeamController extends Controller
           if($request->hasFile('logo'))
           {
             $teamlogo = $request->file('logo');
+            if( filesize($teamlogo) > 50000 )
+            {
+              session()->flash('size_error', 'Size of the team logo should be less than 50, 000 bytes or 50 KB.');
+              return Redirect::back();
+            }
             $filename = time().'.'.$teamlogo->getClientOriginalExtension();
             $path     = '/images/teams/'.$filename;
 
@@ -108,6 +113,11 @@ class TeamController extends Controller
             if( $request->hasFile('logo') )
             {
                 $teamlogo = $request->file('logo');
+                if( filesize($teamlogo) > 50000 )
+                {
+                  session()->flash('size_error', 'Size of the team logo should be less than 50, 000 bytes or 50 KB.');
+                  return Redirect::back();
+                }
                 $filename = time().'.'.$teamlogo->getClientOriginalExtension();
                 $path     = '/images/teams/'.$filename;
 

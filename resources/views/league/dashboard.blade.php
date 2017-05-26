@@ -91,12 +91,7 @@
     <div class="card">
       <div class="card-header bgm-bluegray m-b-20">
         <h2>Announcements <small>Don't miss latest league updates</small></h2>
-
-
-          <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
-            <i class="zmdi zmdi-plus"></i>
-          </button>
-
+        <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal"><i class="zmdi zmdi-plus"></i></button>
       </div>
 
       <div class="card-body">
@@ -104,10 +99,10 @@
       </div>
     </div>
   </div>
-
+  <div class="col-sm-2"></div>
   <div class="col-sm-6">
     <!-- Calendar -->
-    <div id="calendar"></div>
+    <div id="calendar" style="margin-left: 0%"></div>
   </div>
 </div>
 
@@ -128,6 +123,8 @@
       form.find('input[name="end"]').val(d['end']);
       form.find('input[name="title"]').val(d['title']);
       form.find('textarea[name="announcement"]').val(d['announcement']);
+
+      changeEndRange(d['start'].split('/'), form);
     });
   });
 
@@ -228,7 +225,33 @@
     );
   });
 
+  function changeEndRange(data, m)
+  {
+    if(data.length == 3)
+    {
+      date = new Date(data[2], data[1]-1, data[0]);
+      end  = m.find('input[name="end"]');
+      end.data('DateTimePicker').destroy();
+      end.datetimepicker({ minDate: date, format: 'DD/MM/YYYY' });
+    }
+  }
+
+  modal1 = $('#announcement-modal');
+  modal1.on('focusout', 'input[name="start"]', function(){
+    changeEndRange($(this).val().split('/'), modal1);
+  });
+
+  modal2 = $('#edit-ann-form');
+  modal2.on('focusout', 'input[name="start"]', function(){
+    changeEndRange($(this).val().split('/'), modal2);
+  });
+
   $(document).ready(function() {
+    d = new Date();
+    $('input[name="start"]').datetimepicker({ minDate: new Date(), format: 'DD/MM/YYYY' });
+    $('input[name="end"]').datetimepicker({ minDate: d, maxDate: d, format: 'DD/MM/YYYY' });
+    $('input[name="end"]').data('DateTimePicker').disabledDates([d]);
+
     $("#alert").fadeTo(2000, 500).slideUp(500, function(){
       $("#success-alert").slideUp(500);
     });

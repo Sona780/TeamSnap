@@ -25,7 +25,7 @@
   <!-- start tabs for different setting categories -->
 	  <ul class="tab-nav" role="tablist" id="myTab">
       <li @if(!Session::has('active')) class="active" @endif><a href="#account" role="tab" data-toggle="tab">Account</a></li>
-      <li @if(Session::has('active')) class="active" @endif role="presentation"><a href="#team" role="tab" data-toggle="tab">League</a></li>
+      <li @if(Session::has('active')) class="active" @endif role="presentation"><a href="#team" role="tab" data-toggle="tab">Team</a></li>
     </ul>
   <!-- end tabs for different setting categories -->
 
@@ -230,15 +230,9 @@
   <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
   <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
   <script src="{{URL::to('/')}}/js/notify.js"></script>
+  <script src="{{URL::to('/')}}/js/settings.js"></script>
   <script type="text/javascript">
   	cnt = {{$managers->count()}};
-  	// start script to load on page load
-  	$(document).ready(function(){
-	  $("#alert").fadeTo(2000, 500).slideUp(500, function(){
-	    $("#success-alert").slideUp(500);
-	  });
-	});
-	// end script to load on page load
 
 	// start validate and save new manager
   	$('#manager-button').click(function(){
@@ -278,100 +272,31 @@
   	// end validate and save new manager
 
   	// start confirm & delete manager
-  	$('#manager-card').on('click', '#delete', function(){
-  		id = $(this).attr('key');
-  		swal({
-              title: "Are you sure?",
-              text: "Selected team member will be deleted permanently!!!",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Yes, delete it!",
-              closeOnConfirm: true
-              }, function(){
-                  window.location.href = '{{url("team/m/d")}}/'+id;
-          });
-  	});
+    	$('#manager-card').on('click', '#delete', function(){
+    		id = $(this).attr('key');
+        showDeleteDialog('{{url("team/m/d")}}/'+id);
+    	});
   	// end confirm & delete manager
 
-  	$('#a-access').click(function(){
-  		toggleClasses($(this), $('#a-manager'), $('#access-detail'), $('#managers-detail'));
-  	});
+  	// start hide access edit view
+      $('#access-tabs').on('click', '#cancel', function(){
+        key = $(this).attr('key');
 
-  	$('#a-manager').click(function(){
-  		toggleClasses($(this), $('#a-access'), $('#managers-detail'), $('#access-detail'));
-  	});
+        if( key == 'public' )
+        {
+          div  = $('#public-div');
+          data = ['{{$public->member}}', '{{$public->schedule}}', '{{$public->availability}}', '{{$public->record}}', '{{$public->media}}', '{{$public->message}}', '{{$public->asset}}', '{{$public->setting}}'];
+        }
+        else
+        {
+          div  = $('#manager-div')
+          data = ['{{$manage->member}}', '{{$manage->schedule}}', '{{$manage->availability}}', '{{$manage->record}}', '{{$manage->media}}', '{{$manage->message}}', '{{$manage->asset}}', '{{$manage->setting}}'];
+        }
 
-  	function toggleClasses(active, deactive, showdiv, hidediv)
-  	{
-  		deactive.removeClass('a-active');
-  		active.addClass('a-active');
-  		showdiv.show();
-  		hidediv.hide();
-  	}
+        cancelEdit(div, data, $(this));
+      });
+    // end hide access edit view
   </script>
 
-  <script type="text/javascript">
-  	views = ['member', 'schedule', 'availability', 'record', 'media', 'message', 'asset', 'setting'];
 
-  	$('#access-tabs').on('click', '#edit', function(){
-  		key = $(this).attr('key');
-  		div = (key == 'public') ? $('#public-div') : $('#manager-div');
-  		div.find('#submit').show();
-  		div.find('#cancel').show();
-  		$(this).hide();
-
-  		div.find('#dropdown-li').removeClass('open');
-  		div.find('#menu-dots').attr('aria-expanded', false);
-
-  		for( i = 0; i < views.length; i++ )
-  		{
-  		  data = div.find('#'+views[i]);
-  	      ch = (data.find('span').html() == 'Granted') ? 1 : 0;
-  		  //content = '<select name="'+ views[i] +'" class="" title="Assign permission..">';
-
-		  content = '<div class=" radio radio-inline">';
-          if( ch == 1 )
-          	content += '<label class="m-r-20 p-r-5"><input type="radio" value="1" name="'+views[i]+'" class="optradio" checked><i class="input-helper"></i>Yes</label><label><input type="radio"  value="0" name="'+views[i]+'" class="optradio"><i class="input-helper"></i>No</label></div>';
-          else
-          	content += '<label class="m-r-20 p-r-5"><input type="radio" value="1" name="'+views[i]+'" class="optradio"><i class="input-helper"></i>Yes</label><label><input type="radio"  value="0" name="'+views[i]+'" class="optradio" checked><i class="input-helper"></i>No</label></div>';
-
-          data.html(content);
-  		}
-  	});
-
-  	$('#access-tabs').on('click', '#cancel', function(){
-  		key  = $(this).attr('key');
-  		if( key == 'public' )
-  		{
-  			div  = $('#public-div');
-  			data = ['{{$public->member}}', '{{$public->schedule}}', '{{$public->availability}}', '{{$public->record}}', '{{$public->media}}', '{{$public->message}}', '{{$public->asset}}', '{{$public->setting}}'];
-  		}
-  		else
-  		{
-  			div  = $('#manager-div')
-  			data = ['{{$manage->member}}', '{{$manage->schedule}}', '{{$manage->availability}}', '{{$manage->record}}', '{{$manage->media}}', '{{$manage->message}}', '{{$manage->asset}}', '{{$manage->setting}}'];
-  		}
-
-  		div.find('#dropdown-li').removeClass('open');
-  		div.find('#menu-dots').attr('aria-expanded', false);
-      	div.find('#submit').hide();
-  		div.find('#edit').show();
-  		$(this).hide();
-
-  		for( i = 0; i < views.length; i++ )
-  		{
-  			color  = 'green';
-  			access = 'Granted';
-
-  			if( data[i] == 0 )
-  			{
-  				color  = 'red';
-  				access = 'Not Granted';
-  			}
-
-  			div.find('#'+views[i]).html('<span style="color: '+ color +'">'+ access +'</span>');
-  		}
-  	});
-  </script>
 @endsection

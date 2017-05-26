@@ -110,7 +110,7 @@
         </div>
 
           {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
-            @include ('partials.memberform')
+            @include ('partials.memberform', ['id' => 'add'])
           {{Form::close()}}
 
       </div>
@@ -130,7 +130,7 @@
 
           {{Form::open(['method' => 'post', 'url' => $id.'/member/edit', 'files' => true, 'id' => 'edit-form'])}}
             <input type="hidden" name="id">
-            @include ('partials.memberform')
+            @include ('partials.memberform', ['id' => 'edit'])
           {{Form::close()}}
 
       </div>
@@ -310,8 +310,6 @@
   </div>
 </div>
 
-
-
 @endsection
 
 @section('footer')
@@ -321,13 +319,15 @@
   <script type="text/javascript">
 
     // do stuff on page loading
-    $(document).ready(function(){
-      $('#add-form').find('#categories').multiselect({
-        includeSelectAllOption: true
-      });
+      $(document).ready(function(){
+        $('input[name="birthday"]').datetimepicker({ maxDate: new Date(), format: 'DD/MM/YYYY' });
 
-      $('table').DataTable();
-    });
+        $('#add-form').find('#categories').multiselect({
+          includeSelectAllOption: true
+        });
+
+        $('table').DataTable();
+      });
     // do stuff on page loading
 
 
@@ -346,18 +346,20 @@
     $('#add-form').submit(function(e){
       e.preventDefault();
       self = this;
-      memberValidate(self, 0);
+      img = document.getElementById('add');
+      memberValidate(self, 0, img);
     });
 
     //call validation for existing member
     $('#edit-form').submit(function(e){
       e.preventDefault();
       self = this;
-      memberValidate(self, $(self).find('input[name="id"]').val());
+      img = document.getElementById('edit');
+      memberValidate(self, $(self).find('input[name="id"]').val(), img);
     });
 
     //validate member form
-    function memberValidate(self, id)
+    function memberValidate(self, id, img)
     {
       d     = $(self).find('input[name="birthday"]').val();
       d     = d.split("/");
@@ -398,11 +400,15 @@
         $(self).find('#error-birth').html('Please enter a valid date of birth.');
       }
 
+      else if( img.value != '' && img.files[0].size > 50000 )
+        $(self).find('#error-img').html('Image size should not exceed 50 KB.');
+
       //check if email already exists
       else
       {
-        url = '{{url("/")}}/validate/email/'+id+'/'+email.val();
-        $.get(url, function(cnt){
+        url = '{{url("/")}}/validate/email/'+id;
+        var data = $(self).serializeArray();
+        $.get(url, data, function(cnt){
           if( cnt > 0 )
             $(self).find('#error-email').html('Email already exists.');
           else
@@ -421,7 +427,6 @@
     $('#main').on('click', '#edit', function(){
       id = $(this).attr('key');
       url = '{{url("/")}}/edit/get/' + id;
-      alert(id);
 
       $.get(url, function(data){
         d = data;

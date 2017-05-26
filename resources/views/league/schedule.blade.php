@@ -335,6 +335,7 @@
 
     	// start load datatable on page load
 	        $(document).ready(function(){
+              $('input[name="match_date"]').datetimepicker({ minDate: new Date(), format: 'DD/MM/YYYY' });
               $("#alert").fadeTo(2000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(500);
               });

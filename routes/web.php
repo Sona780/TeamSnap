@@ -221,8 +221,6 @@
                 Route::post('update/profile','UserController@updateBasicInfo');
                 //update user avatar
                 Route::post('update/avatar','UserController@updateAvatar');
-                // validate email of a user
-                Route::get('validate/email/{uid}/{email}','UserController@valiMail');
             // end route form UserController without team id
 
             // start route form EventController without team id
@@ -255,6 +253,8 @@
                 Route::get('team/ctgs/{tid}','MemberController@getTeamCtgs');
                 //get team members to import
                 Route::get('team/members/{tid}','MemberController@getTeamMembers');
+                // check email availaibility for a user
+                Route::get('validate/email/{uid}','MemberController@valiMail');
             // end Routes for MemberController without team id
 
             // start Routes for AssetsController without team id

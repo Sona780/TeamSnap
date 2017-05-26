@@ -4,6 +4,21 @@
 <div class="block-header">
     <h2 style="text-transform: uppercase">{{$user['detail']->firstname}} {{$user['detail']->lastname}}</h2>
 </div>
+
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span>{{ Session::get('success') }}</span>
+</div>
+@endif
+@if(Session::has('error'))
+<div class="alert alert-danger alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span>Error!! <small>{{ Session::get('error') }}</small></span>
+</div>
+@endif
+<div id='success'></div>
+
 <div class="card" id="profile-main">
     <!-- side image & contact detail -->
     <div class="pm-overview c-overflow">
@@ -98,7 +113,7 @@
                             <dt>Birthday</dt>
                             <dd id="show-birthday" key="{{$user['detail']->birthday}}">
                                 @if( $user['detail']->birthday != '' )
-                                    {{ \Carbon\Carbon::createFromFormat('d/m/Y', $user['detail']->birthday)->format('M d, Y') }}
+                                  {{ \Carbon\Carbon::createFromFormat('d/m/Y', $user['detail']->birthday)->format('M d, Y') }}
                                 @endif
                             </dd>
                         </dl>
@@ -239,6 +254,12 @@
 
     <script type="text/javascript">
 
+        $(function(){
+            $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
+        });
+
             $('#image-update').click(function(){
                 $('#img-div').hide();
                 $('#img-upload').show();
@@ -271,7 +292,7 @@
 
                 reg = /[0-9]/;
 
-                if( phone == '' || !phone.match(reg) || phone.length != 10 )
+                if( phone == '' || !phone.match(reg) )
                     $('#error-phone').html('Please enter a valid phone number.');
                 else
                 {
@@ -285,7 +306,11 @@
                     url    = '{{url("update/contact")}}';
 
                     $.post(url, detail, function(){
-                        notify('top', 'right', 'inverse', 'Your contact details has been updated successfully.');
+                        $('#success').html('<div class="alert alert-success alert-dismissable" id="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><span>Contact details updated successfully.</span></div>').fadeTo(2000, 500).slideUp(500, function(){
+                                $("#success-alert").slideUp(500);
+                            });
+                        $(window).scrollTop(0);
+                        //notify('top', 'right', 'inverse', 'Your contact details has been updated successfully.');
                     });
                 }
             });
@@ -316,16 +341,11 @@
                 fname = $('#fname').val();
                 lname = $('#lname').val();
                 birth = $('#birthday').val();
-                //alert(birth);
 
                 $(this).find('strong').html('');
 
                 if( fname == '' )
                     $('#error-fname').html('First name required.');
-                else if( lname == '' )
-                    $('#error-lname').html('Last name required.');
-                else if( birth == '' )
-                    $('#error-birthday').html('Date of birth required.');
                 else
                 {
                     gen = ($('#gender').val() == 0) ? 'Male' : 'Female';
@@ -333,10 +353,12 @@
                     curr = (new Date()).getFullYear();
                     age  = parseInt(curr) - parseInt(dob);
 
-
                     $('#show-name').html(fname +" "+ lname);
                     $('#show-gender').attr('key', $('#gender').val()).html(gen);
-                    $('#show-age').html(age+" years");
+                    age = ( !isNaN(age) ) ? age+" years" : '';
+                    $('#show-age').html(age);
+                    $('#show-birthday').attr('key', birth);
+                    //$('#show-birthday').html(birth);
 
                     $('#basic-info-blk').removeClass('toggled');
 
@@ -345,7 +367,11 @@
 
                     $.post(url, detail, function(birth){
                         $('#show-birthday').html(birth);
-                        notify('top', 'right', 'inverse', 'Your contact details has been updated successfully.');
+                        $('#success').html('<div class="alert alert-success alert-dismissable" id="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><span>Basic information updated successfully.</span></div>').fadeTo(2000, 500).slideUp(500, function(){
+                                $("#success-alert").slideUp(500);
+                            });
+                        $(window).scrollTop(0);
+                        //notify('top', 'right', 'inverse', 'Your contact details has been updated successfully.');
                     });
                 }
             });

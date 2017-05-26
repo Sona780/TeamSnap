@@ -63,7 +63,7 @@
 
     	<!-- start list view of schedule -->
     	<div role="tabpanel" class="col-lg-12 col-xs-12 col-centered tab-pane active" id="schedule-list">
-
+    	  @if( $games->count() > 0 || $events->count() > 0 )
     		<div class="card p-10 table-responsive" id="table">
 
                 <table id="example" class="table display responsive" cellspacing="0" width="100%">
@@ -111,16 +111,13 @@
 					            </td>
 
 					            <td>
-					              @if( $game['type'] == 0 )
-					              	{{ $game['loc']->name }}
-					              @else
-					              	{{ $game['loc']->loc_name }}
+					              @if( $game['type'] == 0 ) {{ $game['loc']->name }}
+					              @else {{ $game['loc']->loc_name }}
 					              @endif
 					            </td>
 
 					            @if( $user->manager_access != 0 )
-					              @if($game['ch'] == 'no')
-					              	<td></td>
+					              @if($game['ch'] == 'no') <td></td>
 					              @else
 						            <td>
 		                        		<a id="edit" key='{{ $game["id"] }}' type='game'>
@@ -170,13 +167,15 @@
 					        </tr>
 				        @endforeach
                     </tbody>
+
                 </table>
 
 		    </div>
-
+		  @else
+		  	<div style="text-align: center">Nothing has been scheduled yet.</div>
+		  @endif
     	</div>
     	<!-- end list view of schedule -->
-
 
     	<!-- start calender view of schedule -->
     	<div role="tabpanel" class="tab-pane active" id="schedule-calender">
@@ -429,6 +428,7 @@
 
     	// start load datatable on page load
 	        $(document).ready(function(){
+	        	$('input[name="date"]').datetimepicker({ minDate: new Date(), format: 'DD/MM/YYYY' });
 	        	$("#alert").fadeTo(2000, 500).slideUp(500, function(){
 	              $("#success-alert").slideUp(500);
 	            });

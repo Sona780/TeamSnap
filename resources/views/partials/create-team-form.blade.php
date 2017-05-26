@@ -80,6 +80,11 @@
         <img id='show-logo-img' style="height: 80%; width: 90%;">
         <a class="btn btn-success" id='change-logo'>Change</a>
       </div>
+      <strong style="color: #ec7475">
+        @if(Session::has('size_error'))
+          {{ Session::get('size_error') }}
+        @endif
+      </strong>
     </div>
 
     <div class="form-group">

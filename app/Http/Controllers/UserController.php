@@ -47,7 +47,8 @@ class UserController extends Controller
                 ]);
 
       User::find($uid)->update(['name' => $fname]);
-      $birth = Carbon::createFromFormat('d/m/Y', $birth)->format('M d, Y');
+      if( $birth != '' )
+        $birth = Carbon::createFromFormat('d/m/Y', $birth)->format('M d, Y');
       return $birth;
     }
   // end update user basic info
@@ -59,12 +60,18 @@ class UserController extends Controller
       {
         $id       = Auth::user()->id;
         $avatar   = $request->file('avatar');
+        if( filesize($avatar) > 50000 )
+        {
+          session()->flash('error', 'The size of the profile picture should be less than 50, 000 bytes or 50 KB.');
+          return redirect('profile');
+        }
         $filename = time().'.'.$avatar->getClientOriginalExtension();
         $path     = '/images/avatars/'.$filename;
 
         Image::make($avatar)->resize(300,300)->save(config('paths.public_html').$path);
         UserDetail::where('users_id', $id)->update(['avatar' => $path]);
       }
+      session()->flash('success', 'Profile picture updated successfully.');
       return redirect('profile');
     }
   // end update user avatar
@@ -75,20 +82,4 @@ class UserController extends Controller
       return Auth::user()->id;
     }
   // end get user id
-
-  // start check email availability
-    public function valiMail($uid, $email)
-    {
-      if( $uid == 0 )
-        $cnt = User::where('email', $email)->get()->count();
-      else
-      {
-        $umail = User::find(TeamUser::find($uid)->users_id)->email;
-        $cnt   = 0;
-        if( $umail != $email )
-          $cnt = User::where('email', $email)->get()->count();
-      }
-      return $cnt;
-    }
-  // end check email availability
 }

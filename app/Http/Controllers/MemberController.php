@@ -70,6 +70,7 @@ class MemberController extends Controller
         {
           //get image
           $image = $request->file('file');
+
           //resize & save image in server otherwise throw exception
           try{
                 $avatar = $this->getImage($image);
@@ -269,4 +270,21 @@ class MemberController extends Controller
       }
       return redirect($id.'/members');
     }
+
+  // start check email availability
+    public function valiMail($uid, Request $request)
+    {
+      $email = $request->email;
+      if( $uid == 0 )
+        $cnt = User::where('email', $email)->get()->count();
+      else
+      {
+        $umail = User::find(TeamUser::find($uid)->users_id)->email;
+        $cnt   = 0;
+        if( $umail != $email )
+          $cnt = User::where('email', $email)->get()->count();
+      }
+      return $cnt;
+    }
+  // end check email availability
 }

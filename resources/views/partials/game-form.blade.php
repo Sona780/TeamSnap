@@ -3,7 +3,7 @@
 				<tr>
 					<td class="first-col"><label>Date:</label></td>
 					<td class="padd-left dtp-container fg-line">
-						<input type="text" class="date-picker border-height" name="date" id="f-ip" style="width: 90px">
+						<input type="text" class="border-height" name="date" id="f-ip" style="width: 90px">
 						<strong id="error-date" class="strong-error"></strong>
 					</td>
 				</tr>

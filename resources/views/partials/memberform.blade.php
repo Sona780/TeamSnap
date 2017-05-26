@@ -11,11 +11,12 @@
                         <span class="btn btn-info btn-file">
                             <span class="fileinput-new size-new">Select image</span>
                             <span class="fileinput-exists size-exists">Change</span>
-                            <input type="file" name="file">
+                            <input type="file" name="file" id="{{$id}}">
                         </span>
                         <a href="#" class="btn btn-danger fileinput-exists" style="width: 99px" data-dismiss="fileinput" id="remove_img">Remove</a>
                     </div>
                 </div>
+                <strong id="error-img" class="strong-error"></strong>
            </div>
 
            <div class="col-sm-7">
@@ -98,7 +99,7 @@
             <div class="form-group col-sm-12">
                 <label for="birthday">Birthday</label>
                 <div class="dtp-container fg-line">
-                   <input type='text' id="f-ip" class="form-control date-picker birthday" name="birthday" placeholder="Member birth date">
+                   <input type='text' id="f-ip" class="form-control birthday" name="birthday" placeholder="Member birth date">
                 </div>
                 <strong id="error-birth" class="strong-error"></strong>
             </div>

@@ -6,7 +6,7 @@
 	  <div class="col-sm-6">
 		<div class="form-group fg-line">
 			<label for="Subject">Start date</label>
-			{{Form::text('start', null, ['class' => 'form-control date-picker'])}}
+			{{Form::text('start', null, ['class' => 'form-control'])}}
 		</div>
 	  </div>
 	<!-- end start date -->
@@ -15,7 +15,7 @@
 	  <div class="col-sm-6">
 		<div class="form-group fg-line">
 			<label for="Subject">End date</label>
-			{{Form::text('end', null, ['class' => 'form-control date-picker'])}}
+			{{Form::text('end', null, ['class' => 'form-control'])}}
 		</div>
 	  </div>
 	<!-- end end date -->

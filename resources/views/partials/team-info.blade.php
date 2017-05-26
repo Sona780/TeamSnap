@@ -12,11 +12,12 @@
                 	<span class="btn btn-info btn-file">
                     	<span class="fileinput-new">Select uniform</span>
                         <span class="fileinput-exists size-exists">Change</span>
-                        <input type="file" name="uniform">
+                        <input type="file" name="uniform" id="uniform">
                     </span>
                     <a href="#" class="btn btn-danger fileinput-exists" style="width: 99px" data-dismiss="fileinput" id="remove_img">Remove</a>
                 </div>
             </div>
+            <strong id="error-uniform" class="strong-error"></strong>
         </div>
 
         <div class="col-sm-5 text-center" id='show-uniform'>

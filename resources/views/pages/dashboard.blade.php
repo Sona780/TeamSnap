@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/members")}}'>
-        <div class="mini-charts-item bgm-cyan">
+        <div class="mini-charts-item bgm-bluegray">
           <div class="clearfix">
             <div class="count">
               <small>Total Members </small>
@@ -32,7 +32,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-lightgreen">
+        <div class="mini-charts-item bgm-bluegray">
           <div class="clearfix">
             <div class="count">
               <small>Events</small>
@@ -45,7 +45,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-orange">
+        <div class="mini-charts-item bgm-lightblue">
           <div class="clearfix">
             <div class="count">
               <small>Games Played</small>
@@ -58,7 +58,7 @@
 
     <div class="col-xs-6 col-sm-3 col-md-3">
       <a href='{{url($id."/schedule")}}'>
-        <div class="mini-charts-item bgm-orange">
+        <div class="mini-charts-item bgm-lightblue">
           <div class="clearfix">
             <div class="count">
               <small>Games</small>
@@ -166,7 +166,7 @@
 
   <div class="col-sm-6">
     <!-- Calendar -->
-    <div id="calendar"></div>
+    <div id="calendar" style="margin-left: 0%"></div>
   </div>
 </div>
 
@@ -195,6 +195,7 @@
 @section('footer')
 <script src="{{URL::to('/')}}/js/notify.js"></script>
 <script>
+  info_form = $('#info-form');
 
   $('#example2').on('click', '#edit', function(){
     id = $(this).attr('key');
@@ -206,12 +207,24 @@
       form.find('input[name="end"]').val(d['end']);
       form.find('input[name="title"]').val(d['title']);
       form.find('textarea[name="announcement"]').val(d['announcement']);
+
+      changeEndRange(d['start'].split('/'), form);
     });
+  });
+
+  info_form.submit(function(e){
+    e.preventDefault();
+    uniform = document.getElementById('uniform');
+    self = this;
+    if( uniform.value != '' && uniform.files[0].size > 50000 )
+      $('#error-uniform').html('Image size should not exceed 50 KB.');
+    else
+      self.submit();
   });
 
   $('#info-edit').click(function(){
     $('#team-info-modal').modal('show');
-    $('#info-form').trigger("reset");
+    info_form.trigger("reset");
     $('#team-uniform-img').attr('src', '{{url($info->uniform)}}');
   });
 
@@ -316,7 +329,33 @@
     );
   });
 
+  function changeEndRange(data, m)
+  {
+    if(data.length == 3)
+    {
+      date = new Date(data[2], data[1]-1, data[0]);
+      end  = m.find('input[name="end"]');
+      end.data('DateTimePicker').destroy();
+      end.datetimepicker({ minDate: date, format: 'DD/MM/YYYY' });
+    }
+  }
+
+  modal1 = $('#announcement-modal');
+  modal1.on('focusout', 'input[name="start"]', function(){
+    changeEndRange($(this).val().split('/'), modal1);
+  });
+
+  modal2 = $('#edit-ann-form');
+  modal2.on('focusout', 'input[name="start"]', function(){
+    changeEndRange($(this).val().split('/'), modal2);
+  });
+
   $(document).ready(function() {
+    d = new Date();
+    $('input[name="start"]').datetimepicker({ minDate: new Date(), format: 'DD/MM/YYYY' });
+    $('input[name="end"]').datetimepicker({ minDate: d, maxDate: d, format: 'DD/MM/YYYY' });
+    $('input[name="end"]').data('DateTimePicker').disabledDates([d]);
+
     $("#alert").fadeTo(2000, 500).slideUp(500, function(){
       $("#success-alert").slideUp(500);
     });
