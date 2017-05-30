@@ -21,44 +21,41 @@ use TeamSnap\Http\ViewComposer\UserComposer;
 
 class MemberController extends Controller
 {
-    //show existing members
+  //show existing members
     public function index($id)
     {
-        $team   = Team::find($id);
-        $uid    = Auth::user()->id;
-        $user   = UserDetail::where('users_id', $uid)->first();
-        $ch     = TeamUser::CheckMembership($id, $uid)->first();
-        $access = AccessManage::getDetail($id);
+      $team   = Team::find($id);
+      $uid    = Auth::user()->id;
+      $user   = UserDetail::where('users_id', $uid)->first();
+      $ch     = TeamUser::CheckMembership($id, $uid)->first();
+      $access = AccessManage::getDetail($id);
 
-        if($team == NULL || ($uid != $team->team_owner_id && $ch == '') || ($user->manager_access == 2 && $access->member == 0) )
-          return view('errors/404');
-        else
+      if($team == NULL || ($uid != $team->team_owner_id && $ch == '') || ($user->manager_access == 2 && $access->member == 0) )
+        return view('errors/404');
+      else
+      {
+        $composerWrapper = new UserComposer( $id, 'team' );
+        $composerWrapper->compose();
+        // all categories for the team
+        $ctgs = TeamCtg::getCtg($id);
+        // all players in the team
+        $member['player']['all'] = TeamUser::getMembersByFlag($id, 1);
+        // all non players in the team
+        $member['non'] = TeamUser::getMembersByFlag($id, 0);
+        // all members of the team
+        $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
+        // sort members on the basis of category
+        foreach ($ctgs as $ctg)
         {
-            $composerWrapper = new UserComposer( $id, 'team' );
-            $composerWrapper->compose();
-            // all categories for the team
-            $ctgs = TeamCtg::getCtg($id);
-            //return TeamUser::members($id)->get();
-            // all players in the team
-            $member['player']['all'] = TeamUser::members($id)->where('flag', 1)->groupBy('users.id')->get();
-            // all non players in the team
-            $member['non'] = TeamUser::members($id)->where('flag', 0)->groupBy('users.id')->get();
-            // all members of the team
-            $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
-            // sort members on the basis of category
-            foreach ($ctgs as $ctg) {
-              $member['player'][$ctg->id] = TeamUser::members($id)->where('player_ctgs.categories_id', $ctg->id)->where('flag', 1)->get();
-              $member['all'][$ctg->id] = TeamUser::members($id)->where('player_ctgs.categories_id', $ctg->id)->get();
-            }
-            //get all the teams of current user
-            $teams = Team::getUserTeams($id);
-
-            $team = Team::find($id);
-
-
-            return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
-            //return $member['all']['all'];
+          $member['player'][$ctg->id] = TeamUser::getMembersByCat($id, $ctg->id)->where('flag', 1)->get();
+          $member['all'][$ctg->id]    = TeamUser::getMembersByCat($id, $ctg->id)->get();
         }
+        //get all the teams of current user
+        $teams = Team::getUserTeams($id);
+        $team  = Team::find($id);
+
+        return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
+      }
     }
    //end show existing members
    //save new member
@@ -83,16 +80,24 @@ class MemberController extends Controller
           $c = [];
         else
           $c = $this->selectedCat($request->categories);
-        //create new user
-        $user = new User();
-        $user->name       = $request->firstname;
-        $user->email      = $request->email;
-        $user->login_flag = 0;
-        $user->save();
-        //end create new user
-        //save new user details
-        UserDetail::newUser($user->id, $request, $avatar);
-        //end save new user details
+
+        $user = User::where('email', $request->email)->first();
+
+        if( $user == '' )
+        {
+          //create new user
+            $user = new User();
+            $user->name       = $request->firstname;
+            $user->email      = $request->email;
+            $user->login_flag = 0;
+            $user->save();
+          //end create new user
+
+          //save new user details
+            UserDetail::newUser($user->id, $request, $avatar);
+          //end save new user details
+        }
+
         //link member with team
         $tuser = TeamUser::createTeamUser($id, $user->id);
         //end link member with team
@@ -275,16 +280,24 @@ class MemberController extends Controller
     public function valiMail($uid, Request $request)
     {
       $email = $request->email;
-      if( $uid == 0 )
-        $cnt = User::where('email', $email)->get()->count();
-      else
+      $tid   = $request->teamid;
+      $umail = ( $uid > 0 ) ? User::find(TeamUser::find($uid)->users_id)->email : $email;
+      $ch    = 0;
+
+      if( $uid == 0 || $umail != $email )
       {
-        $umail = User::find(TeamUser::find($uid)->users_id)->email;
-        $cnt   = 0;
-        if( $umail != $email )
-          $cnt = User::where('email', $email)->get()->count();
+        $user  = User::where('email', $email)->get()->first();
+        if($user != '')
+        {
+          $tuser = TeamUser::checkIfManager($tid, $user->id);
+          if( $tuser != '' )
+            $ch = -1;
+          else
+            $ch = UserDetail::where('users_id', $user->id)->first()->manager_access;
+        }
+        //dd($tid."  ".$email);
       }
-      return $cnt;
+      return $ch;
     }
   // end check email availability
 }

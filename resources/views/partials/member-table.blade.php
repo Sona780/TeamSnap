@@ -60,7 +60,7 @@
 	                        <p>{{$member->email}}</p>
 	                        <p>{{$member->mobile}}
 	                    </td>
-	                    @if($user->manager_access != 0 && $member->role != 'manager')
+	                    @if($user->manager_access != 0)
 		                  <td>
 		                  	<a href='{{url("member/mail/$id/$member->id")}}'><img class="icon-style" src='{{url("img/mail.jpeg")}}'></a>
 		                    <img src="{{url('/')}}/img/edit.png" class="icon-style" id="edit" key="{{$member->id}}" data-toggle="modal" data-target="#edit-member"/>

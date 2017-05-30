@@ -8,6 +8,77 @@
   	  background-color: cyan;
   	  font-size: 15;
   	}
+
+    ul {
+      list-style-type: none;
+    }
+
+    .members-li {
+      display: inline-block;
+    }
+
+    input[type="checkbox"][id^="cb"] {
+      display: none;
+    }
+
+    label {
+      /*border: 1px solid blue;
+      border-radius: 50px;*/
+      /*padding: 5px;*/
+      display: block;
+      position: relative;
+      /*margin: 5px;*/
+      cursor: pointer;
+    }
+
+    label:before {
+      /*background-color: blue;*/
+      color: white;
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      border: 1px solid grey;
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      line-height: 28px;
+      transition-duration: 0.4s;
+      transform: scale(0);
+    }
+
+    label img {
+
+      height: 50px;
+      width: 50px;
+      transition-duration: 0.2s;
+      transform-origin: 50% 50%;
+    }
+
+    :checked + label {
+      border-color: #ddd;
+    }
+
+    :checked + label:before {
+      /*content: "✓";*/
+      background-color: #00cccc;
+      z-index: 2;
+      transform: scale(0.6);
+    }
+
+    :checked + label img {
+      border: 3px solid #00cccc;
+      border-radius: 50px;
+      transform: scale(0.9);
+      box-shadow: 0 0 5px #333;
+      z-index: -1;
+    }
+    .tab-nav
+    {
+          box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
   </style>
 @endsection
 

@@ -28,7 +28,7 @@
     }
 
     .main_tab > li > a:after
-     {
+    {
      background: #ffff00 !important;
      height: 3px !important;
     }
@@ -105,7 +105,7 @@
             <h4 class="modal-title" style="text-align: center">Member Details</h4>
           </div>
             {{Form::open(['method' => 'post', 'url' => $id.'/addmember', 'files' => true, 'id' => 'add-form'])}}
-              @include ('partials.memberform', ['id' => 'add'])
+              @include ('partials.memberform', ['bid' => 'add'])
             {{Form::close()}}
         </div>
       </div>
@@ -123,7 +123,7 @@
           </div>
           {{Form::open(['method' => 'post', 'url' => $id.'/member/edit', 'files' => true, 'id' => 'edit-form'])}}
             <input type="hidden" name="id">
-            @include ('partials.memberform', ['id' => 'edit'])
+            @include ('partials.memberform', ['bid' => 'edit'])
           {{Form::close()}}
         </div>
       </div>
@@ -346,7 +346,9 @@
         var data = $(self).serializeArray();
         $.get(url, data, function(cnt){
           if( cnt > 0 )
-            $(self).find('#error-email').html('Email already exists.');
+            $(self).find('#error-email').html('User with given email cant\'t become member of the team.');
+          else if( cnt < 0 )
+            $(self).find('#error-email').html('Member with same email already exists.');
           else
             self.submit();
         });

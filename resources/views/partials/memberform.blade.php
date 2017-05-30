@@ -1,4 +1,5 @@
  {!! csrf_field() !!}
+ <input type="hidden" name="teamid" value="{{$id}}">
    <div class="modal-body">
       <div class="row">
            <div class="col-sm-5">
@@ -11,7 +12,7 @@
                         <span class="btn btn-info btn-file">
                             <span class="fileinput-new size-new">Select image</span>
                             <span class="fileinput-exists size-exists">Change</span>
-                            <input type="file" name="file" id="{{$id}}">
+                            <input type="file" name="file" id="{{$bid}}">
                         </span>
                         <a href="#" class="btn btn-danger fileinput-exists" style="width: 99px" data-dismiss="fileinput" id="remove_img">Remove</a>
                     </div>

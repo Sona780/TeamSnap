@@ -64,7 +64,7 @@
     }
 
 
-            .ctg
+    .ctg
     {
       background-color:#4E4C4D;
       margin-top: -1.5em;

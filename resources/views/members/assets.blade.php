@@ -3,6 +3,9 @@
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+
+  </style>
 @endsection
 
 @section('content')

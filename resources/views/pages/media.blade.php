@@ -9,16 +9,94 @@
        text-align: right !important;
        padding: 10px;
      }
+
+    ul {
+      list-style-type: none;
+    }
+
+    .members-li {
+      display: inline-block;
+    }
+
+    input[type="checkbox"][id^="cb"] {
+      display: none;
+    }
+
+    label {
+      /*border: 1px solid blue;
+      border-radius: 50px;*/
+      /*padding: 5px;*/
+      display: block;
+      position: relative;
+      /*margin: 5px;*/
+      cursor: pointer;
+    }
+
+    label:before {
+      /*background-color: blue;*/
+      color: white;
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      border: 1px solid grey;
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      line-height: 28px;
+      transition-duration: 0.4s;
+      transform: scale(0);
+    }
+
+    label img {
+
+      height: 50px;
+      width: 50px;
+      transition-duration: 0.2s;
+      transform-origin: 50% 50%;
+    }
+
+    :checked + label {
+      border-color: #ddd;
+    }
+
+    :checked + label:before {
+      /*content: "✓";*/
+      background-color: #00cccc;
+      z-index: 2;
+      transform: scale(0.6);
+    }
+
+    :checked + label img {
+      border: 3px solid #00cccc;
+      border-radius: 50px;
+      transform: scale(0.9);
+      box-shadow: 0 0 5px #333;
+      z-index: -1;
+    }
+    .tab-nav
+    {
+          box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
 </style>
 @endsection
 @section('content')
+
+@if(Session::has('success'))
+<div class="alert alert-success alert-dismissable" id='alert'>
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>{{ Session::get('success') }}</strong>
+</div>
+@endif
 
 <div role="tabpanel">
 
   <!-- start tabs name for image management and videolink-file management -->
   <ul class="tab-nav tab-nav" role="tablist" id="myTab">
-    <li class="active"><a href="#image-manage" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
-    <li role="presentation">
+    <li @if( !Session::has('active') ) class="active" @endif><a href="#image-manage" aria-controls="home1" role="tab" data-toggle="tab">Images</a></li>
+    <li @if( Session::has('active') ) class="active" @endif role="presentation">
       <a href="#videolink-files-manage" aria-controls="messages1" role="tab" data-toggle="tab">
         Video Links &nbsp;/ &nbsp;Files
       </a>
@@ -30,7 +108,7 @@
   <div class="tab-content">
 
     <!-- start image upload and display management -->
-    <div role="tabpanel" class="tab-pane active" id="image-manage">
+    <div role="tabpanel" class="tab-pane @if( !Session::has('active') ) active @endif" id="image-manage">
 
       <div class="card">
         <!-- start button to upload new images -->
@@ -92,7 +170,7 @@
 
 
     <!-- start tab for file and video link mamnagement -->
-    <div role="tabpanel" class="tab-pane" id="videolink-files-manage">
+    <div role="tabpanel" class="tab-pane @if( Session::has('active') ) active @endif" id="videolink-files-manage">
 
       <!-- start video link/ file manage -->
       <div class="row">
@@ -318,10 +396,11 @@
     $(document).ready(function(){
 
       $('table').DataTable({'bLengthChange': false, 'bInfo': false});
+      $("#alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#success-alert").slideUp(500);
+      });
     });
     // do stuff on page loading
-
-
 
 
     //start validating image upload form

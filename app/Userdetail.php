@@ -21,7 +21,7 @@ class UserDetail extends Model
 				            'birthday'  => $request->birthday,
 				            'city'      => $request->city,
 				            'state'     => $request->state,
-				            'gender'     => $request->gender,
+				            'gender'    => $request->gender,
 				            'avatar'    => $avatar,
 				        ]);
     }
@@ -36,7 +36,7 @@ class UserDetail extends Model
 				            'birthday'  => $request->birthday,
 				            'city'      => $request->city,
 				            'state'     => $request->state,
-				            'gender'     => $request->gender,
+				            'gender'    => $request->gender,
 				            'avatar'    => $avatar,
 				        ]);
     }

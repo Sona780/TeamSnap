@@ -40,6 +40,16 @@ class TeamUser extends Model
                      ->select('user_details.*', 'users.email', 'player_ctgs.categories_id', 'team_users.id', 'team_user_details.flag', 'team_user_details.role');
     }
 
+    public static function getMembersByFlag($id, $flag)
+    {
+        return static::members($id)->where('flag', $flag)->groupBy('users.id')->get();
+    }
+
+    public static function getMembersByCat($id, $cid)
+    {
+        return static::members($id)->where('player_ctgs.categories_id', $cid);
+    }
+
 
     //get all the users of the team with id = $id
     public static function getMembers($id)

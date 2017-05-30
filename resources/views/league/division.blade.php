@@ -31,19 +31,19 @@
   <br>
 
   @if( $lteams->count() == 0 && $divisions->count() == 0 )
-    <div class="col-sm-6 col-sm-offset-3">
-      <div class="card bs-item z-depth-5" style="text-align: center; height:50%">
+    <div class="card z-depth-5 col-sm-6 col-sm-offset-3"  style="text-align: center;">
         <div class="card-header">
           <h3>Create teams or divisions in {{$curr}}</h3>
         </div>
-        <div class="card-body" style="height: 55%; width: 70%; margin-left: 15%">
-          <p style="font-size: 15">You can add teams directly to {{$curr}}, or you can use divisions within asd to further divide up your teams. You can only choose one or the other, though.</p>
+        <div class="card-body" style="width: 70%; margin-left: 15%">
+          <p style="font-size: 15;">You can add teams directly to {{$curr}}, or you can use divisions within asd to further divide up your teams. You can only choose one or the other, though.</p>
+
+          <div style="padding: 50px 0">
+            <button class="btn btn-info" data-toggle="modal" data-target="#team-modal">New Team</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#division-modal">New Division</button>
+          </div>
         </div>
-        <div class="card-footer">
-          <button  class="btn btn-info" data-toggle="modal" data-target="#team-modal">New Team</button>
-          <button  class="btn btn-info" data-toggle="modal" data-target="#division-modal">New Division</button>
-        </div>
-      </div>
+
     </div>
   @endif
 
