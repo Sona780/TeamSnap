@@ -8,73 +8,6 @@
   	  background-color: cyan;
   	  font-size: 15;
   	}
-
-    ul {
-      list-style-type: none;
-    }
-
-    .members-li {
-      display: inline-block;
-    }
-
-    input[type="checkbox"][id^="cb"] {
-      display: none;
-    }
-
-    label {
-      /*border: 1px solid blue;
-      border-radius: 50px;*/
-      /*padding: 5px;*/
-      display: block;
-      position: relative;
-      /*margin: 5px;*/
-      cursor: pointer;
-    }
-
-    label:before {
-      /*background-color: blue;*/
-      color: white;
-      content: " ";
-      display: block;
-      border-radius: 50%;
-      border: 1px solid grey;
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      width: 25px;
-      height: 25px;
-      text-align: center;
-      line-height: 28px;
-      transition-duration: 0.4s;
-      transform: scale(0);
-    }
-
-    label img {
-
-      height: 50px;
-      width: 50px;
-      transition-duration: 0.2s;
-      transform-origin: 50% 50%;
-    }
-
-    :checked + label {
-      border-color: #ddd;
-    }
-
-    :checked + label:before {
-      /*content: "✓";*/
-      background-color: #00cccc;
-      z-index: 2;
-      transform: scale(0.6);
-    }
-
-    :checked + label img {
-      border: 3px solid #00cccc;
-      border-radius: 50px;
-      transform: scale(0.9);
-      box-shadow: 0 0 5px #333;
-      z-index: -1;
-    }
     .tab-nav
     {
           box-shadow: inset 0 0px 0 0 #eeeeee;
@@ -95,165 +28,90 @@
 
   <!-- start tabs for different setting categories -->
 	  <ul class="tab-nav" role="tablist" id="myTab">
-      <li @if(!Session::has('active')) class="active" @endif><a href="#account" role="tab" data-toggle="tab">Account</a></li>
-      <li @if(Session::has('active')) class="active" @endif role="presentation"><a href="#team" role="tab" data-toggle="tab">Team</a></li>
+      <li @if(!Session::has('active') || (Session::has('active') && Session::get('active') == 11)) class="active" @endif>
+        <a href="#access-settings" role="tab" data-toggle="tab">Access Setting</a>
+      </li>
+      <li @if(Session::has('active') && Session::get('active') == 2)) class="active" @endif role="presentation">
+        <a href="#manager-settings" role="tab" data-toggle="tab">Manager Setting</a>
+      </li>
     </ul>
   <!-- end tabs for different setting categories -->
 
   <!-- start tab contents for different setting categories -->
 	  <div class="tab-content">
+      <!-- start tab for access settings -->
+		    <div role="tabpanel" class="tab-pane @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 2)) active @endif" id="access-settings">
+          <div role="tabpanel" class="col-sm-6 col-sm-offset-3 card">
+            <!-- start tabs for different access categories -->
+              <ul class="tab-nav tn-justified tn-icon" role="tablist" id="myTab">
+                <li class=" @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 12)) active @endif"><a class="col-xs-4" href="#public" role="tab" data-toggle="tab">Public Access</a></li>
+                <li class="@if(Session::has('active') && Session::get('active') == 12) active @endif"><a class="col-xs-4" href="#manager" role="tab" data-toggle="tab">Manager Access</a></li>
+              </ul>
+            <!-- end tabs for different access categories -->
 
-	    <!-- start tab for account setting -->
-		    <div role="tabpanel" class="tab-pane @if(!Session::has('active')) active @endif" id="account">
-		      <div class="col-sm-3">
-				<a class="col-sm-12 a-active" href='#'>Change Password</a>
-			  </div>
+            <!-- start tab contents for different access categories -->
+              <div class="tab-content" id="access-tabs">
 
-			  <!-- start password change -->
-			  <div class="col-sm-4 col-sm-offset-1">
-				<div class="card">
-					<div class="card-header ch-alt">
-						<h2>Change Password</h2>
-					</div>
-					<div class="card-body card-padding">
-						{{ Form::open(['method' => 'post', 'url' => $id.'/change/password', 'id' => 'password-form']) }}
-			                <div class="form-group fg-line">
-			                	<label for="current">Current password</label>
-			                    <input type="password" class="form-control input-sm" name="current" autofocus>
-			               	</div>
-			               	@if ($errors->has('current'))
-			                    <span class="help-block">
-			                    	<strong style="color: red">{{ $errors->first('current') }}</strong>
-			                	</span>
-			                @endif
-			                @if(Session::has('pass'))
-			                    <span class="help-block">
-			                    	<strong style="color: red">{{ Session::get('pass') }}</strong>
-			                	</span>
-			                @endif
-			                <br>
-			               	<div class="form-group fg-line">
-			                	<label for="new">New password</label>
-			                    <input type="password" class="form-control input-sm" name="password">
-			               	</div>
-			               	@if ($errors->has('password'))
-			                    <span class="help-block">
-			                    	<strong style="color: red">{{ $errors->first('password') }}</strong>
-			                	</span>
-			                @endif
-			               	<br>
-			               	<div class="form-group fg-line">
-			                	<label for="confirm">Confirm new password</label>
-			                    <input type="password" class="form-control input-sm" name="password_confirmation">
-			               	</div>
-			               	<br>
-			               	<button class="col-xs-12 col-sm-12 btn btn-success">Update</button>
-			               	<br>
-			            {{Form::close()}}
-					</div>
-				</div>
-			  </div>
-			  <!-- end password change -->
+              <!-- start public public view access -->
+                <div role="tabpanel" class="tab-pane @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 12)) active @endif" id="public">
+                  <div class="card table-responsive" id='public-div'>
+                    @include('partials.access-permission-table', ['formURL' => '/public/access/update', 'buttonKey' => 'public', 'access' => $public, 'ch' => 'team'])
+                  </div>
+                </div>
+              <!-- stop public public view access -->
 
-		    </div>
-	    <!-- stop tab for account setting -->
+              <!-- start manager view access -->
+                <div role="tabpanel" class="tab-pane @if(Session::has('active') && Session::get('active') == 12) active @endif" id="manager">
+                  <div class="card table-responsive" id='manager-div'>
+                    @include('partials.access-permission-table', ['formURL' => '/manager/access/update', 'buttonKey' => 'manager', 'access' => $manage, 'ch' => 'team'])
+                  </div>
+                </div>
+              <!-- stop manager view access -->
 
-	    <!-- start tab for team settings -->
-		    <div role="tabpanel" class="tab-pane @if(Session::has('active')) active @endif" id="team">
-
-          <div class="col-sm-3">
-            <a class="col-sm-12 @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 2)) a-active @endif" href='#' id='a-access'>Access Setting</a><br>
-            <a class="col-sm-12 @if(Session::has('active') && Session::get('active') == 2) a-active @endif" href='#' id='a-manager'>Manager Setting</a>
+            </div>
+            <!-- end tab contents for different access categories -->
           </div>
+        </div>
+      <!-- end tab for access settings -->
 
-		      <!-- start manage access permissions -->
-		      <div class="col-md-6" id='access-detail' @if(Session::has('active') && Session::get('active') == 2) style="display:none" @endif>
-    				<div class="card">
-    				  <div class="card-body">
+      <!-- start tab for manager settings -->
+        <div role="tabpanel" class="tab-pane @if(Session::has('active') && Session::get('active') == 2)) active @endif" id="manager-settings">
+          <div class="col-sm-6 col-sm-offset-3 card">
+            <div class="card-header">
+              <span style="font-weight: bold; font-family: italic; font-size: 15px">Manager(s)</span>
+              <div class="pull-right">
+                <button  class="btn btn-info" data-toggle="modal" data-target="#manager-modal">Add Manager</button>
+              </div>
+            </div>
+            <hr>
 
-    				    <div role="tabpanel">
-
-    				      <!-- start tabs for different access categories -->
-                  <ul class="tab-nav tn-justified tn-icon" role="tablist" id="myTab">
-                    <li class=" @if(!Session::has('active') || (Session::has('active') && Session::get('active') == 11)) active @endif"><a class="col-xs-4" href="#public" role="tab" data-toggle="tab">Public Access</a></li>
-                    <li class="@if(Session::has('active') && Session::get('active') == 12) active @endif"><a class="col-xs-4" href="#manager" role="tab" data-toggle="tab">Manager Access</a></li>
-                  </ul>
-                  <!-- end tabs for different access categories -->
-
-    				      <!-- start tab contents for different access categories -->
-    				    	<div class="tab-content" id="access-tabs">
-
-    				    	  <!-- start public public view access -->
-    				    		<div role="tabpanel" class="tab-pane @if(!Session::has('active') || (Session::has('active') && Session::get('active') == 11)) active @endif" id="public">
-    				    		  <div class="card table-responsive" id='public-div'>
-    				    		    @include('partials.access-permission-table', ['formURL' => '/public/access/update', 'buttonKey' => 'public', 'access' => $public, 'ch' => 'team'])
-    				    		  </div>
-    				    		</div>
-    				    	  <!-- stop public public view access -->
-
-    				    	  <!-- start manager view access -->
-    				    		<div role="tabpanel" class="tab-pane @if(Session::has('active') && Session::get('active') == 12) active @endif" id="manager">
-    				    		  <div class="card table-responsive" id='manager-div'>
-    				    		  	@include('partials.access-permission-table', ['formURL' => '/manager/access/update', 'buttonKey' => 'manager', 'access' => $manage, 'ch' => 'team'])
-    				    		  </div>
-    				    		</div>
-    				    	  <!-- stop manager view access -->
-
-    				    	</div>
-    				      <!-- end tab contents for different access categories -->
-
-    				    </div>
-
-    				  </div>
-    				</div>
-			  </div>
-			  <!-- end manage access permissions -->
-
-			  <!-- start manage managers -->
-		    <div class="col-sm-6" id='managers-detail' @if(!Session::has('active') || (Session::has('active') && Session::get('active') != 2)) style="display: none" @endif>
-				<div class="card">
-				  <div class="card-header">
-				  	<span style="font-weight: bold; font-family: italic; font-size: 15px">Manager(s)</span>
-
-	                <div class="pull-right">
-	                  <button  class="btn btn-info" data-toggle="modal" data-target="#manager-modal">
-	                    Add Manager
-	                  </button>
-	                </div>
-				  </div>
-				  <hr>
-
-				  <div class="card-body table-responsive" id='manager-card'>
-				  	@if( $managers->count() == 0 )
-				  		<div style="text-align: center">No team manager(s) available.</div>
-				  	@else
-				  	  <table class="table table-hover dt-responsive mem-tab nowrap">
-				  	  	<thead>
-				  	  	  <th>Name</th>
-				  	  	  <th>Email</th>
-				  	  	  <th style="text-align: center">Actions</th>
-				  	  	</thead>
-				  	  	<tbody id='all-managers'>
-				  	  	  @foreach($managers as $manager)
-				  	  	  	<tr>
-				  	  	      <td>{{$manager->firstname}} {{$manager->lastname}}</td>
-				  	  	      <td>{{$manager->email}}</td>
-				  	  	      <td style="text-align: center">
-				  	  	      	<a id="delete" key="{{$manager->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
-				  	  	      </td>
-				  	  	  	</tr>
-				  	  	  @endforeach
-				  	  	</tbody>
-				  	  </table>
-				  	@endif
-				  </div>
-				</div>
-			  </div>
-			  <!-- end manage managers -->
-
-		    </div>
-	    <!-- end tab for team settings -->
-
+            <div class="card-body table-responsive" id='manager-card'>
+              @if( $managers->count() == 0 )
+                <div style="text-align: center">No team manager(s) available.</div>
+              @else
+                <table class="table table-hover dt-responsive mem-tab nowrap">
+                  <thead>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th style="text-align: center">Actions</th>
+                  </thead>
+                  <tbody id='all-managers'>
+                    @foreach($managers as $manager)
+                      <tr>
+                        <td>{{$manager->firstname}} {{$manager->lastname}}</td>
+                        <td>{{$manager->email}}</td>
+                        <td style="text-align: center">
+                          <a id="delete" key="{{$manager->id}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              @endif
+            </div>
+          </div>
+        </div>
+      <!-- end tab for manager settings -->
 	  </div>
   <!-- end tab contents for different setting categories -->
 

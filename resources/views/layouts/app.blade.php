@@ -83,20 +83,21 @@
                                     <a href="{{ URL::to('/') }}/home"> My Home</a>
                                 </li>
                                 <li>
-
                                     <a href="{{ URL::to('profile') }}"> Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('password/update') }}">Change Password</a>
                                 </li>
                                 <li class="divider">
                                 <li>
-                                      <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
+                                  <a href="{{ url('/logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
+                                    Logout
+                                  </a>
 
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
+                                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                  </form>
                                 </li>
                             </ul>
                         </li>

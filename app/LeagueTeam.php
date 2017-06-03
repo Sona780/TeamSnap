@@ -40,4 +40,9 @@ class LeagueTeam extends Model
                      ->first()
                      ->division_name;
     }
+
+    public static function teamDivs($tid)
+    {
+        return static::where('team_id', $tid)->select('league_division_id')->get();
+    }
 }

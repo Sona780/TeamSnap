@@ -90,7 +90,7 @@ class SettingController extends Controller
     // end show settings page
 
     // start validate & update password
-        public function newPassword($id, Request $request)
+        public function newPassword(Request $request)
         {
         	$this->validate($request, [
                 'current'  => 'required',
@@ -105,11 +105,10 @@ class SettingController extends Controller
             {
             	$user->update(['password' => bcrypt($request->password)]);
             	session()->flash('success', 'The password has been successfully updated.');
-                return Redirect::back();
-            	//return redirect($id.'/settings');
+                return redirect('home');
             }
 
-            session()->flash('pass', 'Entered current password is incorrect.');
+            session()->flash('pass', 'Incorrect current incorrect.');
             return Redirect::back();
      	}
     // end validate & update password
@@ -181,7 +180,6 @@ class SettingController extends Controller
                 }
                 else
                     TeamUserDetail::updateDetail($tuser->id, 0, 'manager');
-                $uid = $tuser->id;
             }
             else
             {
@@ -190,10 +188,9 @@ class SettingController extends Controller
 
                 if( $tuser == '' )
                     $tuser = DivisionManager::newManager($id, $user->id);
-
-                $uid = $tuser->id;
             }
 
+            $uid = $tuser->id;
             $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
             Mail::to($email)->send($mail);
             return $uid;

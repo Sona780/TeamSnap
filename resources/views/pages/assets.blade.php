@@ -37,7 +37,7 @@
         <div class="col-lg-12 col-xs-12 col-centered">
           <div class='well'>
             Manager:
-            <button type="button" class="btn btn-success" style="margin-left: 5px; border-radius: 4px"  data-toggle="modal" href="#new-fee-modal">
+            <button type="button" class="btn btn-primary" style="margin-left: 5px; border-radius: 4px"  data-toggle="modal" href="#new-fee-modal">
               New Team Fee
             </button>
           </div>
@@ -74,7 +74,7 @@
         <div class="col-lg-12 col-xs-12 col-centered">
           <div class='well'>
             Manager:
-            <button type="button" class="btn btn-success" style="margin-left: 5px; border-radius: 4px" data-toggle="modal" href="#new-item-modal">
+            <button type="button" class="btn btn-primary" style="margin-left: 5px; border-radius: 4px" data-toggle="modal" href="#new-item-modal">
               Track New Item
             </button>
           </div>

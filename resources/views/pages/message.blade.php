@@ -175,6 +175,9 @@
       <ul class="tab-nav tab-nav" role="tablist" id="myTab">
         <li class="active"><a href="#inbox-tab" aria-controls="inbox-tab" role="tab" data-toggle="tab">Inbox</a></li>
         <li><a href="#outbox-tab" aria-controls="outbox-tab" role="tab" data-toggle="tab">Outbox</a></li>
+        <li class="pull-right">
+          <button  class="btn btn-primary" data-toggle="modal" data-target="#compose-modal">Compose</button>
+        </li>
       </ul>
     <!-- end tabs name for inbox & outbox management -->
 
@@ -186,25 +189,15 @@
       <div role="tabpanel" class="tab-pane" id="outbox-tab">
 
         <div class="card">
-          <!-- start button to compose new mail -->
-            <div class="card-header">
-              <span style="font-weight: bold; font-family: italic; font-size: 15px">Outbox History</span>
-              <div class="pull-right">
-                <button  class="btn btn-info" data-toggle="modal" data-target="#compose-modal">
-                  Compose
-                </button>
-              </div>
-            </div>
-          <!-- end button to compose new mail -->
-
-          <hr>
 
           <!--show outbox mail-->
             <div class="card-body">
 
               <div class="table-responsive">
                 @if( $outbox->count()  == 0)
-                  <div style="text-align: center; margin-bottom: 200px; font-size: 15px">Outbox empty</div>
+                  <div style="text-align: center; margin: 100px; font-size: 15px">
+                    Outbox empty
+                  </div>
                 @else
                   @include('partials.outbox')
                 @endif
@@ -223,25 +216,15 @@
       <div role="tabpanel" class="tab-pane active" id="inbox-tab">
 
         <div class="card">
-          <!-- start button to compose new mail -->
-            <div class="card-header">
-              <span style="font-weight: bold; font-family: italic; font-size: 15px">Inbox</span>
-              <div class="pull-right">
-                <button  class="btn btn-info" data-toggle="modal" data-target="#compose-modal">
-                  Compose
-                </button>
-              </div>
-            </div>
-          <!-- end button to compose new mail -->
-
-          <hr>
 
           <!--show inbox mail-->
             <div class="card-body" id="inbox-mail">
 
               <div class="table-responsive">
                 @if( $inbox->count()  == 0)
-                  <div style="text-align: center; margin-bottom: 200px; font-size: 15px">Inbox empty</div>
+                  <div style="text-align: center; margin: 100px; font-size: 15px">
+                    Inbox empty
+                  </div>
                 @else
                   @include('partials.inbox')
                 @endif

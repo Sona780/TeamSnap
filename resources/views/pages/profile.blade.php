@@ -24,11 +24,11 @@
     <div class="pm-overview c-overflow">
         <div class="pmo-pic">
             <div class="p-relative" id='img-div'>
-                <a href="">
-                    <img class="img-responsive" src="{{url($user['detail']->avatar)}}" alt="">
+                <a>
+                  <img class="img-responsive" src="{{url($user['detail']->avatar)}}" alt="">
                 </a>
                 <a class="pmop-edit" id='image-update' style="cursor: pointer">
-                    <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
+                  <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
                 </a>
             </div>
 

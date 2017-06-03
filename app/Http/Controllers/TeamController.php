@@ -145,13 +145,12 @@ class TeamController extends Controller
     // start get all teams of current user
         public function getAll()
         {
-            $uid     = Auth::user()->id;
-            $manager = UserDetail::where('users_id', $uid)->first()->manager_access;
-
-            if( $manager == 1 )
-               return Team::where('team_owner_id', Auth::user()->id)->get();
-            else
-               return TeamUser::getUserTeams($uid);
+          $uid     = Auth::user()->id;
+          $manager = UserDetail::where('users_id', $uid)->first()->manager_access;
+          if( $manager == 1 )
+            return Team::where('team_owner_id', Auth::user()->id)->get();
+          else
+            return TeamUser::getUserTeams($uid);
         }
     // end get all teams of current user
 

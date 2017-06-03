@@ -48,9 +48,7 @@
       <div class='well'>
 		   	<div style="display: inline-block; font-weight: none">
 		    	&nbsp;&nbsp;&nbsp;&nbsp;Manager : &nbsp;&nbsp;&nbsp;&nbsp;
-		        <button  class="btn btn-success" data-toggle="modal" data-target="#create-match">
-                	New Match
-            	</button>
+		        <button  class="btn btn-primary" data-toggle="modal" data-target="#create-match">New Match</button>
 		    </div>
   			<div class="fc-button-group pull-right" style="margin-top: 10px; margin-right: 10px">
   				<button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" href="#schedule-list" role="tab" data-toggle="tab" id="list-view" disabled>List View</button>
@@ -251,14 +249,14 @@
       date = form.find('input[name="match_date"]').val();
       hour = form.find('input[name="hour"]').val();
       min  = form.find('input[name="minute"]').val();
-      loc  = form.find('select[name="location"]').val();
+      loc  = form.find('#location').val();
       name = form.find('input[name="loc_name"]').val();
 
       if( date == '' || hour == '' || min == '' )
         error.html('Required fields should\'t be empty.');
       else if( isNaN(hour) || isNaN(min) )
         error.html('Hour & minute should be integer only.');
-      else if( loc == 'new' && name == '' )
+      else if( (loc == 'new' && name == '') || loc == '' )
         error.html('Location name required.');
       else
         self.submit();

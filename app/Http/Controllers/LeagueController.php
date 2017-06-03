@@ -14,6 +14,7 @@ use TeamSnap\LeagueDivision;
 use TeamSnap\LeagueLocation;
 use TeamSnap\LeagueAccessManage;
 use TeamSnap\DivisionManager;
+use TeamSnap\AccessManage;
 
 use TeamSnap\Mail\LeagueInviteMail;
 use Mail;
@@ -33,10 +34,37 @@ class LeagueController extends Controller
             LeagueDivision::newLeague($request->league_name, $league->id);
             LeagueAccessManage::newLeague($league->id);
             session()->flash('home', 'league');
-            session()->flash('success', 'League successfully created!!');
+            session()->flash('success', 'League successfully created !!');
         	return redirect('home');
         }
     // end create new league
+
+    // start get league details
+        public function getDetail($lid)
+        {
+            return League::find($lid);
+        }
+    // end get league details
+
+    // start update league details
+        public function update($lid, Request $request)
+        {
+            League::find($lid)->update($request->except('__token'));
+            session()->flash('home', 'league');
+            session()->flash('success', 'League details updated successfully !!');
+            return redirect()->back();
+        }
+    // end update league details
+
+    // start delete league
+        public function delete($lid)
+        {
+            League::find($lid)->delete();
+            session()->flash('home', 'league');
+            session()->flash('success', 'League successfully deleted !!');
+            return redirect()->back();
+        }
+    // end delete league
 
     // start show division section
         public function showDetail($id, $ldid)
@@ -88,6 +116,8 @@ class LeagueController extends Controller
             {
               $t = Team::newLeagueTeam($tname, $uid, 1);
               TeamInfo::create([ 'team_id' => $t->id ]);
+              AccessManage::newTeam($t->id, 0, 0);
+              AccessManage::newTeam($t->id, 1, 1);
             }
             $request['team_id'] = $t->id;
         	LeagueTeam::create($request->all());
@@ -133,4 +163,10 @@ class LeagueController extends Controller
           return LeagueTeam::getDivisionTeams($did);
         }
     // end get teams of a league division
+
+        public function getLeagues()
+        {
+            $user = Auth::user();
+
+        }
 }

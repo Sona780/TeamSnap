@@ -24,9 +24,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $hidden = [ 'password', 'remember_token' ];
+
+    public function detail()
+    {
+        return $this->hasOne('TeamSnap\UserDetail');
+    }
 
     public function leagues()
     {

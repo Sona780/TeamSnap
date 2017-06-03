@@ -1,6 +1,5 @@
 @extends('layouts.new', ['team' => $id, 'active' => 'detail', 'name' => $curr, 'ld' => $ldid])
 
-
 @section('header')
 
 <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -32,18 +31,18 @@
 
   @if( $lteams->count() == 0 && $divisions->count() == 0 )
     <div class="card z-depth-5 col-sm-6 col-sm-offset-3"  style="text-align: center;">
-        <div class="card-header">
-          <h3>Create teams or divisions in {{$curr}}</h3>
+      <div class="card-header">
+        <h3>Create teams or divisions in {{$curr}}</h3>
+      </div>
+      <div class="card-body" style="width: 70%; margin-left: 15%">
+        <p style="font-size: 15;">
+          You can add teams directly to {{$curr}}, or you can use divisions within {{$curr}} to further divide up the teamsYou can only choose one or the other, though.
+        </p>
+        <div style="padding: 50px 0">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#team-modal">New Team</button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#division-modal">New Division</button>
         </div>
-        <div class="card-body" style="width: 70%; margin-left: 15%">
-          <p style="font-size: 15;">You can add teams directly to {{$curr}}, or you can use divisions within asd to further divide up your teams. You can only choose one or the other, though.</p>
-
-          <div style="padding: 50px 0">
-            <button class="btn btn-info" data-toggle="modal" data-target="#team-modal">New Team</button>
-            <button class="btn btn-info" data-toggle="modal" data-target="#division-modal">New Division</button>
-          </div>
-        </div>
-
+      </div>
     </div>
   @endif
 
@@ -57,7 +56,7 @@
         <div class="card-header">
           <span style="font-weight: bold; font-family: italic; font-size: 15px">League Teams</span>
           <div class="pull-right">
-            <button  class="btn btn-info" data-toggle="modal" data-target="#team-modal">New Team</button>
+            <button  class="btn btn-primary" data-toggle="modal" data-target="#team-modal">New Team</button>
           </div>
         </div>
         <hr>
@@ -98,7 +97,7 @@
         <div class="card-header">
           <span style="font-weight: bold; font-family: italic; font-size: 15px">League Divisions</span>
           <div class="pull-right">
-            <button  class="btn btn-info" data-toggle="modal" data-target="#division-modal">New Division</button>
+            <button  class="btn btn-primary" data-toggle="modal" data-target="#division-modal">New Division</button>
           </div>
         </div>
         <hr>

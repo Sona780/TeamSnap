@@ -40,7 +40,7 @@
   <!-- start create or import privilege if owner or manager -->
     @if($user->manager_access != 0)
       <div class="btn-group m-r-20">
-        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
           <span style="padding: 0px 15px">NEW</span>
         </button>
         <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
@@ -51,7 +51,7 @@
       </div>
 
       <div class="btn-group m-r-20">
-        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
           <span style="padding: 0px 15px">IMPORT</span>
         </button>
         <ul class="dropdown-menu pull-left" role="menu" style="cursor: pointer">
@@ -170,6 +170,20 @@
       </ul>
     </div>
   <!-- end tabs for all, players and non-player -->
+
+  @if(Session::has('success'))
+    <br>
+    <div class="alert alert-success alert-dismissable" id='alert'>
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>{{ Session::get('success') }}</strong>
+    </div>
+  @endif
+  @if(Session::has('error'))
+    <div class="alert alert-danger alert-dismissable" id='alert-danger'>
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>{{ Session::get('error') }}</strong>
+    </div>
+  @endif
 
 
   <div class="card table-card" id="main" style="padding: 0% 0%;">
@@ -376,6 +390,7 @@
 
         $('#edit-member').find('#gender[value="'+d['details']['gender']+'"]').prop('checked', true);
         $('#edit-member').find('#member-type[value="'+d['team_details']['flag']+'"]').prop('checked', true);
+        $('#edit-member').find('strong').html('');
 
         //categories
         ctg = [];

@@ -26,6 +26,12 @@
         Route::post('password/save','Auth\RegisterController@savePassword');
 
         Route::group(['middleware' => 'auth'], function () {
+
+            // open change password view
+            Route::get('password/update', function() {
+                return view('pages.password');
+            });
+
             // load homepage of a user
             Route::get('home','HomeController@index')->name('home');
             //update avaiabilty of player for a game
@@ -34,6 +40,8 @@
             Route::get('game/validate','GameController@vali');
             // delete a manager
             Route::get('{type}/m/d/{uid}','SettingController@deleteManager');
+            // validae current password & change password
+            Route::post('change/password','SettingController@newPassword');
 
             // start league specific routes
                 Route::group(['prefix' => 'l/{id}/d/{ldid}'], function () {
@@ -70,6 +78,11 @@
                         Route::post('match/{gtid}', 'ScheduleController@getLeagueMatchDetail');
                     // start routes for ScheduleController for league
 
+                    // start routes for MediaController for league
+                        // show league media page
+                        Route::get('files', 'MediaController@leagueMedia');
+                    // end routes for MediaController for league
+
                     // shoe league division settings
                     Route::get('settings', 'SettingController@leagueSetting');
                 });
@@ -102,8 +115,6 @@
                             Route::get('access','SettingController@showViewSetting');
                         });
 
-                        // validae current password & change password
-                        Route::post('change/password','SettingController@newPassword');
                         // update public access settings
                         Route::post('public/access/update','SettingController@publicAccessUpdate');
                         // update manager access settings
@@ -145,11 +156,11 @@
                         //upload a video
                         Route::post('video/upload', 'MediaController@uploadVideo');
                         //delete a video
-                        Route::get('video/delete/{vid}', 'MediaController@deleteVideo');
+                        Route::get('{type}/video/delete/{vid}', 'MediaController@deleteVideo');
                         //upload a file
                         Route::post('file/upload', 'MediaController@uploadFile');
                         //delete a file
-                        Route::get('file/delete/{fid}', 'MediaController@deleteFile');
+                        Route::get('{type}/file/delete/{fid}', 'MediaController@deleteFile');
                     // end Routes for MediaController with team id
 
                     // start Routes for MessageController with team id
@@ -208,6 +219,12 @@
             // start route form LeagueController without team id
                 // create a new league
                 Route::post('league/create','LeagueController@create');
+                // get league detail
+                Route::post('league/detail/{lid}', 'LeagueController@getDetail');
+                // update league detail
+                Route::post('league/update/{lid}', 'LeagueController@update');
+                // delete league
+                Route::get('league/delete/{lid}', 'LeagueController@delete');
                 // get all the teams of a division
                 Route::post('division/team/{did}', 'LeagueController@getDivisionTeams');
             // start route form LeagueController without team id

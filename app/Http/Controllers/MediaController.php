@@ -12,8 +12,18 @@ use TeamSnap\Team;
 use TeamSnap\TeamUser;
 use TeamSnap\UserDetail;
 use TeamSnap\AccessManage;
+
+use TeamSnap\League;
+use TeamSnap\DivisionManager;
+use TeamSnap\LeagueDivision;
+use TeamSnap\LeagueImage;
+use TeamSnap\LeagueFile;
+use TeamSnap\LeagueVideo;
+use TeamSnap\LeagueTeam;
+
 use Auth;
 use TeamSnap\Http\ViewComposer\UserComposer;
+use TeamSnap\Http\Controllers\DashboardController;
 
 class MediaController extends Controller
 {
@@ -32,34 +42,80 @@ class MediaController extends Controller
       if( $manager == '' && ($member == '' || ($member != '' && $mgr_access == 2 && $access->media == 0)) )
         return view('errors/404');
 
+      $divs = LeagueTeam::teamDivs($id);
+      foreach ($divs as $div)
+      {
+        $d = LeagueDivision::find($div->league_division_id);
+        $league = League::find($d->league_id);
+        $div->lname = $league->league_name;
+        $div->imgs  = $league->images()->get();
+        $div->vids  = $league->videos()->get();
+        $div->file  = $league->files()->get();
+      }
+      //return $divs;
+
       $videos = Media::where('teams_id', $id)->get();
       $images = Img::where('teams_id', $id)->get();
       $files  = File::where('teams_id', $id)->get();
-      $team  = Team::find($id);
-      return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access', 'team'));
+      $type   = 'team';
+      $team   = Team::find($id);
+      $arr    = ['team' => $id, 'active' => 'media', 'logo' => $team->team_logo, 'name' => $team->teamname, 'first' => $team->team_color_first];
+
+      return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access', 'arr', 'type', 'divs'));
     }
   // end load media page
+
+  // start media page for league
+    public function leagueMedia($id, $ldid)
+    {
+      $owner = League::find($id)->user_id;
+      $uid   = Auth::user()->id;
+      $dman  = DivisionManager::check($uid, $ldid);
+
+      if( $owner != $uid && $dman == 0 )
+        return view('errors/404');
+
+      $composerWrapper = new UserComposer( $id, 'league' );
+      $composerWrapper->compose();
+
+      $d    = new DashboardController();
+      $prev = $d->path($ldid);
+      $curr = LeagueDivision::find($ldid)->division_name;
+      $arr  = ['team' => $id, 'active' => 'media', 'name' => $curr, 'ld' => $ldid];
+      $type = 'league';
+
+      $league = League::find($id);
+      $videos = $league->videos()->get();
+      $files  = $league->files()->get();
+      $images = $league->images()->get();
+
+      $mgr_access = 1;
+      return view('pages.media', compact('id', 'videos', 'images', 'files', 'mgr_access', 'arr', 'prev', 'curr', 'type'));
+    }
+  // end media page for league
 
   // start upload video
     public function uploadVideo($id, Request $request)
     {
       // save video title & URL
-      Media::upload($id, $request);
+      ($request->type == 'team') ? Media::upload($id, $request) : LeagueVideo::upload($id, $request);
+
+      //redirect to media page with flash msgs
       session()->flash('active', 2);
       session()->flash('success', 'The video link uploaded successfully.');
-      //redirect to media page
-      return redirect($id.'/files');
+      return redirect()->back();
     }
   // end upload video
 
   // start delete a video
-    public function deleteVideo($id, $vid)
+    public function deleteVideo($id, $type, $vid)
     {
-      Media::find($vid)->delete();
+      ($type == 'team') ? Media::find($vid)->delete() : LeagueVideo::find($vid)->delete();
+
+      //redirect to media page with flash msgs
       session()->flash('active', 2);
       session()->flash('success', 'The video link deleted successfully.');
-      //redirect to media page
-      return redirect($id.'/files');
+      return redirect()->back();
     }
   // end delete a video
 
@@ -74,23 +130,26 @@ class MediaController extends Controller
       $fname = $file->getClientOriginalName();
       // move the file to server
       $file->move($path, $fname);
+
       //save to db
-      File::upload($id, $fname);
+      ( $request->type == 'team' ) ? File::upload($id, $fname) : LeagueFile::upload($id, $fname);
+
+      //redirect to media page with flash msgs
       session()->flash('active', 2);
       session()->flash('success', 'The file has been uploaded successfully.');
-      //redirect to media page
-      return redirect($id.'/files');
+      return redirect()->back();
     }
   // end upload file
 
   // start delete a file
-    public function deleteFile($id, $fid)
+    public function deleteFile($id, $type, $fid)
     {
-      File::find($fid)->delete();
+      ($type == 'team') ? File::find($fid)->delete() : LeagueFile::find($fid)->delete();
+
+      //redirect to media page with flash msgs
       session()->flash('active', 2);
       session()->flash('success', 'The file deleted successfully.');
-      //redirect to media page
-      return redirect($id.'/files');
+      return redirect()->back();
     }
   // end delete a file
 
@@ -100,10 +159,11 @@ class MediaController extends Controller
       //save image in server and get path
       $img = $this->getImage($request->file('image'));
       //update db
-      Img::upload($id, $img);
+      ( $request->type == 'team' ) ? Img::upload($id, $img) : LeagueImage::upload($id, $img);
+
+      //redirect to media page with success message
       session()->flash('success', 'The image has been uploaded successfully.');
-      //redirect to media page
-      return redirect($id.'/files');
+      return redirect()->back();
     }
   // end upload image
 

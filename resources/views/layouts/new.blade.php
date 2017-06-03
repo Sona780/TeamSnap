@@ -265,6 +265,9 @@
                                 <li>
                                     <a href="{{ url('profile') }}">Profile</a>
                                 </li>
+                                <li>
+                                    <a href="{{ url('password/update') }}">Change Password</a>
+                                </li>
                                 <li class="divider">
                                 <li>
                                     <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -316,7 +319,7 @@
                   @if( ($manager_access == 0) || ($teamleague == 'team' && (($manager_access == 1) || ($manager_access == 2 && $maccess->media == 1)) ) )
                     <li class="waves-effect" id="media"><a href="{{url($team.'/files')}}">Media</a></li>
                   @elseif($teamleague == 'league' && (($manager_access == 1) || ($manager_access == 2 && $maccess->media == 1)))
-                    <!--<li class="waves-effect" id="media"><a href="{{url('league/'.$team.'/files')}}">Media</a></li>-->
+                    <li class="waves-effect" id="media"><a href="{{url('l/'.$team.'/d/'.$ld.'/files')}}">Media</a></li>
                   @endif
 
                   @if( ($manager_access == 0) || ($teamleague == 'team' && (($manager_access == 1) || ($manager_access == 2 && $maccess->message == 1)) ) )
@@ -468,8 +471,9 @@
                 active = '{{$active}}';
                 $('.ha-menu').find('ul').find('li').removeClass('active');
                 $('.ha-menu').find('ul').find('#'+ active).addClass('active');
-                url = '{{url("/")}}/get/teams';
                 team = {{$team}};
+
+                url = '{{url("/")}}/get/teams';
                 $.get(url, function(data){
                     t = data;
                     content = '';

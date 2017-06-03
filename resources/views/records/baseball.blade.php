@@ -90,7 +90,7 @@
 
           <div class="pull-right">
             <div class="btn-group m-r-20">
-              <button  class="btn btn-info" data-toggle="modal" data-target="#player-record-modal">
+              <button  class="btn btn-primary" data-toggle="modal" data-target="#player-record-modal">
                 New Stat
               </button>
             </div>

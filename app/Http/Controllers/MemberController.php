@@ -118,6 +118,7 @@ class MemberController extends Controller
         $email = new SendMail($userd->name, $userd->email, $teamd->teamname, $user->email);
         Mail::to($user->email)->send($email);
 
+        session()->flash('success', 'The member has been successfully added to the team.');
         return redirect($id.'/members');
     }
     //end save new member
@@ -138,6 +139,7 @@ class MemberController extends Controller
     {
       $uid = TeamUser::find($tuid)->users_id;
       User::find($uid)->delete();
+      session()->flash('success', 'The member has been successfully deleted from the team.');
       return redirect($id.'/members');
     }
     //end delete a member
@@ -192,6 +194,8 @@ class MemberController extends Controller
       PlayerCtg::where('team_users_id', $tuid)->delete();
       $this->saveCat($tuid, $c);
       //end update member categories
+
+      session()->flash('success', 'The member details has been updated successfully.');
       return redirect($id.'/members');
     }
     //end update existing member info

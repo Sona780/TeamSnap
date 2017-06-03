@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('header')
+  <style type="text/css">
+    .tab-nav
+    {
+          box-shadow: inset 0 0px 0 0 #eeeeee;
+    }
+  </style>
+@endsection
+
 
 @section('content')
 
@@ -14,7 +23,7 @@
 
 <div role="tabpanel">
   @if($user->manager_access != 0)
-  <ul class="tab-nav tab-nav" role="tablist" id="myTab">
+  <ul class="tab-nav" role="tablist" id="myTab">
     <li class="@if(!Session::has('home')) active @endif"><a href="#my-teams" role="tab" data-toggle="tab">Teams</a></li>
     <li role="presentation" class="@if(Session::has('home')) active @endif"><a href="#my-leagues" role="tab" data-toggle="tab">Leagues</a></li>
   </ul>
@@ -89,7 +98,9 @@
               <h2>My Leagues</h2>
 
               @if($user->manager_access != 0)
-                <button class="btn bgm-red btn-float waves-effect" data-toggle="modal" data-target="#league-modal"><i class="zmdi zmdi-plus"></i></button>
+                <button class="btn bgm-red btn-float waves-effect" data-toggle="modal" data-target="#league-modal" id="lnew">
+                  <i class="zmdi zmdi-plus"></i>
+                </button>
               @endif
 
             </div>
@@ -103,10 +114,26 @@
           <div class="col-sm-3">
             <div class="card bgm-cyan">
 
+              @if($user->manager_access == 1)
+                <div class="pull-right" style="display: inline-block;">
+                  <ul class="actions">
+                    <li class="dropdown">
+                      <a href="" data-toggle="dropdown">
+                        <i class="zmdi zmdi-more-vert"></i>
+                      </a>
+
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a id="ledit" key="{{$league->id}}" style="cursor: pointer">Edit</a></li>
+                        <li><a key='{{$league->id}}' id='ldelete' style="cursor: pointer">Delete</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              @endif
               <div class="card-body" style="padding: 30px 10px; text-align: center; text-transform: uppercase">
-
-                <a style="color: black;" href="{{url('l/'.$league->id.'/d/'.$league->ldid.'/dashboard')}}">{{$league->league_name}}</a>
-
+                <a style="color: black;" href="{{url('l/'.$league->id.'/d/'.$league->ldid.'/dashboard')}}">
+                  {{$league->league_name}}
+                </a>
               </div>
             </div>
           </div>
@@ -121,7 +148,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" style="text-align: center">Create a League</h4>
+        <h5 class="modal-title" style="text-align: center; text-transform: uppercase"></h5>
         <h6 id="error-league" style="text-align: center; color: red"></h6>
       </div>
 
@@ -139,7 +166,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-info">Create</button>
+          <button type="submit" class="btn btn-info"></button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       {{Form::close()}}
@@ -154,6 +181,32 @@
 
 <script src="{{URL::to('/')}}/js/notify.js"></script>
 <script type="text/javascript">
+
+  modal = $('#league-modal');
+
+  $('#lnew').click(function(){
+    $('#league-form').trigger('reset');
+    modal.find('.modal-title').html('Create new League');
+    modal.find('.btn-info').html('Create');
+    $('#league-form').attr('action', '{{url("league/create")}}');
+  });
+
+  $('#my-leagues').on('click', '#ledit', function(){
+    id  = $(this).attr('key');
+    url = '{{url("league/detail")}}/'+id;
+
+    modal.modal('show');
+
+    $.post(url, function(data){
+      $('input[name="league_name"]').val(data['league_name']);
+      $('input[name="tot_teams"]').val(data['tot_teams']);
+      modal.find('.modal-title').html('Update League Detail');
+      modal.find('.btn-info').html('Update');
+      url = 'league/update/'+id;
+      $('#league-form').attr('action', '{{url("/")}}/'+url);
+    });
+  });
+
   $('#league-form').submit(function(e){
     e.preventDefault();
     name  = $(this).find('input[name="league_name"]').val();
@@ -201,6 +254,21 @@
       closeOnConfirm: true
       }, function(){
         window.location.href = '{{url("team/delete")}}/'+id;
+    });
+  });
+
+  $('#my-leagues').on('click', '#ldelete', function(){
+    id = $(this).attr('key');
+
+    swal({
+      title: "Are you sure?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: true
+      }, function(){
+        window.location.href = '{{url("league/delete")}}/'+id;
     });
   });
 </script>

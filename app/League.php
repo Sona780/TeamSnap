@@ -11,6 +11,21 @@ class League extends Model
     //
     protected $fillable = [ 'user_id', 'tot_teams', 'league_name' ];
 
+    public function files()
+    {
+        return $this->hasMany('TeamSnap\LeagueFile');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('TeamSnap\LeagueImage');
+    }
+
+    public function videos()
+    {
+        return $this->hasMany('TeamSnap\LeagueVideo');
+    }
+
 	public static function matches($id)
     {
     	return static::where('leagues.id', $id)
