@@ -57,12 +57,12 @@
 
               <div class="card-body" style="padding: 10px 10px;">
 
-                <div style="display: inline-block">
-                  <img src="{{url($team->team_logo)}}" style="height: 70; border-radius: 20px" />
+                <div style="display: inline-block;">
+                  <img src="{{url($team->team_logo)}}" class="team-logo" />
                 </div>
 
                 @if($user->manager_access != 0)
-                  <div class="pull-right" style="display: inline-block;">
+                  <div class="pull-right">
                     <ul class="actions">
                       <li class="dropdown">
                         <a href="" data-toggle="dropdown">
@@ -78,7 +78,7 @@
                   </div>
                 @endif
 
-                <div class="set-width" style="padding-left:10%; text-transform: uppercase; cursor: pointer; overflow-x: hidden" team='{{$team->id}}' id="team_tab">
+                <div class="set-width" team='{{$team->id}}' id="team_tab">
                   <h6>{{$team->teamname}}</h6>
                 </div>
 

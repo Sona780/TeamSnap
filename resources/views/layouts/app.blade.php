@@ -30,28 +30,55 @@
             @media (min-width: 768px) and (max-width: 1080px) {
                 .set-width {
                     display: block;
+                    padding-left:0%;
                 }
 
                 .team-card {
-                     height: 20%;
+                     height: 30%;
+                }
+
+                .team-logo{
+                    height: 40;
+                    border-radius: 25px;
+                    transition: height 200ms;
                 }
             }
 
             @media (min-width: 1080px) {
                 .set-width {
-                    width: 100px;
+                    width: 103px;
                     display: inline-block;
+                    padding-left:10%;
+                    position: absolute;
                 }
 
-                .team-card {
-                     height: 15%;
+                .team-logo{
+                    height: 70;
+                    border-radius: 50px;
+                    transition: height 200ms;
                 }
             }
 
             @media (max-width: 767px) {
                 .set-width {
+                    width: 40%;
                     display: inline-block;
+                    padding-left:10%;
+                    transition: padding-left 200ms;
+                    position: absolute;
                 }
+
+                .team-logo{
+                    height: 70;
+                    border-radius: 50px;
+                    transition: height 200ms;
+                }
+            }
+
+            .set-width {
+                text-transform: uppercase;
+                cursor: pointer;
+                overflow-x: hidden;
             }
         </style>
 

@@ -36,10 +36,11 @@ class TeamController extends Controller
         {
           $name = $request->teamname;
           $this->validate($request, [
-              'teamname' => 'required',
+              'teamname' => 'required|max: 40',
               'zip'      => 'required',
             ], [
               'teamname.required' => 'The team name is required.',
+              'teamname.max' => 'The team name should not contain more than 40 words (including spaces).',
             ]
           );
 
