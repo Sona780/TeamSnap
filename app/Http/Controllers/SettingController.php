@@ -148,52 +148,59 @@ class SettingController extends Controller
     // start add new manager
         public function newManager($id, Request $request)
         {
-            $type = $request->teamleague;
-
-            $email = $request->email;
-            $fname = $request->fname;
-            $user  = User::where('email', $email)->first();
-            $owner = Auth::user();
-            $uid = 0;
-
-            if( $user == '' )
+            try
             {
-                $user = User::addUserFromLeague($fname, $email, 0);
-                UserDetail::addUserFromLeague($user->id, $fname, $request->lname, 2);
-            }
-            else
-            {
-                $access = UserDetail::where('users_id', $user->id)->first()->manager_access;
-                if($access != 2)
-                    return 0;
-            }
+                $type  = $request->teamleague;
+                $email = $request->email;
+                $fname = $request->fname;
+                $user  = User::where('email', $email)->first();
+                $owner = Auth::user();
+                $uid   = 0;
 
-            if( $type == 'team' )
-            {
-                $name  = Team::find($id)->teamname;
-                $tuser = TeamUser::checkIfManager($id, $user->id);
+                $name = ( $type == 'team' ) ? Team::find($id)->teamname : League::find($id)->league_name;
 
-                if( $tuser == '' )
+                if( $user == '' )
                 {
-                    $tuser = TeamUser::createTeamUser($id, $user->id);
-                    TeamUserDetail::createNew($tuser->id, 0, 'manager');
+                    $user = User::addUserFromLeague($fname, $email, 0);
+                    UserDetail::addUserFromLeague($user->id, $fname, $request->lname, 2);
                 }
                 else
-                    TeamUserDetail::updateDetail($tuser->id, 0, 'manager');
+                {
+                    $access = UserDetail::where('users_id', $user->id)->first()->manager_access;
+                    if($access != 2)
+                        return 0;
+                }
+
+                $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
+                Mail::to($email)->send($mail);
+
+                if( $type == 'team' )
+                {
+                    $tuser = TeamUser::checkIfManager($id, $user->id);
+
+                    if( $tuser == '' )
+                    {
+                        $tuser = TeamUser::createTeamUser($id, $user->id);
+                        TeamUserDetail::createNew($tuser->id, 0, 'manager');
+                    }
+                    else
+                        TeamUserDetail::updateDetail($tuser->id, 0, 'manager');
+                }
+                else
+                {
+                    $tuser = DivisionManager::checkIfManager($id, $user->id);
+
+                    if( $tuser == '' )
+                        $tuser = DivisionManager::newManager($id, $user->id);
+                }
+
+                $uid = $tuser->id;
+                return $uid;
             }
-            else
+            catch(\Exception $e)
             {
-                $name  = League::find($id)->league_name;
-                $tuser = DivisionManager::checkIfManager($id, $user->id);
-
-                if( $tuser == '' )
-                    $tuser = DivisionManager::newManager($id, $user->id);
+                return -1;
             }
-
-            $uid = $tuser->id;
-            $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
-            Mail::to($email)->send($mail);
-            return $uid;
         }
     // end add new manager
 

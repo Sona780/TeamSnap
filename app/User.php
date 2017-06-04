@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this -> hasMany('TeamSnap\Team');
     }
 
+    public static function newUser($name, $email, $flag)
+    {
+        return static::create(['name' => $name, 'email' => $email, 'login_flag' => $flag]);
+    }
+
     // create new user if not exists
     public static function addUserFromLeague($fname, $mail, $flag)
     {

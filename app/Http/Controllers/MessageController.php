@@ -86,36 +86,47 @@ class MessageController extends Controller
     // start compose new mail
     public function send($id, Request $request)
     {
-      //get sender details
-      $uid  = Auth::user()->id;
-      $user = User::getMailDetail($uid);
-      // get all recipient ids
-      $rids =  $request->receivers;
-      //get subject & body of the mail
-      $sub  = $request->subject;
-      $body = $request->body;
-      // create id for mail
-      $mid  = Email::create(['teams_id' => $id]);
-      $at   = Carbon::now();
-      // save sender as one of the user for mail
-      EmailUser::createMailUser($mid->id, $uid, $at);
-
-      // send & save mail info for each recipient
-      foreach ($rids as $rid)
+      try
       {
-        //get email of recipient
-        $ruser = User::find($rid);
+        //get sender details
+        $uid  = Auth::user()->id;
+        $user = User::getMailDetail($uid);
+        // get all recipient ids
+        $rids =  $request->receivers;
+        //get subject & body of the mail
+        $sub  = $request->subject;
+        $body = $request->body;
 
-        /*$email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
-        Mail::to($ruser->email)->send($email);*/
+        // send & save mail info for each recipient
+        foreach ($rids as $rid)
+        {
+          //get email of recipient
+          $ruser = User::find($rid);
+          // send mail
+          $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+          Mail::to($ruser->email)->send($email);
+        }
 
-        // register recipient as one of the user for mail
-        EmailUser::createMailUser($mid->id, $rid, Carbon::today());
+        // create id for mail
+        $mid  = Email::create(['teams_id' => $id]);
+        $at   = Carbon::now();
+        // save sender as one of the user for mail
+        EmailUser::createMailUser($mid->id, $uid, $at);
+
+        // send & save mail info for each recipient
+        foreach ($rids as $rid)
+          EmailUser::createMailUser($mid->id, $rid, Carbon::today());
+
+        // save mail content
+        EmailInfo::saveMail($mid->id, $uid, $sub, $body, $at);
+        session()->flash('success', 'Message sent successfully.');
+        return redirect($id.'/messages');
       }
-      // save mail content
-      EmailInfo::saveMail($mid->id, $uid, $sub, $body, $at);
-      session()->flash('success', 'Message sent successfully.');
-      return redirect($id.'/messages');
+      catch(\Exception $e)
+      {
+        session()->flash('error', 'We are unable to process your request at the moment. Please try again later.');
+        return redirect()->back();
+      }
     }
     // end compose new mail
 
@@ -130,24 +141,32 @@ class MessageController extends Controller
     // start compose reply mail
     public function reply($id, Request $request)
     {
-      $uid  = Auth::user()->id;
-      $mid  = $request->mid;
-      $sub  = $request->subject;
-      $body = $request->body;
-      //get sender details
-      $user = User::getMailDetail($uid);
-
-      // get recipients details
-      $rusers = EmailUser::getRecipients($mid, $uid);
-      foreach ($rusers as $ruser)
+      try
       {
-        /*$email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
-        Mail::to($ruser->email)->send($email);*/
+        $uid  = Auth::user()->id;
+        $mid  = $request->mid;
+        $sub  = $request->subject;
+        $body = $request->body;
+        //get sender details
+        $user = User::getMailDetail($uid);
+
+        // get recipients details
+        $rusers = EmailUser::getRecipients($mid, $uid);
+        foreach ($rusers as $ruser)
+        {
+          $email = new ChatMail($user['detail']['firstname'].' '.$user['detail']['lastname'], $user['email'], $sub, $body);
+          Mail::to($ruser->email)->send($email);
+        }
+        // save mail content
+        EmailInfo::saveMail($mid, $uid, $sub, $body, Carbon::now());
+        session()->flash('success', 'Message sent successfully.');
+        return redirect($id.'/messages');
       }
-      // save mail content
-      EmailInfo::saveMail($mid, $uid, $sub, $body, Carbon::now());
-      session()->flash('success', 'Message sent successfully.');
-      return redirect($id.'/messages');
+      catch(\Exception $e)
+      {
+        session()->flash('error', 'We are unable to process your request at the moment. Please try again later.');
+        return redirect()->back();
+      }
     }
     // end compose reply mail
 

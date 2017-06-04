@@ -171,20 +171,7 @@
     </div>
   <!-- end tabs for all, players and non-player -->
 
-  @if(Session::has('success'))
-    <br>
-    <div class="alert alert-success alert-dismissable" id='alert'>
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      <strong>{{ Session::get('success') }}</strong>
-    </div>
-  @endif
-  @if(Session::has('error'))
-    <div class="alert alert-danger alert-dismissable" id='alert-danger'>
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      <strong>{{ Session::get('error') }}</strong>
-    </div>
-  @endif
-
+  @include('partials.flash-message')
 
   <div class="card table-card" id="main" style="padding: 0% 0%;">
     <div class="tab-content">
@@ -280,6 +267,10 @@
 
     // do stuff on page loading
       $(document).ready(function(){
+        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+          $(".alert").slideUp(500);
+        });
+
         $('input[name="birthday"]').datetimepicker({ maxDate: new Date(), format: 'DD/MM/YYYY' });
 
         $('#add-form').find('#categories').multiselect({

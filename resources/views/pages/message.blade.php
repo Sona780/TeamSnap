@@ -79,12 +79,7 @@
 
 @section('content')
 
-@if(Session::has('success'))
-<div class="alert alert-success alert-dismissable" id='alert'>
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>{{ Session::get('success') }}</strong>
-</div>
-@endif
+  @include('partials.flash-message')
 
   <!-- start Modal to compose mail -->
     <div class="modal fade" id="compose-modal" role="dialog">
@@ -265,8 +260,8 @@
           modal.modal('show');
         @endif
 
-        $("#alert").fadeTo(2000, 500).slideUp(500, function(){
-          $("#success-alert").slideUp(500);
+        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+          $(".alert").slideUp(500);
         });
 
         $('body').on('click', '#selectall', function () {

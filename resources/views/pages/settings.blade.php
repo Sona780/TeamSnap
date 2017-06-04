@@ -17,12 +17,7 @@
 
 @section('content')
 
-@if(Session::has('success'))
-<div class="alert alert-success alert-dismissable" id='alert'>
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>{{ Session::get('success') }}</strong>
-</div>
-@endif
+@include('partials.flash-message')
 
 <div role="tabpanel">
 
@@ -193,8 +188,10 @@
               $('#all-managers').append('<tr><td>'+ name +' '+ lname +'</td><td>'+ email +'</td><td style="text-align: center"><a id="delete" key="'+ uid +'"><img class="icon-style" src="{{url("/")}}/img/delete.png"></a></td></tr>');
             }
           }
-          else
+          else if( uid == 0 )
             $('#manager-error').html('<br>'+name+' can\'t become manager of this team.');
+          else
+            $('#manager-error').html('We are unable to process your request at the moment. Please try again later.');
         });
       }
     });

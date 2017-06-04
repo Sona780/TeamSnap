@@ -32,49 +32,53 @@ class MemberController extends Controller
 
       if($team == NULL || ($uid != $team->team_owner_id && $ch == '') || ($user->manager_access == 2 && $access->member == 0) )
         return view('errors/404');
-      else
-      {
-        $composerWrapper = new UserComposer( $id, 'team' );
-        $composerWrapper->compose();
-        // all categories for the team
-        $ctgs = TeamCtg::getCtg($id);
-        // all players in the team
-        $member['player']['all'] = TeamUser::getMembersByFlag($id, 1);
-        // all non players in the team
-        $member['non'] = TeamUser::getMembersByFlag($id, 0);
-        // all members of the team
-        $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
-        // sort members on the basis of category
-        foreach ($ctgs as $ctg)
-        {
-          $member['player'][$ctg->id] = TeamUser::getMembersByCat($id, $ctg->id)->where('flag', 1)->get();
-          $member['all'][$ctg->id]    = TeamUser::getMembersByCat($id, $ctg->id)->get();
-        }
-        //get all the teams of current user
-        $teams = Team::getUserTeams($id);
-        $team  = Team::find($id);
 
-        return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
+      $composerWrapper = new UserComposer( $id, 'team' );
+      $composerWrapper->compose();
+      // all categories for the team
+      $ctgs = TeamCtg::getCtg($id);
+      // all players in the team
+      $member['player']['all'] = TeamUser::getMembersByFlag($id, 1);
+      // all non players in the team
+      $member['non'] = TeamUser::getMembersByFlag($id, 0);
+      // all members of the team
+      $member['all']['all'] = TeamUser::members($id)->groupBy('users.id')->get();
+      // sort members on the basis of category
+      foreach ($ctgs as $ctg)
+      {
+        $member['player'][$ctg->id] = TeamUser::getMembersByCat($id, $ctg->id)->where('flag', 1)->get();
+        $member['all'][$ctg->id]    = TeamUser::getMembersByCat($id, $ctg->id)->get();
       }
+      //get all the teams of current user
+      $teams = Team::getUserTeams($id);
+      $team  = Team::find($id);
+
+      return view('pages.members',compact('id','ctgs','member', 'teams', 'team', 'user'));
     }
-   //end show existing members
-   //save new member
-   public function store($id, Request $request)
+  //end show existing members
+
+  //save new member
+    public function store($id, Request $request)
     {
+
+      try
+      {
+        $teamd = Team::find($id);
+        $userd = Auth::user();
+
+        $email = new SendMail($userd->name, $userd->email, $teamd->teamname, $request->email);
+        Mail::to($request->email)->send($email);
+
         if( $request->file('file') == null )
           $avatar = config('paths.default_avatar_path');
         else
         {
           //get image
           $image = $request->file('file');
-
           //resize & save image in server otherwise throw exception
-          try{
-                $avatar = $this->getImage($image);
-          }catch(Exception $e){
-              return redirect()->back()->withError('Could not resize Image');
-          }
+          $avatar = $this->getImage($image);
         }
+
         //get selected categoeries of new member
         if( $request->categories == null )
           $c = [];
@@ -86,42 +90,31 @@ class MemberController extends Controller
         if( $user == '' )
         {
           //create new user
-            $user = new User();
-            $user->name       = $request->firstname;
-            $user->email      = $request->email;
-            $user->login_flag = 0;
-            $user->save();
-          //end create new user
-
+          $user = User::newUser($request->firstname, $request->email, 0);
           //save new user details
-            UserDetail::newUser($user->id, $request, $avatar);
-          //end save new user details
+          UserDetail::newUser($user->id, $request, $avatar);
         }
 
         //link member with team
         $tuser = TeamUser::createTeamUser($id, $user->id);
-        //end link member with team
         // user team details
         TeamUserDetail::createNew($tuser->id, $request->optradio, $request->role);
-        // end user team details
         //specify member categories
         $this->saveCat($tuser->id, $c);
-        //end specify member categories
-
         // start save fee detail for member
         PlayerFee::saveNewPlayerFeeDetail($id, $tuser->id);
-        // end save fee detail for member
-
-        $teamd = Team::find($id);
-        $userd = Auth::user();
-
-        $email = new SendMail($userd->name, $userd->email, $teamd->teamname, $user->email);
-        Mail::to($user->email)->send($email);
 
         session()->flash('success', 'The member has been successfully added to the team.');
         return redirect($id.'/members');
+      }
+      catch(\Exception $e)
+      {
+        session()->flash('error', 'We are unable to process your request at the moment. Please try again later.');
+        return redirect()->back();
+      }
     }
-    //end save new member
+  //end save new member
+
     //fetch data of existing member
     public function get($tuid)
     {
