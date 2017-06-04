@@ -490,8 +490,10 @@
                         @endif
                     }
                     target = '{{url("/")}}/team/create';
+                    if( content != '' )
+                        content += '<li class="divider"></li>';
                     @if( $manager_access == 1 )
-                        content += '<li class="divider"></li><li><a href="'+ target +'">Create a New Team</a></li>'
+                        content += '<li><a href="'+ target +'">Create a New Team</a></li>'
                     @endif
                     $('#teams').html(content);
                 });

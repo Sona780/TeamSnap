@@ -75,7 +75,8 @@
 
                         <li class="dropdown">
 
-                            <a data-toggle="dropdown" href=""><img src ="{{url($user_detail->avatar)}}" style="height:40px; width: 40px; border-radius:50%; margin-right: 10px"/>
+                            <a data-toggle="dropdown" href="" style="margin: 0 10px">
+                                <img src ="{{url($user_detail->avatar)}}" style="height:40px; width: 40px; border-radius:50%; margin-right: 10px"/>
                                 {{Auth::user()->name}}
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">

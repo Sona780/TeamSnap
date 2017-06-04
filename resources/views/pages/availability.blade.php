@@ -36,26 +36,34 @@
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane active" id="players">
-      <div class="card table-responsive p-10 p-t-0" id="player-div">
-        <div class="card-header">
+      @if( $players->count() == 0 )
+        <div style="text-align: center">No player has been added to the team.</div>
+      @elseif($games->count() == 0)
+        <div style="text-align: center">Nothing has been scheduled yet.</div>
+      @else
+        <div class="card table-responsive p-10 p-t-0" id="player-div">
+          <div class="card-body">
+            @include('partials.player-assets')
+          </div>
         </div>
-        <div class="card-body">
-          @include('partials.player-assets')
-        </div>
-      </div>
+      @endif
     </div>
     <!-- stop player availability -->
 
 
     <!-- start player availability -->
     <div role="tabpanel" class="tab-pane" id="staff">
-      <div class="card table-responsive p-10" id="staff-div">
-        <div class="card-header">
+      @if( $staffs->count() == 0 )
+        <div style="text-align: center">No staff member has been added to the team.</div>
+      @elseif($games->count() == 0)
+        <div style="text-align: center">Nothing has been scheduled yet.</div>
+      @else
+        <div class="card table-responsive p-10" id="staff-div">
+          <div class="card-body">
+            @include('partials.staff-assets')
+          </div>
         </div>
-        <div class="card-body">
-          @include('partials.staff-assets')
-        </div>
-      </div>
+      @endif
     </div>
     <!-- stop player availability -->
 
