@@ -10,6 +10,8 @@ use TeamSnap\UserDetail;
 use TeamSnap\AllGame;
 use TeamSnap\TeamInfo;
 use TeamSnap\AccessManage;
+use TeamSnap\Country;
+use TeamSnap\SitePref;
 
 use Image;
 use Redirect;
@@ -20,14 +22,16 @@ class TeamController extends Controller
         public function show()
         {
           $gms   = AllGame::all();
-
           $games = [];
           foreach ($gms as $g)
-          {
             $games[$g->id] = $g->game_name;
-          }
 
-          return view('pages.create-team', compact('games'));
+          $cntry = Country::get();
+          $countries = [];
+          foreach ($cntry as $c)
+            $countries[$c->id] = $c->country_name;
+
+          return view('pages.create-team', compact('games', 'countries'));
         }
     // end create new teams
 
@@ -81,6 +85,7 @@ class TeamController extends Controller
           TeamInfo::create(['team_id' => $team->id, 'uniform' => '/images/uniforms/default.png']);
           AccessManage::newTeam($team->id, 0, 0);
           AccessManage::newTeam($team->id, 1, 1);
+          SitePref::create(['team_id' => $team->id, 'color_scheme' => $team->team_color_first]);
 
           return redirect($team->id.'/dashboard');
         }
@@ -98,12 +103,15 @@ class TeamController extends Controller
                 return view('errors/404');
 
             $gms   = AllGame::all();
-
             $games = [];
             foreach ($gms as $g)
                 $games[$g->id] = $g->game_name;
+            $cntry = Country::get();
+            $countries = [];
+            foreach ($cntry as $c)
+              $countries[$c->id] = $c->country_name;
 
-            return view('pages.edit-team', compact('games', 'team', 'tid'));
+            return view('pages.edit-team', compact('games', 'team', 'tid', 'countries'));
         }
     // end edit a team info
 

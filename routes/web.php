@@ -42,6 +42,16 @@
             Route::get('{type}/m/d/{uid}','SettingController@deleteManager');
             // validae current password & change password
             Route::post('change/password','SettingController@newPassword');
+            // upadte team info
+            Route::post('team/info/update','SettingController@updateInfo');
+            Route::post('add/custom_fields','SettingController@addFields');
+            Route::post('update/custom_fields','SettingController@updateField');
+            Route::get('delete/field/{fid}','SettingController@deleteField');
+            Route::post('get/field/{fid}','SettingController@getField');
+            Route::post('team/prefs/update','SettingController@updatePreferences');
+
+
+
 
             // start league specific routes
                 Route::group(['prefix' => 'l/{id}/d/{ldid}'], function () {

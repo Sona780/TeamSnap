@@ -20,9 +20,24 @@ class Team extends Model
     	return $this-> belongsTo('TeamSnap\User');
     }
 
+    public function info()
+    {
+        return $this->hasOne('TeamSnap\TeamInfo');
+    }
+
+    public function prefs()
+    {
+        return $this->hasOne('TeamSnap\SitePref');
+    }
+
     public function ctgs()
     {
     	return $this -> hasMany('TeamSnap\Ctg');
+    }
+
+    public function fields()
+    {
+        return $this->hasMany('TeamSnap\CustomField');
     }
 
     public function scopeCheckIfTeamOwner($query, $uid, $id)

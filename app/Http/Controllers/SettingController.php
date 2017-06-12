@@ -17,6 +17,11 @@ use TeamSnap\LeagueAccessManage;
 use TeamSnap\LeagueManager;
 use TeamSnap\LeagueDivision;
 use TeamSnap\DivisionManager;
+use TeamSnap\AllGame;
+use TeamSnap\Country;
+use TeamSnap\TimeZone;
+use TeamSnap\CustomField;
+use TeamSnap\SitePref;
 
 use TeamSnap\Mail\Manager;
 
@@ -56,7 +61,20 @@ class SettingController extends Controller
             $composerWrapper = new UserComposer( $id, 'team' );
             $composerWrapper->compose();
 
-            return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage'));
+            $team->game_type  = AllGame::find($team->all_games_id)->game_name;
+            $team->cntry_name = Country::find($team->country)->country_name;
+
+            $games = AllGame::get();
+            $countries = Country::all();
+            $zones = TimeZone::all();
+
+            $detail = $team->info()->first();
+            $detail->zone = ($detail->time_zone_id > 0) ? TimeZone::find($detail->time_zone_id)->zone_name : '';
+
+            $fields = CustomField::all();
+            $prefs  = $team->prefs()->first();
+
+            return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage', 'games', 'countries', 'detail', 'zones', 'fields', 'prefs'));
           }
           return view('errors/404');
         }
@@ -118,7 +136,8 @@ class SettingController extends Controller
         {
             $type = $request->teamleague;
             session()->flash('success', 'The access permissions for public url has been changed successfully.');
-            session()->flash('active', 11);
+            session()->flash('active', 2);
+            session()->flash('sub', 1);
             if( $type == 'team' )
             {
                 AccessManage::PublicAccess($id)->update($request->except('_token', 'teamleague'));
@@ -134,7 +153,8 @@ class SettingController extends Controller
         {
             $type = $request->teamleague;
             session()->flash('success', 'The access permissions for managers has been changed successfully.');
-            session()->flash('active', 12);
+            session()->flash('active', 2);
+            session()->flash('sub', 2);
             if( $type == 'team' )
             {
                 AccessManage::ManagerAccess($id)->update($request->except('_token', 'teamleague'));
@@ -222,8 +242,80 @@ class SettingController extends Controller
             }
 
             session()->flash('success', $user.' has been removed from team manager post.');
-            session()->flash('active', 2);
+            session()->flash('active', 3);
             return Redirect::back();
         }
     // end delete team manager
+
+        public function updateInfo(Request $request)
+        {
+          $tid = $request->id;
+          $team = Team::find($tid);
+          $team->update($request->only('teamname', 'country', 'zip', 'all_games_id'));
+          $team->info()->update($request->except('_token', 'country', 'zip', 'teamname', 'all_games_id'));
+          session()->flash('success', 'Team details updated successfully.');
+          session()->flash('active', 1);
+          return redirect()->back();
+        }
+
+        public function addFields(Request $request)
+        {
+          CustomField::create($request->all());
+          session()->flash('success', 'Field successfully added.');
+          session()->flash('active', 4);
+          return redirect()->back();
+        }
+
+        public function getField($fid)
+        {
+          return CustomField::find($fid);
+        }
+
+        public function updateField(Request $request)
+        {
+          $id = $request->id;
+          CustomField::find($id)->update($request->except('id', '_token'));
+          session()->flash('success', 'Field successfully updated.');
+          session()->flash('active', 4);
+          return redirect()->back();
+        }
+
+        public function deleteField($fid)
+        {
+          CustomField::find($fid)->delete();
+          session()->flash('success', 'Field successfully removed.');
+          session()->flash('active', 4);
+          return redirect()->back();
+        }
+
+        public function updatePreferences(Request $request)
+        {
+          $team = Team::find($request->id);
+          if($request->game_notify == '')
+            $request['game_notify'] = 0;
+          if($request->event_notify == '')
+            $request['event_notify'] = 0;
+          if($request->availability == '')
+            $request['availability'] = 0;
+          if($request->item_tracking_privacy == '')
+            $request['item_tracking_privacy'] = 0;
+          if($request->non_player_item_tracking == '')
+            $request['non_player_item_tracking'] = 0;
+          if($request->payment_tracking_privacy == '')
+            $request['payment_tracking_privacy'] = 0;
+          if($request->non_player_payment_tracking == '')
+            $request['non_player_payment_tracking'] = 0;
+          if($request->date_format == '')
+            $request['date_format'] = 0;
+          if($request->assignment_tracking == '')
+            $request['assignment_tracking'] = 0;
+          if($request->score_tracking == '')
+            $request['score_tracking'] = 0;
+
+          $team->prefs()->update($request->except('id', '_token'));
+          $team->update(['team_color_first' => $request->color_scheme]);
+          session()->flash('success', 'Site preferences updated.');
+          session()->flash('active', 5);
+          return redirect()->back();
+        }
 }

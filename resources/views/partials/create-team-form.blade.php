@@ -34,9 +34,7 @@
       <div class="input-group">
         <span class="input-group-addon"><i class="zmdi zmdi-pin-drop"></i></span>
         <div class="fg-line">
-          {{ Form::select('country', array(
-            '0' => 'United States', '1' => 'Canada', '2' => 'India', '3' => 'Pakistan', '4' => 'China', '5' => 'South Africa'
-          ), null, ['class' => 'selectpicker', 'data-live-search' => 'true']) }}
+          {{ Form::select('country', $countries, null, ['class' => 'selectpicker', 'data-live-search' => 'true']) }}
         </div>
       </div>
     </div>

@@ -15,6 +15,7 @@ use TeamSnap\LeagueLocation;
 use TeamSnap\LeagueAccessManage;
 use TeamSnap\DivisionManager;
 use TeamSnap\AccessManage;
+use TeamSnap\SitePref;
 
 use TeamSnap\Mail\LeagueInviteMail;
 use Mail;
@@ -118,6 +119,7 @@ class LeagueController extends Controller
               TeamInfo::create([ 'team_id' => $t->id ]);
               AccessManage::newTeam($t->id, 0, 0);
               AccessManage::newTeam($t->id, 1, 1);
+              SitePref::create(['team_id' => $t->id, 'color_scheme' => '#03A9F4']);
             }
             $request['team_id'] = $t->id;
         	LeagueTeam::create($request->all());
