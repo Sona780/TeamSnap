@@ -375,9 +375,12 @@
                           <select data-size="5" class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey"  name="color_scheme" titl="Select color for theme">
                             <option value="#03A9F4">Default</option>
                             <option value="blue"  @if($prefs->color_scheme == 'blue') selected @endif>Blue</option>
-                            <option value="cyan"  @if($prefs->color_scheme == 'cyan') selected @endif>Cyan</option>
-                            <option value="green"  @if($prefs->color_scheme == 'green') selected @endif>Green</option>
-                            <option value="red"  @if($prefs->color_scheme == 'red') selected @endif>Red</option>
+                            <option value="#9C27B0"  @if($prefs->color_scheme == '#9C27B0') selected @endif>Purple</option>
+                            <option value="#4CAF50"  @if($prefs->color_scheme == '#4CAF50') selected @endif>Green</option>
+                            <option value="#F44336"  @if($prefs->color_scheme == '#F44336') selected @endif>Red</option>
+                            <option value="#3F51B5"  @if($prefs->color_scheme == '#3F51B5') selected @endif>Indigo</option>
+                            <option value="#FF5722"  @if($prefs->color_scheme == '#FF5722') selected @endif>Orange</option>
+                            <option value="#9E9E9E"  @if($prefs->color_scheme == '#9E9E9E') selected @endif>Gray</option>
                           </select>
                         </span>
                       </td>
