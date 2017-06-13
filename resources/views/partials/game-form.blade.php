@@ -3,7 +3,7 @@
 				<tr>
 					<td class="first-col"><label>Date:</label></td>
 					<td class="padd-left dtp-container fg-line">
-						<input type="text" class="border-height" name="date" id="f-ip" style="width: 90px">
+						<input type="text" class="border-height" name="date" id="f-ip" style="width: 170px">
 						<strong id="error-date" class="strong-error"></strong>
 					</td>
 				</tr>
@@ -22,7 +22,7 @@
 				<tr>
 					<td class="first-col"><label>Opponent:</label></td>
 					<td class="padd-left">
-						<select name="opponent" id="opponent" class="border-height" style="width:150px">
+						<select name="opponent" id="opponent" class="border-height" style="width:170px">
 							<option value=""></option>
 							<option value="0">New Opponent</option>
 							@if( $opp->count() > 0 )
@@ -73,7 +73,7 @@
 				<tr>
 					<td class="first-col"><label>Result:</label></td>
 					<td class="padd-left">
-						<input type="text" class="border-height" name="result" id="f-ip">
+					  <input type="text" class="border-height" name="result" id="f-ip" style="width: 170px">
 					</td>
 				</tr>
 
@@ -81,7 +81,7 @@
 				<tr>
 					<td class="first-col"><label>Loaction:</label></td>
 					<td class="padd-left">
-						<select name="location" id="location" class="border-height" style="width:150px">
+						<select name="location" id="location" class="border-height" style="width:170px">
 							<option value=""></option>
 							<option value="0">New Location</option>
 							@if( $loc->count() > 0 )
@@ -145,7 +145,7 @@
 				<tr id="add-info">
 					<td class="first-col"><label>Home or Away::</label></td>
 					<td class="padd-left">
-						<select name="place" id="place" class="border-height" style="width: 80px">
+						<select name="place" id="place" class="border-height" style="width: 170px">
 							<option value=""></option>
 							<option value="home">Home</option>
 							<option value="away">Away</option>
@@ -155,7 +155,7 @@
 				<tr id="add-info">
 					<td class="first-col"><label>Uniform:</label></td>
 					<td class="padd-left">
-						<input type="text" name="uniform" id="f-ip" class="border-height">
+						<input type="text" name="uniform" id="f-ip" class="border-height" style="width: 170px">
 					</td>
 				</tr>
 				<tr id="add-info">
@@ -166,6 +166,39 @@
 						<strong id="error-duration" class="strong-error"></strong>
 					</td>
 				</tr>
+				@foreach($fields as $field)
+				  <tr id="add-info">
+					<td class="first-col"><label>{{$field->field_name}}:</label></td>
+					<td class="padd-left">
+					  @if( $field->field_type == 'text' )
+					    <input type="text" class="border-height" name="d_hour" id="f-ip" style="width: 170px">
+					  @elseif( $field->field_type == 'checkbox' )
+					  	@foreach( $field->field_options as $option )
+						  <label class="checkbox checkbox-inline m-r-20">
+	                        <input type="checkbox" value="{{$option}}" name="{{$field->id}}">
+	                        <i class="input-helper"></i>
+	                      	{{$option}}
+	                      </label>
+                        @endforeach
+					  @elseif( $field->field_type == 'radio' )
+					  	@foreach( $field->field_options as $option )
+						  <label class="radio radio-inline m-r-5">
+	                        <input type="radio" value="{{$option}}" name="{{$field->id}}">
+	                        <i class="input-helper"></i>
+	                      	{{$option}}
+	                      </label>
+                        @endforeach
+                      @else
+                      	<select name="{{$field->id}}" class="border-height" style="width:170px">
+                      	  <option value=""></option>
+                      	  @foreach( $field->field_options as $option )
+                            <option value="{{$option}}">{{$option}}</option>
+                          @endforeach
+                        </select>
+					  @endif
+					</td>
+				  </tr>
+				@endforeach
 			</table>
 <div style="align: center">
 	<button class="btn btn-warning adjust" type="button" id="cancel">Cancel</button>

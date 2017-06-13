@@ -372,7 +372,7 @@
                       <td>
                         <span class="pref-data">{{$prefs->color_scheme}}</span>
                         <span class="pref-input">
-                          <select data-size="5" class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey"  name="color_scheme" titl="Select color for theme">
+                          <select data-size="5" class="selectpicker show-menu-arrow" data-live-search="true" data-style="grey"  name="color_scheme" title="Select color for theme">
                             <option value="#03A9F4">Default</option>
                             <option value="blue"  @if($prefs->color_scheme == 'blue') selected @endif>Blue</option>
                             <option value="#9C27B0"  @if($prefs->color_scheme == '#9C27B0') selected @endif>Purple</option>

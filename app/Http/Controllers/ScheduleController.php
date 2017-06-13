@@ -20,6 +20,7 @@ use TeamSnap\OpponentDetail;
 use TeamSnap\LocationDetail;
 use TeamSnap\Availability;
 use TeamSnap\AccessManage;
+use TeamSnap\CustomField;
 
 use Auth;
 use Carbon\Carbon;
@@ -101,9 +102,13 @@ class ScheduleController extends Controller
             //fget all the locations of events for the team
             $event_loc = LocationDetail::getLocations($id, 1);     //for event type = 1
 
-            $team  = Team::find($id);
+            $team   = Team::find($id);
+            $fields = $team->fields()->get();
+            foreach ($fields as $field)
+              $field->field_options = explode(",", $field->field_options);
+            //return $fields;
 
-            return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc', 'team', 'user'));
+            return view('pages.team-schedule', compact('games', 'events', 'id', 'opp', 'game_loc', 'event_loc', 'team', 'user', 'fields'));
         }
         else if( $user->manager_access == 0 && $member != '' )
         {
