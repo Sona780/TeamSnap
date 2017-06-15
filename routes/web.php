@@ -13,9 +13,9 @@
         Route::auth();
 
         Route::get('/', function() {
-            return redirect('login');
+            return view('pages.landing');
         });
-
+        
         // start password store for a registered user
             Route::get('register/{token}', function($token) {
                 $mail = Crypt::decrypt($token);
