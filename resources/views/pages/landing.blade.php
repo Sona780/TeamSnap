@@ -25,7 +25,7 @@
                 <div class="collapse navbar-collapse" id="myNavbar">
                   <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{url('/login')}}">Login</a></li>
-                    <li><a href="{{url('/signup')}}">Sign Up</a></li>
+                    <li><a href="{{url('/register')}}">Sign Up</a></li>
                   </ul>
                 </div>
           </div>
@@ -35,7 +35,7 @@
          <div class="container top-banner-container">
              <div class="row top-banner-content">
                 <div class="col-sm-6">
-                   <h1 class="roboto-slab">Sports Websites Made Easy</h1>
+                   <h1 class="roboto-slab">Team Management simplified</h1>
                    
                         <div id="top-banner-discription" class="roboto-slab">
                             <p class="top-banner-text">Org4Teams is a web and phone based team management platform
@@ -62,7 +62,7 @@
       
      <section class="features">
         <div class="container">
-             <h2 class="text-center p-t-20 roboto-slab feature_heading">A Simple App With Powerful Team Management Features Try It Free, and Discover How Much Time You'll Save Each Week</h2>
+             <h2 class="text-center p-t-20 roboto-slab feature_heading">A platform for the teams to collaborate and work together to achieve their goals. Manage your teams from any place at any time.</h2>
              <div class="row feature_line_1">
                     <div class="col-sm-4">
                        <span class="glyphicon glyphicon-time gl_icon"></span>
@@ -203,9 +203,9 @@
                        Suite L211 Vancouver British 
                        Columbia Canada V6B 2L3
                     </address>
-                    <a href="https://www.facebook.com/bootsnipp"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
-                    <a href="https://twitter.com/bootsnipp"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
-                    <a href="https://plus.google.com/+Bootsnipp-page"><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a>
+                    <a href=""><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
+                    <a href=""><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
+                    <a href=""><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a>
                 </div>
     
 
