@@ -157,19 +157,33 @@
                             <ol class="carousel-indicators">
                                 <li data-target="#fade-quote-carousel" data-slide-to="0" class="active"></li>
                                 <li data-target="#fade-quote-carousel" data-slide-to="1"></li>
+                                <li data-target="#fade-quote-carousel" data-slide-to="2"></li>
+                                <li data-target="#fade-quote-carousel" data-slide-to="3"></li>
                             </ol>
                             <!-- Carousel items -->
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <div class="profile-circle"><img class="img-responsive " src="https://s3.amazonaws.com/uifaces/faces/twitter/mantia/128.jpg" alt=""></div>
+                                    <div class="profile-circle"><img class="img-responsive " src="{{url('img/ford.jpg')}}" alt=""></div>
                                     <blockquote class="lato">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, veritatis nulla eum laudantium totam tempore optio doloremque laboriosam quas, quos eaque molestias odio aut eius animi. Impedit temporibus nisi accusamus.</p>
+                                        <p>Coming together is a beginning. Keeping together is progress. Working together is success.<br>-Henry Ford</p>
                                     </blockquote>
                                 </div>
                                 <div class="item">
-                                    <div class="profile-circle"><img class="img-responsive " src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt=""></div>
+                                    <div class="profile-circle"><img class="img-responsive " src="{{url('img/carty.png')}}" alt=""></div>
                                     <blockquote class="lato">
-                                        <p>Lorem sf sdfsd fipsum dolor sit amet, consectetur adipisicing elit. Quidem, veritatis nulla eum laudantium totam tempore optio doloremque laboriosam quas, quos eaque molestias odio aut eius animi. Impedit temporibus nisi accusamus.</p>
+                                        <p>The nice thing about teamwork is that you always have others on your side.<br>-Margaret Carty</p>
+                                    </blockquote>
+                                </div>
+                                <div class="item">
+                                    <div class="profile-circle"><img class="img-responsive " src="{{url('img/vince.jpg')}}" alt=""></div>
+                                    <blockquote class="lato">
+                                        <p>Individual commitment to a group effort – that’s what makes a team work, a company work, a society work, a civilization work.<br>-Vince Lombardi</p>
+                                    </blockquote>
+                                </div>
+                                <div class="item">
+                                    <div class="profile-circle"><img class="img-responsive " src="{{url('img/ted.jpg')}}" alt=""></div>
+                                    <blockquote class="lato">
+                                        <p>Good teams incorporate teamwork into their culture, creating the building blocks for success.<br>-Ted Sundquist</p>
                                     </blockquote>
                                 </div>
                             </div>
