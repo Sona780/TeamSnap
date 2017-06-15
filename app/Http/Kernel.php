@@ -52,6 +52,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \TeamSnap\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'common' => \TeamSnap\Http\Middleware\common::class,
+        'killswitch' => \TeamSnap\Http\Middleware\KillSwitch::class,
     ];
 }

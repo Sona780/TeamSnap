@@ -9,7 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-    Route::group(['middlewareGroups' => ['web']], function () {
+    Route::group(['middleware' => ['web', 'killswitch']], function () {
         Route::auth();
 
         Route::get('/', function() {
@@ -43,15 +43,15 @@
             // validae current password & change password
             Route::post('change/password','SettingController@newPassword');
             // upadte team info
-            Route::post('team/info/update','SettingController@updateInfo');
-            Route::post('add/custom_fields','SettingController@addFields');
-            Route::post('update/custom_fields','SettingController@updateField');
-            Route::get('delete/field/{fid}','SettingController@deleteField');
-            Route::post('get/field/{fid}','SettingController@getField');
-            Route::post('team/prefs/update','SettingController@updatePreferences');
 
-
-
+            // start SettingController route wiyhout id
+                Route::post('team/info/update','SettingController@updateInfo');
+                Route::post('add/custom_fields','SettingController@addFields');
+                Route::post('update/custom_fields','SettingController@updateField');
+                Route::get('delete/field/{fid}','SettingController@deleteField');
+                Route::post('get/field/{fid}','SettingController@getField');
+                Route::post('team/prefs/update','SettingController@updatePreferences');
+            // end SettingController route wiyhout id
 
             // start league specific routes
                 Route::group(['prefix' => 'l/{id}/d/{ldid}'], function () {
