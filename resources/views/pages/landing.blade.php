@@ -32,23 +32,29 @@
       </nav>
         
       <div class="row top-banner">
-         <div class="container">
-             <div class="col-sm-12 top-banner-content">
+         <div class="container top-banner-container">
+             <div class="row top-banner-content">
                 <div class="col-sm-6">
                    <h1 class="roboto-slab">Sports Websites Made Easy</h1>
                    
                         <div id="top-banner-discription" class="roboto-slab">
-                            <p>Org4Teams is a web and phone based team management platform
+                            <p class="top-banner-text">Org4Teams is a web and phone based team management platform
                             where teams stay organized and communicate better.
                             Org4Teams keeps everyone updated
                             regarding team schedule and activities.</p>
                         </div>
+                        <button class="btn btn-danger top-banner-bttn">Take a Tour</button>
                        
-                    <a href="{{url('/login')}}"> <button class="btn btn-warning top-banner-btn">Take a Tour</button></a>
+                    
                 </div> 
                 <div class="col-sm-6">
                   <img src="{{url('/img/landing/1.png')}}" class="img-responsive">
                 </div>            
+             </div>
+             <div class="row">
+               <div class="col-sm-12">
+                
+               </div> 
              </div>
          </div>
       </div>
@@ -63,7 +69,7 @@
                        <h3>
                            <a href="#">Schedule</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content">Schedule matches or events on the go.</p>
                        </div>
                     </div>
@@ -72,7 +78,7 @@
                        <h3>
                            <a href="#">Members</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content">Add members either player or non player to the team.</p>
                        </div>
                     </div>
@@ -81,7 +87,7 @@
                        <h3>
                            <a href="#">Records</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content">Track the performance of both team and players.</p>
                        </div>
                     </div>
@@ -93,7 +99,7 @@
                        <h3>
                            <a href="#">Media</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content">Share photos, videos and files with the team.</p>
                        </div>
                     </div>
@@ -102,7 +108,7 @@
                        <h3>
                            <a href="#">Availability</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content"> Set and check availability of team members.</p>
                        </div>
                     </div>
@@ -111,7 +117,7 @@
                        <h3>
                            <a href="#">Messages</a>
                        </h3>
-                       <div class="col-sm-10 co-sm-offset-1">
+                       <div class="">
                          <p class="text-center lato features_content">An easy way to interact with team members.</p>
                        </div>
                     </div>
