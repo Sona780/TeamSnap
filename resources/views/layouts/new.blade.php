@@ -39,179 +39,179 @@
 
 
          <style type="text/css">.ctg
-    {
-      background-color:#4E4C4D;
-      margin-top: -1.5em;
-      min-height: 4em;
+                {
+                  background-color:#4E4C4D;
+                  margin-top: -1.5em;
+                  min-height: 4em;
 
-    }
-    .ctg > li> a
-    {
-      color: #fff;
-    }
-     .ctg > li> a:hover
-    {
-      color: #FFF;
-    }
-     .ctg > li.active > a
-    {
-      color: #FFFF00;
-    }
-    .ctg > li > a:after
-     {
-     background: #fff !important;
-     height: 0px !important;
-    }
-
-
-    .ctg
-    {
-      background-color:#4E4C4D;
-      margin-top: -1.5em;
-      min-height: 4em;
-
-    }
-    .ctg > li> a
-    {
-      color: #fff;
-    }
-     .ctg > li> a:hover
-    {
-      color: #FFF;
-    }
-     .ctg > li.active > a
-    {
-      color: #FFFF00;
-    }
-    .ctg > li > a:after
-     {
-     background: #fff !important;
-     height: 0px !important;
-    }
-
-            a.disabled {
-                text-decoration: none;
-                color: black;
-                cursor: default;
-            }
-
-            #example2-pagination {
-                display: none;
-            }
-
-            .li-class {
-                padding: 0;
-            }
-
-            .li-class > li {
-                list-style: none;
-            }
-
-            .fc-time {
-                margin-right: 4px !important;
-            }
-            @media screen and (min-width: 720px) {
-                #calendar, #loading {
-                    margin-left: 10%;
                 }
-            }
-
-
-            @media (max-width: 768px) {
-              .center-xs {
-                    text-align: center
+                .ctg > li> a
+                {
+                  color: #fff;
                 }
-            }
+                 .ctg > li> a:hover
+                {
+                  color: #FFF;
+                }
+                 .ctg > li.active > a
+                {
+                  color: #FFFF00;
+                }
+                .ctg > li > a:after
+                 {
+                 background: #fff !important;
+                 height: 0px !important;
+                }
 
-            .fc-center {
-                margin-top: 0px !important;
-            }
-            .fc-toolbar:before {
-                height: 60px !important;
-            }
-            .fc-toolbar {
-                height: 60px !important;
-            }
-            .mem-tab {
-              font-size: 13px
-            }
-             .size-new {
-                padding: 0px 44px;
-             }
-            .size-exists {
-                padding: 0px 10px;
-             }
-            .dtr-title {
-                width: 150px;
-            }
-            .icon-style {
-              width: 40px;
-              padding-left: 10px;
-            }
-            .border-height {
-                border-radius: 5px;
-                height: 30px;
-            }
-            .b-design {
-                border-radius: 8px;
-                background: white;
-                font-size: 12px;
-                width: 80%;
-            }
-            .padd-left {
-                padding: 0px 10px;
-            }
-            .bottom-bord {
-                border-bottom: 1px solid grey;
-            }
-            .top-bord {
-                border-top: 1px solid grey;
-            }
-            .first-col {
-                width: 30%;
-            }
-            .adjust {
-                margin-top: 20px;
-            }
-            .dropdown-basic-demo {
-                display: inline-block;
-                margin: 0 15px 20px 0;
-            }
-            .dropdown-basic-demo .dropdown-menu {
-                display: block;
-                position: relative;
-                transform: scale(1);
-                opacity: 1;
-                filter: alpha(opacity=1);
-                z-index: 0;
-            }
-            .dropdown-btn-demo .dropdown, .dropdown-btn-demo .btn-group, .btn-demo .btn {
-                display: inline-block;
-                margin: 0 5px 7px 0;
-            }
-            .modal-preview-demo .modal {
-                position: relative;
-                display: block;
-                z-index: 0;
-                background: rgba(0,0,0,0.1);
-            }
-            .margin-bottom > *{
-                margin-bottom: 20px;
-            }
-            .popover-demo .popover {
-                position: relative;
-                display: inline-block;
-                opacity: 1;
-                margin: 0 10px 30px;
-                z-index: 0;
-            }
-            .preloader {
-                margin-right: 30px;
-            }
-            .strong-error {
-                color: red;
-                font-size: 12px
-            }
+
+                .ctg
+                {
+                  background-color:#4E4C4D;
+                  margin-top: -1.5em;
+                  min-height: 4em;
+
+                }
+                .ctg > li> a
+                {
+                  color: #fff;
+                }
+                 .ctg > li> a:hover
+                {
+                  color: #FFF;
+                }
+                 .ctg > li.active > a
+                {
+                  color: #FFFF00;
+                }
+                .ctg > li > a:after
+                {
+                 background: #fff !important;
+                 height: 0px !important;
+                }
+
+                a.disabled {
+                    text-decoration: none;
+                    color: black;
+                    cursor: default;
+                }
+
+                #example2-pagination {
+                    display: none;
+                }
+
+                .li-class {
+                    padding: 0;
+                }
+
+                .li-class > li {
+                    list-style: none;
+                }
+
+                .fc-time {
+                    margin-right: 4px !important;
+                }
+                @media screen and (min-width: 720px) {
+                    #calendar, #loading {
+                        margin-left: 10%;
+                    }
+                }
+
+
+                @media (max-width: 768px) {
+                  .center-xs {
+                        text-align: center
+                    }
+                }
+
+                .fc-center {
+                    margin-top: 0px !important;
+                }
+                .fc-toolbar:before {
+                    height: 60px !important;
+                }
+                .fc-toolbar {
+                    height: 60px !important;
+                }
+                .mem-tab {
+                  font-size: 13px
+                }
+                 .size-new {
+                    padding: 0px 44px;
+                 }
+                .size-exists {
+                    padding: 0px 10px;
+                 }
+                .dtr-title {
+                    width: 150px;
+                }
+                .icon-style {
+                  width: 40px;
+                  padding-left: 10px;
+                }
+                .border-height {
+                    border-radius: 5px;
+                    height: 30px;
+                }
+                .b-design {
+                    border-radius: 8px;
+                    background: white;
+                    font-size: 12px;
+                    width: 80%;
+                }
+                .padd-left {
+                    padding: 0px 10px;
+                }
+                .bottom-bord {
+                    border-bottom: 1px solid grey;
+                }
+                .top-bord {
+                    border-top: 1px solid grey;
+                }
+                .first-col {
+                    width: 30%;
+                }
+                .adjust {
+                    margin-top: 20px;
+                }
+                .dropdown-basic-demo {
+                    display: inline-block;
+                    margin: 0 15px 20px 0;
+                }
+                .dropdown-basic-demo .dropdown-menu {
+                    display: block;
+                    position: relative;
+                    transform: scale(1);
+                    opacity: 1;
+                    filter: alpha(opacity=1);
+                    z-index: 0;
+                }
+                .dropdown-btn-demo .dropdown, .dropdown-btn-demo .btn-group, .btn-demo .btn {
+                    display: inline-block;
+                    margin: 0 5px 7px 0;
+                }
+                .modal-preview-demo .modal {
+                    position: relative;
+                    display: block;
+                    z-index: 0;
+                    background: rgba(0,0,0,0.1);
+                }
+                .margin-bottom > *{
+                    margin-bottom: 20px;
+                }
+                .popover-demo .popover {
+                    position: relative;
+                    display: inline-block;
+                    opacity: 1;
+                    margin: 0 10px 30px;
+                    z-index: 0;
+                }
+                .preloader {
+                    margin-right: 30px;
+                }
+                .strong-error {
+                    color: red;
+                    font-size: 12px
+                }
          </style>
 
         @yield('header')
