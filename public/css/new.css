@@ -61,7 +61,7 @@
             background-position: center;
             background-size: cover;
             color: #fff;
-            height: 100vh;
+            /*height: 100vh;*/
 
         }
         .top-banner-content 
@@ -123,6 +123,7 @@
         {
             margin-top: 3em;
             width: 700px;
+            margin-bottom: 5em;
         }
         .p-t-20
         {
