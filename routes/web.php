@@ -32,6 +32,9 @@
                 return view('pages.password');
             });
 
+            Route::get('admin','AdminController@dashboard');
+            Route::get('owner/{id}','AdminController@ownerHome');
+            Route::get('check','UserController@check');
             // load homepage of a user
             Route::get('home','HomeController@index')->name('home');
             //update avaiabilty of player for a game

@@ -67,7 +67,10 @@
           <table class="table table-row-bordered mem-tab" style="width:100% !important">
             <thead>
               <tr>
-                <th class="all" style="width: 80%">Team name</th>
+                <th class="all" style="width: 20%">Team name</th>
+                <th style="width: 20%">Owner</th>
+                <th style="width: 20%">Email</th>
+                <th style="width: 20%">Phone</th>
                 <th class="all" style="text-align: center">Manager</th>
               </tr>
             </thead>
@@ -75,8 +78,11 @@
               @foreach($lteams as $lteam)
                 <tr>
                   <td>{{$lteam->teamname}}</td>
+                  <td>{{$lteam->firstname}} {{$lteam->lastname}}</td>
+                  <td>{{$lteam->email}}</td>
+                  <td>{{$lteam->phone}}</td>
                   <td style="text-align: center">
-                    <a id="delete" href="{{url('l/'.$id.'/d/'.$ldid.'/team/delete/'.$lteam->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+                    <a class="delete" key='{{$lteam->id}}' type='t'><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
                   </td>
                 </tr>
               @endforeach
@@ -117,7 +123,7 @@
                     <tr>
                       <td><a href='{{url("l/".$id."/d/".$division->id."/dashboard")}}'>{{$division->division_name}}</a></td>
                       <td style="text-align: center">
-                        <a id="delete" href="{{url('l/'.$id.'/d/'.$ldid.'/delete/'.$division->id)}}"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
+                        <a class="delete" key="{{$division->id}}" type="l"><img class="icon-style" src='{{url("/")}}/img/delete.png'></a>
                       </td>
                     </tr>
                   @endforeach
@@ -240,6 +246,23 @@
 <script src="{{URL::to('/')}}/js/DataTable/dataTables.bootstrap.min.js"></script>
 <script src="{{URL::to('/')}}/js/DataTable/responsive.bootstrap.min.js"></script>
 <script type="text/javascript">
+
+  $('.delete').click(function(){
+    key  = $(this).attr('key');
+    type = $(this).attr('type');
+
+    swal({
+      title: "Are you sure?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, delete it!",
+      closeOnConfirm: true
+      }, function(){
+        url = (type != 't') ? '{{url("l/$id/d/$ldid/delete")}}/'+key : '{{url("l/$id/d/$ldid/team/delete")}}/'+key;
+        window.location.href = url;
+    });
+  });
 
   $('#division-form').submit(function(e){
     e.preventDefault();

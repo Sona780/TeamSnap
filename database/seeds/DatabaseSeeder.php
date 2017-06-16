@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameSeeder::class);
         $this->call(TimeZoneSeeder::class);
         $this->call(CountrySeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }

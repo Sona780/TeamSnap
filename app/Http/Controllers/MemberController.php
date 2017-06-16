@@ -25,7 +25,7 @@ class MemberController extends Controller
     public function index($id)
     {
       $team   = Team::find($id);
-      $uid    = Auth::user()->id;
+      $uid    = session('id') ? session('id') : Auth::user()->id;
       $user   = UserDetail::where('users_id', $uid)->first();
       $ch     = TeamUser::CheckMembership($id, $uid)->first();
       $access = AccessManage::getDetail($id);

@@ -12,6 +12,17 @@ use Image;
 
 class UserController extends Controller
 {
+
+    public function check()
+    {
+      $uid  = Auth::user()->id;
+      $user = UserDetail::where('users_id', $uid)->first();
+
+      if( $user->manager_access < 0 )
+        return redirect('admin');
+      return redirect('home');
+    }
+
   // start show user profile
     public function show()
     {

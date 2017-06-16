@@ -48,7 +48,7 @@ class DashboardController extends Controller
       if( $user->manager_access == 2 )
         $manager = TeamUser::CheckMembership($id, $uid)->first();
 
-      if( $owner != '' || $manager != '' )
+      if( $user->manager_access == -1 || $owner != '' || $manager != '' )
       {
         $teamname = Team::find($id)->teamname;
         $total    = [];
@@ -144,7 +144,7 @@ class DashboardController extends Controller
     public function leagueDashboard($id, $ldid)
     {
       $user = Auth::user();
-      $uid  = $user->id;
+      $uid  = session('id') ? session('id') : Auth::user()->id;
       $ch   = League::find($id)->user_id;
       $man  = DivisionManager::check($uid, $ldid);
 

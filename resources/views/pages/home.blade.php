@@ -234,7 +234,11 @@
               break;
     }
 
-    notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as '+type);
+    @if( $user->users_id == $aid )
+      notify('top', 'right', 'inverse', 'Welcome <B>{{$user->firstname}} {{$user->lastname}}</B>. You are logged in as '+type);
+    @else
+      notify('top', 'right', 'inverse', 'Owner : <B>{{$user->firstname}} {{$user->lastname}}</B>');
+    @endif
   });
 
   $('.row').on('click', '#team_tab', function(){

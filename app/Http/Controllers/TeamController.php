@@ -65,7 +65,7 @@ class TeamController extends Controller
           }
 
           $request['team_logo'] = $path;
-          $request['team_owner_id'] = Auth::user()->id;
+          $request['team_owner_id'] = session('id') ? session('id') : Auth::user()->id;
 
           $team = Team::where('teamname', $name)->first();
 
@@ -95,7 +95,7 @@ class TeamController extends Controller
         public function edit($tid)
         {
             $team  = Team::find($tid);
-            $uid   = Auth::user()->id;
+            $uid   = session('id') ? session('id') : Auth::user()->id;
             $user  = UserDetail::where('users_id', $uid)->first()->manager_access;
             $ch    = TeamUser::where('teams_id', $tid)->where('users_id', $uid)->get();
 
@@ -154,10 +154,10 @@ class TeamController extends Controller
     // start get all teams of current user
         public function getAll()
         {
-          $uid     = Auth::user()->id;
+          $uid     = session('id') ? session('id') : Auth::user()->id;
           $manager = UserDetail::where('users_id', $uid)->first()->manager_access;
           if( $manager == 1 )
-            return Team::where('team_owner_id', Auth::user()->id)->get();
+            return Team::where('team_owner_id', $uid)->get();
           else
             return TeamUser::getUserTeams($uid);
         }

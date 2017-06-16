@@ -24,7 +24,7 @@ class AvailabilityController extends Controller
 {
     public function show($id)
     {
-        $uid    = Auth::user()->id;
+        $uid    = session('id') ? session('id') : Auth::user()->id;
         $user   = UserDetail::where('users_id', $uid)->first();
         $owner  = Team::find($id)->team_owner_id;
         $access = AccessManage::getDetail($id);

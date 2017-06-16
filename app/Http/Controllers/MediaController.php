@@ -30,7 +30,7 @@ class MediaController extends Controller
   // load media page
     public function index($id)
     {
-      $uid        = Auth::user()->id;
+      $uid        = session('id') ? session('id') : Auth::user()->id;
       $mgr_access = UserDetail::where('users_id', $uid)->first()->manager_access;
       $member     = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
       $manager    = Team::CheckIfTeamOwner($uid, $id)->first();
@@ -69,7 +69,7 @@ class MediaController extends Controller
     public function leagueMedia($id, $ldid)
     {
       $owner = League::find($id)->user_id;
-      $uid   = Auth::user()->id;
+      $uid   = session('id') ? session('id') : Auth::user()->id;
       $dman  = DivisionManager::check($uid, $ldid);
 
       if( $owner != $uid && $dman == 0 )

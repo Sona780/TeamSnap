@@ -198,11 +198,12 @@
          <div class="footer-block">
                 <div class="text-center center-block">
                     <h3 class="roboto-slab m-t-10">Org4Leagues</h3>
-                    <address class="lato">
+                    <!--<address class="lato">
                        560 Beatty St 
                        Suite L211 Vancouver British 
                        Columbia Canada V6B 2L3
-                    </address>
+                    </address>-->
+
                     <a href=""><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
                     <a href=""><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
                     <a href=""><i id="social-gp" class="fa fa-google-plus-square fa-3x social"></i></a>
@@ -211,13 +212,11 @@
 
          </div>
      </section>
-      
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script >
+<script>
   $(document).ready(function(){       
       $(function () {
       $(document).scroll(function () {

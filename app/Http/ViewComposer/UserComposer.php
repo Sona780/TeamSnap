@@ -21,7 +21,7 @@ class UserComposer
     {
       if( !Auth::guest() )
       {
-        $uid = Auth::user()->id;
+        $uid = session('id') ? session('id') : Auth::user()->id;
         $this->type = $ch;
 
         if( $ch == 'team' )

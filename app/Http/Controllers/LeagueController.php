@@ -30,7 +30,7 @@ class LeagueController extends Controller
     // start create new league
         public function create(Request $request)
         {
-        	$request['user_id'] = Auth::user()->id;
+        	$request['user_id'] = session('id') ? session('id') : Auth::user()->id;
         	$league = League::create($request->all());
             LeagueDivision::newLeague($request->league_name, $league->id);
             LeagueAccessManage::newLeague($league->id);
@@ -71,7 +71,7 @@ class LeagueController extends Controller
         public function showDetail($id, $ldid)
         {
             $user = Auth::user();
-            $uid  = $user->id;
+            $uid  = session('id') ? session('id') : Auth::user()->id;
             $ch   = League::find($id)->user_id;
             $man  = DivisionManager::check($uid, $ldid);
 

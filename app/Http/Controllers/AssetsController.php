@@ -23,7 +23,7 @@ class AssetsController extends Controller
         public function show($id)
         {
 
-            $uid     = Auth::user()->id;
+            $uid     = session('id') ? session('id') : Auth::user()->id;
             $user    = UserDetail::where('users_id', $uid)->first();
             $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
             $owner   = Team::CheckIfTeamOwner($uid, $id)->first();

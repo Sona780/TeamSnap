@@ -15,7 +15,9 @@ class LeagueTeam extends Model
     {
     	return static::where('league_division_id', $ldid)
     				 ->leftJoin('teams', 'teams.id', 'league_teams.team_id')
-    				 ->select('league_teams.id', 'league_teams.team_id', 'teams.teamname')
+                     ->leftJoin('users', 'teams.team_owner_id', 'users.id')
+                     ->leftJoin('user_details', 'user_details.users_id', 'users.id')
+    				 ->select('league_teams.id', 'league_teams.team_id', 'teams.teamname', 'users.email', 'user_details.firstname', 'user_details.lastname', 'user_details.mobile')
     				 ->get();
     }
 

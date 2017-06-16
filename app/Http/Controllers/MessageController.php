@@ -23,7 +23,7 @@ class MessageController extends Controller
     // start load all inbox & out box email
     public function show($id)
     {
-      $uid    = Auth::user()->id;
+      $uid    = session('id') ? session('id') : Auth::user()->id;
       $user   = UserDetail::where('users_id', $uid)->first();
       $avatar = UserDetail::getUserAvatar($uid);
       $owner  = Team::find($id)->team_owner_id;

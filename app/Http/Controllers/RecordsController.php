@@ -67,7 +67,7 @@ class RecordsController extends Controller
     public function show($id)
     {
       $team    = Team::find($id);
-      $uid     = Auth::user()->id;
+      $uid     = session('id') ? session('id') : Auth::user()->id;
       $user    = UserDetail::where('users_id', $uid)->first();
 
       $composerWrapper = new UserComposer( $id, 'team' );

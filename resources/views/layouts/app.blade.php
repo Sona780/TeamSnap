@@ -107,9 +107,16 @@
                                 {{Auth::user()->name}}
                             </a>
                             <ul class="dropdown-menu dm-icon pull-right">
-                                <li>
-                                    <a href="{{ URL::to('/') }}/home"> My Home</a>
-                                </li>
+                                @if( $user_detail->manager_access < 0 || session('id') )
+                                    <li>
+                                        <a href="{{ URL::to('admin') }}"> Dashboard</a>
+                                    </li>
+                                @endif
+                                @if( $user_detail->manager_access >= 0 )
+                                    <li>
+                                        <a href="{{ URL::to('/') }}/home"> My Home</a>
+                                    </li>
+                                @endif
                                 <li>
                                     <a href="{{ URL::to('profile') }}"> Profile</a>
                                 </li>

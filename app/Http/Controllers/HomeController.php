@@ -8,6 +8,7 @@ use TeamSnap\UserDetail;
 use TeamSnap\TeamUser;
 use TeamSnap\Member;
 use TeamSnap\Team;
+use TeamSnap\League;
 use TeamSnap\User;
 use TeamSnap\LeagueDivision;
 use TeamSnap\DivisionManager;
@@ -16,12 +17,13 @@ class HomeController extends Controller
 {
    public function index()
    {
-      $uid     = Auth::user()->id;
-      $user    = UserDetail::where('users_id', $uid)->first();
-      $leagues = User::find(Auth::user()->id)->leagues()->get();
+      $aid  = Auth::user()->id;
+      $uid  = ( session('id') ) ? session('id') : $aid;
+      $user = UserDetail::where('users_id', $uid)->first();
+
+      $leagues = User::find($uid)->leagues()->get();
       foreach ($leagues as $league)
          $league->ldid = LeagueDivision::where('league_id', $league->id)->first()->id;
-      //return $leagues;
 
       switch($user->manager_access) {
          case 0:
@@ -35,8 +37,7 @@ class HomeController extends Controller
             $leagues = DivisionManager::geDivisions($uid);
             break;
       }
-      //return $leagues;
 
-   	return view('pages.home', compact( 'teams', 'user', 'leagues'));
+   	return view('pages.home', compact( 'teams', 'user', 'leagues', 'aid'));
    }
 }

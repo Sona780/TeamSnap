@@ -73,7 +73,7 @@ class ScheduleController extends Controller
     public function get($id)
     {
         //get user id
-        $uid     = Auth::user()->id;
+        $uid     = session('id') ? session('id') : Auth::user()->id;
         $user    = UserDetail::where('users_id', $uid)->first();
         $member  = TeamUser::where('users_id', $uid)->where('teams_id', $id)->first();
         $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
@@ -175,7 +175,7 @@ class ScheduleController extends Controller
     public function showLeague($id, $ldid)
     {
         $user = Auth::user();
-        $uid  = $user->id;
+        $uid  = session('id') ? session('id') : Auth::user()->id;
         $ch   = League::find($id)->user_id;
         $man  = DivisionManager::check($uid, $ldid);
 
