@@ -1,15 +1,12 @@
 <?php
 
 namespace TeamSnap\Mail;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use TeamSnap\User;
-
-class SendMail extends Mailable
+class OwnerMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,19 +15,20 @@ class SendMail extends Mailable
      *
      * @return void
      */
+    public $firstname;
+    public $lastname;
+    public $receiver;
+    public $sub;
+    public $pass;
 
-    public $name;
-    public $email;
-    public $team;
-    public $token;
-
-    public function __construct($name, $email, $team, $rmail)
+    public function __construct($firstname, $lastname, $receiver, $sub, $pass)
     {
         // initialize global variables
-        $this->email = $email;
-        $this->name  = $name;
-        $this->team  = $team;
-        $this->token = \Crypt::encrypt($rmail);
+        $this->receiver   = $receiver;
+        $this->firstname  = $firstname;
+        $this->lastname   = $lastname;
+        $this->sub        = $sub;
+        $this->pass       = $pass;
     }
 
     /**
@@ -40,8 +38,8 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.welcome')
+        return $this->view('email.owner')
                     ->from('admin@org4leagues.com')
-                    ->subject('Congratulations for being selected in the team '.$this->team);
+                    ->subject($this->sub);
     }
 }

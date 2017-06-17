@@ -40,7 +40,7 @@ class Manager extends Mailable
     public function build()
     {
         return $this->view('email.manager')
-                    ->from('admin@TeamSnap.com')
+                    ->from('admin@org4leagues.com')
                     ->subject('Congratulations for becoming the manager of the '.$this->type.' '.$this->team);
     }
 }

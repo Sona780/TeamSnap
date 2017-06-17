@@ -14,14 +14,12 @@
 
                 <div class="fg-line">
                     <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}@if(session('email')) {{ session('email') }} @endif" required autofocus>
-
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-
                 </div>
+                @if ($errors->has('email'))
+                  <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                  </span>
+                @endif
             </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} input-group m-b-20">
@@ -29,13 +27,12 @@
 
                 <div class="fg-line">
                     <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
-
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
                 </div>
+                @if ($errors->has('password'))
+                  <span class="help-block">
+                    <strong>{{ $errors->first('password') }}</strong>
+                  </span>
+                @endif
             </div>
 
             <div class="clearfix"></div>

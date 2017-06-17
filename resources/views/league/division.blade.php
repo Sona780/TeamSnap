@@ -197,28 +197,28 @@
                   <div class="col-sm-12">
 
                     <input type="hidden" name="league_division_id" value="{{$ldid}}">
-                    <div class="col-sm-3">
+                    <div class="col-sm-12">
                       <div class="form-group fg-line">
                           <label for="team">Team Name</label>
                           <input type="text" class="form-control input-sm" name="team_name" autofocus required>
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-12">
                       <div class="form-group fg-line">
                           <label for="team">Owner First Name</label>
                           <input type="text" class="form-control input-sm" name="owner_first_name" required>
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-12">
                       <div class="form-group fg-line">
                           <label for="team">Owner Last Name</label>
                           <input type="text" class="form-control input-sm" name="owner_last_name" required>
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
+                    <div class="col-sm-12">
                       <div class="form-group fg-line">
                           <label for="team">Ownner Email</label>
                           <input type="email" class="form-control input-sm" name="owner_email" required>

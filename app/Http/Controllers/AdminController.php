@@ -7,6 +7,8 @@ use TeamSnap\Team;
 use TeamSnap\League;
 use TeamSnap\User;
 use TeamSnap\UserDetail;
+use TeamSnap\Mail\OwnerMail;
+use Mail;
 
 class AdminController extends Controller
 {
@@ -37,12 +39,25 @@ class AdminController extends Controller
 
     public function ownerAdd(Request $request)
     {
-      $request['password'] = bcrypt(rand());
-      $request['name'] =$request->firstname;
-      $user = User::create($request->all());
-      $request['users_id'] = $user->id;
-      UserDetail::create($request->all());
-      session()->flash('success', $request->email.' has been added as an owner.');
+      $pass = str_shuffle('password');
+      try
+      {
+        $sub   = 'You have been registered as an owner in Org4Leagues.';
+        $email = new OwnerMail($request->firstname, $request->lastname, $request->email, $sub, $pass);
+        Mail::to($request->email)->send($email);
+
+        $request['password'] = bcrypt($pass);
+        $request['name'] =$request->firstname;
+        $user = User::create($request->all());
+        $request['users_id'] = $user->id;
+        UserDetail::create($request->all());
+        session()->flash('success', $request->email.' has been added as an owner.');
+      }
+      catch(\Exception $e)
+      {
+        return $e;
+        session()->flash('error', 'Right now we can\'t connect to the server. Try after some time.');
+      }
       return redirect()->back();
     }
 
