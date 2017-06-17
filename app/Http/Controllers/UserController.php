@@ -93,4 +93,23 @@ class UserController extends Controller
       return Auth::user()->id;
     }
   // end get user id
+
+  // start check email avaialability
+    public function checkAvailability(Request $request)
+    {
+      $email = $request->email;
+      $id    = $request->id;
+      $ch    = 0;
+
+      if( $id > 0 )
+      {
+        $user = User::find($id);
+        if( $email != $user->email )
+          $ch = User::where('email', $email)->count();
+      }
+      else
+        $ch = User::where('email', $email)->count();
+      return $ch;
+    }
+  // end check email avaialability
 }

@@ -123,7 +123,7 @@ class SettingController extends Controller
             {
             	$user->update(['password' => bcrypt($request->password)]);
             	session()->flash('success', 'The password has been successfully updated.');
-                return redirect('home');
+                return redirect('check');
             }
 
             session()->flash('pass', 'Incorrect current incorrect.');

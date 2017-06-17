@@ -290,7 +290,7 @@
                 </li>
             </ul>
 
-            <nav class="ha-menu">
+            <nav class="ha-menu" style="background-color: @if($teamleague == 'team') {{$first}} @else #03A9F4 @endif">
             @if($team > 0)
                 <ul>
                   @if($teamleague == 'league')

@@ -27,6 +27,10 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.0.1/min/dropzone.min.css" rel="stylesheet">
 
         <style type="text/css">
+            .cursor{
+                cursor: pointer;
+            }
+
             @media (min-width: 768px) and (max-width: 1080px) {
                 .set-width {
                     display: block;

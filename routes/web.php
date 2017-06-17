@@ -34,7 +34,14 @@
 
             Route::get('admin','AdminController@dashboard');
             Route::get('owner/{id}','AdminController@ownerHome');
+            Route::get('owner/delete/{id}','AdminController@ownerDelete');
+            Route::post('owner/add','AdminController@ownerAdd');
+            Route::post('owner/data/{id}','AdminController@ownerData');
+            Route::post('owner/update','AdminController@ownerUpdate');
+
             Route::get('check','UserController@check');
+            Route::post('check/email/availability','UserController@checkAvailability');
+
             // load homepage of a user
             Route::get('home','HomeController@index')->name('home');
             //update avaiabilty of player for a game

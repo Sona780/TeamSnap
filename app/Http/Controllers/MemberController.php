@@ -292,7 +292,6 @@ class MemberController extends Controller
           else
             $ch = UserDetail::where('users_id', $user->id)->first()->manager_access;
         }
-        //dd($tid."  ".$email);
       }
       return $ch;
     }
