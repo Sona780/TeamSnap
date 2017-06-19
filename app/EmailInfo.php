@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 use \Carbon\Carbon;

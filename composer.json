@@ -26,7 +26,7 @@
             "database"
         ],
         "psr-4": {
-            "TeamSnap\\": "app/"
+            "Org4Leagues\\": "app/"
         }
     },
     "autoload-dev": {

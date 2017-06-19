@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
        //   view()->composer(
        //   'layouts.new',
-       //   'TeamSnap\Http\ViewComposers\LayoutComposer'
+       //   'Org4Leagues\Http\ViewComposers\LayoutComposer'
        // );
     }
 

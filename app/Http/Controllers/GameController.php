@@ -1,16 +1,16 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use TeamSnap\GameTeam;
-use TeamSnap\OpponentDetail;
-use TeamSnap\LocationDetail;
-use TeamSnap\GameDetail;
-use TeamSnap\Team;
-use TeamSnap\LeagueMatchDetail;
-use TeamSnap\LeagueLocation;
+use Org4Leagues\GameTeam;
+use Org4Leagues\OpponentDetail;
+use Org4Leagues\LocationDetail;
+use Org4Leagues\GameDetail;
+use Org4Leagues\Team;
+use Org4Leagues\LeagueMatchDetail;
+use Org4Leagues\LeagueLocation;
 
 use Validator;
 use Auth;

@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'TeamSnap\Model' => 'TeamSnap\Policies\ModelPolicy',
+        'Org4Leagues\Model' => 'Org4Leagues\Policies\ModelPolicy',
     ];
 
     /**

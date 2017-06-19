@@ -1,11 +1,11 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\Team;
-use TeamSnap\TeamCtg;
-use TeamSnap\Category;
+use Org4Leagues\Team;
+use Org4Leagues\TeamCtg;
+use Org4Leagues\Category;
 
 class CategoryController extends Controller
 {

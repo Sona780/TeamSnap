@@ -1,13 +1,13 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\Team;
-use TeamSnap\League;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\Mail\OwnerMail;
+use Org4Leagues\Team;
+use Org4Leagues\League;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\Mail\OwnerMail;
 use Mail;
 
 class AdminController extends Controller

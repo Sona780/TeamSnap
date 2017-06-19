@@ -1,24 +1,24 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use TeamSnap\TeamUser;
-use TeamSnap\Availability;
-use TeamSnap\Team;
-use TeamSnap\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\Availability;
+use Org4Leagues\Team;
+use Org4Leagues\UserDetail;
 
 
-use TeamSnap\GameTeam;
-use TeamSnap\GameDetail;
-use TeamSnap\LeagueMatchDetail;
+use Org4Leagues\GameTeam;
+use Org4Leagues\GameDetail;
+use Org4Leagues\LeagueMatchDetail;
 use Carbon\Carbon;
-use TeamSnap\AccessManage;
+use Org4Leagues\AccessManage;
 
 use Auth;
 
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class AvailabilityController extends Controller
 {

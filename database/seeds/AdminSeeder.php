@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
 
 class AdminSeeder extends Seeder
 {

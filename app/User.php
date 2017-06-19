@@ -1,10 +1,10 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use TeamSnap\UserDetail;
+use Org4Leagues\UserDetail;
 
 class User extends Authenticatable
 {
@@ -28,17 +28,17 @@ class User extends Authenticatable
 
     public function detail()
     {
-        return $this->hasOne('TeamSnap\UserDetail');
+        return $this->hasOne('Org4Leagues\UserDetail');
     }
 
     public function leagues()
     {
-        return $this->hasMany('TeamSnap\League');
+        return $this->hasMany('Org4Leagues\League');
     }
 
     public function teams()
     {
-        return $this -> hasMany('TeamSnap\Team');
+        return $this -> hasMany('Org4Leagues\Team');
     }
 
     public static function newUser($name, $email, $flag)

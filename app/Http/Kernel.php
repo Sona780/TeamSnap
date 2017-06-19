@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Http;
+namespace Org4Leagues\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -24,11 +24,11 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \TeamSnap\Http\Middleware\EncryptCookies::class,
+            \Org4Leagues\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \TeamSnap\Http\Middleware\VerifyCsrfToken::class,
+            \Org4Leagues\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -50,8 +50,8 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \TeamSnap\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Org4Leagues\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'killswitch' => \TeamSnap\Http\Middleware\KillSwitch::class,
+        'killswitch' => \Org4Leagues\Http\Middleware\KillSwitch::class,
     ];
 }

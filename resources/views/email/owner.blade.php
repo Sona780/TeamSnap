@@ -99,7 +99,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;width:auto;">
                                   <tbody>
                                     <tr>
-                                      <td style="font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;"> <a href="{{url('/')}}" target="_blank" style="text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;">Login to Org4Teams</a> </td>
+                                      <td style="font-family:sans-serif;font-size:14px;vertical-align:top;background-color:#ffffff;border-radius:5px;text-align:center;background-color:#3498db;"> <a href="{{url('/')}}" target="_blank" style="text-decoration:underline;background-color:#ffffff;border:solid 1px #3498db;border-radius:5px;box-sizing:border-box;color:#3498db;cursor:pointer;display:inline-block;font-size:14px;font-weight:bold;margin:0;padding:12px 25px;text-decoration:none;text-transform:capitalize;background-color:#3498db;border-color:#3498db;color:#ffffff;">Login to Org4leagues</a> </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -107,10 +107,10 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Org4Teams is a web and phone based team management platform where teams stay organized and communicate better. Org4Teams keeps everyone updated regarding team schedule and activities.<br>
-                        Org4Teams wishes ypou and your entire team good luck in your games!
+                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px;">Org4leagues is a web and phone based team management platform where teams stay organized and communicate better. Org4leagues keeps everyone updated regarding team schedule and activities.<br>
+                        Org4leagues wishes ypou and your entire team good luck in your games!
                         </p>
-                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px; text-align: center">Whole team of Org4Teams wishes you Good luck for your matches!!</p>
+                        <p style="font-family:sans-serif;font-size:14px;font-weight:normal;margin:0;Margin-bottom:15px; text-align: center">Whole team of Org4leagues wishes you Good luck for your matches!!</p>
                       </td>
                     </tr>
                   </table>
@@ -123,7 +123,7 @@
               <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:separate;mso-table-lspace:0pt;mso-table-rspace:0pt;width:100%;">
                 <tr>
                   <td class="content-block" style="font-family:sans-serif;font-size:14px;vertical-align:top;color:#999999;font-size:12px;text-align:center;">
-                    <span class="apple-link" style="color:#999999;font-size:12px;text-align:center;">Team Org4Teams</span>
+                    <span class="apple-link" style="color:#999999;font-size:12px;text-align:center;">Team Org4leagues</span>
                   </td>
                 </tr>
               </table>

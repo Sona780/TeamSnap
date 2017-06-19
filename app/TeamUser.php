@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +16,7 @@ class TeamUser extends Model
 
     public function baseballRecord()
     {
-        return $this->hasMany('TeamSnap\BaseballRecord');
+        return $this->hasMany('Org4Leagues\BaseballRecord');
     }
 
     public static function scopeCheckMembership($query, $tid, $uid)

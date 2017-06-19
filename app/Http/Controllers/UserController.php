@@ -1,11 +1,11 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
 use Carbon\Carbon;
 use Auth;
 use Image;

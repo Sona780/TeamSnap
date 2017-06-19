@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Exceptions;
+namespace Org4Leagues\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;

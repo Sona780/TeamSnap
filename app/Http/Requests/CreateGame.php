@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Http\Requests;
+namespace Org4Leagues\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

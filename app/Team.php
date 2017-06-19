@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
@@ -17,27 +17,27 @@ class Team extends Model
 
     public function user()
     {
-    	return $this-> belongsTo('TeamSnap\User');
+    	return $this-> belongsTo('Org4Leagues\User');
     }
 
     public function info()
     {
-        return $this->hasOne('TeamSnap\TeamInfo');
+        return $this->hasOne('Org4Leagues\TeamInfo');
     }
 
     public function prefs()
     {
-        return $this->hasOne('TeamSnap\SitePref');
+        return $this->hasOne('Org4Leagues\SitePref');
     }
 
     public function ctgs()
     {
-    	return $this -> hasMany('TeamSnap\Ctg');
+    	return $this -> hasMany('Org4Leagues\Ctg');
     }
 
     public function fields()
     {
-        return $this->hasMany('TeamSnap\CustomField');
+        return $this->hasMany('Org4Leagues\CustomField');
     }
 
     public function scopeCheckIfTeamOwner($query, $uid, $id)

@@ -1,22 +1,22 @@
 <?php
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailer;
 use \Carbon\Carbon;
 
-use TeamSnap\UserDetail;
+use Org4Leagues\UserDetail;
 use Auth;
-use TeamSnap\Team;
-use TeamSnap\TeamUser;
-use TeamSnap\User;
-use TeamSnap\Email;
-use TeamSnap\EmailUser;
-use TeamSnap\EmailInfo;
-use TeamSnap\Mail\ChatMail;
-use TeamSnap\AccessManage;
+use Org4Leagues\Team;
+use Org4Leagues\TeamUser;
+use Org4Leagues\User;
+use Org4Leagues\Email;
+use Org4Leagues\EmailUser;
+use Org4Leagues\EmailInfo;
+use Org4Leagues\Mail\ChatMail;
+use Org4Leagues\AccessManage;
 use Mail;
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class MessageController extends Controller
 {

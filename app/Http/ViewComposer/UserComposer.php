@@ -1,12 +1,12 @@
 <?php
 
-namespace TeamSnap\Http\ViewComposer;
+namespace Org4Leagues\Http\ViewComposer;
 
 use Illuminate\View\View;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
-use TeamSnap\AccessManage;
-use TeamSnap\LeagueAccessManage;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\AccessManage;
+use Org4Leagues\LeagueAccessManage;
 use Auth;
 
 class UserComposer

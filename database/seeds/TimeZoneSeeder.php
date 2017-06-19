@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TeamSnap\TimeZone;
+use Org4Leagues\TimeZone;
 
 class TimeZoneSeeder extends Seeder
 {

@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => TeamSnap\User::class,
+            'model' => Org4Leagues\User::class,
         ],
 
         // 'users' => [

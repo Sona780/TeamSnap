@@ -1,10 +1,10 @@
 <?php
 
-namespace TeamSnap\Http\Controllers\Auth;
+namespace Org4Leagues\Http\Controllers\Auth;
 
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\Http\Controllers\Controller;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

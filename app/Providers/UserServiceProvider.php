@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,8 +14,8 @@ class UserServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        //view()->composer('layouts.new', 'TeamSnap\Http\ViewComposer\UserComposer');
-        view()->composer('layouts.app', 'TeamSnap\Http\ViewComposer\UserDetailComposer');
+        //view()->composer('layouts.new', 'Org4Leagues\Http\ViewComposer\UserComposer');
+        view()->composer('layouts.app', 'Org4Leagues\Http\ViewComposer\UserDetailComposer');
     }
 
     /**

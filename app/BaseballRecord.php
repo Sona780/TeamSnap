@@ -1,10 +1,10 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 
-use TeamSnap\TeamUser;
+use Org4Leagues\TeamUser;
 
 class BaseballRecord extends Model
 {

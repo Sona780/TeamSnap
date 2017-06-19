@@ -1,17 +1,17 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use TeamSnap\Team;
-use TeamSnap\TeamUser;
-use TeamSnap\UserDetail;
-use TeamSnap\AllGame;
-use TeamSnap\TeamInfo;
-use TeamSnap\AccessManage;
-use TeamSnap\Country;
-use TeamSnap\SitePref;
+use Org4Leagues\Team;
+use Org4Leagues\TeamUser;
+use Org4Leagues\UserDetail;
+use Org4Leagues\AllGame;
+use Org4Leagues\TeamInfo;
+use Org4Leagues\AccessManage;
+use Org4Leagues\Country;
+use Org4Leagues\SitePref;
 
 use Image;
 use Redirect;

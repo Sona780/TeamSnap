@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,17 +13,17 @@ class League extends Model
 
     public function files()
     {
-        return $this->hasMany('TeamSnap\LeagueFile');
+        return $this->hasMany('Org4Leagues\LeagueFile');
     }
 
     public function images()
     {
-        return $this->hasMany('TeamSnap\LeagueImage');
+        return $this->hasMany('Org4Leagues\LeagueImage');
     }
 
     public function videos()
     {
-        return $this->hasMany('TeamSnap\LeagueVideo');
+        return $this->hasMany('Org4Leagues\LeagueVideo');
     }
 
 	public static function matches($id)

@@ -1,13 +1,13 @@
 <?php
 
-namespace TeamSnap\Mail;
+namespace Org4Leagues\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use TeamSnap\User;
+use Org4Leagues\User;
 
 class SendMail extends Mailable
 {

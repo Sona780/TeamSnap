@@ -13,7 +13,7 @@ return [
     */
 
 
-    'name' => 'Teamsnap',
+    'name' => 'Org4Leagues',
 
 
     /*
@@ -176,13 +176,13 @@ return [
         /*
          * Application Service Providers...
          */
-        TeamSnap\Providers\AppServiceProvider::class,
-        TeamSnap\Providers\AuthServiceProvider::class,
-        // TeamSnap\Providers\BroadcastServiceProvider::class,
-        TeamSnap\Providers\EventServiceProvider::class,
-        TeamSnap\Providers\RouteServiceProvider::class,
-        TeamSnap\Providers\ComposerServiceProvider::class,
-        TeamSnap\Providers\UserServiceProvider::class,
+        Org4Leagues\Providers\AppServiceProvider::class,
+        Org4Leagues\Providers\AuthServiceProvider::class,
+        // Org4Leagues\Providers\BroadcastServiceProvider::class,
+        Org4Leagues\Providers\EventServiceProvider::class,
+        Org4Leagues\Providers\RouteServiceProvider::class,
+        Org4Leagues\Providers\ComposerServiceProvider::class,
+        Org4Leagues\Providers\UserServiceProvider::class,
 
     ],
 

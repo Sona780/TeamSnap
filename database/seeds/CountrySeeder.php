@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TeamSnap\Country;
+use Org4Leagues\Country;
 
 class CountrySeeder extends Seeder
 {

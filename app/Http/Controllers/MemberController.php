@@ -1,23 +1,23 @@
 <?php
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
-use TeamSnap\TeamCtg;
-use TeamSnap\Team;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\TeamCtg;
+use Org4Leagues\Team;
 use DB;
-use TeamSnap\PlayerCtg;
-use TeamSnap\TeamUserDetail;
-use TeamSnap\PlayerFee;
-use TeamSnap\AccessManage;
+use Org4Leagues\PlayerCtg;
+use Org4Leagues\TeamUserDetail;
+use Org4Leagues\PlayerFee;
+use Org4Leagues\AccessManage;
 use Auth;
 
-use TeamSnap\Mail\SendMail;
+use Org4Leagues\Mail\SendMail;
 use Mail;
 
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class MemberController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'TeamSnap\Http\Controllers';
+    protected $namespace = 'Org4Leagues\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.

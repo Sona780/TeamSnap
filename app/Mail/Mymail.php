@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Mail;
+namespace Org4Leagues\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -30,7 +30,7 @@ class Mymail extends Mailable
      */
     public function build()
     {
-        return $this->from('myapp@teamsnap.dev')
+        return $this->from('myapp@Org4Leagues.dev')
         ->view('email.mymail');
     }
 }

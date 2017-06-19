@@ -1,37 +1,37 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-use TeamSnap\Team;
-use TeamSnap\TeamUser;
-use TeamSnap\AccessManage;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUserDetail;
-use TeamSnap\TeamManager;
-use TeamSnap\League;
-use TeamSnap\LeagueAccessManage;
-use TeamSnap\LeagueManager;
-use TeamSnap\LeagueDivision;
-use TeamSnap\DivisionManager;
-use TeamSnap\AllGame;
-use TeamSnap\Country;
-use TeamSnap\TimeZone;
-use TeamSnap\CustomField;
-use TeamSnap\SitePref;
+use Org4Leagues\Team;
+use Org4Leagues\TeamUser;
+use Org4Leagues\AccessManage;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUserDetail;
+use Org4Leagues\TeamManager;
+use Org4Leagues\League;
+use Org4Leagues\LeagueAccessManage;
+use Org4Leagues\LeagueManager;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\DivisionManager;
+use Org4Leagues\AllGame;
+use Org4Leagues\Country;
+use Org4Leagues\TimeZone;
+use Org4Leagues\CustomField;
+use Org4Leagues\SitePref;
 
-use TeamSnap\Mail\Manager;
+use Org4Leagues\Mail\Manager;
 
 use Auth;
 use Hash;
 use Mail;
 use Redirect;
 
-use TeamSnap\Http\ViewComposer\UserComposer;
-use TeamSnap\Http\Controllers\DashboardController;
+use Org4Leagues\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\Controllers\DashboardController;
 
 class SettingController extends Controller
 {

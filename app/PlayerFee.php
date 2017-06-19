@@ -1,12 +1,12 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 
-use TeamSnap\TeamUser;
-use TeamSnap\PlayerFee;
-use TeamSnap\TeamFee;
+use Org4Leagues\TeamUser;
+use Org4Leagues\PlayerFee;
+use Org4Leagues\TeamFee;
 
 class PlayerFee extends Model
 {

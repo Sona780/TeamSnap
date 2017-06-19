@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

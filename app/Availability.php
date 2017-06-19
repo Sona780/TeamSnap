@@ -1,11 +1,11 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 
 use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
-use TeamSnap\BaseballRecord;
+use Org4Leagues\BaseballRecord;
 
 class Availability extends Model
 {

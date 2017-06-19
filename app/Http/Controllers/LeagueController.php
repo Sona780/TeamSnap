@@ -1,29 +1,29 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use TeamSnap\League;
-use TeamSnap\Team;
-use TeamSnap\TeamInfo;
-use TeamSnap\User;
-use TeamSnap\UserDetail;
-use TeamSnap\LeagueTeam;
-use TeamSnap\LeagueDivision;
-use TeamSnap\LeagueLocation;
-use TeamSnap\LeagueAccessManage;
-use TeamSnap\DivisionManager;
-use TeamSnap\AccessManage;
-use TeamSnap\SitePref;
+use Org4Leagues\League;
+use Org4Leagues\Team;
+use Org4Leagues\TeamInfo;
+use Org4Leagues\User;
+use Org4Leagues\UserDetail;
+use Org4Leagues\LeagueTeam;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\LeagueLocation;
+use Org4Leagues\LeagueAccessManage;
+use Org4Leagues\DivisionManager;
+use Org4Leagues\AccessManage;
+use Org4Leagues\SitePref;
 
-use TeamSnap\Mail\LeagueInviteMail;
+use Org4Leagues\Mail\LeagueInviteMail;
 use Mail;
 
 use Auth;
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
-use TeamSnap\Http\Controllers\DashboardController;
+use Org4Leagues\Http\Controllers\DashboardController;
 
 class LeagueController extends Controller
 {

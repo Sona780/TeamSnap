@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap;
+namespace Org4Leagues;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -12,7 +12,7 @@ class Media extends Model
 
     public function user()
     {
-    	return $this-> belongsTo('TeamSnap\User');
+    	return $this-> belongsTo('Org4Leagues\User');
     }
 
 

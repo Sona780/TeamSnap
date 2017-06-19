@@ -1,8 +1,8 @@
 <?php
 
-namespace TeamSnap\Http\Controllers\Auth;
+namespace Org4Leagues\Http\Controllers\Auth;
 
-use TeamSnap\Http\Controllers\Controller;
+use Org4Leagues\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller

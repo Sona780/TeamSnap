@@ -1,17 +1,17 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
-use TeamSnap\Member;
-use TeamSnap\Team;
-use TeamSnap\League;
-use TeamSnap\User;
-use TeamSnap\LeagueDivision;
-use TeamSnap\DivisionManager;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\Member;
+use Org4Leagues\Team;
+use Org4Leagues\League;
+use Org4Leagues\User;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\DivisionManager;
 
 class HomeController extends Controller
 {

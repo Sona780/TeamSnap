@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TeamSnap\AllGame;
+use Org4Leagues\AllGame;
 
 class GameSeeder extends Seeder
 {

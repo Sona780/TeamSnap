@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => TeamSnap\User::class,
+        'model' => Org4Leagues\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

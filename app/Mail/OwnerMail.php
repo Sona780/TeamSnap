@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Mail;
+namespace Org4Leagues\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;

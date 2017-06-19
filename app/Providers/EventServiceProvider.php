@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Providers;
+namespace Org4Leagues\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'TeamSnap\Events\SomeEvent' => [
-            'TeamSnap\Listeners\EventListener',
+        'Org4Leagues\Events\SomeEvent' => [
+            'Org4Leagues\Listeners\EventListener',
         ],
     ];
 

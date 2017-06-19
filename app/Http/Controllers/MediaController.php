@@ -1,29 +1,29 @@
 <?php
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use TeamSnap\Media;
+use Org4Leagues\Media;
 use DB;
-use TeamSnap\Img;
-use TeamSnap\File;
-use TeamSnap\Team;
-use TeamSnap\TeamUser;
-use TeamSnap\UserDetail;
-use TeamSnap\AccessManage;
+use Org4Leagues\Img;
+use Org4Leagues\File;
+use Org4Leagues\Team;
+use Org4Leagues\TeamUser;
+use Org4Leagues\UserDetail;
+use Org4Leagues\AccessManage;
 
-use TeamSnap\League;
-use TeamSnap\DivisionManager;
-use TeamSnap\LeagueDivision;
-use TeamSnap\LeagueImage;
-use TeamSnap\LeagueFile;
-use TeamSnap\LeagueVideo;
-use TeamSnap\LeagueTeam;
+use Org4Leagues\League;
+use Org4Leagues\DivisionManager;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\LeagueImage;
+use Org4Leagues\LeagueFile;
+use Org4Leagues\LeagueVideo;
+use Org4Leagues\LeagueTeam;
 
 use Auth;
-use TeamSnap\Http\ViewComposer\UserComposer;
-use TeamSnap\Http\Controllers\DashboardController;
+use Org4Leagues\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\Controllers\DashboardController;
 
 class MediaController extends Controller
 {

@@ -28,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
-    TeamSnap\Http\Kernel::class
+    Org4Leagues\Http\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
-    TeamSnap\Console\Kernel::class
+    Org4Leagues\Console\Kernel::class
 );
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    TeamSnap\Exceptions\Handler::class
+    Org4Leagues\Exceptions\Handler::class
 );
 
 /*

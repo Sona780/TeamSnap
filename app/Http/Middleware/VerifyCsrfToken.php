@@ -1,6 +1,6 @@
 <?php
 
-namespace TeamSnap\Http\Middleware;
+namespace Org4Leagues\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 

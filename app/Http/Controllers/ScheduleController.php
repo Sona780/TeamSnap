@@ -1,33 +1,33 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TeamSnap\Event;
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
-use TeamSnap\Team;
-use TeamSnap\League;
-use TeamSnap\LeagueTeam;
-use TeamSnap\LeagueLocation;
-use TeamSnap\LeagueMatchDetail;
-use TeamSnap\LeagueDivision;
-use TeamSnap\DivisionManager;
+use Org4Leagues\Event;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\Team;
+use Org4Leagues\League;
+use Org4Leagues\LeagueTeam;
+use Org4Leagues\LeagueLocation;
+use Org4Leagues\LeagueMatchDetail;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\DivisionManager;
 
-use TeamSnap\GameTeam;
-use TeamSnap\GameDetail;
-use TeamSnap\OpponentDetail;
-use TeamSnap\LocationDetail;
-use TeamSnap\Availability;
-use TeamSnap\AccessManage;
-use TeamSnap\CustomField;
+use Org4Leagues\GameTeam;
+use Org4Leagues\GameDetail;
+use Org4Leagues\OpponentDetail;
+use Org4Leagues\LocationDetail;
+use Org4Leagues\Availability;
+use Org4Leagues\AccessManage;
+use Org4Leagues\CustomField;
 
 use Auth;
 use Carbon\Carbon;
 use Redirect;
 
-use TeamSnap\Http\ViewComposer\UserComposer;
-use TeamSnap\Http\Controllers\DashboardController;
+use Org4Leagues\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\Controllers\DashboardController;
 
 class ScheduleController extends Controller
 {

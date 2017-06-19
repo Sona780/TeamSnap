@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(TeamSnap\User::class, function (Faker\Generator $faker) {
+$factory->define(Org4Leagues\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [

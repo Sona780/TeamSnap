@@ -1,24 +1,24 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 use Illuminate\Http\Request;
-use TeamSnap\Stat;
-use TeamSnap\Team;
-use TeamSnap\TeamUser;
-use TeamSnap\Availability;
-use TeamSnap\BaseballRecord;
-use TeamSnap\UserDetail;
+use Org4Leagues\Stat;
+use Org4Leagues\Team;
+use Org4Leagues\TeamUser;
+use Org4Leagues\Availability;
+use Org4Leagues\BaseballRecord;
+use Org4Leagues\UserDetail;
 
-use TeamSnap\GameTeam;
-use TeamSnap\GameDetail;
-use TeamSnap\LeagueMatchDetail;
-use TeamSnap\AccessManage;
+use Org4Leagues\GameTeam;
+use Org4Leagues\GameDetail;
+use Org4Leagues\LeagueMatchDetail;
+use Org4Leagues\AccessManage;
 
 
 use DB;
 use Auth;
 use Carbon\Carbon;
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class RecordsController extends Controller
 {

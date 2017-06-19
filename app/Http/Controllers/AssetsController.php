@@ -1,21 +1,21 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use TeamSnap\UserDetail;
-use TeamSnap\TeamUser;
-use TeamSnap\PlayerFee;
-use TeamSnap\TeamItem;
-use TeamSnap\TeamFee;
-use TeamSnap\Team;
-use TeamSnap\Asset;
-use TeamSnap\PlayerItemTrack;
-use TeamSnap\AccessManage;
+use Org4Leagues\UserDetail;
+use Org4Leagues\TeamUser;
+use Org4Leagues\PlayerFee;
+use Org4Leagues\TeamItem;
+use Org4Leagues\TeamFee;
+use Org4Leagues\Team;
+use Org4Leagues\Asset;
+use Org4Leagues\PlayerItemTrack;
+use Org4Leagues\AccessManage;
 use Auth;
 
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class AssetsController extends Controller
 {

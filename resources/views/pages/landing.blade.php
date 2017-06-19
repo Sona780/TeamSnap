@@ -38,9 +38,9 @@
                    <h1 class="roboto-slab">Team Management simplified</h1>
                    
                         <div id="top-banner-discription" class="roboto-slab">
-                            <p class="top-banner-text">Org4Teams is a web and phone based team management platform
+                            <p class="top-banner-text">Org4leagues is a web and phone based team management platform
                             where teams stay organized and communicate better.
-                            Org4Teams keeps everyone updated
+                            Org4leagues keeps everyone updated
                             regarding team schedule and activities.</p>
                         </div>
                         <button class="btn btn-danger top-banner-bttn">Take a Tour</button>

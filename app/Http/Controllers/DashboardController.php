@@ -1,33 +1,33 @@
 <?php
 
-namespace TeamSnap\Http\Controllers;
+namespace Org4Leagues\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
 
-use \TeamSnap\Team;
-use \TeamSnap\TeamUser;
-use \TeamSnap\UserDetail;
+use \Org4Leagues\Team;
+use \Org4Leagues\TeamUser;
+use \Org4Leagues\UserDetail;
 use Auth;
-use \TeamSnap\Repositories;
-use TeamSnap\User;
-use TeamSnap\Event;
-use TeamSnap\Announcement;
-use TeamSnap\TeamInfo;
-use TeamSnap\League;
-use TeamSnap\LeagueTeam;
-use TeamSnap\LeagueAnnouncement;
-use TeamSnap\Availability;
-use TeamSnap\GameDetail;
-use TeamSnap\GameTeam;
-use TeamSnap\LeagueMatchDetail;
-use TeamSnap\LeagueDivision;
-use TeamSnap\DivisionManager;
+use \Org4Leagues\Repositories;
+use Org4Leagues\User;
+use Org4Leagues\Event;
+use Org4Leagues\Announcement;
+use Org4Leagues\TeamInfo;
+use Org4Leagues\League;
+use Org4Leagues\LeagueTeam;
+use Org4Leagues\LeagueAnnouncement;
+use Org4Leagues\Availability;
+use Org4Leagues\GameDetail;
+use Org4Leagues\GameTeam;
+use Org4Leagues\LeagueMatchDetail;
+use Org4Leagues\LeagueDivision;
+use Org4Leagues\DivisionManager;
 use Redirect;
 
 
-use TeamSnap\Http\ViewComposer\UserComposer;
+use Org4Leagues\Http\ViewComposer\UserComposer;
 
 class DashboardController extends Controller
 {
