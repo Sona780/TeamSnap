@@ -21,6 +21,10 @@ class HomeController extends Controller
       $uid  = ( session('id') ) ? session('id') : $aid;
       $user = UserDetail::where('users_id', $uid)->first();
 
+      if( $user->manager_access == -1 )
+         return view('errors.404');
+
+
       $leagues = User::find($uid)->leagues()->get();
       foreach ($leagues as $league)
          $league->ldid = LeagueDivision::where('league_id', $league->id)->first()->id;

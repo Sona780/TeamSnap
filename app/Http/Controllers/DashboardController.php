@@ -34,7 +34,7 @@ class DashboardController extends Controller
   // start team dashboard
     public function index($id)
     {
-      $uid     = Auth::user()->id;
+      $uid     = session('id') ? session('id') : Auth::user()->id;
       $user    = UserDetail::where('users_id', $uid)->first();
       $member  = TeamUser::CheckMembership($id, $uid)->first();
       $owner   = Team::CheckIfTeamOwner($uid, $id)->first();
@@ -48,7 +48,7 @@ class DashboardController extends Controller
       if( $user->manager_access == 2 )
         $manager = TeamUser::CheckMembership($id, $uid)->first();
 
-      if( $user->manager_access == -1 || $owner != '' || $manager != '' )
+      if( $owner != '' || $manager != '' )
       {
         $teamname = Team::find($id)->teamname;
         $total    = [];

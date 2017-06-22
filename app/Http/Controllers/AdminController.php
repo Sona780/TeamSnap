@@ -15,10 +15,11 @@ class AdminController extends Controller
     //
     public function dashboard()
     {
-	  $owners  = User::owners();
+      $owners  = User::owners();
       $teams   = Team::count();
       $leagues = League::count();
       $users   = User::count()-1;
+      session()->forget('id');
       return view('admin.home', compact('owners', 'teams', 'leagues', 'users'));
     }
 
