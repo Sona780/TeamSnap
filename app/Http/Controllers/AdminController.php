@@ -20,7 +20,6 @@ class AdminController extends Controller
       $leagues = League::count();
       $users   = User::count()-1;
       $urls    = Team::allPublicURL()->get();
-
       session()->forget('id');
       return view('admin.home', compact('owners', 'teams', 'leagues', 'users', 'urls'));
     }
