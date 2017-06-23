@@ -74,46 +74,77 @@
 <div class="dash-widgets">
   <div class="row">
 
-    <div class="col-md-9 col-sm-12">
-      <div id="pie-charts" class="dash-widget-item bgm-pink" style="min-height: 260px;">
-        <div class="bgm-pink">
-          <div class="dash-widget-header">
-            <div class="dash-widget-title f-20">Team Info</div>
-            <div class="pull-right col-sm-1" style="display: inline-block;">
+    <!-- start team info -->
+      <div class="col-md-6 col-sm-6">
+        <div id="pie-charts" class="card dash-widget-item" style="height: 100%; background-color: #03A9F4">
+              <div class="pull-right">
+                @if( $user->manager_access != 0 )
+                  <ul class="actions">
+                    <li class="dropdown">
+                      <a href="" data-toggle="dropdown">
+                        <i class="zmdi zmdi-more-vert"></i>
+                      </a>
 
-              @if( $user->manager_access != 0 )
-                <ul class="actions">
-                  <li class="dropdown">
-                    <a href="" data-toggle="dropdown">
-                      <i class="zmdi zmdi-more-vert"></i>
-                    </a>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a id='info-edit' style="cursor: pointer">Edit</a></li>
+                      </ul>
+                    </li>
+                  @endif
+                </ul>
+              </div><br>
 
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a id='info-edit' style="cursor: pointer">Edit</a></li>
-                    </ul>
-                  </li>
-                @endif
-              </ul>
-            </div>
+          <div style="text-align: center; font-size: 20px; color: black">
+            Team Info
           </div>
-
-          <div class="clearfix"></div>
-
-          <div class=" p-20 m-t-25" style="color: #fff" id='team-detail'>
-            <div class="col-sm-8" >
+          <div class="col-sm-12 col-xs-12" style="margin: 20px 0; text-transform: uppercase; opacity: 0.7">
+            <div class="bs-item z-depth-1-bottom" style="height: 37%; padding: 10px 10px; background-color: white; overflow: hidden">
               {{$info->detail}}
             </div>
-            <div class="col-sm-4 pull-right">
-              <img src='@if($info->uniform != "") {{url($info->uniform)}} @endif ' id='team-uniform' style="width: 200px; height: 200px">
+          </div>
+
+          <div class="col-sm-12 col-xs-12">
+            <div class="bs-item z-depth-1-bottom" style="height: 45%;">
+              <img src='@if($info->uniform != "") {{url($info->uniform)}} @endif ' id='team-uniform' style="width: 100%; height: 100%">
             </div>
           </div>
 
-
-
         </div>
-      </div>
-    </div>
 
+      </div>
+    <!-- end team info -->
+
+    <!-- start announcement and calendar -->
+      <div class="col-sm-6">
+        <!-- start announcement -->
+
+          <div class="card">
+            <div class="card-header bgm-bluegray m-b-20">
+              <h2>Announcements <small>Don't miss latest team updates</small></h2>
+
+              @if( $user->manager_access != 0 )
+                <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
+                  <i class="zmdi zmdi-plus"></i>
+                </button>
+              @endif
+            </div>
+
+            <div class="card-body">
+              @include('partials.announce-display', ['access' => $user->manager_access])
+            </div>
+          </div>
+
+        <!-- end announcement -->
+
+        <!-- start Calendar -->
+
+          <div id="calendar" style="margin-left: 0%"></div>
+
+        <!-- end Calendar -->
+      </div>
+    <!-- end announcement and calendar -->
+
+    <!-- start public url -->
+    <!--
     <div class="col-md-3 col-sm-12">
       <div id="site-visits" class="dash-widget-item bgm-teal card" style="min-height: 20px;">
         <div class="card-header" style="padding-top: 3em;">
@@ -141,51 +172,27 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-header bgm-bluegray m-b-20">
-        <h2>Announcements <small>Don't miss latest team updates</small></h2>
-
-        @if( $user->manager_access != 0 )
-          <button class="btn bgm-blue btn-float waves-effect waves-circle waves-float" data-toggle="modal" id="new-announcement" data-target="#announcement-modal">
-            <i class="zmdi zmdi-plus"></i>
-          </button>
-        @endif
-      </div>
-
-      <div class="card-body">
-        @include('partials.announce-display', ['access' => $user->manager_access])
-      </div>
-    </div>
-  </div>
-
-  <div class="col-sm-6">
-    <!-- Calendar -->
-    <div id="calendar" style="margin-left: 0%"></div>
+    -->
+    <!-- end public url -->
   </div>
 </div>
 
 <!-- start new info modal -->
-<div id="team-info-modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <!-- Modal header -->
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" style="text-align: center">Team Detail</h4>
+  <div id="team-info-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align: center">Team Detail</h4>
+        </div>
+        <!-- Modal header -->
+        {{ Form::model($info, ['method' => 'post', 'url' => $id.'/team/info/save', 'files' => true, 'id' => 'info-form']) }}
+            @include('partials.team-info')
+        {{Form::close()}}
       </div>
-      <!-- Modal header -->
-      {{ Form::model($info, ['method' => 'post', 'url' => $id.'/team/info/save', 'files' => true, 'id' => 'info-form']) }}
-          @include('partials.team-info')
-      {{Form::close()}}
     </div>
   </div>
-</div>
 <!-- end new info modal -->
 
 @include('partials.announce-modal')

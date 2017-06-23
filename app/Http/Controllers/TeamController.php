@@ -178,11 +178,9 @@ class TeamController extends Controller
           $team = TeamInfo::where('team_id', $id);
           $data = [];
 
-          if( $request->detail != '' )
-          {
-            $data['detail'] = $request->detail;
-            $team->update(['detail' => $request->detail]);
-          }
+          $data['detail'] = $request->detail;
+          $team->update(['detail' => $request->detail]);
+
           if( $request->hasFile('uniform') )
           {
             $uniform = $request->file('uniform');

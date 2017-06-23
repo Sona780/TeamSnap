@@ -22,6 +22,7 @@ use Org4Leagues\Country;
 use Org4Leagues\TimeZone;
 use Org4Leagues\CustomField;
 use Org4Leagues\SitePref;
+use Org4Leagues\PublicUrl;
 
 use Org4Leagues\Mail\Manager;
 
@@ -74,7 +75,10 @@ class SettingController extends Controller
             $fields = CustomField::all();
             $prefs  = $team->prefs()->first();
 
-            return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage', 'games', 'countries', 'detail', 'zones', 'fields', 'prefs'));
+            $status = $team->publicURL()->first();
+            //return $status;
+
+            return view('pages.settings', compact('id', 'team', 'managers', 'public', 'manage', 'games', 'countries', 'detail', 'zones', 'fields', 'prefs', 'status'));
           }
           return view('errors/404');
         }
@@ -318,4 +322,23 @@ class SettingController extends Controller
           session()->flash('active', 5);
           return redirect()->back();
         }
+
+    public function addURL($id, Request $request)
+    {
+      $team = Team::find($id);
+      $team->publicURL()->create($request->all());
+      session()->flash('success', 'Your will receive a confirmation mail when your public URL will be activated.');
+      session()->flash('active', 6);
+      return redirect()->back();
+    }
+
+    public function updateUrlStatus($id, Request $request)
+    {
+      PublicUrl::find($id)->update($request->all());
+    }
+
+    public function checkUrl($url)
+    {
+      return PublicUrl::where('team_url', $url)->count();
+    }
 }
