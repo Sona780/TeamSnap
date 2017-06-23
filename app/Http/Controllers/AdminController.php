@@ -19,8 +19,10 @@ class AdminController extends Controller
       $teams   = Team::count();
       $leagues = League::count();
       $users   = User::count()-1;
+      $urls    = Team::allPublicURL()->get();
+      //return $url;
       session()->forget('id');
-      return view('admin.home', compact('owners', 'teams', 'leagues', 'users'));
+      return view('admin.home', compact('owners', 'teams', 'leagues', 'users', 'urls'));
     }
 
     public function ownerHome($id)

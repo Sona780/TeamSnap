@@ -61,6 +61,7 @@
                 Route::get('delete/field/{fid}','SettingController@deleteField');
                 Route::post('get/field/{fid}','SettingController@getField');
                 Route::post('team/prefs/update','SettingController@updatePreferences');
+                Route::post('check/url/{url}','SettingController@checkUrl');
             // end SettingController route wiyhout id
 
             // start league specific routes
@@ -141,7 +142,10 @@
                         Route::post('manager/access/update','SettingController@managerAccessUpdate');
                         // add manager
                         Route::post('new/manager','SettingController@newManager');
-                        // delete manager
+                        // add public url
+                        Route::post('add/url','SettingController@addURL');
+                        // change status of the public url
+                        Route::post('update/url','SettingController@updateUrlStatus');
                     // end SettingController routes with team id
 
                     // start MemberController routes with team id

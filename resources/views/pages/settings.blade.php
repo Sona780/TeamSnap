@@ -38,6 +38,9 @@
       <li @if(session('active') && session('active') == 5)) class="active" @endif role="presentation">
         <a href="#site-prefs" role="tab" data-toggle="tab">Site Prefs</a>
       </li>
+      <li @if(session('active') && session('active') == 6)) class="active" @endif role="presentation">
+        <a href="#public-url" role="tab" data-toggle="tab">Public URL</a>
+      </li>
     </ul>
   <!-- end tabs for different setting categories -->
 
@@ -611,9 +614,64 @@
         </div>
       <!-- end tab for site prefs settings -->
 
+      <!-- start tab for public url settings -->
+        <div role="tabpanel" class="tab-pane @if(session('active') && session('active') == 6) active @endif" id="public-url">
+          <div class="col-sm-8 col-sm-offset-2 card">
+            <div class="card-header">
+              <span style="font-size: 15px">Public URL</span>
+              <div class="pull-right">
+                @if( $status == '' )
+                  <button class="btn btn-info" data-toggle="modal" data-target="#create-url">Create Public URL</button>
+                @else
+                  <span>{{$status->team_url}}.org4leagues.com</span>
+                  @if( $status->status == 0 )
+                    <span style="color: red; margin-left: 10px">Not Activated</span>
+                  @else
+                    <span style="color: green; margin-left: 10px"">Activated</span>
+                  @endif
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- end tab for public url settings -->
+
 	  </div>
   <!-- end tab contents for different setting categories -->
 
+</div>
+
+<div id="create-url" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h5 class="modal-title" style="text-align: center">Create new field</h5>
+        <h6 class="modal-title" id='new-url-error' style="text-align: center; color: red"></h6>
+      </div>
+
+      <form id="public-url-form" method="POST" action='{{url("$id/add/url")}}'>
+        <div class="modal-body">
+          {!! csrf_field() !!}
+          <div class="form-group fg-line">
+            <label for="label">URL</label>
+            <div class="input-group">
+              <input type="text" class="form-control input-sm" name="team_url" autofocus>
+              <span class="input-group-addon">.org4leagues.com</span>
+            </div>
+          </div>
+          <input type="hidden" name="status" value="0">
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-info field-button" key="new">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
 </div>
 
 <div id="new-field" class="modal fade" role="dialog">
@@ -712,6 +770,26 @@
   <script src="{{URL::to('/')}}/js/settings.js"></script>
   <script type="text/javascript">
   	cnt = {{$managers->count()}};
+
+    $('#public-url-form').submit(function(e){
+      e.preventDefault();
+      url  = $(this).find('input[name="team_url"]').val();
+      self = this;
+      if( url == '' )
+        $(this).parent().find('#new-url-error').html('Url cannot be empty string.');
+      else if( url.length > 20 )
+        $(this).parent().find('#new-url-error').html('URL should contain less than 20 characters.');
+      else
+      {
+        url = '{{url("check/url")}}/'+url;
+        $.post(url, function(ch){
+          if( ch == 0 )
+            self.submit();
+          else
+            $(self).parent().find('#new-url-error').html('Sorry the URL is not available.');
+        });
+      }
+    });
 
     form = $('#edit-field-form');
 

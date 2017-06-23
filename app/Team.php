@@ -30,6 +30,11 @@ class Team extends Model
         return $this->hasOne('Org4Leagues\SitePref');
     }
 
+    public function publicURL()
+    {
+        return $this->hasOne('Org4Leagues\PublicUrl');
+    }
+
     public function ctgs()
     {
     	return $this -> hasMany('Org4Leagues\Ctg');
@@ -67,5 +72,11 @@ class Team extends Model
     public static function getDetail($id)
     {
         return static::select('id', 'teamname')->find($id);
+    }
+
+    public static function allPublicURL()
+    {
+        return static::rightJoin('public_urls', 'public_urls.team_id', 'teams.id')
+                     ->select('public_urls.*', 'teams.teamname');
     }
 }

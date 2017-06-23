@@ -56,7 +56,6 @@ class DashboardController extends Controller
         $i = 0;
 
         $all_games = GameTeam::getGames($id);
-        //return $all_games;
 
         foreach ($all_games as $g)
         {

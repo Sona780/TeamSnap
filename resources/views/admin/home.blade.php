@@ -6,7 +6,7 @@
 
 <div class="mini-charts">
   <div class="row">
-    <div class="col-xs-4 col-sm-4 col-md-4">
+    <div class="col-xs-6 col-sm-3 col-md-3">
       <a>
         <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
@@ -19,7 +19,7 @@
       </a>
     </div>
 
-    <div class="col-xs-4 col-sm-4 col-md-4">
+    <div class="col-xs-6 col-sm-3 col-md-3">
       <a>
         <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
@@ -32,7 +32,7 @@
       </a>
     </div>
 
-    <div class="col-xs-4 col-sm-4 col-md-4">
+    <div class="col-xs-6 col-sm-3 col-md-3">
       <a>
         <div class="mini-charts-item bgm-cyan">
           <div class="clearfix">
@@ -44,19 +44,37 @@
         </div>
       </a>
     </div>
+
+    <div class="col-xs-6 col-sm-3 col-md-3">
+      <a>
+        <div class="mini-charts-item bgm-cyan">
+          <div class="clearfix">
+            <div class="count">
+              <small>Total Public URLS</small>
+              <h2>{{$urls->count()}}</h2>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
 
 <div class="card">
   <div class="card-header" style="background-color:#4986E7;">
   	<span style="color: white">Owners</span>
-    <div class="pull-right">
+    <div class="pull-right" style="width: 20px; height: 20px; cursor: pointer">
+      <i class="zmdi zmdi-chevron-up zmdi-hc-fw show-owner-data zmdi-hc-lg" key="owner"></i>
+      <i class="zmdi zmdi-chevron-down zmdi-hc-fw hide-owner-data owner-data zmdi-hc-lg" key="owner"></i>
+    </div>
+
+    <div class="pull-right owner-data">
       <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#add-owner">
         <i class="zmdi zmdi-plus"></i>
       </button>
     </div>
   </div>
-  <div class="table-responsive card-body">
+  <div class="table-responsive card-body owner-data">
   	@if( $owners->count() == 0 )
       <div style="text-align: center; height: 20%">No registered owner available.</div>
     @else
@@ -81,6 +99,50 @@
               <a href='{{url("owner/$owner->users_id")}}'><img src="{{url('/')}}/img/access.png" class="icon-style"/></a>
               <a class="delete cursor" key="{{$owner->users_id}}"><img src="{{url('/')}}/img/delete.png" class="icon-style"/></a>
             </td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    @endif
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" style="background-color:#4986E7;">
+    <span style="color: white">Public URLs</span>
+    <div class="pull-right" style="width: 20px; height: 20px; cursor: pointer">
+      <i class="zmdi zmdi-chevron-up zmdi-hc-fw show-url-data zmdi-hc-lg" key="url"></i>
+      <i class="zmdi zmdi-chevron-down zmdi-hc-fw hide-url-data url-data zmdi-hc-lg" key="url"></i>
+    </div>
+
+    <!--<div class="pull-right url-data">
+      <button  class="btn btn-danger btn-float waves-effect waves-circle waves-float" data-toggle="modal" data-target="#add-url">
+        <i class="zmdi zmdi-plus"></i>
+      </button>
+    </div>-->
+  </div>
+  <div class="table-responsive card-body url-data">
+    @if( $urls->count() == 0 )
+      <div style="text-align: center; height: 20%">No registered owner available.</div>
+    @else
+      <table class="table dt-responsive nowrap" cellspacing="0" style="font-size: 13px">
+        <thead>
+          <th>Team</th>
+          <th>Public URL</th>
+          <th style="text-align: center">Status</th>
+        </thead>
+        <hr>
+        <tbody>
+          @foreach( $urls as $url )
+            <tr>
+              <td>{{$url->teamname}}</td>
+              <td>{{$url->team_url}}.org4leagues.com</td>
+              <td style="text-align: center">
+                <div class="toggle-switch" data-ts-color="green" >
+                  <input id="url{{$url->id}}" type="checkbox" hidden="hidden" class="active-stat" key="{{$url->id}}" @if($url->status == 1) checked @endif>
+                  <label for="url{{$url->id}}" class="ts-helper"></label>
+                </div>
+              </td>
             </tr>
           @endforeach
         </tbody>
@@ -139,6 +201,30 @@
       $(".alert").fadeTo(2000, 500).slideUp(500, function(){
         $(".alert").slideUp(500);
       });
+
+      $('.owner-data').hide();
+      $('.url-data').hide();
+    });
+
+    $('.active-stat').change(function(){
+      id  = $(this).attr('key');
+      url = '{{url("/")}}/'+id+'/update/url';
+      val = ($(this).is(':checked')) ? 1 : 0;
+
+      $.post(url, {status: val});
+    });
+
+    $('.show-owner-data, .show-url-data').click(function(){
+      type = $(this).attr('key');
+      $('.'+type+'-data').toggle();
+      $(this).hide();
+    });
+
+    $('.hide-owner-data, .hide-url-data').click(function(){
+      type = $(this).attr('key');
+
+      $('.'+type+'-data').toggle();
+      $('.show-'+type+'-data').show();
     });
 
     $('.edit').click(function(){
