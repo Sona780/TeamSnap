@@ -191,12 +191,9 @@ class SettingController extends Controller
                 else
                 {
                     $access = UserDetail::where('users_id', $user->id)->first()->manager_access;
-                    if($access != 2)
+                    if($access == 0)
                         return 0;
                 }
-
-                $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
-                Mail::to($email)->send($mail);
 
                 if( $type == 'team' )
                 {
@@ -204,18 +201,29 @@ class SettingController extends Controller
 
                     if( $tuser == '' )
                     {
+                        $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
+                        Mail::to($email)->send($mail);
                         $tuser = TeamUser::createTeamUser($id, $user->id);
                         TeamUserDetail::createNew($tuser->id, 0, 'manager');
                     }
                     else
+                    {
                         TeamUserDetail::updateDetail($tuser->id, 0, 'manager');
+                        return -2;
+                    }
                 }
                 else
                 {
                     $tuser = DivisionManager::checkIfManager($id, $user->id);
 
                     if( $tuser == '' )
+                    {
+                        $mail = new Manager($owner->name, $owner->email, $name, $email, $type);
+                        Mail::to($email)->send($mail);
                         $tuser = DivisionManager::newManager($id, $user->id);
+                    }
+                    else
+                      return -2;
                 }
 
                 $uid = $tuser->id;

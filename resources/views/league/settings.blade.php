@@ -206,6 +206,8 @@
             }
             else if( uid == 0 )
               $('#manager-error').html('<br>'+name+' can\'t become manager of this league division.');
+            else if( uid == -2 )
+              $('#manager-error').html('<br>'+name+' is already a manager of your team.');
             else
               $('#manager-error').html('We are unable to process your request at the moment. Please try again later.');
     	  	});

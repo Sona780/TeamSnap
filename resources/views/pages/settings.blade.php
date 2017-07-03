@@ -1,5 +1,4 @@
 @extends('layouts.new', ['team' => $id, 'active' => 'settings', 'logo' => $team->team_logo, 'name' => $team->teamname, 'first' => $team->team_color_first])
-
 @section('header')
   <link href="{{URL::to('/')}}/css/DataTable/dataTables.bootstrap.min.css" rel="stylesheet">
   <link href="{{URL::to('/')}}/css/DataTable/responsive.bootstrap.min.css" rel="stylesheet">
@@ -14,11 +13,8 @@
     }
   </style>
 @endsection
-
 @section('content')
-
 @include('partials.flash-message')
-
 <div role="tabpanel">
 
   <!-- start tabs for different setting categories -->
@@ -923,6 +919,8 @@
           }
           else if( uid == 0 )
             $('#manager-error').html('<br>'+name+' can\'t become manager of this team.');
+          else if( uid == -2 )
+            $('#manager-error').html('<br>'+name+' is already a manager of your team.');
           else
             $('#manager-error').html('We are unable to process your request at the moment. Please try again later.');
         });
